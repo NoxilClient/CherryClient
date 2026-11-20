@@ -9,14 +9,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-deep: #02060e;
+      --bg-deep: #02050c;
       --bg-surface: rgba(9, 19, 34, 0.72);
       --ice-primary: #38bdf8;
       --ice-bright: #bae6fd;
       --ice-cyan: #22d3ee;
-      --ice-glow: rgba(56, 189, 248, 0.36);
+      --ice-glow: rgba(56, 189, 248, 0.38);
       --border-ice: rgba(186, 230, 253, 0.14);
-      --border-ice-hover: rgba(56, 189, 248, 0.58);
+      --border-ice-hover: rgba(56, 189, 248, 0.6);
       --text-main: #f0f9ff;
       --text-muted: #94a3b8;
     }
@@ -60,42 +60,42 @@
     .aurora-blob {
       position: absolute;
       border-radius: 50%;
-      filter: blur(120px);
+      filter: blur(125px);
       opacity: 0.45;
       will-change: transform;
       animation: floatAurora 18s ease-in-out infinite alternate;
     }
 
     .aurora-1 {
-      width: 720px;
-      height: 440px;
-      top: -140px;
-      left: 18%;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.48), rgba(2, 132, 199, 0.05));
+      width: 740px;
+      height: 460px;
+      top: -150px;
+      left: 16%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.5), rgba(2, 132, 199, 0.05));
     }
 
     .aurora-2 {
-      width: 580px;
-      height: 520px;
-      top: 36%;
-      right: -110px;
-      background: radial-gradient(circle, rgba(34, 211, 238, 0.34), rgba(6, 182, 212, 0.04));
+      width: 600px;
+      height: 540px;
+      top: 35%;
+      right: -120px;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.35), rgba(6, 182, 212, 0.04));
       animation-delay: -6s;
     }
 
     .aurora-3 {
-      width: 540px;
-      height: 480px;
-      bottom: -90px;
-      left: -90px;
-      background: radial-gradient(circle, rgba(125, 211, 252, 0.3), transparent);
+      width: 560px;
+      height: 500px;
+      bottom: -100px;
+      left: -100px;
+      background: radial-gradient(circle, rgba(125, 211, 252, 0.32), transparent);
       animation-delay: -11s;
     }
 
     @keyframes floatAurora {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(50px, 32px, 0) scale(1.08); }
-      100% { transform: translate3d(-38px, 52px, 0) scale(0.95); }
+      50% { transform: translate3d(52px, 34px, 0) scale(1.08); }
+      100% { transform: translate3d(-40px, 54px, 0) scale(0.95); }
     }
 
     /* Subtle Ice Grid Pattern */
@@ -126,8 +126,8 @@
       z-index: 2;
       background: radial-gradient(
         circle,
-        rgba(56, 189, 248, 0.19) 0%,
-        rgba(34, 211, 238, 0.08) 34%,
+        rgba(56, 189, 248, 0.2) 0%,
+        rgba(34, 211, 238, 0.085) 34%,
         rgba(56, 189, 248, 0.025) 56%,
         transparent 72%
       );
@@ -137,7 +137,7 @@
       will-change: transform;
     }
 
-    /* Snow + Geometric Ice Crystals + Cursor Sparkles Canvas */
+    /* Snow + Geometric Ice Crystals + Frost Click Ripples Canvas */
     #snow-canvas {
       position: fixed;
       inset: 0;
@@ -174,7 +174,7 @@
       z-index: 50;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      background: rgba(2, 6, 14, 0.78);
+      background: rgba(2, 5, 12, 0.8);
       border-bottom: 1px solid var(--border-ice);
     }
 
@@ -215,14 +215,14 @@
 
     .nav-links {
       display: flex;
-      gap: 24px;
+      gap: 22px;
       align-items: center;
     }
 
     .nav-links a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 500;
       transition: color 0.2s;
     }
@@ -259,7 +259,7 @@
 
     /* Hero Section */
     .hero {
-      padding: 86px 0 64px;
+      padding: 84px 0 64px;
       text-align: center;
       perspective: 1200px;
     }
@@ -296,7 +296,7 @@
     }
 
     h1 {
-      font-size: clamp(2.7rem, 6.2vw, 4.75rem);
+      font-size: clamp(2.7rem, 6.2vw, 4.8rem);
       font-weight: 900;
       line-height: 1.06;
       letter-spacing: -0.038em;
@@ -339,7 +339,7 @@
       padding: 15px 30px;
       border-radius: 14px;
       background: linear-gradient(135deg, #38bdf8, #0284c7);
-      color: #02060e;
+      color: #02050c;
       font-weight: 700;
       font-size: 1rem;
       text-decoration: none;
@@ -392,6 +392,7 @@
       border: 1px solid var(--border-ice);
       backdrop-filter: blur(12px);
       transition: all 0.2s;
+      cursor: pointer;
     }
 
     .btn-secondary:hover {
@@ -399,6 +400,29 @@
       background: rgba(18, 34, 56, 0.88);
       transform: translateY(-2px);
       box-shadow: 0 8px 28px rgba(56, 189, 248, 0.18);
+    }
+
+    .btn-discord {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 26px;
+      border-radius: 14px;
+      background: rgba(88, 101, 242, 0.18);
+      color: #e0e7ff;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border: 1px solid rgba(129, 140, 248, 0.42);
+      backdrop-filter: blur(12px);
+      transition: all 0.2s;
+    }
+
+    .btn-discord:hover {
+      background: rgba(88, 101, 242, 0.32);
+      border-color: rgba(165, 180, 252, 0.75);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(88, 101, 242, 0.28);
     }
 
     .os-switcher {
@@ -428,7 +452,7 @@
     /* 3D Tilt Frosted Client UI Preview Window */
     .client-preview {
       position: relative;
-      max-width: 980px;
+      max-width: 1000px;
       margin: 0 auto;
       border-radius: 22px;
       background: linear-gradient(160deg, rgba(14, 27, 45, 0.88), rgba(6, 13, 24, 0.96));
@@ -532,6 +556,29 @@
       padding: 0 8px;
     }
 
+    .mini-actions {
+      display: flex;
+      gap: 6px;
+      padding: 0 6px;
+    }
+
+    .mini-btn {
+      flex: 1;
+      padding: 5px 8px;
+      border-radius: 7px;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      color: var(--ice-bright);
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .mini-btn:hover {
+      background: rgba(56, 189, 248, 0.24);
+    }
+
     .preview-main {
       padding: 26px 28px;
       position: relative;
@@ -618,7 +665,7 @@
       gap: 12px;
       cursor: pointer;
       user-select: none;
-      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
     }
 
     .mod-card.hidden-mod {
@@ -680,7 +727,7 @@
     }
 
     .mod-card.enabled .toggle::after {
-      background: #02060e;
+      background: #02050c;
       left: 18px;
     }
 
@@ -884,6 +931,125 @@
       gap: 10px;
       font-size: 0.8rem;
       color: var(--text-muted);
+    }
+
+    /* Live Frame-Time & HUD Simulator Section */
+    .simulator-section {
+      max-width: 980px;
+      margin: 0 auto 104px;
+    }
+
+    .sim-box {
+      padding: 32px;
+      border-radius: 24px;
+      background: linear-gradient(160deg, rgba(12, 24, 42, 0.84), rgba(5, 11, 20, 0.94));
+      border: 1px solid rgba(186, 230, 253, 0.22);
+      backdrop-filter: blur(18px);
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .sim-controls h3 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+    }
+
+    .sim-controls p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 20px;
+    }
+
+    .sim-toggle-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .sim-mode-btn {
+      flex: 1;
+      padding: 11px 14px;
+      border-radius: 12px;
+      background: rgba(15, 29, 48, 0.7);
+      border: 1px solid rgba(186, 230, 253, 0.14);
+      color: var(--text-muted);
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sim-mode-btn.active {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: var(--ice-primary);
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.22);
+    }
+
+    .sim-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .sim-metric {
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(4, 9, 17, 0.7);
+      border: 1px solid rgba(186, 230, 253, 0.1);
+    }
+
+    .sim-metric span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .sim-metric strong {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.05rem;
+      color: var(--ice-bright);
+    }
+
+    .sim-screen {
+      position: relative;
+      height: 230px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 50% 40%, #102a45, #050b14);
+      border: 1px solid rgba(186, 230, 253, 0.2);
+      overflow: hidden;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hud-overlay-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      z-index: 2;
+    }
+
+    .hud-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(4, 10, 18, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--ice-bright);
+      backdrop-filter: blur(8px);
+    }
+
+    #frametime-canvas {
+      width: 100%;
+      height: 110px;
+      display: block;
     }
 
     /* Multi-Version Support Section */
@@ -1203,29 +1369,6 @@
       flex-wrap: wrap;
     }
 
-    .btn-discord {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 15px 26px;
-      border-radius: 14px;
-      background: rgba(88, 101, 242, 0.18);
-      color: #e0e7ff;
-      font-weight: 600;
-      font-size: 1rem;
-      text-decoration: none;
-      border: 1px solid rgba(129, 140, 248, 0.42);
-      backdrop-filter: blur(12px);
-      transition: all 0.2s;
-    }
-
-    .btn-discord:hover {
-      background: rgba(88, 101, 242, 0.32);
-      border-color: rgba(165, 180, 252, 0.75);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(88, 101, 242, 0.28);
-    }
-
     footer {
       border-top: 1px solid var(--border-ice);
       padding: 32px 0;
@@ -1255,7 +1398,7 @@
     }
 
     @media (max-width: 900px) {
-      .client-preview {
+      .client-preview, .sim-box {
         grid-template-columns: 1fr;
       }
       .preview-sidebar {
@@ -1301,7 +1444,7 @@
   <!-- Smooth Mouse Glow Aura -->
   <div id="cursor-glow"></div>
 
-  <!-- Snowfall + Ice Crystals + Cursor Sparkle Canvas -->
+  <!-- Snowfall + Geometric Ice Crystals + Frost Ripples Canvas -->
   <canvas id="snow-canvas"></canvas>
 
   <header>
@@ -1317,9 +1460,9 @@
       </a>
       <nav class="nav-links">
         <a href="#benchmarks">Benchmarks</a>
+        <a href="#simulator">Live Lab</a>
         <a href="#versions">Versions</a>
         <a href="#features">Features</a>
-        <a href="#roadmap">Roadmap</a>
         <a href="#faq">FAQ</a>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="nav-discord">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
@@ -1336,7 +1479,7 @@
     <section class="hero">
       <div class="badge">
         <span class="badge-dot"></span>
-        NATIVE RUST ENGINE • 1.8.9, 26.2 &amp; 26.3 SUPPORT
+        <span id="scramble-badge">NATIVE RUST ENGINE • 1.8.9, 26.2 &amp; 26.3 SUPPORT</span>
       </div>
       <h1>Frozen aesthetics.<br>Unmatched FPS.</h1>
       <p>
@@ -1389,10 +1532,14 @@
             <div class="sidebar-item" onclick="filterMods('hud', this)">HUD &amp; Overlay</div>
             <div class="sidebar-item" onclick="filterMods('pvp', this)">PvP Mechanics</div>
             <div class="sidebar-item" onclick="filterMods('visual', this)">Visual &amp; Shaders</div>
+            <div class="sidebar-item" onclick="filterMods('perf', this)">Performance</div>
           </div>
           <div class="sidebar-footer">
-            <span class="active-counter" id="active-mod-counter">Active: 4 / 6</span>
-            <div class="sidebar-item static-hint" style="font-size:0.75rem;opacity:0.7;cursor:default;margin-bottom:0;">Click cards to toggle</div>
+            <span class="active-counter" id="active-mod-counter">Active: 6 / 9</span>
+            <div class="mini-actions">
+              <button type="button" class="mini-btn" onclick="setAllMods(true)">Enable All</button>
+              <button type="button" class="mini-btn" onclick="setAllMods(false)">Disable All</button>
+            </div>
           </div>
         </div>
 
@@ -1426,6 +1573,14 @@
               <span class="mod-desc">Real-time armor &amp; held item durability</span>
             </div>
 
+            <div class="mod-card enabled" data-cat="hud" onclick="toggleModCard(this)">
+              <div class="mod-top">
+                <span class="mod-title">Ping Display</span>
+                <div class="toggle"></div>
+              </div>
+              <span class="mod-desc">Live server latency &amp; packet loss monitor</span>
+            </div>
+
             <div class="mod-card" data-cat="pvp" onclick="toggleModCard(this)">
               <div class="mod-top">
                 <span class="mod-title">Keystrokes</span>
@@ -1456,6 +1611,22 @@
                 <div class="toggle"></div>
               </div>
               <span class="mod-desc">Customizable frosted target block outline</span>
+            </div>
+
+            <div class="mod-card enabled" data-cat="perf" onclick="toggleModCard(this)">
+              <div class="mod-top">
+                <span class="mod-title">Chunk Optimizer</span>
+                <div class="toggle"></div>
+              </div>
+              <span class="mod-desc">Lock-free multi-core wgpu mesh builder</span>
+            </div>
+
+            <div class="mod-card" data-cat="perf" onclick="toggleModCard(this)">
+              <div class="mod-top">
+                <span class="mod-title">Entity Culling</span>
+                <div class="toggle"></div>
+              </div>
+              <span class="mod-desc">Skip rendering occluded mobs &amp; tile entities</span>
             </div>
           </div>
         </div>
@@ -1535,6 +1706,49 @@
         <div class="bench-footnote">
           <span>Test setup: 1080p • 16 Chunks Render Distance • Fancy Graphics</span>
           <span>Higher is better</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Live Frame-Time & Telemetry Simulator -->
+    <section id="simulator" class="simulator-section reveal">
+      <div class="section-title">
+        <h2>Live Frame-Time Lab</h2>
+        <p>Compare real-time frame pacing consistency between Glacier's Rust engine and traditional JVM clients.</p>
+      </div>
+
+      <div class="sim-box spotlight-card">
+        <div class="sim-controls">
+          <h3>Zero Micro-Stutter Telemetry</h3>
+          <p>
+            Switch between engines to inspect frame-time stability. JVM clients suffer periodic Garbage Collection spikes, whereas Glacier maintains a flat, locked frame curve.
+          </p>
+          <div class="sim-toggle-group">
+            <button type="button" class="sim-mode-btn active" id="btn-sim-rust" onclick="setSimMode('rust')">Glacier (Native Rust)</button>
+            <button type="button" class="sim-mode-btn" id="btn-sim-jvm" onclick="setSimMode('jvm')">Standard JVM Client</button>
+          </div>
+          <div class="sim-metrics">
+            <div class="sim-metric">
+              <span>AVG FPS</span>
+              <strong id="sim-fps">550 FPS</strong>
+            </div>
+            <div class="sim-metric">
+              <span>FRAME TIME</span>
+              <strong id="sim-ft">1.81 ms</strong>
+            </div>
+            <div class="sim-metric">
+              <span>GC SPIKES</span>
+              <strong id="sim-gc">0.0 ms</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-screen">
+          <div class="hud-overlay-row">
+            <div class="hud-pill" id="hud-sim-fps">[GLACIER] 550 FPS • 1.8ms</div>
+            <div class="hud-pill" id="hud-sim-status">STABLE • ZERO GC</div>
+          </div>
+          <canvas id="frametime-canvas"></canvas>
         </div>
       </div>
     </section>
@@ -1795,6 +2009,7 @@
       <div class="footer-links">
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>
         <a href="#benchmarks">Benchmarks</a>
+        <a href="#simulator">Live Lab</a>
         <a href="#faq">FAQ</a>
         <span>Built with Rust &amp; wgpu</span>
       </div>
@@ -1892,11 +2107,22 @@
       applyModFilters();
     }
 
-    function toggleModCard(card) {
-      card.classList.toggle('enabled');
+    function updateActiveCounter() {
       const total = document.querySelectorAll('.mod-card').length;
       const active = document.querySelectorAll('.mod-card.enabled').length;
       document.getElementById('active-mod-counter').textContent = `Active: ${active} / ${total}`;
+    }
+
+    function toggleModCard(card) {
+      card.classList.toggle('enabled');
+      updateActiveCounter();
+    }
+
+    function setAllMods(state) {
+      document.querySelectorAll('.mod-card').forEach(card => {
+        card.classList.toggle('enabled', state);
+      });
+      updateActiveCounter();
     }
 
     function selectPreviewVersion(pill) {
@@ -1904,7 +2130,83 @@
       pill.classList.add('active');
     }
 
-    // 3. Top Ice Scroll Progress Bar
+    // 3. Live Frame-Time Graph Simulator (Rust vs JVM)
+    let simMode = 'rust';
+    const ftCanvas = document.getElementById('frametime-canvas');
+    const ftCtx = ftCanvas.getContext('2d');
+    let ftHistory = Array(70).fill(1.8);
+    let tickCounter = 0;
+
+    function setSimMode(mode) {
+      simMode = mode;
+      document.getElementById('btn-sim-rust').classList.toggle('active', mode === 'rust');
+      document.getElementById('btn-sim-jvm').classList.toggle('active', mode === 'jvm');
+
+      if (mode === 'rust') {
+        document.getElementById('sim-fps').textContent = '550 FPS';
+        document.getElementById('sim-ft').textContent = '1.81 ms';
+        document.getElementById('sim-gc').textContent = '0.0 ms';
+        document.getElementById('hud-sim-fps').textContent = '[GLACIER] 550 FPS • 1.8ms';
+        document.getElementById('hud-sim-status').textContent = 'STABLE • ZERO GC';
+      } else {
+        document.getElementById('sim-fps').textContent = '100 FPS';
+        document.getElementById('sim-ft').textContent = '10.0 ms';
+        document.getElementById('sim-gc').textContent = '48.5 ms';
+        document.getElementById('hud-sim-fps').textContent = '[VANILLA JVM] 100 FPS • GC LAG';
+        document.getElementById('hud-sim-status').textContent = 'GC STUTTER DETECTED';
+      }
+    }
+
+    function drawFrameTimeGraph() {
+      const rect = ftCanvas.getBoundingClientRect();
+      if (rect.width > 0 && (ftCanvas.width !== Math.floor(rect.width) || ftCanvas.height !== 110)) {
+        ftCanvas.width = Math.floor(rect.width);
+        ftCanvas.height = 110;
+      }
+
+      tickCounter++;
+      if (tickCounter % 2 === 0) {
+        let nextVal;
+        if (simMode === 'rust') {
+          nextVal = 1.75 + (Math.random() - 0.5) * 0.25;
+        } else {
+          // Occasional Garbage Collector stutter spikes
+          nextVal = Math.random() < 0.09 ? 36 + Math.random() * 16 : 9.5 + (Math.random() - 0.5) * 3.5;
+        }
+        ftHistory.push(nextVal);
+        ftHistory.shift();
+      }
+
+      const w = ftCanvas.width;
+      const h = ftCanvas.height;
+      ftCtx.clearRect(0, 0, w, h);
+
+      // Grid lines
+      ftCtx.strokeStyle = 'rgba(186, 230, 253, 0.08)';
+      ftCtx.lineWidth = 1;
+      for (let y = 25; y < h; y += 30) {
+        ftCtx.beginPath();
+        ftCtx.moveTo(0, y);
+        ftCtx.lineTo(w, y);
+        ftCtx.stroke();
+      }
+
+      // Frame time curve
+      ftCtx.beginPath();
+      const step = w / (ftHistory.length - 1);
+      for (let i = 0; i < ftHistory.length; i++) {
+        const val = ftHistory[i];
+        const y = h - Math.min(h - 8, (val / 55) * (h - 14)) - 6;
+        if (i === 0) ftCtx.moveTo(0, y);
+        else ftCtx.lineTo(i * step, y);
+      }
+
+      ftCtx.strokeStyle = simMode === 'rust' ? '#38bdf8' : '#f87171';
+      ftCtx.lineWidth = 2.4;
+      ftCtx.stroke();
+    }
+
+    // 4. Top Ice Scroll Progress Bar
     const scrollBar = document.getElementById('scroll-progress');
     window.addEventListener('scroll', () => {
       const scrollTop = window.scrollY;
@@ -1913,7 +2215,7 @@
       scrollBar.style.width = `${progress}%`;
     }, { passive: true });
 
-    // 4. Smooth GPU-Accelerated Mouse Glow + Card Spotlight
+    // 5. Smooth GPU-Accelerated Mouse Glow + Card Spotlight + Frost Click Ripples
     const cursorGlow = document.getElementById('cursor-glow');
     const spotlightCards = document.querySelectorAll('.spotlight-card');
     let mouseX = window.innerWidth / 2;
@@ -1921,6 +2223,7 @@
     let glowX = mouseX;
     let glowY = mouseY;
     let sparkles = [];
+    let ripples = [];
     let glowVisible = false;
 
     document.addEventListener('mousemove', (e) => {
@@ -1931,7 +2234,7 @@
         glowVisible = true;
       }
 
-      if (sparkles.length < 40 && Math.random() < 0.42) {
+      if (sparkles.length < 42 && Math.random() < 0.42) {
         sparkles.push({
           x: mouseX + (Math.random() - 0.5) * 14,
           y: mouseY + (Math.random() - 0.5) * 14,
@@ -1957,12 +2260,23 @@
       }
     }, { passive: true });
 
+    document.addEventListener('click', (e) => {
+      if (ripples.length < 12) {
+        ripples.push({
+          x: e.clientX,
+          y: e.clientY,
+          radius: 4,
+          alpha: 0.55
+        });
+      }
+    }, { passive: true });
+
     document.addEventListener('mouseleave', () => {
       cursorGlow.style.opacity = '0';
       glowVisible = false;
     });
 
-    // 5. 3D Tilt + Glass Glare on Client Preview Window
+    // 6. 3D Tilt + Glass Glare on Client Preview Window
     const previewWindow = document.getElementById('client-preview');
     const previewGlare = document.getElementById('preview-glare');
 
@@ -1970,8 +2284,8 @@
       const rect = previewWindow.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const rotateX = (((y - rect.height / 2) / (rect.height / 2)) * -3.8).toFixed(2);
-      const rotateY = (((x - rect.width / 2) / (rect.width / 2)) * 3.8).toFixed(2);
+      const rotateX = (((y - rect.height / 2) / (rect.height / 2)) * -3.6).toFixed(2);
+      const rotateY = (((x - rect.width / 2) / (rect.width / 2)) * 3.6).toFixed(2);
 
       previewWindow.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       previewGlare.style.setProperty('--glare-x', `${x}px`);
@@ -1982,7 +2296,7 @@
       previewWindow.style.transform = 'rotateX(0deg) rotateY(0deg)';
     });
 
-    // 6. Scroll Reveal + Animated Benchmark Bars & FPS Counters
+    // 7. Scroll Reveal + Animated Benchmark Bars & FPS Counters
     let benchmarksAnimated = false;
 
     function animateBenchmarks() {
@@ -2024,7 +2338,7 @@
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-    // 7. Optimized Snowfall + Geometric Ice Crystals + Mouse Sparkles Loop
+    // 8. Optimized Snowfall + Geometric Ice Crystals + Frost Ripples Loop
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, flakes, crystals;
@@ -2042,7 +2356,6 @@
         alpha: Math.random() * 0.5 + 0.15
       }));
 
-      // Subtle rotating hexagonal ice crystals
       const crystalCount = Math.min(12, Math.floor(width / 110));
       crystals = Array.from({ length: crystalCount }, () => ({
         x: Math.random() * width,
@@ -2123,6 +2436,23 @@
         }
       }
 
+      // Draw expanding frost click ripples
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const r = ripples[i];
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(125, 211, 252, ${r.alpha})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        r.radius += 3.2;
+        r.alpha -= 0.022;
+        if (r.alpha <= 0) {
+          ripples.splice(i, 1);
+        }
+      }
+
+      drawFrameTimeGraph();
       requestAnimationFrame(animate);
     }
 
