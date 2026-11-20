@@ -7,7 +7,7 @@
   <meta name="description" content="Glacier Client re-engineers Minecraft from the ground up in native Rust: zero Garbage Collector stutters, instant startup, and extreme FPS across 1.8.9, 26.2, and 26.3." />
   <meta name="theme-color" content="#02050c" />
 
-  <!-- Exact Match Favicon (Identical to Site Logo) for Browser Tabs & Google Search -->
+  <!-- Exact Match Favicon (Identical to Site Logo) for Browser Tabs & Search -->
   <link id="favicon-svg" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23102c42'/%3E%3Cstop offset='100%25' stop-color='%23081a28'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='3' y='3' width='58' height='58' rx='16' fill='url(%23bg)' stroke='%23bae6fd' stroke-opacity='0.52' stroke-width='2.5'/%3E%3Cg stroke='%23bae6fd' stroke-width='3.6' stroke-linecap='round'%3E%3Cline x1='32' y1='15' x2='32' y2='49'/%3E%3Cline x1='15' y1='32' x2='49' y2='32'/%3E%3Cline x1='20' y1='20' x2='44' y2='44'/%3E%3Cline x1='44' y1='20' x2='20' y2='44'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='5.2' fill='%2338bdf8'/%3E%3C/svg%3E" />
   <link id="favicon-png" rel="alternate icon" type="image/png" href="" />
   <link id="apple-icon" rel="apple-touch-icon" href="" />
@@ -1673,7 +1673,7 @@
         <a href="#benchmarks" class="cmd-item" onclick="closeCmdPalette()">View FPS Benchmarks <span>#benchmarks</span></a>
         <a href="#simulator" class="cmd-item" onclick="closeCmdPalette()">Open Live Frame-Time Lab <span>#simulator</span></a>
         <a href="#versions" class="cmd-item" onclick="closeCmdPalette()">Supported Versions (1.8.9 / 26.2 / 26.3) <span>#versions</span></a>
-        <a href="#faq" class="cmd-item" onclick="closeCmdPalette()">Read Safety &amp; Open-Source FAQ <span>#faq</span></a>
+        <a href="#faq" class="cmd-item" onclick="closeCmdPalette()">Read Safety, False Positives &amp; FAQ <span>#faq</span></a>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="cmd-item" onclick="closeCmdPalette()">Join Official Discord Server <span>EXTERNAL</span></a>
       </div>
     </div>
@@ -2203,11 +2203,18 @@
     <section id="faq" class="faq-section reveal">
       <div class="section-title">
         <h2>Frequently Asked Questions</h2>
-        <p>Everything you need to know about security, supported versions, and performance.</p>
+        <p>Everything you need to know about security, antivirus flags, supported versions, and performance.</p>
       </div>
 
       <div class="faq-list">
         <details class="faq-item" open>
+          <summary>Why did a single scanner flag the URL as suspicious or phishing?</summary>
+          <div class="faq-answer">
+            Automated heuristic scanners occasionally trigger false positives on newly published <code>*.github.io</code> pages or game-related landing pages that reference downloads or Discord links—even when 90+ security vendors report the URL as clean. When a site or release is updated, triggering a fresh re-analysis on VirusTotal and submitting a false-positive review with the vendor resolves outdated heuristic matches.
+          </div>
+        </details>
+
+        <details class="faq-item">
           <summary>Is Glacier Client safe to use?</summary>
           <div class="faq-answer">
             Yes. Glacier Client is built in memory-safe Rust with full transparency in mind. It never touches your Microsoft credentials directly—authentication goes exclusively through official Microsoft OAuth endpoints, and your session tokens stay encrypted locally on your machine.
@@ -2294,7 +2301,6 @@
       c.height = 192;
       const g = c.getContext('2d');
 
-      // Rounded square background matching .brand-logo
       const r = 46;
       g.beginPath();
       g.moveTo(r + 8, 8);
@@ -2318,7 +2324,6 @@
       g.strokeStyle = 'rgba(186, 230, 253, 0.55)';
       g.stroke();
 
-      // 8-spoke snowflake asterisk (#bae6fd)
       g.save();
       g.translate(96, 96);
       g.strokeStyle = '#bae6fd';
@@ -2331,7 +2336,6 @@
         g.lineTo(48, 0);
         g.stroke();
       }
-      // Cyan center dot (#38bdf8)
       g.beginPath();
       g.arc(0, 0, 16, 0, Math.PI * 2);
       g.fillStyle = '#38bdf8';
@@ -2541,7 +2545,6 @@
       document.getElementById('hud-chip-fps').textContent = fpsMap[ver] || '550 FPS';
     }
 
-    // Interactive Keystrokes & CPS Tester inside Preview
     function pulseKey(el) {
       el.classList.add('pressed');
       setTimeout(() => el.classList.remove('pressed'), 160);
