@@ -9,13 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-deep: #040911;
-      --bg-surface: rgba(11, 22, 37, 0.68);
+      --bg-deep: #030710;
+      --bg-surface: rgba(10, 20, 35, 0.65);
       --ice-primary: #38bdf8;
       --ice-bright: #bae6fd;
-      --ice-glow: rgba(56, 189, 248, 0.28);
+      --ice-glow: rgba(56, 189, 248, 0.32);
       --border-ice: rgba(186, 230, 253, 0.14);
-      --border-ice-hover: rgba(56, 189, 248, 0.52);
+      --border-ice-hover: rgba(56, 189, 248, 0.55);
       --text-main: #f0f9ff;
       --text-muted: #94a3b8;
     }
@@ -32,24 +32,106 @@
       color: var(--text-main);
       overflow-x: hidden;
       line-height: 1.6;
-      background-image:
-        radial-gradient(circle at 50% -10%, rgba(56, 189, 248, 0.2), transparent 55%),
-        radial-gradient(circle at 85% 35%, rgba(14, 165, 233, 0.1), transparent 45%),
-        radial-gradient(circle at 15% 75%, rgba(125, 211, 252, 0.08), transparent 45%);
     }
 
+    /* Animated Arctic Aurora Background */
+    .aurora-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(110px);
+      opacity: 0.42;
+      animation: floatAurora 16s ease-in-out infinite alternate;
+    }
+
+    .aurora-1 {
+      width: 680px;
+      height: 420px;
+      top: -120px;
+      left: 20%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.45), rgba(2, 132, 199, 0.05));
+    }
+
+    .aurora-2 {
+      width: 560px;
+      height: 500px;
+      top: 38%;
+      right: -100px;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.35), rgba(6, 182, 212, 0.04));
+      animation-delay: -6s;
+    }
+
+    .aurora-3 {
+      width: 520px;
+      height: 460px;
+      bottom: -80px;
+      left: -80px;
+      background: radial-gradient(circle, rgba(125, 211, 252, 0.28), transparent);
+      animation-delay: -11s;
+    }
+
+    @keyframes floatAurora {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(45px, 30px) scale(1.08); }
+      100% { transform: translate(-35px, 50px) scale(0.96); }
+    }
+
+    /* Subtle Ice Grid Pattern */
+    .ice-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(186, 230, 253, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(186, 230, 253, 0.03) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, black 35%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, black 35%, transparent 100%);
+    }
+
+    /* Global Mouse Glow Circle */
+    #cursor-glow {
+      position: fixed;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(
+        circle,
+        rgba(56, 189, 248, 0.16) 0%,
+        rgba(125, 211, 252, 0.07) 35%,
+        rgba(56, 189, 248, 0.02) 55%,
+        transparent 72%
+      );
+      mix-blend-mode: screen;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      will-change: left, top;
+    }
+
+    /* Snow & Cursor Sparkles Canvas */
     #snow-canvas {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
     }
 
     .container {
       position: relative;
-      z-index: 1;
+      z-index: 3;
       max-width: 1180px;
       margin: 0 auto;
       padding: 0 24px;
@@ -60,9 +142,9 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      background: rgba(4, 9, 17, 0.76);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(3, 7, 16, 0.72);
       border-bottom: 1px solid var(--border-ice);
     }
 
@@ -92,7 +174,13 @@
       border: 1px solid rgba(186, 230, 253, 0.45);
       display: grid;
       place-items: center;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.32);
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.35);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .brand:hover .brand-logo {
+      transform: rotate(45deg);
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.6);
     }
 
     .nav-links {
@@ -124,30 +212,32 @@
     }
 
     .btn-nav:hover {
-      background: rgba(56, 189, 248, 0.25);
-      box-shadow: 0 0 20px var(--ice-glow);
+      background: rgba(56, 189, 248, 0.26);
+      box-shadow: 0 0 24px var(--ice-glow);
     }
 
     /* Hero Section */
     .hero {
-      padding: 92px 0 64px;
+      padding: 88px 0 64px;
       text-align: center;
+      perspective: 1200px;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 15px;
+      padding: 6px 16px;
       border-radius: 999px;
       background: rgba(56, 189, 248, 0.1);
-      border: 1px solid rgba(56, 189, 248, 0.32);
+      border: 1px solid rgba(56, 189, 248, 0.35);
       color: var(--ice-bright);
       font-size: 0.82rem;
       font-weight: 600;
       letter-spacing: 0.03em;
       margin-bottom: 24px;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.15);
     }
 
     .badge-dot {
@@ -155,18 +245,25 @@
       height: 7px;
       border-radius: 50%;
       background: var(--ice-primary);
-      box-shadow: 0 0 10px var(--ice-primary);
+      box-shadow: 0 0 12px var(--ice-primary);
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.45); opacity: 0.65; }
     }
 
     h1 {
-      font-size: clamp(2.6rem, 6vw, 4.5rem);
+      font-size: clamp(2.6rem, 6vw, 4.6rem);
       font-weight: 800;
       line-height: 1.08;
       letter-spacing: -0.035em;
       margin-bottom: 20px;
-      background: linear-gradient(180deg, #ffffff 25%, #bae6fd 70%, #38bdf8 100%);
+      background: linear-gradient(180deg, #ffffff 20%, #bae6fd 65%, #38bdf8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 6px 28px rgba(56, 189, 248, 0.22));
     }
 
     .hero p {
@@ -191,7 +288,10 @@
       flex-wrap: wrap;
     }
 
+    /* Shimmering Primary Button */
     .btn-primary {
+      position: relative;
+      overflow: hidden;
       display: inline-flex;
       align-items: center;
       gap: 10px;
@@ -203,14 +303,30 @@
       font-size: 1rem;
       text-decoration: none;
       border: 1px solid #bae6fd;
-      box-shadow: 0 10px 35px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      box-shadow: 0 10px 35px rgba(56, 189, 248, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.65);
       transition: transform 0.2s, box-shadow 0.2s;
       cursor: pointer;
     }
 
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+      transform: skewX(-22deg);
+      transition: left 0.65s ease;
+    }
+
+    .btn-primary:hover:not(.btn-disabled)::before {
+      left: 150%;
+    }
+
     .btn-primary:hover:not(.btn-disabled) {
       transform: translateY(-2px);
-      box-shadow: 0 14px 45px rgba(56, 189, 248, 0.52), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      box-shadow: 0 14px 45px rgba(56, 189, 248, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.85);
     }
 
     .btn-primary.btn-disabled {
@@ -240,6 +356,7 @@
     .btn-secondary:hover {
       border-color: var(--border-ice-hover);
       background: rgba(18, 34, 56, 0.85);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.16);
     }
 
     .os-switcher {
@@ -266,22 +383,44 @@
       opacity: 1;
     }
 
-    /* Frosted Client UI Mockup Window */
+    /* 3D Tilt Frosted Client UI Preview Window */
     .client-preview {
+      position: relative;
       max-width: 960px;
       margin: 0 auto;
       border-radius: 22px;
       background: linear-gradient(160deg, rgba(15, 28, 46, 0.84), rgba(7, 14, 25, 0.94));
-      border: 1px solid rgba(186, 230, 253, 0.22);
+      border: 1px solid rgba(186, 230, 253, 0.24);
       box-shadow:
-        0 30px 90px rgba(0, 0, 0, 0.78),
-        0 0 60px rgba(56, 189, 248, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(20px);
+        0 30px 90px rgba(0, 0, 0, 0.8),
+        0 0 65px rgba(56, 189, 248, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(22px);
       overflow: hidden;
       display: grid;
       grid-template-columns: 220px 1fr;
       text-align: left;
+      transform-style: preserve-3d;
+      transition: transform 0.18s ease-out, box-shadow 0.3s ease;
+    }
+
+    /* Glass Glare Reflection Overlay */
+    .preview-glare {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle 380px at var(--glare-x, 50%) var(--glare-y, 50%),
+        rgba(186, 230, 253, 0.14),
+        transparent 70%
+      );
+      z-index: 4;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .client-preview:hover .preview-glare {
+      opacity: 1;
     }
 
     .preview-sidebar {
@@ -317,6 +456,7 @@
       color: var(--text-muted);
       margin-bottom: 6px;
       font-weight: 500;
+      transition: all 0.2s;
     }
 
     .sidebar-item.active {
@@ -328,6 +468,8 @@
 
     .preview-main {
       padding: 28px;
+      position: relative;
+      z-index: 2;
     }
 
     .preview-header {
@@ -375,11 +517,20 @@
       flex-direction: column;
       justify-content: space-between;
       gap: 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.22s ease;
+    }
+
+    .mod-card:hover {
+      border-color: rgba(186, 230, 253, 0.32);
+      transform: translateY(-2px);
     }
 
     .mod-card.enabled {
-      border-color: rgba(56, 189, 248, 0.45);
-      background: linear-gradient(145deg, rgba(56, 189, 248, 0.14), rgba(15, 29, 48, 0.7));
+      border-color: rgba(56, 189, 248, 0.5);
+      background: linear-gradient(145deg, rgba(56, 189, 248, 0.16), rgba(15, 29, 48, 0.72));
+      box-shadow: 0 0 22px rgba(56, 189, 248, 0.12);
     }
 
     .mod-top {
@@ -404,6 +555,7 @@
       border-radius: 999px;
       background: rgba(148, 163, 184, 0.25);
       position: relative;
+      transition: background 0.22s ease, box-shadow 0.22s ease;
     }
 
     .toggle::after {
@@ -415,16 +567,52 @@
       background: #cbd5e1;
       top: 2px;
       left: 2px;
+      transition: left 0.22s ease, background 0.22s ease;
     }
 
     .mod-card.enabled .toggle {
       background: var(--ice-primary);
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.65);
     }
 
     .mod-card.enabled .toggle::after {
       background: #04101d;
       left: 18px;
+    }
+
+    /* Spotlight Hover Effect for Cards */
+    .spotlight-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .spotlight-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: radial-gradient(
+        260px circle at var(--mouse-x, -300px) var(--mouse-y, -300px),
+        rgba(125, 211, 252, 0.85),
+        transparent 70%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .spotlight-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        300px circle at var(--mouse-x, -300px) var(--mouse-y, -300px),
+        rgba(56, 189, 248, 0.12),
+        transparent 75%
+      );
+      pointer-events: none;
     }
 
     /* Stats Strip */
@@ -442,6 +630,11 @@
       border: 1px solid var(--border-ice);
       backdrop-filter: blur(14px);
       text-align: center;
+      transition: transform 0.25s ease;
+    }
+
+    .stat-box:hover {
+      transform: translateY(-3px);
     }
 
     .stat-value {
@@ -485,16 +678,15 @@
     .feature-card {
       padding: 30px;
       border-radius: 20px;
-      background: linear-gradient(180deg, rgba(15, 29, 48, 0.7), rgba(8, 16, 29, 0.8));
+      background: linear-gradient(180deg, rgba(15, 29, 48, 0.72), rgba(8, 16, 29, 0.84));
       border: 1px solid var(--border-ice);
       backdrop-filter: blur(14px);
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .feature-card:hover {
       transform: translateY(-4px);
-      border-color: var(--border-ice-hover);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), 0 0 30px rgba(56, 189, 248, 0.12);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.48), 0 0 32px rgba(56, 189, 248, 0.14);
     }
 
     .feature-icon {
@@ -565,7 +757,6 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 1.3rem;
       color: var(--ice-primary);
-      transition: transform 0.2s;
     }
 
     details.faq-item[open] summary::after {
@@ -588,7 +779,7 @@
       text-align: center;
       background: linear-gradient(135deg, rgba(14, 116, 144, 0.25), rgba(12, 23, 38, 0.85));
       border: 1px solid rgba(186, 230, 253, 0.25);
-      box-shadow: 0 0 70px rgba(56, 189, 248, 0.12);
+      box-shadow: 0 0 70px rgba(56, 189, 248, 0.14);
       backdrop-filter: blur(18px);
       margin-bottom: 80px;
     }
@@ -629,11 +820,26 @@
       .nav-links a:not(.btn-nav) {
         display: none;
       }
+      #cursor-glow {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- Animated Arctic Aurora & Subtle Grid -->
+  <div class="aurora-bg">
+    <div class="aurora-blob aurora-1"></div>
+    <div class="aurora-blob aurora-2"></div>
+    <div class="aurora-blob aurora-3"></div>
+  </div>
+  <div class="ice-grid"></div>
+
+  <!-- Soft Mouse Glow Aura -->
+  <div id="cursor-glow"></div>
+
+  <!-- Snowfall + Cursor Sparkle Canvas -->
   <canvas id="snow-canvas"></canvas>
 
   <header>
@@ -679,7 +885,7 @@
           <a href="#faq" class="btn-secondary">Read FAQ</a>
         </div>
         <div class="os-switcher">
-          <span id="detected-os-label">Detected OS: Windows</span>
+          <span id="detected-os-label">Selected OS: Windows</span>
           <span>•</span>
           <button type="button" onclick="setOS('windows')">Windows</button>
           <button type="button" onclick="setOS('linux')">Linux</button>
@@ -687,8 +893,10 @@
         </div>
       </div>
 
-      <!-- Frosted Glass Client UI Preview -->
-      <div class="client-preview">
+      <!-- Interactive 3D Tilt Frosted Glass Client UI Preview -->
+      <div class="client-preview" id="client-preview">
+        <div class="preview-glare" id="preview-glare"></div>
+
         <div class="preview-sidebar">
           <div>
             <div class="preview-brand">
@@ -708,7 +916,7 @@
             <div class="sidebar-item">Visual &amp; Shaders</div>
             <div class="sidebar-item">Performance</div>
           </div>
-          <div class="sidebar-item" style="font-size:0.78rem;opacity:0.7;">Right Shift to toggle</div>
+          <div class="sidebar-item" style="font-size:0.78rem;opacity:0.7;">Click cards to test toggles</div>
         </div>
 
         <div class="preview-main">
@@ -722,7 +930,7 @@
           </div>
 
           <div class="mod-grid">
-            <div class="mod-card enabled">
+            <div class="mod-card enabled" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">FPS Overlay</span>
                 <div class="toggle"></div>
@@ -730,7 +938,7 @@
               <span class="mod-desc">Zero-latency native frame rate counter</span>
             </div>
 
-            <div class="mod-card enabled">
+            <div class="mod-card enabled" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Armor HUD</span>
                 <div class="toggle"></div>
@@ -738,7 +946,7 @@
               <span class="mod-desc">Real-time armor &amp; held item durability</span>
             </div>
 
-            <div class="mod-card">
+            <div class="mod-card" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Keystrokes</span>
                 <div class="toggle"></div>
@@ -746,7 +954,7 @@
               <span class="mod-desc">Clean WASD, mouse clicks &amp; CPS display</span>
             </div>
 
-            <div class="mod-card enabled">
+            <div class="mod-card enabled" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Toggle Sprint</span>
                 <div class="toggle"></div>
@@ -754,7 +962,7 @@
               <span class="mod-desc">Vanilla-compliant continuous sprint</span>
             </div>
 
-            <div class="mod-card">
+            <div class="mod-card" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Optical Zoom</span>
                 <div class="toggle"></div>
@@ -762,7 +970,7 @@
               <span class="mod-desc">Smooth cinematic camera zoom</span>
             </div>
 
-            <div class="mod-card enabled">
+            <div class="mod-card enabled" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Block Overlay</span>
                 <div class="toggle"></div>
@@ -775,15 +983,15 @@
     </section>
 
     <section id="performance" class="stats">
-      <div class="stat-box">
+      <div class="stat-box spotlight-card">
         <div class="stat-value">0 ms</div>
         <div class="stat-label">Garbage Collector freezes</div>
       </div>
-      <div class="stat-box">
+      <div class="stat-box spotlight-card">
         <div class="stat-value">3.5x</div>
         <div class="stat-label">Faster cold launch than JVM clients</div>
       </div>
-      <div class="stat-box">
+      <div class="stat-box spotlight-card">
         <div class="stat-value">wgpu</div>
         <div class="stat-label">Modern Vulkan / DirectX 12 backend</div>
       </div>
@@ -796,7 +1004,7 @@
       </div>
 
       <div class="features-grid">
-        <div class="feature-card">
+        <div class="feature-card spotlight-card">
           <div class="feature-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
@@ -806,7 +1014,7 @@
           <p>No JVM overhead in the background. Deterministic memory management and lock-free multi-threaded chunk meshing.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card spotlight-card">
           <div class="feature-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -816,7 +1024,7 @@
           <p>Switch seamlessly between competitive 1.8.9 PvP and modern 26.2 / 26.3 releases straight from one launcher.</p>
         </div>
 
-        <div class="feature-card">
+        <div class="feature-card spotlight-card">
           <div class="feature-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18"/>
@@ -887,7 +1095,7 @@
       </div>
     </section>
 
-    <section id="download" class="cta-box">
+    <section id="download" class="cta-box spotlight-card">
       <h2>Ready to freeze the competition?</h2>
       <p>Supports Minecraft 1.8.9, 26.2, and 26.3. Requires a valid Minecraft: Java Edition account.</p>
       <a id="cta-download-btn" href="#download" class="btn-primary">
@@ -902,18 +1110,18 @@
   </main>
 
   <script>
-    // Automatic OS detection + manual override
+    // 1. Automatic OS Detection + Manual Switcher
     const downloadLinks = {
       windows: {
         label: 'Download for Windows',
         osName: 'Windows',
-        url: '#download-windows', // Replace with your actual .exe / .msi release URL
+        url: '#download-windows',
         disabled: false
       },
       linux: {
         label: 'Download for Linux',
         osName: 'Linux',
-        url: '#download-linux', // Replace with your actual AppImage / .tar.gz release URL
+        url: '#download-linux',
         disabled: false
       },
       mac: {
@@ -959,10 +1167,70 @@
       }
     }
 
-    // Initialize OS button on load
     setOS(detectOS());
 
-    // Subtle falling ice crystals / snow canvas
+    // 2. Smooth Mouse Glow Circle + Card Border Spotlight
+    const cursorGlow = document.getElementById('cursor-glow');
+    const spotlightCards = document.querySelectorAll('.spotlight-card');
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let glowX = mouseX;
+    let glowY = mouseY;
+    let sparkles = [];
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorGlow.style.opacity = '1';
+
+      // Spawn tiny ice sparkle particles when moving mouse
+      if (Math.random() < 0.45) {
+        sparkles.push({
+          x: mouseX + (Math.random() - 0.5) * 14,
+          y: mouseY + (Math.random() - 0.5) * 14,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: Math.random() * 0.6 + 0.2,
+          size: Math.random() * 2 + 1,
+          life: 1
+        });
+      }
+
+      // Update border spotlight coordinates on cards
+      for (const card of spotlightCards) {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      }
+    });
+
+    document.addEventListener('mouseleave', () => {
+      cursorGlow.style.opacity = '0';
+    });
+
+    // 3. 3D Tilt + Glass Glare on Client Preview Window
+    const previewWindow = document.getElementById('client-preview');
+    const previewGlare = document.getElementById('preview-glare');
+
+    previewWindow.addEventListener('mousemove', (e) => {
+      const rect = previewWindow.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -4.5;
+      const rotateY = ((x - centerX) / centerX) * 4.5;
+
+      previewWindow.style.transform = `rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg)`;
+      previewGlare.style.setProperty('--glare-x', `${x}px`);
+      previewGlare.style.setProperty('--glare-y', `${y}px`);
+    });
+
+    previewWindow.addEventListener('mouseleave', () => {
+      previewWindow.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    });
+
+    // 4. Snowfall + Mouse Ice Sparkles Canvas Loop
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, flakes;
@@ -970,19 +1238,27 @@
     function initSnow() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      const count = Math.min(90, Math.floor(width / 16));
+      const count = Math.min(95, Math.floor(width / 15));
       flakes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
         r: Math.random() * 2.2 + 0.6,
         speedY: Math.random() * 0.65 + 0.2,
         speedX: (Math.random() - 0.5) * 0.35,
-        alpha: Math.random() * 0.5 + 0.15
+        alpha: Math.random() * 0.55 + 0.15
       }));
     }
 
-    function drawSnow() {
+    function animate() {
+      // Smooth lerp follow for mouse glow circle
+      glowX += (mouseX - glowX) * 0.16;
+      glowY += (mouseY - glowY) * 0.16;
+      cursorGlow.style.left = `${glowX}px`;
+      cursorGlow.style.top = `${glowY}px`;
+
       ctx.clearRect(0, 0, width, height);
+
+      // Draw ambient snow crystals
       for (const f of flakes) {
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
@@ -999,12 +1275,30 @@
         if (f.x > width) f.x = 0;
         if (f.x < 0) f.x = width;
       }
-      requestAnimationFrame(drawSnow);
+
+      // Draw cursor ice trail sparkles
+      for (let i = sparkles.length - 1; i >= 0; i--) {
+        const s = sparkles[i];
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(125, 211, 252, ${s.life * 0.7})`;
+        ctx.fill();
+
+        s.x += s.vx;
+        s.y += s.vy;
+        s.life -= 0.032;
+
+        if (s.life <= 0) {
+          sparkles.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(animate);
     }
 
     window.addEventListener('resize', initSnow);
     initSnow();
-    drawSnow();
+    animate();
   </script>
 </body>
 </html>
