@@ -34,6 +34,19 @@
       line-height: 1.6;
     }
 
+    /* Top Ice Scroll Progress Bar */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, #0284c7, #38bdf8, #bae6fd);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+      z-index: 100;
+      will-change: width;
+    }
+
     /* GPU-Accelerated Arctic Aurora Background */
     .aurora-bg {
       position: fixed;
@@ -160,7 +173,7 @@
       z-index: 50;
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      background: rgba(3, 7, 16, 0.75);
+      background: rgba(3, 7, 16, 0.76);
       border-bottom: 1px solid var(--border-ice);
     }
 
@@ -201,14 +214,14 @@
 
     .nav-links {
       display: flex;
-      gap: 28px;
+      gap: 26px;
       align-items: center;
     }
 
     .nav-links a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 500;
       transition: color 0.2s;
     }
@@ -446,6 +459,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
+      z-index: 2;
     }
 
     .preview-brand {
@@ -472,6 +487,14 @@
       color: var(--text-muted);
       margin-bottom: 6px;
       font-weight: 500;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+
+    .sidebar-item:hover:not(.static-hint) {
+      color: var(--text-main);
+      background: rgba(56, 189, 248, 0.08);
     }
 
     .sidebar-item.active {
@@ -512,9 +535,18 @@
       font-size: 0.74rem;
       padding: 4px 10px;
       border-radius: 8px;
-      background: rgba(56, 189, 248, 0.14);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.28);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .v-pill.active, .v-pill:hover {
+      background: rgba(56, 189, 248, 0.22);
+      border-color: var(--ice-primary);
       color: var(--ice-bright);
+      box-shadow: 0 0 14px rgba(56, 189, 248, 0.25);
     }
 
     .mod-grid {
@@ -534,7 +566,11 @@
       gap: 14px;
       cursor: pointer;
       user-select: none;
-      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+    }
+
+    .mod-card.dimmed {
+      opacity: 0.32;
     }
 
     .mod-card:hover {
@@ -635,7 +671,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      margin: 72px 0;
+      margin: 72px 0 96px;
     }
 
     .stat-box {
@@ -681,12 +717,14 @@
 
     .section-title p {
       color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto;
     }
 
     /* Performance Benchmarks Section */
     .benchmark-section {
       max-width: 920px;
-      margin: 0 auto 96px;
+      margin: 0 auto 104px;
     }
 
     .benchmark-card {
@@ -795,12 +833,94 @@
       color: var(--text-muted);
     }
 
+    /* Multi-Version Support Section */
+    .versions-section {
+      margin-bottom: 104px;
+    }
+
+    .versions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .version-card {
+      padding: 30px;
+      border-radius: 22px;
+      background: linear-gradient(165deg, rgba(13, 26, 44, 0.75), rgba(7, 14, 26, 0.88));
+      border: 1px solid var(--border-ice);
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .version-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45), 0 0 30px rgba(56, 189, 248, 0.14);
+    }
+
+    .version-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .version-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .status-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .status-stable {
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      color: var(--ice-bright);
+    }
+
+    .status-active {
+      background: rgba(125, 211, 252, 0.12);
+      border: 1px solid rgba(186, 230, 253, 0.32);
+      color: #e0f2fe;
+    }
+
+    .version-card p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    .version-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .version-tags span {
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(5, 11, 20, 0.65);
+      border: 1px solid rgba(186, 230, 253, 0.1);
+      color: var(--text-muted);
+    }
+
     /* Features Grid */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
-      margin-bottom: 96px;
+      margin-bottom: 104px;
     }
 
     .feature-card {
@@ -839,10 +959,109 @@
       font-size: 0.92rem;
     }
 
+    /* Rust vs JVM Architecture Comparison Table */
+    .arch-section {
+      max-width: 960px;
+      margin: 0 auto 104px;
+    }
+
+    .arch-table-wrap {
+      border-radius: 22px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-ice);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .arch-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .arch-table th, .arch-table td {
+      padding: 20px 24px;
+      border-bottom: 1px solid rgba(186, 230, 253, 0.08);
+      font-size: 0.94rem;
+    }
+
+    .arch-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .arch-table th {
+      background: rgba(5, 11, 20, 0.6);
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .arch-table th.glacier-col {
+      color: var(--ice-bright);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .arch-table td.metric-name {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .arch-table td.glacier-val {
+      color: var(--ice-bright);
+      font-weight: 600;
+      background: rgba(56, 189, 248, 0.04);
+    }
+
+    .arch-table td.java-val {
+      color: var(--text-muted);
+    }
+
+    /* Roadmap Section */
+    .roadmap-section {
+      margin-bottom: 104px;
+    }
+
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .road-step {
+      padding: 24px;
+      border-radius: 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-ice);
+      backdrop-filter: blur(14px);
+    }
+
+    .road-step.done {
+      border-color: rgba(56, 189, 248, 0.42);
+      background: linear-gradient(165deg, rgba(56, 189, 248, 0.12), rgba(10, 20, 35, 0.72));
+    }
+
+    .road-phase {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      color: var(--ice-primary);
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .road-step h4 {
+      font-size: 1.02rem;
+      margin-bottom: 8px;
+    }
+
+    .road-step p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
     /* FAQ Section */
     .faq-section {
       max-width: 820px;
-      margin: 0 auto 96px;
+      margin: 0 auto 104px;
     }
 
     .faq-list {
@@ -900,7 +1119,7 @@
       padding-top: 14px;
     }
 
-    /* Download CTA */
+    /* Download & Community CTA */
     .cta-box {
       padding: 56px 32px;
       border-radius: 26px;
@@ -924,6 +1143,13 @@
       margin: 0 auto 28px;
     }
 
+    .cta-buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
     footer {
       border-top: 1px solid var(--border-ice);
       padding: 32px 0;
@@ -935,15 +1161,18 @@
       gap: 16px;
     }
 
-    @media (max-width: 860px) {
+    @media (max-width: 900px) {
       .client-preview {
         grid-template-columns: 1fr;
       }
       .preview-sidebar {
         display: none;
       }
-      .mod-grid, .stats, .features-grid {
+      .mod-grid, .stats, .features-grid, .versions-grid {
         grid-template-columns: 1fr;
+      }
+      .roadmap-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
       .nav-links a:not(.btn-nav) {
         display: none;
@@ -952,9 +1181,21 @@
         display: none;
       }
     }
+
+    @media (max-width: 540px) {
+      .roadmap-grid {
+        grid-template-columns: 1fr;
+      }
+      .arch-table th, .arch-table td {
+        padding: 14px 14px;
+        font-size: 0.84rem;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <div id="scroll-progress"></div>
 
   <!-- GPU-Accelerated Arctic Aurora & Subtle Grid -->
   <div class="aurora-bg">
@@ -983,7 +1224,9 @@
       </a>
       <nav class="nav-links">
         <a href="#benchmarks">Benchmarks</a>
+        <a href="#versions">Versions</a>
         <a href="#features">Features</a>
+        <a href="#roadmap">Roadmap</a>
         <a href="#faq">FAQ</a>
         <a href="#download" class="btn-nav">Download</a>
       </nav>
@@ -1038,27 +1281,26 @@
                 <span>CLIENT v1.0</span>
               </div>
             </div>
-            <div class="sidebar-item active">All Modules</div>
-            <div class="sidebar-item">HUD &amp; Overlay</div>
-            <div class="sidebar-item">PvP Mechanics</div>
-            <div class="sidebar-item">Visual &amp; Shaders</div>
-            <div class="sidebar-item">Performance</div>
+            <div class="sidebar-item active" onclick="filterMods('all', this)">All Modules</div>
+            <div class="sidebar-item" onclick="filterMods('hud', this)">HUD &amp; Overlay</div>
+            <div class="sidebar-item" onclick="filterMods('pvp', this)">PvP Mechanics</div>
+            <div class="sidebar-item" onclick="filterMods('visual', this)">Visual &amp; Shaders</div>
           </div>
-          <div class="sidebar-item" style="font-size:0.78rem;opacity:0.7;">Click cards to test toggles</div>
+          <div class="sidebar-item static-hint" style="font-size:0.76rem;opacity:0.72;cursor:default;">Interactive UI Demo</div>
         </div>
 
         <div class="preview-main">
           <div class="preview-header">
-            <h3>Modules</h3>
+            <h3 id="preview-category-title">All Modules</h3>
             <div class="version-pills">
-              <span class="v-pill">1.8.9 PvP</span>
-              <span class="v-pill">26.2</span>
-              <span class="v-pill">26.3</span>
+              <span class="v-pill active" onclick="selectPreviewVersion(this)">1.8.9 PvP</span>
+              <span class="v-pill" onclick="selectPreviewVersion(this)">26.2</span>
+              <span class="v-pill" onclick="selectPreviewVersion(this)">26.3</span>
             </div>
           </div>
 
           <div class="mod-grid">
-            <div class="mod-card enabled" onclick="this.classList.toggle('enabled')">
+            <div class="mod-card enabled" data-cat="hud" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">FPS Overlay</span>
                 <div class="toggle"></div>
@@ -1066,7 +1308,7 @@
               <span class="mod-desc">Zero-latency native frame rate counter</span>
             </div>
 
-            <div class="mod-card enabled" onclick="this.classList.toggle('enabled')">
+            <div class="mod-card enabled" data-cat="hud" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Armor HUD</span>
                 <div class="toggle"></div>
@@ -1074,7 +1316,7 @@
               <span class="mod-desc">Real-time armor &amp; held item durability</span>
             </div>
 
-            <div class="mod-card" onclick="this.classList.toggle('enabled')">
+            <div class="mod-card" data-cat="pvp" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Keystrokes</span>
                 <div class="toggle"></div>
@@ -1082,7 +1324,7 @@
               <span class="mod-desc">Clean WASD, mouse clicks &amp; CPS display</span>
             </div>
 
-            <div class="mod-card enabled" onclick="this.classList.toggle('enabled')">
+            <div class="mod-card enabled" data-cat="pvp" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Toggle Sprint</span>
                 <div class="toggle"></div>
@@ -1090,7 +1332,7 @@
               <span class="mod-desc">Vanilla-compliant continuous sprint</span>
             </div>
 
-            <div class="mod-card" onclick="this.classList.toggle('enabled')">
+            <div class="mod-card" data-cat="visual" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Optical Zoom</span>
                 <div class="toggle"></div>
@@ -1098,7 +1340,7 @@
               <span class="mod-desc">Smooth cinematic camera zoom</span>
             </div>
 
-            <div class="mod-card enabled" onclick="this.classList.toggle('enabled')">
+            <div class="mod-card enabled" data-cat="visual" onclick="this.classList.toggle('enabled')">
               <div class="mod-top">
                 <span class="mod-title">Block Overlay</span>
                 <div class="toggle"></div>
@@ -1187,6 +1429,67 @@
       </div>
     </section>
 
+    <!-- Supported Versions Section -->
+    <section id="versions" class="versions-section reveal">
+      <div class="section-title">
+        <h2>Multi-Version Architecture</h2>
+        <p>One lightweight native binary supporting both classic competitive PvP and the newest releases.</p>
+      </div>
+
+      <div class="versions-grid">
+        <div class="version-card spotlight-card">
+          <div>
+            <div class="version-header">
+              <span class="version-number">1.8.9</span>
+              <span class="status-pill status-stable">PVP READY</span>
+            </div>
+            <p style="margin-top:14px;">
+              Built for competitive duels, BedWars, and practice servers with strict packet &amp; movement parity.
+            </p>
+          </div>
+          <div class="version-tags">
+            <span>1.8 Hitbox &amp; Knockback</span>
+            <span>Low-Latency Input</span>
+            <span>Anti-Cheat Tested</span>
+          </div>
+        </div>
+
+        <div class="version-card spotlight-card">
+          <div>
+            <div class="version-header">
+              <span class="version-number">26.2</span>
+              <span class="status-pill status-stable">STABLE</span>
+            </div>
+            <p style="margin-top:14px;">
+              Full modern protocol implementation with multi-threaded chunk meshing and instant world loading.
+            </p>
+          </div>
+          <div class="version-tags">
+            <span>Full World Gen</span>
+            <span>wgpu Renderer</span>
+            <span>Zero GC Stutter</span>
+          </div>
+        </div>
+
+        <div class="version-card spotlight-card">
+          <div>
+            <div class="version-header">
+              <span class="version-number">26.3</span>
+              <span class="status-pill status-active">SUPPORTED</span>
+            </div>
+            <p style="margin-top:14px;">
+              Up-to-date protocol and block registry support so you can jump straight onto modern servers.
+            </p>
+          </div>
+          <div class="version-tags">
+            <span>Latest Protocol</span>
+            <span>SDF HUD Overlay</span>
+            <span>Fast Chunk Updates</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="features" class="reveal">
       <div class="section-title">
         <h2>Engineered to dominate</h2>
@@ -1210,8 +1513,8 @@
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
           </div>
-          <h3>1.8.9, 26.2 &amp; 26.3 Ready</h3>
-          <p>Switch seamlessly between competitive 1.8.9 PvP and modern 26.2 / 26.3 releases straight from one launcher.</p>
+          <h3>Anti-Cheat Safe Parity</h3>
+          <p>Exact tick-loop physics and packet ordering verified on local GrimAC &amp; Vulcan test servers for safe multiplayer play.</p>
         </div>
 
         <div class="feature-card spotlight-card">
@@ -1222,6 +1525,82 @@
           </div>
           <h3>Frosted SDF Interface</h3>
           <p>Crisp vector-grade in-game HUD and module menu powered by custom SDF shaders with zero performance cost.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rust vs Java Architecture Comparison -->
+    <section class="arch-section reveal">
+      <div class="section-title">
+        <h2>Why Native Rust Wins</h2>
+        <p>Under-the-hood comparison between traditional JVM clients and Glacier's native architecture.</p>
+      </div>
+
+      <div class="arch-table-wrap spotlight-card">
+        <table class="arch-table">
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th class="glacier-col">Glacier Client (Rust + wgpu)</th>
+              <th>Standard Clients (Java / JVM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metric-name">Garbage Collection</td>
+              <td class="glacier-val">None (0 ms pauses)</td>
+              <td class="java-val">Periodic stop-the-world lag spikes</td>
+            </tr>
+            <tr>
+              <td class="metric-name">Graphics API</td>
+              <td class="glacier-val">Modern Vulkan / DirectX 12</td>
+              <td class="java-val">Legacy OpenGL state machine</td>
+            </tr>
+            <tr>
+              <td class="metric-name">Chunk Meshing</td>
+              <td class="glacier-val">Lock-free multi-core workers</td>
+              <td class="java-val">Main-thread bottlenecks</td>
+            </tr>
+            <tr>
+              <td class="metric-name">Memory Footprint</td>
+              <td class="glacier-val">Compact &amp; deterministic</td>
+              <td class="java-val">High JVM heap overhead</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Development Roadmap -->
+    <section id="roadmap" class="roadmap-section reveal">
+      <div class="section-title">
+        <h2>Development Roadmap</h2>
+        <p>Where Glacier Client stands today and what is shipping next.</p>
+      </div>
+
+      <div class="roadmap-grid">
+        <div class="road-step done spotlight-card">
+          <span class="road-phase">PHASE 01 • COMPLETED</span>
+          <h4>26.2 Native Engine</h4>
+          <p>Core wgpu voxel renderer, multi-threaded chunk builder, and Microsoft OAuth login.</p>
+        </div>
+
+        <div class="road-step done spotlight-card">
+          <span class="road-phase">PHASE 02 • ACTIVE</span>
+          <h4>1.8.9 PvP &amp; 26.3</h4>
+          <p>Full 1.8.9 combat/movement parity and protocol support for Minecraft 26.3.</p>
+        </div>
+
+        <div class="road-step spotlight-card">
+          <span class="road-phase">PHASE 03 • NEXT</span>
+          <h4>SDF HUD &amp; Mod API</h4>
+          <p>Frosted glass in-game click GUI, draggable HUD editor, and open-source module SDK.</p>
+        </div>
+
+        <div class="road-step spotlight-card">
+          <span class="road-phase">PHASE 04 • PLANNED</span>
+          <h4>macOS Metal Build</h4>
+          <p>Native Apple Silicon &amp; Intel support powered by wgpu's Metal backend.</p>
         </div>
       </div>
     </section>
@@ -1287,10 +1666,24 @@
 
     <section id="download" class="cta-box spotlight-card reveal">
       <h2>Ready to freeze the competition?</h2>
-      <p>Supports Minecraft 1.8.9, 26.2, and 26.3. Requires a valid Minecraft: Java Edition account.</p>
-      <a id="cta-download-btn" href="#download" class="btn-primary">
-        <span id="cta-btn-text">Download for Windows</span>
-      </a>
+      <p>Supports Minecraft 1.8.9, 26.2, and 26.3. Join our community or download the launcher today.</p>
+      <div class="cta-buttons">
+        <a id="cta-download-btn" href="#download" class="btn-primary">
+          <span id="cta-btn-text">Download for Windows</span>
+        </a>
+        <a href="#github" class="btn-secondary">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub Repository
+        </a>
+        <a href="#discord" class="btn-secondary">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028z"/>
+          </svg>
+          Join Discord
+        </a>
+      </div>
     </section>
 
     <footer>
@@ -1359,7 +1752,36 @@
 
     setOS(detectOS());
 
-    // 2. Smooth GPU-Accelerated Mouse Glow + Card Spotlight
+    // 2. Interactive Preview Sidebar & Version Selector
+    function filterMods(category, el) {
+      document.querySelectorAll('.sidebar-item:not(.static-hint)').forEach(item => item.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('preview-category-title').textContent = el.textContent;
+
+      document.querySelectorAll('.mod-card').forEach(card => {
+        if (category === 'all' || card.dataset.cat === category) {
+          card.classList.remove('dimmed');
+        } else {
+          card.classList.add('dimmed');
+        }
+      });
+    }
+
+    function selectPreviewVersion(pill) {
+      document.querySelectorAll('.v-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    }
+
+    // 3. Top Ice Scroll Progress Bar
+    const scrollBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollBar.style.width = `${progress}%`;
+    }, { passive: true });
+
+    // 4. Smooth GPU-Accelerated Mouse Glow + Card Spotlight
     const cursorGlow = document.getElementById('cursor-glow');
     const spotlightCards = document.querySelectorAll('.spotlight-card');
     let mouseX = window.innerWidth / 2;
@@ -1408,7 +1830,7 @@
       glowVisible = false;
     });
 
-    // 3. 3D Tilt + Glass Glare on Client Preview Window
+    // 5. 3D Tilt + Glass Glare on Client Preview Window
     const previewWindow = document.getElementById('client-preview');
     const previewGlare = document.getElementById('preview-glare');
 
@@ -1428,7 +1850,7 @@
       previewWindow.style.transform = 'rotateX(0deg) rotateY(0deg)';
     });
 
-    // 4. Scroll Reveal + Animated Benchmark Bars & FPS Counters
+    // 6. Scroll Reveal + Animated Benchmark Bars & FPS Counters
     let benchmarksAnimated = false;
 
     function animateBenchmarks() {
@@ -1466,11 +1888,11 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.16 });
+    }, { threshold: 0.14 });
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-    // 5. Optimized Snowfall + Mouse Sparkles Loop
+    // 7. Optimized Snowfall + Mouse Sparkles Loop
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, flakes;
