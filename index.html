@@ -4,6 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glacier Client — Native Rust Minecraft Client (1.8.9 / 26.2 / 26.3)</title>
+  <meta name="description" content="Glacier Client re-engineers Minecraft from the ground up in native Rust: zero Garbage Collector stutters, instant startup, and extreme FPS across 1.8.9, 26.2, and 26.3." />
+  <meta name="theme-color" content="#02050c" />
+
+  <!-- Custom Ice Crystal Favicon for Browser Tabs & Google Search -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23bae6fd'/%3E%3Cstop offset='50%25' stop-color='%2338bdf8'/%3E%3Cstop offset='100%25' stop-color='%230284c7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%23040b16'/%3E%3Crect x='2' y='2' width='60' height='60' rx='14' fill='none' stroke='%2338bdf8' stroke-opacity='0.45' stroke-width='2'/%3E%3Cg stroke='url(%23g)' stroke-width='4.5' stroke-linecap='round'%3E%3Cline x1='32' y1='10' x2='32' y2='54'/%3E%3Cline x1='10' y1='32' x2='54' y2='32'/%3E%3Cline x1='16.5' y1='16.5' x2='47.5' y2='47.5'/%3E%3Cline x1='47.5' y1='16.5' x2='16.5' y2='47.5'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='7' fill='%23bae6fd'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23040b16'/%3E%3Cg stroke='%2338bdf8' stroke-width='4.5' stroke-linecap='round'%3E%3Cline x1='32' y1='10' x2='32' y2='54'/%3E%3Cline x1='10' y1='32' x2='54' y2='32'/%3E%3Cline x1='16.5' y1='16.5' x2='47.5' y2='47.5'/%3E%3Cline x1='47.5' y1='16.5' x2='16.5' y2='47.5'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='7' fill='%23bae6fd'/%3E%3C/svg%3E" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
@@ -14,9 +21,9 @@
       --ice-primary: #38bdf8;
       --ice-bright: #bae6fd;
       --ice-cyan: #22d3ee;
-      --ice-glow: rgba(56, 189, 248, 0.38);
+      --ice-glow: rgba(56, 189, 248, 0.4);
       --border-ice: rgba(186, 230, 253, 0.14);
-      --border-ice-hover: rgba(56, 189, 248, 0.6);
+      --border-ice-hover: rgba(56, 189, 248, 0.62);
       --text-main: #f0f9ff;
       --text-muted: #94a3b8;
     }
@@ -61,17 +68,17 @@
       position: absolute;
       border-radius: 50%;
       filter: blur(125px);
-      opacity: 0.45;
+      opacity: 0.46;
       will-change: transform;
       animation: floatAurora 18s ease-in-out infinite alternate;
     }
 
     .aurora-1 {
-      width: 740px;
+      width: 760px;
       height: 460px;
       top: -150px;
       left: 16%;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.5), rgba(2, 132, 199, 0.05));
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.52), rgba(2, 132, 199, 0.05));
     }
 
     .aurora-2 {
@@ -79,7 +86,7 @@
       height: 540px;
       top: 35%;
       right: -120px;
-      background: radial-gradient(circle, rgba(34, 211, 238, 0.35), rgba(6, 182, 212, 0.04));
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.36), rgba(6, 182, 212, 0.04));
       animation-delay: -6s;
     }
 
@@ -117,17 +124,17 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 480px;
-      height: 480px;
-      margin-left: -240px;
-      margin-top: -240px;
+      width: 500px;
+      height: 500px;
+      margin-left: -250px;
+      margin-top: -250px;
       border-radius: 50%;
       pointer-events: none;
       z-index: 2;
       background: radial-gradient(
         circle,
-        rgba(56, 189, 248, 0.2) 0%,
-        rgba(34, 211, 238, 0.085) 34%,
+        rgba(56, 189, 248, 0.22) 0%,
+        rgba(34, 211, 238, 0.09) 34%,
         rgba(56, 189, 248, 0.025) 56%,
         transparent 72%
       );
@@ -137,7 +144,7 @@
       will-change: transform;
     }
 
-    /* Snow + Geometric Ice Crystals + Frost Click Ripples Canvas */
+    /* Snow + Constellations + Ice Crystals + Frost Ripples Canvas */
     #snow-canvas {
       position: fixed;
       inset: 0;
@@ -378,30 +385,6 @@
       cursor: not-allowed;
     }
 
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 15px 26px;
-      border-radius: 14px;
-      background: var(--bg-surface);
-      color: var(--text-main);
-      font-weight: 600;
-      font-size: 1rem;
-      text-decoration: none;
-      border: 1px solid var(--border-ice);
-      backdrop-filter: blur(12px);
-      transition: all 0.2s;
-      cursor: pointer;
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--border-ice-hover);
-      background: rgba(18, 34, 56, 0.88);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(56, 189, 248, 0.18);
-    }
-
     .btn-discord {
       display: inline-flex;
       align-items: center;
@@ -449,10 +432,58 @@
       opacity: 1;
     }
 
+    /* Toast Notification for Early Access Build */
+    #toast-notice {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 90;
+      max-width: 360px;
+      padding: 16px 20px;
+      border-radius: 16px;
+      background: rgba(7, 16, 30, 0.94);
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.75), 0 0 28px rgba(56, 189, 248, 0.25);
+      backdrop-filter: blur(18px);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transform: translateY(130%);
+      opacity: 0;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    }
+
+    #toast-notice.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: var(--ice-bright);
+    }
+
+    .toast-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+
+    .toast-body {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
     /* 3D Tilt Frosted Client UI Preview Window */
     .client-preview {
       position: relative;
-      max-width: 1000px;
+      max-width: 1020px;
       margin: 0 auto;
       border-radius: 22px;
       background: linear-gradient(160deg, rgba(14, 27, 45, 0.88), rgba(6, 13, 24, 0.96));
@@ -580,7 +611,7 @@
     }
 
     .preview-main {
-      padding: 26px 28px;
+      padding: 24px 26px;
       position: relative;
       z-index: 2;
     }
@@ -589,13 +620,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
       gap: 12px;
     }
 
     .preview-header h3 {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       font-weight: 700;
     }
 
@@ -614,7 +645,7 @@
       color: var(--text-main);
       font-family: inherit;
       font-size: 0.8rem;
-      width: 165px;
+      width: 160px;
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
@@ -648,6 +679,76 @@
       box-shadow: 0 0 14px rgba(56, 189, 248, 0.28);
     }
 
+    /* Interactive Live In-Game HUD Bar inside Preview */
+    .live-hud-bar {
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(3, 8, 16, 0.78);
+      border: 1px solid rgba(56, 189, 248, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hud-badges-wrap {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .hud-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.73rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 7px;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--ice-bright);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .hud-chip.off {
+      opacity: 0.28;
+      border-color: rgba(148, 163, 184, 0.2);
+      color: var(--text-muted);
+    }
+
+    .mini-keystrokes {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .k-box {
+      width: 26px;
+      height: 24px;
+      border-radius: 6px;
+      background: rgba(15, 29, 48, 0.85);
+      border: 1px solid rgba(186, 230, 253, 0.2);
+      display: grid;
+      place-items: center;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.1s;
+    }
+
+    .k-box.pressed, .k-box:active {
+      background: var(--ice-primary);
+      color: #02050c;
+      border-color: #ffffff;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+      transform: scale(0.94);
+    }
+
     .mod-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -655,14 +756,14 @@
     }
 
     .mod-card {
-      padding: 15px;
+      padding: 14px;
       border-radius: 14px;
       background: rgba(15, 29, 48, 0.62);
       border: 1px solid rgba(186, 230, 253, 0.1);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       cursor: pointer;
       user-select: none;
       transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
@@ -691,11 +792,11 @@
 
     .mod-title {
       font-weight: 600;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
     }
 
     .mod-desc {
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       color: var(--text-muted);
     }
 
@@ -933,7 +1034,7 @@
       color: var(--text-muted);
     }
 
-    /* Live Frame-Time & HUD Simulator Section */
+    /* Live Frame-Time & Telemetry Simulator Section */
     .simulator-section {
       max-width: 980px;
       margin: 0 auto 104px;
@@ -1178,7 +1279,7 @@
       font-size: 0.92rem;
     }
 
-    /* Rust vs JVM Architecture Comparison Table */
+    /* Rust vs Java Architecture Comparison Table */
     .arch-section {
       max-width: 960px;
       margin: 0 auto 104px;
@@ -1444,8 +1545,22 @@
   <!-- Smooth Mouse Glow Aura -->
   <div id="cursor-glow"></div>
 
-  <!-- Snowfall + Geometric Ice Crystals + Frost Ripples Canvas -->
+  <!-- Snowfall + Constellations + Ice Crystals + Frost Ripples Canvas -->
   <canvas id="snow-canvas"></canvas>
+
+  <!-- Interactive Download Info Toast -->
+  <div id="toast-notice">
+    <div class="toast-header">
+      <span id="toast-title">Glacier Launcher Installer</span>
+      <button type="button" class="toast-close" onclick="closeToast()">×</button>
+    </div>
+    <div class="toast-body" id="toast-msg">
+      Public installer builds are distributed via our official Discord server during the open beta.
+    </div>
+    <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-discord" style="padding:10px 16px;font-size:0.86rem;justify-content:center;">
+      Get Build on Discord
+    </a>
+  </div>
 
   <header>
     <div class="container nav-inner">
@@ -1479,7 +1594,7 @@
     <section class="hero">
       <div class="badge">
         <span class="badge-dot"></span>
-        <span id="scramble-badge">NATIVE RUST ENGINE • 1.8.9, 26.2 &amp; 26.3 SUPPORT</span>
+        <span>NATIVE RUST ENGINE • 1.8.9, 26.2 &amp; 26.3 SUPPORT</span>
       </div>
       <h1>Frozen aesthetics.<br>Unmatched FPS.</h1>
       <p>
@@ -1489,12 +1604,12 @@
 
       <div class="hero-actions">
         <div class="action-row">
-          <a id="hero-download-btn" href="#download" class="btn-primary">
+          <button type="button" id="hero-download-btn" class="btn-primary" onclick="triggerDownloadToast()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
             </svg>
             <span id="hero-btn-text">Download for Windows</span>
-          </a>
+          </button>
           <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-discord">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028z"/>
@@ -1549,15 +1664,32 @@
             <div class="preview-controls">
               <input type="text" class="mod-search" id="mod-search" placeholder="Search modules..." oninput="searchMods(this.value)" />
               <div class="version-pills">
-                <span class="v-pill active" onclick="selectPreviewVersion(this)">1.8.9 PvP</span>
-                <span class="v-pill" onclick="selectPreviewVersion(this)">26.2</span>
-                <span class="v-pill" onclick="selectPreviewVersion(this)">26.3</span>
+                <span class="v-pill active" onclick="selectPreviewVersion(this, '1.8.9')">1.8.9 PvP</span>
+                <span class="v-pill" onclick="selectPreviewVersion(this, '26.2')">26.2</span>
+                <span class="v-pill" onclick="selectPreviewVersion(this, '26.3')">26.3</span>
               </div>
             </div>
           </div>
 
+          <!-- Live Interactive In-Game HUD Preview Bar -->
+          <div class="live-hud-bar">
+            <div class="hud-badges-wrap">
+              <span class="hud-chip" id="hud-chip-fps">550 FPS</span>
+              <span class="hud-chip" id="hud-chip-ping">14 ms</span>
+              <span class="hud-chip" id="hud-chip-armor">ARMOR 100%</span>
+              <span class="hud-chip" id="hud-chip-sprint">[SPRINT: ON]</span>
+            </div>
+            <div class="mini-keystrokes" title="Press W/A/S/D or click keys!">
+              <div class="k-box" data-key="w" onclick="pulseKey(this)">W</div>
+              <div class="k-box" data-key="a" onclick="pulseKey(this)">A</div>
+              <div class="k-box" data-key="s" onclick="pulseKey(this)">S</div>
+              <div class="k-box" data-key="d" onclick="pulseKey(this)">D</div>
+              <div class="k-box" style="width:48px;" id="cps-box" onclick="registerClickCps()">0 CPS</div>
+            </div>
+          </div>
+
           <div class="mod-grid" id="mod-grid">
-            <div class="mod-card enabled" data-cat="hud" onclick="toggleModCard(this)">
+            <div class="mod-card enabled" data-cat="hud" data-hud="hud-chip-fps" onclick="toggleModCard(this)">
               <div class="mod-top">
                 <span class="mod-title">FPS Overlay</span>
                 <div class="toggle"></div>
@@ -1565,7 +1697,7 @@
               <span class="mod-desc">Zero-latency native frame rate counter</span>
             </div>
 
-            <div class="mod-card enabled" data-cat="hud" onclick="toggleModCard(this)">
+            <div class="mod-card enabled" data-cat="hud" data-hud="hud-chip-armor" onclick="toggleModCard(this)">
               <div class="mod-top">
                 <span class="mod-title">Armor HUD</span>
                 <div class="toggle"></div>
@@ -1573,7 +1705,7 @@
               <span class="mod-desc">Real-time armor &amp; held item durability</span>
             </div>
 
-            <div class="mod-card enabled" data-cat="hud" onclick="toggleModCard(this)">
+            <div class="mod-card enabled" data-cat="hud" data-hud="hud-chip-ping" onclick="toggleModCard(this)">
               <div class="mod-top">
                 <span class="mod-title">Ping Display</span>
                 <div class="toggle"></div>
@@ -1589,7 +1721,7 @@
               <span class="mod-desc">Clean WASD, mouse clicks &amp; CPS display</span>
             </div>
 
-            <div class="mod-card enabled" data-cat="pvp" onclick="toggleModCard(this)">
+            <div class="mod-card enabled" data-cat="pvp" data-hud="hud-chip-sprint" onclick="toggleModCard(this)">
               <div class="mod-top">
                 <span class="mod-title">Toggle Sprint</span>
                 <div class="toggle"></div>
@@ -1992,9 +2124,9 @@
       <h2>Ready to freeze the competition?</h2>
       <p>Supports Minecraft 1.8.9, 26.2, and 26.3. Join our Discord community for dev updates, beta builds, and support.</p>
       <div class="cta-buttons">
-        <a id="cta-download-btn" href="#download" class="btn-primary">
+        <button type="button" id="cta-download-btn" class="btn-primary" onclick="triggerDownloadToast()">
           <span id="cta-btn-text">Download for Windows</span>
-        </a>
+        </button>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-discord">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028z"/>
@@ -2017,24 +2149,22 @@
   </main>
 
   <script>
-    // 1. Automatic OS Detection + Manual Switcher
+    // 1. Automatic OS Detection + Manual Switcher + Clean Toast Feedback
+    let currentOS = 'windows';
     const downloadLinks = {
       windows: {
         label: 'Download for Windows',
         osName: 'Windows',
-        url: '#download-windows',
         disabled: false
       },
       linux: {
         label: 'Download for Linux',
         osName: 'Linux',
-        url: '#download-linux',
         disabled: false
       },
       mac: {
         label: 'macOS is in development',
         osName: 'macOS',
-        url: 'javascript:void(0)',
         disabled: true
       }
     };
@@ -2052,6 +2182,7 @@
     }
 
     function setOS(osKey) {
+      currentOS = osKey;
       const info = downloadLinks[osKey] || downloadLinks.windows;
       const heroBtn = document.getElementById('hero-download-btn');
       const heroText = document.getElementById('hero-btn-text');
@@ -2061,8 +2192,6 @@
 
       heroText.textContent = info.label;
       ctaText.textContent = info.label;
-      heroBtn.href = info.url;
-      ctaBtn.href = info.url;
       osLabel.textContent = `Selected OS: ${info.osName}`;
 
       if (info.disabled) {
@@ -2074,11 +2203,27 @@
       }
     }
 
+    function triggerDownloadToast() {
+      if (currentOS === 'mac') return;
+      const toast = document.getElementById('toast-notice');
+      const title = document.getElementById('toast-title');
+      const msg = document.getElementById('toast-msg');
+      const osLabel = currentOS === 'linux' ? 'Linux (x86_64)' : 'Windows (x64)';
+      title.textContent = `Glacier Launcher — ${osLabel}`;
+      msg.textContent = `Early access builds for ${osLabel} are posted directly in our official Discord server.`;
+      toast.classList.add('show');
+    }
+
+    function closeToast() {
+      document.getElementById('toast-notice').classList.remove('show');
+    }
+
     setOS(detectOS());
 
-    // 2. Interactive Preview Sidebar, Search, Toggle & Version Selector
+    // 2. Interactive Preview Sidebar, Search, Toggle & Live In-Game HUD Sync
     let currentCategory = 'all';
     let currentSearch = '';
+    let clickTimestamps = [];
 
     function applyModFilters() {
       const cards = document.querySelectorAll('.mod-card');
@@ -2107,10 +2252,20 @@
       applyModFilters();
     }
 
+    function syncHudChips() {
+      document.querySelectorAll('.mod-card[data-hud]').forEach(card => {
+        const chip = document.getElementById(card.dataset.hud);
+        if (chip) {
+          chip.classList.toggle('off', !card.classList.contains('enabled'));
+        }
+      });
+    }
+
     function updateActiveCounter() {
       const total = document.querySelectorAll('.mod-card').length;
       const active = document.querySelectorAll('.mod-card.enabled').length;
       document.getElementById('active-mod-counter').textContent = `Active: ${active} / ${total}`;
+      syncHudChips();
     }
 
     function toggleModCard(card) {
@@ -2125,10 +2280,47 @@
       updateActiveCounter();
     }
 
-    function selectPreviewVersion(pill) {
+    function selectPreviewVersion(pill, ver) {
       document.querySelectorAll('.v-pill').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
+      const fpsMap = { '1.8.9': '620 FPS', '26.2': '550 FPS', '26.3': '540 FPS' };
+      document.getElementById('hud-chip-fps').textContent = fpsMap[ver] || '550 FPS';
     }
+
+    // Interactive Keystrokes & CPS Tester inside Preview
+    function pulseKey(el) {
+      el.classList.add('pressed');
+      setTimeout(() => el.classList.remove('pressed'), 160);
+    }
+
+    function registerClickCps() {
+      const now = performance.now();
+      clickTimestamps.push(now);
+      clickTimestamps = clickTimestamps.filter(t => now - t <= 1000);
+      const cpsEl = document.getElementById('cps-box');
+      cpsEl.textContent = `${clickTimestamps.length} CPS`;
+      pulseKey(cpsEl);
+    }
+
+    setInterval(() => {
+      const now = performance.now();
+      clickTimestamps = clickTimestamps.filter(t => now - t <= 1000);
+      const cpsEl = document.getElementById('cps-box');
+      if (cpsEl) cpsEl.textContent = `${clickTimestamps.length} CPS`;
+    }, 250);
+
+    document.addEventListener('keydown', (e) => {
+      if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+      const k = e.key.toLowerCase();
+      const box = document.querySelector(`.k-box[data-key="${k}"]`);
+      if (box) box.classList.add('pressed');
+    });
+
+    document.addEventListener('keyup', (e) => {
+      const k = e.key.toLowerCase();
+      const box = document.querySelector(`.k-box[data-key="${k}"]`);
+      if (box) box.classList.remove('pressed');
+    });
 
     // 3. Live Frame-Time Graph Simulator (Rust vs JVM)
     let simMode = 'rust';
@@ -2170,7 +2362,6 @@
         if (simMode === 'rust') {
           nextVal = 1.75 + (Math.random() - 0.5) * 0.25;
         } else {
-          // Occasional Garbage Collector stutter spikes
           nextVal = Math.random() < 0.09 ? 36 + Math.random() * 16 : 9.5 + (Math.random() - 0.5) * 3.5;
         }
         ftHistory.push(nextVal);
@@ -2181,7 +2372,6 @@
       const h = ftCanvas.height;
       ftCtx.clearRect(0, 0, w, h);
 
-      // Grid lines
       ftCtx.strokeStyle = 'rgba(186, 230, 253, 0.08)';
       ftCtx.lineWidth = 1;
       for (let y = 25; y < h; y += 30) {
@@ -2191,7 +2381,6 @@
         ftCtx.stroke();
       }
 
-      // Frame time curve
       ftCtx.beginPath();
       const step = w / (ftHistory.length - 1);
       for (let i = 0; i < ftHistory.length; i++) {
@@ -2284,8 +2473,8 @@
       const rect = previewWindow.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const rotateX = (((y - rect.height / 2) / (rect.height / 2)) * -3.6).toFixed(2);
-      const rotateY = (((x - rect.width / 2) / (rect.width / 2)) * 3.6).toFixed(2);
+      const rotateX = (((y - rect.height / 2) / (rect.height / 2)) * -3.5).toFixed(2);
+      const rotateY = (((x - rect.width / 2) / (rect.width / 2)) * 3.5).toFixed(2);
 
       previewWindow.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       previewGlare.style.setProperty('--glare-x', `${x}px`);
@@ -2338,7 +2527,7 @@
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-    // 8. Optimized Snowfall + Geometric Ice Crystals + Frost Ripples Loop
+    // 8. Optimized Snowfall + Ice Constellations + Crystals + Frost Ripples Loop
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, flakes, crystals;
@@ -2346,14 +2535,14 @@
     function initSnow() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      const count = Math.min(75, Math.floor(width / 18));
+      const count = Math.min(68, Math.floor(width / 20));
       flakes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        r: Math.random() * 2 + 0.6,
-        speedY: Math.random() * 0.55 + 0.2,
-        speedX: (Math.random() - 0.5) * 0.3,
-        alpha: Math.random() * 0.5 + 0.15
+        r: Math.random() * 2 + 0.7,
+        speedY: Math.random() * 0.5 + 0.18,
+        speedX: (Math.random() - 0.5) * 0.28,
+        alpha: Math.random() * 0.5 + 0.16
       }));
 
       const crystalCount = Math.min(12, Math.floor(width / 110));
@@ -2391,12 +2580,28 @@
 
       ctx.clearRect(0, 0, width, height);
 
+      // Draw snowflakes + subtle frost constellation links near cursor
       for (let i = 0; i < flakes.length; i++) {
         const f = flakes[i];
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(186, 230, 253, ${f.alpha})`;
         ctx.fill();
+
+        if (glowVisible) {
+          const dx = f.x - glowX;
+          const dy = f.y - glowY;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < 19600) {
+            const lineAlpha = (1 - Math.sqrt(distSq) / 140) * 0.28;
+            ctx.beginPath();
+            ctx.moveTo(f.x, f.y);
+            ctx.lineTo(glowX, glowY);
+            ctx.strokeStyle = `rgba(56, 189, 248, ${lineAlpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
 
         f.y += f.speedY;
         f.x += f.speedX;
@@ -2436,7 +2641,6 @@
         }
       }
 
-      // Draw expanding frost click ripples
       for (let i = ripples.length - 1; i >= 0; i--) {
         const r = ripples[i];
         ctx.beginPath();
