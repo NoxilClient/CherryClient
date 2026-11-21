@@ -355,7 +355,7 @@
 
     .nav-links {
       display: flex;
-      gap: 14px;
+      gap: 13px;
       align-items: center;
     }
 
@@ -389,7 +389,7 @@
       color: var(--ice-bright);
     }
 
-    /* Cozy Fireside Relaxing Audio Pill */
+    /* Cozy Xmas Carol + Fireside Audio Pill */
     .music-pill {
       display: inline-flex;
       align-items: center;
@@ -407,15 +407,15 @@
     }
 
     .music-pill:hover, .music-pill.playing {
-      border-color: #fb923c;
-      background: rgba(251, 146, 60, 0.16);
-      box-shadow: 0 0 20px rgba(251, 146, 60, 0.28);
-      color: #fed7aa;
+      border-color: #fde68a;
+      background: rgba(251, 191, 36, 0.16);
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.28);
+      color: #fef3c7;
     }
 
     .music-vol {
       width: 52px;
-      accent-color: #fb923c;
+      accent-color: #fbbf24;
       cursor: pointer;
     }
 
@@ -468,11 +468,11 @@
       box-shadow: 0 0 34px rgba(125, 211, 252, 0.62);
     }
 
-    /* Clean Sleek Side-Clinging Frost Wisp (No Blocky Snowman) */
-    #frost-widget {
+    /* Snowman with "IA" Badge + Sensible Chat */
+    #snowman-ia-widget {
       position: fixed;
-      right: 0;
-      bottom: 34px;
+      right: 18px;
+      bottom: 20px;
       z-index: 110;
       display: flex;
       flex-direction: column;
@@ -480,58 +480,71 @@
       gap: 10px;
     }
 
-    .frost-clinger-row {
-      position: relative;
+    .snowman-bubble-row {
       display: flex;
       align-items: center;
+      gap: 10px;
     }
 
-    .frost-speech {
-      margin-right: 6px;
+    .snowman-speech {
       background: linear-gradient(135deg, rgba(16, 35, 62, 0.97), rgba(6, 14, 27, 0.99));
-      border: 1px solid rgba(125, 211, 252, 0.68);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 22px rgba(125, 211, 252, 0.3);
+      border: 1px solid rgba(125, 211, 252, 0.72);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.72), 0 0 24px rgba(125, 211, 252, 0.32);
       color: #ffffff;
       padding: 8px 13px;
-      border-radius: 999px;
+      border-radius: 14px 14px 4px 14px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.74rem;
+      font-size: 0.73rem;
       font-weight: 700;
       white-space: nowrap;
       cursor: pointer;
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    .frost-clinger-btn {
-      width: 54px;
-      height: 76px;
+    .snowman-trigger-btn {
+      position: relative;
+      width: 74px;
+      height: 88px;
       padding: 0;
-      border: 1px solid rgba(125, 211, 252, 0.55);
-      border-right: none;
-      border-radius: 26px 0 0 26px;
-      background: linear-gradient(160deg, rgba(18, 42, 72, 0.96), rgba(6, 15, 29, 0.98));
-      box-shadow: -8px 10px 26px rgba(0, 0, 0, 0.72), 0 0 24px rgba(125, 211, 252, 0.35);
+      border: 1px solid rgba(125, 211, 252, 0.65);
+      border-radius: 22px;
+      background: linear-gradient(165deg, rgba(18, 42, 72, 0.95), rgba(6, 15, 29, 0.98));
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.78), 0 0 30px rgba(125, 211, 252, 0.36);
       cursor: pointer;
       display: grid;
       place-items: center;
-      transform: translateX(6px);
       transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
     }
 
-    .frost-clinger-btn:hover {
-      transform: translateX(0px);
-      box-shadow: -10px 12px 30px rgba(0, 0, 0, 0.8), 0 0 34px rgba(125, 211, 252, 0.6);
+    .snowman-trigger-btn:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 20px 44px rgba(0, 0, 0, 0.85), 0 0 42px rgba(125, 211, 252, 0.62);
     }
 
-    /* Chill Chat Panel */
-    .frost-chat-panel {
-      margin-right: 14px;
-      width: min(370px, calc(100vw - 28px));
+    .ia-tag {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #38bdf8, #0284c7);
+      border: 1px solid #e0f2fe;
+      color: #02060e;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      box-shadow: 0 0 14px rgba(125, 211, 252, 0.85);
+    }
+
+    .snowman-chat-panel {
+      width: min(375px, calc(100vw - 32px));
       height: 455px;
       border-radius: 18px;
       background: linear-gradient(165deg, rgba(16, 33, 58, 0.98), rgba(5, 11, 21, 0.99));
-      border: 1px solid rgba(125, 211, 252, 0.62);
-      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.92), 0 0 56px rgba(56, 189, 248, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(125, 211, 252, 0.64);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.92), 0 0 56px rgba(56, 189, 248, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(22px);
       display: none;
       flex-direction: column;
@@ -539,13 +552,13 @@
       animation: popModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .frost-chat-panel.open {
+    .snowman-chat-panel.open {
       display: flex;
     }
 
     .chat-header {
       padding: 13px 16px;
-      background: linear-gradient(90deg, rgba(125, 211, 252, 0.2), rgba(2, 132, 199, 0.12));
+      background: linear-gradient(90deg, rgba(125, 211, 252, 0.22), rgba(2, 132, 199, 0.12));
       border-bottom: 1px solid rgba(186, 230, 253, 0.18);
       display: flex;
       align-items: center;
@@ -563,13 +576,13 @@
       width: 34px;
       height: 34px;
       border-radius: 10px;
-      background: rgba(125, 211, 252, 0.16);
-      border: 1px solid rgba(125, 211, 252, 0.5);
+      background: rgba(125, 211, 252, 0.18);
+      border: 1px solid rgba(125, 211, 252, 0.52);
       display: grid;
       place-items: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      font-weight: 800;
+      font-size: 0.72rem;
+      font-weight: 900;
       color: #ffffff;
     }
 
@@ -613,7 +626,7 @@
     }
 
     .msg {
-      max-width: 85%;
+      max-width: 86%;
       padding: 10px 13px;
       border-radius: 13px;
       font-size: 0.84rem;
@@ -2318,7 +2331,7 @@
         padding: 14px 14px;
         font-size: 0.84rem;
       }
-      .frost-speech {
+      .snowman-speech {
         display: none;
       }
     }
@@ -2356,47 +2369,71 @@
   <!-- Snowfall + Constellations + Ice Crystals + Frost Ripples Canvas -->
   <canvas id="snow-canvas"></canvas>
 
-  <!-- Sleek Side-Clinging Frost Companion + Chill English Chat -->
-  <div id="frost-widget">
-    <div class="frost-chat-panel" id="frost-chat-panel" role="dialog" aria-label="Calm English chat with Glacier guide">
+  <!-- Snowman with "IA" Badge + Sensible English Chat -->
+  <div id="snowman-ia-widget">
+    <div class="snowman-chat-panel" id="snowman-chat-panel" role="dialog" aria-label="Snowman IA assistant">
       <div class="chat-header">
         <div class="chat-identity">
-          <div class="chat-avatar">✦</div>
+          <div class="chat-avatar">IA</div>
           <div>
-            <div class="chat-title">Glacier • Calm Guide</div>
-            <div class="chat-status">RELAXED • ENGLISH CHAT</div>
+            <div class="chat-title">Snowman • IA</div>
+            <div class="chat-status">ONLINE • SENSE-BASED REPLIES</div>
           </div>
         </div>
-        <button type="button" class="chat-close" onclick="toggleFrostChat(false)" aria-label="Close chat">×</button>
+        <button type="button" class="chat-close" onclick="toggleSnowmanChat(false)" aria-label="Close chat">×</button>
       </div>
 
       <div class="chat-messages" id="chat-messages">
         <div class="msg bot">
-          Sit back, breathe easy... ✨ Ask me anything about <strong>Glacier Client</strong> in English at your own pace.
+          Hello! ⛄ I'm the <strong>IA</strong> snowman. Say <strong>hello</strong> or ask me a real question about Glacier Client (FPS, Rust, 1.8.9 / 26.2 / 26.3, safety, or OS).
         </div>
       </div>
 
       <div class="chat-quick-prompts">
-        <button type="button" class="quick-chip" onclick="askPreset('Why is Glacier so smooth in Rust?')">✨ Rust smoothness</button>
-        <button type="button" class="quick-chip" onclick="askPreset('Which Minecraft versions are supported?')">🧊 Versions</button>
-        <button type="button" class="quick-chip" onclick="askPreset('Is it safe and anti-cheat friendly?')">🛡️ Safety</button>
-        <button type="button" class="quick-chip" onclick="askPreset('When is macOS coming?')">🌙 macOS</button>
+        <button type="button" class="quick-chip" onclick="askPreset('hello')">👋 Say hello</button>
+        <button type="button" class="quick-chip" onclick="askPreset('How fast is Glacier?')">⚡ FPS &amp; Rust</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Which versions work?')">🧊 Versions</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Is it safe to use?')">🛡️ Safety</button>
       </div>
 
       <form class="chat-form" onsubmit="handleChatSubmit(event)">
-        <input type="text" id="chat-input" class="chat-input" placeholder="Ask calmly in English..." autocomplete="off" required />
+        <input type="text" id="chat-input" class="chat-input" placeholder="Type hello or ask a question..." autocomplete="off" required />
         <button type="submit" class="chat-send">Send</button>
       </form>
     </div>
 
-    <div class="frost-clinger-row">
-      <button type="button" class="frost-speech" id="frost-speech" onclick="toggleFrostChat(true)">
-        Chill chat ✦
+    <div class="snowman-bubble-row">
+      <button type="button" class="snowman-speech" id="snowman-speech" onclick="toggleSnowmanChat(true)">
+        Ask Snowman IA ⛄
       </button>
-      <button type="button" class="frost-clinger-btn" onclick="toggleFrostChat()" aria-label="Open calm English chat">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#bae6fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
-          <circle cx="12" cy="12" r="2.8" fill="#7dd3fc" stroke="none"/>
+      <button type="button" class="snowman-trigger-btn" onclick="toggleSnowmanChat()" aria-label="Open Snowman IA chat">
+        <span class="ia-tag">IA</span>
+        <svg width="52" height="62" viewBox="0 0 64 76" fill="none">
+          <!-- Top Hat -->
+          <rect x="20" y="6" width="24" height="12" rx="2" fill="#0f172a" stroke="#7dd3fc" stroke-width="1.6"/>
+          <rect x="20" y="15" width="24" height="3" fill="#38bdf8"/>
+          <rect x="14" y="18" width="36" height="3.5" rx="1.75" fill="#1e293b" stroke="#bae6fd" stroke-width="1.5"/>
+          <!-- Head -->
+          <circle cx="32" cy="31" r="10.5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.8"/>
+          <!-- Eyes -->
+          <circle cx="28.5" cy="29.5" r="1.7" fill="#02060e"/>
+          <circle cx="35.5" cy="29.5" r="1.7" fill="#02060e"/>
+          <!-- Carrot Nose -->
+          <polygon points="32,31.5 41,33.5 32,35.5" fill="#fb923c"/>
+          <!-- Smile -->
+          <path d="M28 36.5 Q32 39 36 36.5" stroke="#02060e" stroke-width="1.6" stroke-linecap="round"/>
+          <!-- Scarf -->
+          <rect x="22" y="40.5" width="20" height="5" rx="2.5" fill="#38bdf8" stroke="#e0f2fe" stroke-width="1.2"/>
+          <path d="M36 45 L40 54" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+          <!-- Body -->
+          <circle cx="32" cy="57.5" r="14.5" fill="#e0f2fe" stroke="#bae6fd" stroke-width="1.8"/>
+          <!-- Buttons -->
+          <circle cx="32" cy="53" r="1.8" fill="#02060e"/>
+          <circle cx="32" cy="58.5" r="1.8" fill="#02060e"/>
+          <circle cx="32" cy="64" r="1.8" fill="#02060e"/>
+          <!-- Stick Arms -->
+          <line x1="18" y1="53" x2="8" y2="46" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round"/>
+          <line x1="46" y1="53" x2="56" y2="46" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round"/>
         </svg>
       </button>
     </div>
@@ -2437,11 +2474,6 @@
     </a>
   </div>
 
-  <!-- Royalty-Free Audio Element for Warm Fireplace & Relaxing Piano/Acoustic Loop -->
-  <audio id="fireplace-audio" loop preload="none" crossorigin="anonymous">
-    <source src="https://cdn.pixabay.com/download/audio/2022/11/22/audio_febc508520.mp3?filename=fireplace-with-crackling-fire-sounds-126619.mp3" type="audio/mpeg" />
-  </audio>
-
   <header>
     <div class="container nav-inner">
       <a href="#" class="brand">
@@ -2459,10 +2491,10 @@
         <a href="#versions">Versions</a>
         <a href="#features">Features</a>
         <a href="#faq">FAQ</a>
-        <button type="button" class="music-pill" id="music-toggle-btn" onclick="toggleFireplaceRelax()" title="Relaxing Fireplace & Soft Chords (Royalty-Free)">
-          <span>🔥</span>
-          <span id="music-label">Fireplace: OFF</span>
-          <input type="range" id="music-vol" class="music-vol" min="0" max="1" step="0.05" value="0.45" onclick="event.stopPropagation()" oninput="setRelaxVolume(this.value)" title="Volume" />
+        <button type="button" class="music-pill" id="music-toggle-btn" onclick="toggleXmasCarol()" title="Gentle Holiday Carol & Warm Hearth">
+          <span>🎄</span>
+          <span id="music-label">Carol: OFF</span>
+          <input type="range" id="music-vol" class="music-vol" min="0" max="1" step="0.05" value="0.45" onclick="event.stopPropagation()" oninput="setCarolVolume(this.value)" title="Volume" />
         </button>
         <button type="button" class="cmd-trigger" onclick="openCmdPalette()" title="Quick Navigation">Ctrl K</button>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="nav-discord">
@@ -3028,89 +3060,110 @@
     }
     setTimeout(dismissSplash, 850);
 
-    // Warm Fireplace Crackling Audio + Soft Warm Pad Fallback
-    const fireAudio = document.getElementById('fireplace-audio');
-    let relaxPlaying = false;
-    let fallbackCtx = null;
-    let fallbackGain = null;
+    // Gentle Holiday Carol Melody (Jingle Bells gentle motif + warm carillon chords)
+    let carolCtx = null;
+    let carolMaster = null;
+    let carolTimer = null;
+    let carolPlaying = false;
+    let carolStep = 0;
 
-    function startWarmFallback() {
-      if (fallbackCtx) {
-        if (fallbackCtx.state === 'suspended') fallbackCtx.resume();
-        if (fallbackGain) fallbackGain.gain.setTargetAtTime(0.08, fallbackCtx.currentTime, 0.2);
-        return;
-      }
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      fallbackCtx = new AudioCtx();
-      fallbackGain = fallbackCtx.createGain();
-      fallbackGain.gain.value = 0.08;
+    // Gentle carillon melody notes in Hz (E5, G5, C5, D5, E5, F5...) - calm holiday motif
+    const carolNotes = [
+      659.25, 659.25, 659.25, 0,
+      659.25, 659.25, 659.25, 0,
+      659.25, 783.99, 523.25, 587.33,
+      659.25, 0, 0, 0,
+      698.46, 698.46, 698.46, 698.46,
+      698.46, 659.25, 659.25, 659.25,
+      659.25, 587.33, 587.33, 659.25,
+      587.33, 0, 783.99, 0
+    ];
 
-      // Filtered warm pink-ish noise for soft hearth warmth
-      const bufferSize = fallbackCtx.sampleRate * 2;
-      const noiseBuffer = fallbackCtx.createBuffer(1, bufferSize, fallbackCtx.sampleRate);
-      const output = noiseBuffer.getChannelData(0);
-      let b0 = 0, b1 = 0, b2 = 0;
-      for (let i = 0; i < bufferSize; i++) {
-        const white = Math.random() * 2 - 1;
-        b0 = 0.99765 * b0 + white * 0.0990460;
-        b1 = 0.96300 * b1 + white * 0.2965164;
-        b2 = 0.57000 * b2 + white * 1.0526913;
-        output[i] = (b0 + b1 + b2 + white * 0.1848) * 0.04;
-      }
+    function playSoftBellNote(freq, durationSec) {
+      if (!carolCtx || !carolMaster || freq <= 0) return;
+      const now = carolCtx.currentTime;
 
-      const whiteNoise = fallbackCtx.createBufferSource();
-      whiteNoise.buffer = noiseBuffer;
-      whiteNoise.loop = true;
+      const osc1 = carolCtx.createOscillator();
+      const osc2 = carolCtx.createOscillator();
+      const gain = carolCtx.createGain();
 
-      const filter = fallbackCtx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.value = 340;
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(freq, now);
 
-      whiteNoise.connect(filter);
-      filter.connect(fallbackGain);
-      fallbackGain.connect(fallbackCtx.destination);
-      whiteNoise.start(0);
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(freq * 2, now);
+
+      const subGain = carolCtx.createGain();
+      subGain.gain.setValueAtTime(0.14, now);
+
+      // Soft bell envelope (no sharp clicks, no action attack)
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(0.32, now + 0.045);
+      gain.gain.exponentialRampToValueAtTime(0.0008, now + durationSec);
+
+      osc1.connect(gain);
+      osc2.connect(subGain);
+      subGain.connect(gain);
+      gain.connect(carolMaster);
+
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + durationSec + 0.04);
+      osc2.stop(now + durationSec + 0.04);
     }
 
-    function stopWarmFallback() {
-      if (fallbackGain && fallbackCtx) {
-        fallbackGain.gain.setTargetAtTime(0.0001, fallbackCtx.currentTime, 0.15);
-      }
-    }
-
-    function toggleFireplaceRelax() {
+    function toggleXmasCarol() {
       const btn = document.getElementById('music-toggle-btn');
       const label = document.getElementById('music-label');
       const vol = parseFloat(document.getElementById('music-vol').value || '0.45');
 
-      relaxPlaying = !relaxPlaying;
-      btn.classList.toggle('playing', relaxPlaying);
+      carolPlaying = !carolPlaying;
+      btn.classList.toggle('playing', carolPlaying);
 
-      if (relaxPlaying) {
-        label.textContent = 'Fireplace: ON';
-        fireAudio.volume = vol;
-        fireAudio.play().catch(() => {
-          startWarmFallback();
-        });
+      if (carolPlaying) {
+        label.textContent = 'Carol: ON';
+        if (!carolCtx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          carolCtx = new AudioCtx();
+          const filter = carolCtx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.value = 1850;
+          carolMaster = carolCtx.createGain();
+          carolMaster.gain.value = vol * 0.28;
+          filter.connect(carolMaster);
+          carolMaster.connect(carolCtx.destination);
+          carolCtx._warmFilter = filter;
+        }
+        if (carolCtx.state === 'suspended') carolCtx.resume();
+        carolMaster.gain.setTargetAtTime(vol * 0.28, carolCtx.currentTime, 0.08);
+
+        clearInterval(carolTimer);
+        carolTimer = setInterval(() => {
+          if (!carolPlaying) return;
+          const note = carolNotes[carolStep % carolNotes.length];
+          playSoftBellNote(note, 0.72);
+          carolStep++;
+        }, 420);
       } else {
-        label.textContent = 'Fireplace: OFF';
-        fireAudio.pause();
-        stopWarmFallback();
+        label.textContent = 'Carol: OFF';
+        clearInterval(carolTimer);
+        if (carolMaster && carolCtx) {
+          carolMaster.gain.setTargetAtTime(0.0001, carolCtx.currentTime, 0.12);
+        }
       }
     }
 
-    function setRelaxVolume(val) {
+    function setCarolVolume(val) {
       const v = parseFloat(val);
-      fireAudio.volume = v;
-      if (fallbackGain && fallbackCtx) {
-        fallbackGain.gain.setTargetAtTime(v * 0.14, fallbackCtx.currentTime, 0.05);
+      if (carolMaster && carolCtx) {
+        carolMaster.gain.setTargetAtTime(v * 0.28, carolCtx.currentTime, 0.05);
       }
     }
 
-    // Calm Side Companion Chat (Relaxing English + Animated Typing Dots)
-    function toggleFrostChat(forceOpen) {
-      const panel = document.getElementById('frost-chat-panel');
-      const speech = document.getElementById('frost-speech');
+    // Snowman IA Chat: Sensible, context-aware English replies
+    function toggleSnowmanChat(forceOpen) {
+      const panel = document.getElementById('snowman-chat-panel');
+      const speech = document.getElementById('snowman-speech');
       const willOpen = typeof forceOpen === 'boolean' ? forceOpen : !panel.classList.contains('open');
       panel.classList.toggle('open', willOpen);
       if (willOpen) {
@@ -3134,27 +3187,47 @@
       return div;
     }
 
-    function getChillEnglishReply(rawQuestion) {
-      const q = rawQuestion.toLowerCase();
-      if (q.includes('fps') || q.includes('rust') || q.includes('smooth') || q.includes('gc') || q.includes('lag') || q.includes('fast')) {
-        return 'Take it easy... ✨ Glacier is built in <strong>native Rust</strong> with <strong>wgpu</strong>, giving <strong>0 ms Garbage Collector pauses</strong> and calm, steady FPS up to <strong>5.5x</strong> over vanilla.';
+    function getSensibleSnowmanReply(rawText) {
+      const q = rawText.trim().toLowerCase();
+
+      // Greetings ("hello", "hi", "hey", "good morning", etc.)
+      if (/^(hello|hi|hey|yo|sup|good morning|good afternoon|good evening|hola|ciao)\b/.test(q) || q === 'hello') {
+        return 'Hello! ⛄ Glad you stopped by. Ask me anything about <strong>Glacier Client</strong> — like FPS in Rust, supported versions (<strong>1.8.9</strong>, <strong>26.2</strong>, <strong>26.3</strong>), or anti-cheat safety.';
       }
-      if (q.includes('version') || q.includes('1.8') || q.includes('26.2') || q.includes('26.3')) {
-        return 'Nice and simple: Glacier supports <strong>1.8.9</strong> for relaxed PvP or duels, plus <strong>26.2</strong> and <strong>26.3</strong> in one clean launcher. 🧊';
+
+      // Thanks / compliments
+      if (/\b(thanks|thank you|thx|cool|nice|awesome|great)\b/.test(q)) {
+        return 'You’re very welcome! ❄️ Let me know if you want to check benchmarks, versions, or how to get a build.';
       }
-      if (q.includes('safe') || q.includes('ban') || q.includes('cheat') || q.includes('anti-cheat') || q.includes('open source')) {
-        return 'You can unwind knowing Glacier has zero cheats—only smooth performance and HUD parity, using official <strong>Microsoft OAuth</strong> with no password storage. 🛡️';
+
+      // FPS / Rust / Performance / GC
+      if (/\b(fps|rust|fast|speed|performance|gc|garbage|lag|stutter|wgpu)\b/.test(q)) {
+        return 'Glacier is written in <strong>native Rust</strong> with <strong>wgpu</strong>, which means <strong>0 ms Garbage Collector pauses</strong> and up to <strong>5.5x</strong> higher FPS compared to standard vanilla play.';
       }
-      if (q.includes('mac') || q.includes('linux') || q.includes('windows') || q.includes('download')) {
-        return '<strong>Windows</strong> and <strong>Linux</strong> builds are available via Discord, while native <strong>macOS</strong> (Metal) is gently on our roadmap. ❄️';
+
+      // Versions
+      if (/\b(version|versions|1\.8\.9|1\.8|26\.2|26\.3|pvp)\b/.test(q)) {
+        return 'Glacier supports Minecraft <strong>1.8.9</strong> (for PvP and duels), <strong>26.2</strong>, and <strong>26.3</strong>.';
       }
-      return 'No rush at all... ✨ Glacier Client keeps things calm and fast with <strong>Rust</strong>, clean HUDs, and <strong>1.8.9 / 26.2 / 26.3</strong> support. Ask whatever you like.';
+
+      // Safety / Bans / Cheats / Account
+      if (/\b(safe|ban|banned|cheat|cheats|hack|anticheat|anti-cheat|open source|account|microsoft)\b/.test(q)) {
+        return 'Glacier is a legitimate performance and HUD client with zero cheats, tested against anti-cheats like GrimAC and Vulcan, and uses official <strong>Microsoft OAuth</strong> without storing your password.';
+      }
+
+      // OS / Download / Discord
+      if (/\b(windows|linux|mac|macos|download|install|discord)\b/.test(q)) {
+        return '<strong>Windows</strong> and <strong>Linux</strong> builds are shared through our official <strong>Discord</strong> server, while native <strong>macOS</strong> support is planned on the roadmap.';
+      }
+
+      // Direct fallback that still makes sense
+      return 'That sounds like a question about <strong>Glacier Client</strong>! Try asking about <strong>FPS</strong>, <strong>Rust</strong>, supported versions (<strong>1.8.9</strong>, <strong>26.2</strong>, <strong>26.3</strong>), <strong>safety</strong>, or <strong>Windows/Linux/macOS</strong>.';
     }
 
     function sendUserQuestion(questionText) {
       const clean = questionText.trim();
       if (!clean) return;
-      toggleFrostChat(true);
+      toggleSnowmanChat(true);
       appendChatMsg(clean.replace(/</g, '&lt;').replace(/>/g, '&gt;'), 'user');
 
       const typingBubble = appendChatMsg(
@@ -3163,10 +3236,10 @@
       );
 
       setTimeout(() => {
-        typingBubble.innerHTML = getChillEnglishReply(clean);
+        typingBubble.innerHTML = getSensibleSnowmanReply(clean);
         const box = document.getElementById('chat-messages');
         box.scrollTop = box.scrollHeight;
-      }, 650);
+      }, 550);
     }
 
     function askPreset(presetQuestion) {
@@ -3489,7 +3562,7 @@
         closeLegalModal();
         closeToast();
         dismissSplash();
-        toggleFrostChat(false);
+        toggleSnowmanChat(false);
         return;
       }
       if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
