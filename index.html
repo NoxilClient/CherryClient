@@ -330,6 +330,11 @@
     }
 
     .cmd-item {
+      width: 100%;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      text-align: left;
       padding: 11px 14px;
       border-radius: 10px;
       display: flex;
@@ -358,8 +363,8 @@
       position: fixed;
       inset: 0;
       z-index: 125;
-      background: rgba(2, 5, 12, 0.82);
-      backdrop-filter: blur(14px);
+      background: rgba(2, 5, 12, 0.84);
+      backdrop-filter: blur(16px);
       display: none;
       place-items: center;
       padding: 20px;
@@ -370,48 +375,79 @@
     }
 
     .legal-dialog {
-      width: min(660px, 94vw);
-      max-height: 82vh;
+      width: min(760px, 95vw);
+      max-height: 85vh;
       overflow-y: auto;
-      border-radius: 22px;
-      background: linear-gradient(165deg, rgba(13, 26, 44, 0.96), rgba(6, 13, 24, 0.98));
+      border-radius: 24px;
+      background: linear-gradient(165deg, rgba(13, 26, 44, 0.97), rgba(5, 11, 20, 0.99));
       border: 1px solid rgba(56, 189, 248, 0.45);
-      box-shadow: 0 32px 90px rgba(0, 0, 0, 0.88), 0 0 50px rgba(56, 189, 248, 0.2);
-      padding: 28px 30px;
+      box-shadow: 0 32px 90px rgba(0, 0, 0, 0.92), 0 0 55px rgba(56, 189, 248, 0.22);
+      padding: 30px 32px;
       color: var(--text-main);
     }
 
     .legal-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(186, 230, 253, 0.12);
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(186, 230, 253, 0.14);
+    }
+
+    .legal-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.38);
+      color: var(--ice-bright);
+      margin-bottom: 8px;
     }
 
     .legal-header h3 {
-      font-size: 1.35rem;
+      font-size: 1.45rem;
       font-weight: 800;
-      color: var(--ice-bright);
+      color: #ffffff;
+    }
+
+    .legal-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 4px;
     }
 
     .legal-close {
       background: rgba(56, 189, 248, 0.12);
       border: 1px solid rgba(56, 189, 248, 0.35);
       color: var(--ice-bright);
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
-      font-size: 1.15rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      font-size: 1.2rem;
       cursor: pointer;
       display: grid;
       place-items: center;
-      transition: background 0.2s;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.15s;
     }
 
     .legal-close:hover {
-      background: rgba(56, 189, 248, 0.26);
+      background: rgba(56, 189, 248, 0.28);
+      transform: scale(1.05);
+    }
+
+    .legal-highlight {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.34);
+      color: var(--ice-bright);
+      font-size: 0.9rem;
+      margin-bottom: 6px;
     }
 
     .legal-content {
@@ -420,13 +456,25 @@
       gap: 14px;
       font-size: 0.92rem;
       color: var(--text-muted);
-      line-height: 1.65;
+      line-height: 1.7;
     }
 
     .legal-content h4 {
-      color: #ffffff;
-      font-size: 1rem;
-      margin-top: 4px;
+      color: var(--ice-bright);
+      font-size: 1.02rem;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .legal-content ul {
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .legal-content strong {
+      color: #e2e8f0;
     }
 
     /* Hero Section */
@@ -1757,7 +1805,7 @@
         <a href="#versions" class="cmd-item" onclick="closeCmdPalette()">Supported Versions (1.8.9 / 26.2 / 26.3) <span>#versions</span></a>
         <a href="#faq" class="cmd-item" onclick="closeCmdPalette()">Read Safety, False Positives &amp; FAQ <span>#faq</span></a>
         <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('terms');">Terms of Service <span>LEGAL</span></button>
-        <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('privacy');">Privacy Policy <span>LEGAL</span></button>
+        <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('privacy');">Privacy Policy (Zero Data Sale) <span>LEGAL</span></button>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="cmd-item" onclick="closeCmdPalette()">Join Official Discord Server <span>EXTERNAL</span></a>
       </div>
     </div>
@@ -2419,36 +2467,105 @@
       if (appleLink) appleLink.href = dataUrl;
     })();
 
-    // Legal Modal Content (Terms of Service & Privacy Policy)
+    // Detailed Legal Modal Content (Terms of Service & Privacy Policy)
     const legalDocs = {
       terms: `
         <div class="legal-header">
-          <h3>Terms of Service</h3>
-          <button type="button" class="legal-close" onclick="closeLegalModal()">×</button>
+          <div>
+            <span class="legal-badge">LEGAL DOCUMENTATION • v1.0</span>
+            <h3>Terms of Service</h3>
+            <p class="legal-meta">Effective Date: November 21, 2026 • Project: Glacier Client</p>
+          </div>
+          <button type="button" class="legal-close" onclick="closeLegalModal()" aria-label="Close modal">×</button>
         </div>
         <div class="legal-content">
-          <p><strong>Last Updated:</strong> November 2026</p>
-          <h4>1. Acceptance of Terms</h4>
-          <p>By accessing or using Glacier Client and its launcher builds, you agree to use the software solely for lawful gameplay with a legitimate copy of Minecraft.</p>
-          <h4>2. Fair Play &amp; Server Rules</h4>
-          <p>Glacier Client provides performance optimizations and cosmetic/HUD overlays only. You are responsible for complying with individual multiplayer server rules.</p>
-          <h4>3. Disclaimer &amp; Non-Affiliation</h4>
-          <p>Glacier Client is an independent project and is not affiliated with, endorsed by, or associated with Mojang Studios or Microsoft Corporation.</p>
+          <div class="legal-highlight">
+            <strong>Summary:</strong> Glacier Client is an independent performance &amp; HUD client built in Rust for legitimate Minecraft gameplay. You must own Minecraft legally and follow the rules of every server you join.
+          </div>
+
+          <h4>1. Acceptance &amp; Scope of Agreement</h4>
+          <p>
+            By downloading, installing, launching, or accessing <strong>Glacier Client</strong>, the Glacier Launcher, or this official website (collectively, the <strong>"Services"</strong>), you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, you must immediately stop using the Services.
+          </p>
+
+          <h4>2. Legitimate Account &amp; Ownership Requirement</h4>
+          <p>
+            Glacier Client is designed exclusively for players who hold a valid, legitimate license to <strong>Minecraft: Java Edition</strong> and authenticate through official Microsoft account flows. Glacier Client does not provide pirated game files, cracked authentication bypasses, or unauthorized account access.
+          </p>
+
+          <h4>3. Permitted Use, Fair Play &amp; Multiplayer Responsibility</h4>
+          <ul>
+            <li><strong>Legitimate Modules Only:</strong> Glacier Client provides HUD overlays, visual enhancements, and rendering/performance optimizations. It does not include aimbots, reach hacks, fly/speed exploits, auto-clickers, or combat automation.</li>
+            <li><strong>Server-Specific Rules:</strong> Even when a module is compliant with standard vanilla mechanics, individual multiplayer servers may enforce stricter rules or custom mod policies. You are solely responsible for ensuring your enabled modules comply with each server's rules before connecting.</li>
+            <li><strong>Prohibited Conduct:</strong> You agree not to reverse-engineer builds for malicious injection, distribute modified/trojanized binaries under the Glacier name, abuse community channels, or attempt to disrupt project infrastructure.</li>
+          </ul>
+
+          <h4>4. Beta Software, Releases &amp; Updates</h4>
+          <p>
+            During active development and beta phases, builds may contain bugs, incomplete features, or experimental protocol support (including <strong>1.8.9</strong>, <strong>26.2</strong>, and <strong>26.3</strong>). We may modify, suspend, or update features, supported versions, or compatibility layers at any time without prior notice.
+          </p>
+
+          <h4>5. Intellectual Property &amp; Non-Affiliation</h4>
+          <p>
+            Glacier Client branding, UI design, and original engine code belong to the Glacier Client project and its respective contributors under applicable license terms. <strong>Glacier Client is an independent project and is NOT affiliated with, endorsed by, sponsored by, or officially connected to Mojang Studios, Microsoft Corporation, or Discord Inc.</strong> Minecraft is a trademark of Mojang Synergies AB / Microsoft Corporation.
+          </p>
+
+          <h4>6. Disclaimer of Warranties &amp; Limitation of Liability</h4>
+          <p>
+            The Services are provided on an <strong>"AS IS"</strong> and <strong>"AS AVAILABLE"</strong> basis without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, or uninterrupted operation. To the maximum extent permitted by law, Glacier Client and its developers are not liable for any indirect, incidental, or consequential damages, including lost progress, local configuration issues, or server-side account sanctions.
+          </p>
+
+          <h4>7. Changes to Terms &amp; Contact</h4>
+          <p>
+            We may update these Terms of Service as the project evolves. Continued use of Glacier Client after changes are posted constitutes acceptance of the updated terms. For support, reports, or inquiries, contact the team through our official Discord server.
+          </p>
         </div>
       `,
       privacy: `
         <div class="legal-header">
-          <h3>Privacy Policy</h3>
-          <button type="button" class="legal-close" onclick="closeLegalModal()">×</button>
+          <div>
+            <span class="legal-badge">PRIVACY &amp; DATA PROTECTION • ZERO DATA SALE</span>
+            <h3>Privacy Policy</h3>
+            <p class="legal-meta">Effective Date: November 21, 2026 • Project: Glacier Client</p>
+          </div>
+          <button type="button" class="legal-close" onclick="closeLegalModal()" aria-label="Close modal">×</button>
         </div>
         <div class="legal-content">
-          <p><strong>Last Updated:</strong> November 2026</p>
-          <h4>1. Authentication &amp; Credentials</h4>
-          <p>Glacier Client never collects, logs, or stores your Microsoft password. Account authentication uses official Microsoft OAuth flows, and local session tokens stay on your device.</p>
-          <h4>2. Local Configuration</h4>
-          <p>Your module settings, HUD layout, and version profiles are stored locally on your machine unless you choose to export or share them.</p>
-          <h4>3. Website Analytics &amp; Cookies</h4>
-          <p>This static showcase website does not set invasive advertising trackers. For support or privacy inquiries, reach out via our official Discord server.</p>
+          <div class="legal-highlight">
+            <strong>Strict No-Sale Guarantee:</strong> We <strong>DO NOT sell</strong>, rent, trade, auction, or monetize your personal data, gameplay telemetry, or account information to data brokers, advertisers, or other companies—ever.
+          </div>
+
+          <h4>1. Our Core Privacy Commitment</h4>
+          <p>
+            Glacier Client is engineered in Rust with a privacy-first mindset. Your settings, HUD layout, profiles, and local game data belong to you. We collect only what is strictly necessary for launcher functionality, version management, and stability.
+          </p>
+
+          <h4>2. We Never Sell Your Data to Other Companies</h4>
+          <p>
+            We explicitly state and commit that <strong>Glacier Client does not sell your data to other companies or third parties</strong>. We do not sell user lists, hardware profiles, session metadata, or behavioral analytics for commercial resale, ad targeting, or third-party profiling.
+          </p>
+
+          <h4>3. Authentication &amp; Microsoft Account Security</h4>
+          <ul>
+            <li><strong>Official OAuth Only:</strong> When logging into your Minecraft account, authentication occurs through official Microsoft endpoints. Glacier Client never sees, logs, or stores your Microsoft password.</li>
+            <li><strong>Local Token Storage:</strong> Session/profile tokens required to launch Minecraft are stored locally on your own device and are never transmitted to data-selling entities.</li>
+          </ul>
+
+          <h4>4. Local Data &amp; Technical Information</h4>
+          <ul>
+            <li><strong>Stored Locally on Your Device:</strong> Enabled/disabled modules, HUD coordinates, keybind preferences, and version profiles reside locally on your computer unless you manually export or share them.</li>
+            <li><strong>Minimal Technical &amp; Crash Data:</strong> When downloading builds, checking for updates, or connecting to multiplayer servers, standard network requests (such as IP address at the transport layer, OS/version info, or optional diagnostic/crash logs if enabled) may occur solely to deliver the service or diagnose bugs.</li>
+          </ul>
+
+          <h4>5. Third-Party Services &amp; External Links</h4>
+          <p>
+            Glacier Client interacts with official game/authentication services, game servers you choose to join, and external platforms you visit voluntarily (such as Discord or GitHub). Those third-party services operate under their own privacy policies, which we encourage you to review.
+          </p>
+
+          <h4>6. Data Retention, Security &amp; Your Choices</h4>
+          <p>
+            Local configuration files remain on your device until you modify or delete them. Because we do not sell your data or run invasive cross-site ad networks, you stay in control of your local client environment. If you have questions about privacy or want to report a concern, reach out via our official Discord community.
+          </p>
         </div>
       `
     };
@@ -2457,6 +2574,7 @@
       const modal = document.getElementById('legal-modal');
       const body = document.getElementById('legal-dialog-body');
       body.innerHTML = legalDocs[docKey] || legalDocs.terms;
+      body.scrollTop = 0;
       modal.classList.add('open');
     }
 
