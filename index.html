@@ -1737,7 +1737,7 @@
 
     .section-title p {
       color: var(--text-muted);
-      max-width: 650px;
+      max-width: 720px;
       margin: 0 auto;
     }
 
@@ -1885,8 +1885,34 @@
 
     /* Our Security vs Other Section */
     .security-section {
-      max-width: 1040px;
+      max-width: 1120px;
       margin: 0 auto 104px;
+    }
+
+    .security-highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .sec-mini-card {
+      padding: 18px 20px;
+      border-radius: 18px;
+      background: linear-gradient(160deg, rgba(16, 33, 57, 0.92), rgba(6, 13, 24, 0.96));
+      border: 1px solid rgba(125, 211, 252, 0.34);
+    }
+
+    .sec-mini-card h4 {
+      font-size: 0.96rem;
+      color: var(--ice-bright);
+      margin-bottom: 6px;
+    }
+
+    .sec-mini-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
     }
 
     .security-table-wrap {
@@ -1902,13 +1928,13 @@
       width: 100%;
       border-collapse: collapse;
       text-align: left;
-      min-width: 720px;
+      min-width: 880px;
     }
 
     .security-table th, .security-table td {
-      padding: 18px 20px;
+      padding: 15px 16px;
       border-bottom: 1px solid rgba(186, 230, 253, 0.11);
-      font-size: 0.9rem;
+      font-size: 0.86rem;
     }
 
     .security-table tr:last-child td {
@@ -1919,11 +1945,11 @@
       background: rgba(5, 11, 20, 0.82);
       font-weight: 700;
       color: var(--text-main);
-      font-size: 0.85rem;
+      font-size: 0.8rem;
     }
 
     .security-table tr.glacier-row {
-      background: linear-gradient(90deg, rgba(125, 211, 252, 0.18), rgba(56, 189, 248, 0.06));
+      background: linear-gradient(90deg, rgba(125, 211, 252, 0.2), rgba(56, 189, 248, 0.07));
     }
 
     .security-table tr.glacier-row td {
@@ -1963,10 +1989,10 @@
 
     .auth-pill {
       display: inline-block;
-      padding: 4px 10px;
+      padding: 4px 9px;
       border-radius: 8px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.73rem;
+      font-size: 0.7rem;
       font-weight: 700;
       background: rgba(125, 211, 252, 0.18);
       border: 1px solid rgba(125, 211, 252, 0.45);
@@ -2471,7 +2497,7 @@
     }
 
     @media (max-width: 960px) {
-      .client-preview, .sim-box {
+      .client-preview, .sim-box, .security-highlights {
         grid-template-columns: 1fr;
       }
       .preview-sidebar {
@@ -2569,8 +2595,8 @@
       <div class="chat-quick-prompts">
         <button type="button" class="quick-chip" onclick="askPreset('hello')">Hello</button>
         <button type="button" class="quick-chip" onclick="askPreset('How fast is Glacier?')">FPS &amp; Rust</button>
-        <button type="button" class="quick-chip" onclick="askPreset('Our security and open source?')">Security &amp; OSS</button>
-        <button type="button" class="quick-chip" onclick="askPreset('How does auth work?')">Browser Auth</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Our security vs other clients?')">Security vs Other</button>
+        <button type="button" class="quick-chip" onclick="askPreset('How does browser auth work?')">Browser Auth</button>
       </div>
 
       <form class="chat-form" onsubmit="handleChatSubmit(event)">
@@ -2953,8 +2979,24 @@
       <div class="section-title">
         <h2>Our Security vs Other</h2>
         <p>
-          Glacier Client is <strong>open source</strong> and opens your <strong>external system browser</strong> for official Microsoft login — we never embed suspicious login forms or store your password.
+          Glacier Client is <strong>open source</strong>, opens your <strong>system browser</strong> for official Microsoft OAuth login,
+          never touches or stores your password, and lets anyone audit the source code.
         </p>
+      </div>
+
+      <div class="security-highlights">
+        <div class="sec-mini-card spotlight-card">
+          <h4>100% Open Source Code</h4>
+          <p>Unlike closed-source benchmark clients, Glacier's codebase is open for inspection—zero hidden telemetry or mystery binaries.</p>
+        </div>
+        <div class="sec-mini-card spotlight-card">
+          <h4>External Browser OAuth</h4>
+          <p>Logging in launches your real browser with official Microsoft endpoints—no fake embedded login modals inside the app.</p>
+        </div>
+        <div class="sec-mini-card spotlight-card">
+          <h4>Zero Password Storage</h4>
+          <p>We never ask for, process, or store your password anywhere—on disk or on any server.</p>
+        </div>
       </div>
 
       <div class="security-table-wrap spotlight-card">
@@ -2963,59 +3005,93 @@
             <tr>
               <th>Client</th>
               <th>Open Source</th>
-              <th>Authentication Flow</th>
+              <th>Browser OAuth</th>
+              <th>No In-App Password</th>
               <th>Zero Password Storage</th>
+              <th>Auditable Code</th>
               <th>Anti-Cheat Safe</th>
             </tr>
           </thead>
           <tbody>
             <tr class="glacier-row">
-              <td>Glacier Client</td>
+              <td>Glacier Client <span class="auth-pill" style="margin-left:6px;">US</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="auth-pill">External Browser OAuth</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
             </tr>
             <tr>
               <td>Tori Client</td>
               <td><span class="mark-no">✕</span></td>
-              <td>Proprietary / Closed</td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
             </tr>
             <tr>
               <td>FastClient</td>
               <td><span class="mark-no">✕</span></td>
-              <td>Proprietary / Closed</td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
             </tr>
             <tr>
               <td>Lunar Client</td>
               <td><span class="mark-no">✕</span></td>
-              <td>Proprietary Launcher Auth</td>
               <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
             </tr>
             <tr>
               <td>Dawn Client</td>
               <td><span class="mark-no">✕</span></td>
-              <td>Proprietary / Closed</td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
+            </tr>
+            <tr>
+              <td>Feather Client</td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
+            </tr>
+            <tr>
+              <td>Badlion Client</td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
             </tr>
             <tr>
               <td>Sodium (Fabric)</td>
               <td><span class="mark-yes">✓</span></td>
-              <td>Mod / Host Launcher Auth</td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
             </tr>
             <tr>
               <td>Minecraft Launcher (Vanilla)</td>
               <td><span class="mark-no">✕</span></td>
-              <td>Official Mojang / Microsoft</td>
               <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
             </tr>
           </tbody>
@@ -3437,89 +3513,23 @@
       }
     }
 
-    // Warm & Chill Voice Engine (avoids harsh metallic speech by filtering & pacing softly)
+    // Pure Warm & Chill Web Audio Voice Engine (no metallic browser speechSynthesis)
     let activeAudioBtn = null;
-    let warmPadCtx = null;
-    let warmPadGain = null;
-    let warmPadTimer = null;
-
-    function stopWarmPad() {
-      clearInterval(warmPadTimer);
-      warmPadTimer = null;
-      if (warmPadGain && warmPadCtx) {
-        warmPadGain.gain.setTargetAtTime(0.0001, warmPadCtx.currentTime, 0.12);
-      }
-    }
-
-    function startWarmChillChime() {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!warmPadCtx) {
-          warmPadCtx = new AudioCtx();
-          const lp = warmPadCtx.createBiquadFilter();
-          lp.type = 'lowpass';
-          lp.frequency.value = 620; // Warm, non-metallic low-pass filter
-          warmPadGain = warmPadCtx.createGain();
-          warmPadGain.gain.value = 0.0001;
-          lp.connect(warmPadGain);
-          warmPadGain.connect(warmPadCtx.destination);
-        }
-        if (warmPadCtx.state === 'suspended') warmPadCtx.resume();
-        warmPadGain.gain.setTargetAtTime(0.06, warmPadCtx.currentTime, 0.15);
-
-        const chillFreqs = [261.63, 329.63, 392.0, 493.88]; // Cmaj7 warm pad
-        let idx = 0;
-        clearInterval(warmPadTimer);
-        warmPadTimer = setInterval(() => {
-          if (!warmPadCtx || !warmPadGain) return;
-          const now = warmPadCtx.currentTime;
-          const osc = warmPadCtx.createOscillator();
-          const noteGain = warmPadCtx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(chillFreqs[idx % chillFreqs.length], now);
-          noteGain.gain.setValueAtTime(0.0001, now);
-          noteGain.gain.linearRampToValueAtTime(0.24, now + 0.25);
-          noteGain.gain.exponentialRampToValueAtTime(0.0008, now + 1.55);
-          osc.connect(noteGain);
-          noteGain.connect(warmPadGain);
-          osc.start(now);
-          osc.stop(now + 1.6);
-          idx++;
-        }, 900);
-      } catch (_) {}
-    }
+    let chillCtx = null;
+    let chillMaster = null;
+    let chillTimer = null;
 
     function stopSpeakingReply() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
+      clearInterval(chillTimer);
+      chillTimer = null;
+      if (chillMaster && chillCtx) {
+        chillMaster.gain.setTargetAtTime(0.0001, chillCtx.currentTime, 0.12);
       }
-      stopWarmPad();
       if (activeAudioBtn) {
         activeAudioBtn.classList.remove('speaking');
-        activeAudioBtn.innerHTML = '<span>🔊</span><span>Warm Audio</span>';
+        activeAudioBtn.innerHTML = '<span>🔊</span><span>Warm Chill</span>';
         activeAudioBtn = null;
       }
-    }
-
-    function pickSoftNonMetallicVoice(langPrefix) {
-      if (!('speechSynthesis' in window)) return null;
-      const voices = window.speechSynthesis.getVoices() || [];
-      if (!voices.length) return null;
-
-      // Avoid robotic/espeak/compact voices when softer/natural voices exist
-      const softPrefs = ['natural', 'aria', 'clara', 'elisa', 'bianca', 'giulia', 'sara', 'sofia', 'emma', 'ava', 'serena', 'google'];
-      const avoid = ['espeak', 'robot', 'whisper'];
-
-      const langPool = voices.filter(v => (v.lang || '').toLowerCase().startsWith(langPrefix));
-      const pool = (langPool.length ? langPool : voices).filter(
-        v => !avoid.some(bad => v.name.toLowerCase().includes(bad))
-      );
-
-      for (const kw of softPrefs) {
-        const match = pool.find(v => v.name.toLowerCase().includes(kw));
-        if (match) return match;
-      }
-      return pool[0] || voices[0];
     }
 
     function speakWarmReply(text, btnEl) {
@@ -3535,30 +3545,64 @@
       btnEl.classList.add('speaking');
       btnEl.innerHTML = '<span>⏹</span><span>Stop</span>';
 
-      startWarmChillChime();
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!chillCtx) {
+          chillCtx = new AudioCtx();
+          const warmFilter = chillCtx.createBiquadFilter();
+          warmFilter.type = 'lowpass';
+          warmFilter.frequency.value = 540; // Deep, warm, non-metallic cutoff
+          chillMaster = chillCtx.createGain();
+          chillMaster.gain.value = 0.0001;
+          warmFilter.connect(chillMaster);
+          chillMaster.connect(chillCtx.destination);
+        }
+        if (chillCtx.state === 'suspended') chillCtx.resume();
+        chillMaster.gain.setTargetAtTime(0.18, chillCtx.currentTime, 0.14);
 
-      if ('speechSynthesis' in window) {
-        const isItalian = /[àèéìòù]|ciao|glacier|versioni|sicuro|velocità|fps/i.test(text);
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.lang = isItalian ? 'it-IT' : 'en-US';
-        utter.rate = 0.88;   // Slow, calm, chill delivery
-        utter.pitch = 0.96;  // Slightly lower pitch reduces harsh/metallic edge
-        utter.volume = 0.85;
+        // Warm syllable cadence shaped to text length
+        const syllableCount = Math.max(5, Math.min(26, Math.round(text.split(/\s+/).length * 1.45)));
+        const warmScale = [196.0, 220.0, 246.94, 261.63, 293.66, 329.63, 293.66, 261.63];
+        let step = 0;
 
-        const voice = pickSoftNonMetallicVoice(isItalian ? 'it' : 'en');
-        if (voice) utter.voice = voice;
+        const playWarmSyllable = () => {
+          if (!chillCtx || !chillMaster || step >= syllableCount) {
+            stopSpeakingReply();
+            return;
+          }
+          const now = chillCtx.currentTime;
+          const baseFreq = warmScale[(step + text.length) % warmScale.length];
 
-        utter.onend = () => stopSpeakingReply();
-        utter.onerror = () => stopSpeakingReply();
+          const osc = chillCtx.createOscillator();
+          const formant = chillCtx.createBiquadFilter();
+          const env = chillCtx.createGain();
 
-        window.speechSynthesis.speak(utter);
-      } else {
-        setTimeout(() => stopSpeakingReply(), 3600);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(baseFreq, now);
+          osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.94, now + 0.24);
+
+          formant.type = 'bandpass';
+          formant.frequency.setValueAtTime(420, now);
+          formant.Q.setValueAtTime(1.1, now);
+
+          env.gain.setValueAtTime(0.0001, now);
+          env.gain.linearRampToValueAtTime(0.55, now + 0.07);
+          env.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
+
+          osc.connect(formant);
+          formant.connect(env);
+          env.connect(chillMaster);
+
+          osc.start(now);
+          osc.stop(now + 0.28);
+          step++;
+        };
+
+        playWarmSyllable();
+        chillTimer = setInterval(playWarmSyllable, 245);
+      } catch (_) {
+        setTimeout(() => stopSpeakingReply(), 2800);
       }
-    }
-
-    if ('speechSynthesis' in window && typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
-      window.speechSynthesis.onvoiceschanged = () => {};
     }
 
     function toggleSnowyChat(forceOpen) {
@@ -3621,8 +3665,8 @@
         const audioBtn = document.createElement('button');
         audioBtn.type = 'button';
         audioBtn.className = 'audio-reply-btn';
-        audioBtn.title = 'Listen with a warm, chill voice';
-        audioBtn.innerHTML = '<span>🔊</span><span>Warm Audio</span>';
+        audioBtn.title = 'Listen with warm chill audio';
+        audioBtn.innerHTML = '<span>🔊</span><span>Warm Chill</span>';
         audioBtn.addEventListener('click', () => speakWarmReply(plainOrHtmlText, audioBtn));
 
         footer.appendChild(audioBtn);
@@ -3646,10 +3690,10 @@
       }
 
       if (/\b(thanks|thank you|thx|cool|nice|awesome|great|grazie)\b/.test(q)) {
-        return "Anytime, friend! Take it chill and let me know if you want to explore anything else.";
+        return "Anytime, friend! Keep it chill and let me know if you want to explore anything else.";
       }
 
-      if (/\b(security|open source|oss|safe|ban|banned|cheat|cheats|hack|anticheat|anti-cheat)\b/.test(q)) {
+      if (/\b(security|open source|oss|safe|ban|banned|cheat|cheats|hack|anticheat|anti-cheat|other)\b/.test(q)) {
         return 'Glacier Client is open source, has zero cheats, is tested against anti-cheats like GrimAC and Vulcan, and never stores your password.';
       }
 
@@ -3694,8 +3738,8 @@
         const audioBtn = document.createElement('button');
         audioBtn.type = 'button';
         audioBtn.className = 'audio-reply-btn';
-        audioBtn.title = 'Listen with a warm, chill voice';
-        audioBtn.innerHTML = '<span>🔊</span><span>Warm Audio</span>';
+        audioBtn.title = 'Listen with warm chill audio';
+        audioBtn.innerHTML = '<span>🔊</span><span>Warm Chill</span>';
         audioBtn.addEventListener('click', () => speakWarmReply(replyText, audioBtn));
 
         footer.appendChild(audioBtn);
