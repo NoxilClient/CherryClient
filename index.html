@@ -353,6 +353,82 @@
       color: var(--text-muted);
     }
 
+    /* Legal Modal (Terms of Service & Privacy Policy) */
+    #legal-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 125;
+      background: rgba(2, 5, 12, 0.82);
+      backdrop-filter: blur(14px);
+      display: none;
+      place-items: center;
+      padding: 20px;
+    }
+
+    #legal-modal.open {
+      display: grid;
+    }
+
+    .legal-dialog {
+      width: min(660px, 94vw);
+      max-height: 82vh;
+      overflow-y: auto;
+      border-radius: 22px;
+      background: linear-gradient(165deg, rgba(13, 26, 44, 0.96), rgba(6, 13, 24, 0.98));
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      box-shadow: 0 32px 90px rgba(0, 0, 0, 0.88), 0 0 50px rgba(56, 189, 248, 0.2);
+      padding: 28px 30px;
+      color: var(--text-main);
+    }
+
+    .legal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(186, 230, 253, 0.12);
+    }
+
+    .legal-header h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--ice-bright);
+    }
+
+    .legal-close {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--ice-bright);
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      font-size: 1.15rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background 0.2s;
+    }
+
+    .legal-close:hover {
+      background: rgba(56, 189, 248, 0.26);
+    }
+
+    .legal-content {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .legal-content h4 {
+      color: #ffffff;
+      font-size: 1rem;
+      margin-top: 4px;
+    }
+
     /* Hero Section */
     .hero {
       padding: 84px 0 64px;
@@ -1603,15 +1679,21 @@
       display: flex;
       gap: 20px;
       align-items: center;
+      flex-wrap: wrap;
     }
 
-    .footer-links a {
+    .footer-links a, .footer-links button {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 0.86rem;
       color: var(--text-muted);
       text-decoration: none;
+      cursor: pointer;
       transition: color 0.2s;
     }
 
-    .footer-links a:hover {
+    .footer-links a:hover, .footer-links button:hover {
       color: var(--ice-bright);
     }
 
@@ -1674,9 +1756,16 @@
         <a href="#simulator" class="cmd-item" onclick="closeCmdPalette()">Open Live Frame-Time Lab <span>#simulator</span></a>
         <a href="#versions" class="cmd-item" onclick="closeCmdPalette()">Supported Versions (1.8.9 / 26.2 / 26.3) <span>#versions</span></a>
         <a href="#faq" class="cmd-item" onclick="closeCmdPalette()">Read Safety, False Positives &amp; FAQ <span>#faq</span></a>
+        <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('terms');">Terms of Service <span>LEGAL</span></button>
+        <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('privacy');">Privacy Policy <span>LEGAL</span></button>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="cmd-item" onclick="closeCmdPalette()">Join Official Discord Server <span>EXTERNAL</span></a>
       </div>
     </div>
+  </div>
+
+  <!-- Terms of Service & Privacy Policy Modal -->
+  <div id="legal-modal" onclick="if(event.target === this) closeLegalModal()">
+    <div class="legal-dialog" id="legal-dialog-body"></div>
   </div>
 
   <!-- Interactive Download Info Toast -->
@@ -1779,10 +1868,9 @@
             <div class="sidebar-item" onclick="filterMods('hud', this)">HUD &amp; Overlay</div>
             <div class="sidebar-item" onclick="filterMods('pvp', this)">PvP Mechanics</div>
             <div class="sidebar-item" onclick="filterMods('visual', this)">Visual &amp; Shaders</div>
-            <div class="sidebar-item" onclick="filterMods('perf', this)">Performance</div>
           </div>
           <div class="sidebar-footer">
-            <span class="active-counter" id="active-mod-counter">Active: 6 / 9</span>
+            <span class="active-counter" id="active-mod-counter">Active: 5 / 7</span>
             <div class="mini-actions">
               <button type="button" class="mini-btn" onclick="setAllMods(true)">Enable All</button>
               <button type="button" class="mini-btn" onclick="setAllMods(false)">Disable All</button>
@@ -1876,22 +1964,6 @@
               </div>
               <span class="mod-desc">Customizable frosted target block outline</span>
             </div>
-
-            <div class="mod-card enabled" data-cat="perf" onclick="toggleModCard(this)">
-              <div class="mod-top">
-                <span class="mod-title">Chunk Optimizer</span>
-                <div class="toggle"></div>
-              </div>
-              <span class="mod-desc">Lock-free multi-core wgpu mesh builder</span>
-            </div>
-
-            <div class="mod-card" data-cat="perf" onclick="toggleModCard(this)">
-              <div class="mod-top">
-                <span class="mod-title">Entity Culling</span>
-                <div class="toggle"></div>
-              </div>
-              <span class="mod-desc">Skip rendering occluded mobs &amp; tile entities</span>
-            </div>
           </div>
         </div>
       </div>
@@ -1926,7 +1998,6 @@
       </div>
 
       <div class="benchmark-card spotlight-card" id="benchmark-box">
-        <!-- Glacier Client -->
         <div class="bench-row glacier">
           <div class="bench-meta">
             <div class="bench-name">
@@ -1940,7 +2011,6 @@
           </div>
         </div>
 
-        <!-- Lunar Client -->
         <div class="bench-row">
           <div class="bench-meta">
             <div class="bench-name">Lunar Client</div>
@@ -1951,7 +2021,6 @@
           </div>
         </div>
 
-        <!-- Sodium -->
         <div class="bench-row">
           <div class="bench-meta">
             <div class="bench-name">Sodium (Fabric)</div>
@@ -1962,7 +2031,6 @@
           </div>
         </div>
 
-        <!-- Minecraft Launcher -->
         <div class="bench-row">
           <div class="bench-meta">
             <div class="bench-name">Minecraft Launcher (Vanilla)</div>
@@ -2199,7 +2267,7 @@
       </div>
     </section>
 
-    <!-- FAQ Section -->
+    <!-- FAQ Section (All Closed by Default on Load) -->
     <section id="faq" class="faq-section reveal">
       <div class="section-title">
         <h2>Frequently Asked Questions</h2>
@@ -2207,7 +2275,7 @@
       </div>
 
       <div class="faq-list">
-        <details class="faq-item" open>
+        <details class="faq-item">
           <summary>Why did a single scanner flag the URL as suspicious or phishing?</summary>
           <div class="faq-answer">
             Automated heuristic scanners occasionally trigger false positives on newly published <code>*.github.io</code> pages or game-related landing pages that reference downloads or Discord links—even when 90+ security vendors report the URL as clean. When a site or release is updated, triggering a fresh re-analysis on VirusTotal and submitting a false-positive review with the vendor resolves outdated heuristic matches.
@@ -2288,6 +2356,8 @@
         <a href="#benchmarks">Benchmarks</a>
         <a href="#simulator">Live Lab</a>
         <a href="#faq">FAQ</a>
+        <button type="button" onclick="openLegalModal('terms')">Terms of Service</button>
+        <button type="button" onclick="openLegalModal('privacy')">Privacy Policy</button>
         <span>Built with Rust &amp; wgpu</span>
       </div>
     </footer>
@@ -2348,6 +2418,51 @@
       if (pngLink) pngLink.href = dataUrl;
       if (appleLink) appleLink.href = dataUrl;
     })();
+
+    // Legal Modal Content (Terms of Service & Privacy Policy)
+    const legalDocs = {
+      terms: `
+        <div class="legal-header">
+          <h3>Terms of Service</h3>
+          <button type="button" class="legal-close" onclick="closeLegalModal()">×</button>
+        </div>
+        <div class="legal-content">
+          <p><strong>Last Updated:</strong> November 2026</p>
+          <h4>1. Acceptance of Terms</h4>
+          <p>By accessing or using Glacier Client and its launcher builds, you agree to use the software solely for lawful gameplay with a legitimate copy of Minecraft.</p>
+          <h4>2. Fair Play &amp; Server Rules</h4>
+          <p>Glacier Client provides performance optimizations and cosmetic/HUD overlays only. You are responsible for complying with individual multiplayer server rules.</p>
+          <h4>3. Disclaimer &amp; Non-Affiliation</h4>
+          <p>Glacier Client is an independent project and is not affiliated with, endorsed by, or associated with Mojang Studios or Microsoft Corporation.</p>
+        </div>
+      `,
+      privacy: `
+        <div class="legal-header">
+          <h3>Privacy Policy</h3>
+          <button type="button" class="legal-close" onclick="closeLegalModal()">×</button>
+        </div>
+        <div class="legal-content">
+          <p><strong>Last Updated:</strong> November 2026</p>
+          <h4>1. Authentication &amp; Credentials</h4>
+          <p>Glacier Client never collects, logs, or stores your Microsoft password. Account authentication uses official Microsoft OAuth flows, and local session tokens stay on your device.</p>
+          <h4>2. Local Configuration</h4>
+          <p>Your module settings, HUD layout, and version profiles are stored locally on your machine unless you choose to export or share them.</p>
+          <h4>3. Website Analytics &amp; Cookies</h4>
+          <p>This static showcase website does not set invasive advertising trackers. For support or privacy inquiries, reach out via our official Discord server.</p>
+        </div>
+      `
+    };
+
+    function openLegalModal(docKey) {
+      const modal = document.getElementById('legal-modal');
+      const body = document.getElementById('legal-dialog-body');
+      body.innerHTML = legalDocs[docKey] || legalDocs.terms;
+      modal.classList.add('open');
+    }
+
+    function closeLegalModal() {
+      document.getElementById('legal-modal').classList.remove('open');
+    }
 
     // 1. Automatic OS Detection + Manual Switcher + Clean Toast Feedback
     let currentOS = 'windows';
@@ -2574,6 +2689,7 @@
       }
       if (e.key === 'Escape') {
         closeCmdPalette();
+        closeLegalModal();
         closeToast();
         return;
       }
