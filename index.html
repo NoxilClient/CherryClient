@@ -7,7 +7,6 @@
   <meta name="description" content="Glacier Client re-engineers Minecraft from the ground up in native Rust: zero Garbage Collector stutters, instant startup, and extreme FPS across 1.8.9, 26.2, and 26.3." />
   <meta name="theme-color" content="#02050c" />
 
-  <!-- Exact Match Favicon (Identical to Site Logo) for Browser Tabs & Search -->
   <link id="favicon-svg" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23102c42'/%3E%3Cstop offset='100%25' stop-color='%23081a28'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='3' y='3' width='58' height='58' rx='16' fill='url(%23bg)' stroke='%23bae6fd' stroke-opacity='0.52' stroke-width='2.5'/%3E%3Cg stroke='%23bae6fd' stroke-width='3.6' stroke-linecap='round'%3E%3Cline x1='32' y1='15' x2='32' y2='49'/%3E%3Cline x1='15' y1='32' x2='49' y2='32'/%3E%3Cline x1='20' y1='20' x2='44' y2='44'/%3E%3Cline x1='44' y1='20' x2='20' y2='44'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='5.2' fill='%2338bdf8'/%3E%3C/svg%3E" />
   <link id="favicon-png" rel="alternate icon" type="image/png" href="" />
   <link id="apple-icon" rel="apple-touch-icon" href="" />
@@ -356,7 +355,7 @@
 
     .nav-links {
       display: flex;
-      gap: 16px;
+      gap: 14px;
       align-items: center;
     }
 
@@ -390,7 +389,7 @@
       color: var(--ice-bright);
     }
 
-    /* Royalty-Free Christmas Ambient Music Pill */
+    /* Cozy Fireside Relaxing Audio Pill */
     .music-pill {
       display: inline-flex;
       align-items: center;
@@ -408,15 +407,15 @@
     }
 
     .music-pill:hover, .music-pill.playing {
-      border-color: var(--ice-sky);
-      background: rgba(125, 211, 252, 0.22);
-      box-shadow: 0 0 20px rgba(125, 211, 252, 0.38);
-      color: #ffffff;
+      border-color: #fb923c;
+      background: rgba(251, 146, 60, 0.16);
+      box-shadow: 0 0 20px rgba(251, 146, 60, 0.28);
+      color: #fed7aa;
     }
 
     .music-vol {
-      width: 54px;
-      accent-color: #7dd3fc;
+      width: 52px;
+      accent-color: #fb923c;
       cursor: pointer;
     }
 
@@ -469,8 +468,8 @@
       box-shadow: 0 0 34px rgba(125, 211, 252, 0.62);
     }
 
-    /* Pixelated Minecraft Snowman Clinging to Right Edge */
-    #snowman-widget {
+    /* Clean Sleek Side-Clinging Frost Wisp (No Blocky Snowman) */
+    #frost-widget {
       position: fixed;
       right: 0;
       bottom: 34px;
@@ -481,80 +480,58 @@
       gap: 10px;
     }
 
-    .snowman-clinger-row {
+    .frost-clinger-row {
       position: relative;
       display: flex;
       align-items: center;
     }
 
-    .snowman-speech {
+    .frost-speech {
       margin-right: 6px;
       background: linear-gradient(135deg, rgba(16, 35, 62, 0.97), rgba(6, 14, 27, 0.99));
-      border: 2px solid rgba(125, 211, 252, 0.72);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 22px rgba(125, 211, 252, 0.34);
+      border: 1px solid rgba(125, 211, 252, 0.68);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 22px rgba(125, 211, 252, 0.3);
       color: #ffffff;
       padding: 8px 13px;
-      border-radius: 10px;
+      border-radius: 999px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
       white-space: nowrap;
       cursor: pointer;
-      animation: clingBubble 2.8s steps(4, end) infinite;
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    .snowman-speech:hover {
-      transform: translateX(-2px);
-    }
-
-    @keyframes clingBubble {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
-    }
-
-    .mc-snowman-btn {
-      width: 78px;
-      height: 104px;
+    .frost-clinger-btn {
+      width: 54px;
+      height: 76px;
       padding: 0;
-      border: none;
-      background: transparent;
+      border: 1px solid rgba(125, 211, 252, 0.55);
+      border-right: none;
+      border-radius: 26px 0 0 26px;
+      background: linear-gradient(160deg, rgba(18, 42, 72, 0.96), rgba(6, 15, 29, 0.98));
+      box-shadow: -8px 10px 26px rgba(0, 0, 0, 0.72), 0 0 24px rgba(125, 211, 252, 0.35);
       cursor: pointer;
-      position: relative;
-      transform: translateX(10px);
-      filter: drop-shadow(-8px 10px 18px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 14px rgba(125, 211, 252, 0.35));
-      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      animation: mcPeek 3.6s ease-in-out infinite;
+      display: grid;
+      place-items: center;
+      transform: translateX(6px);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
     }
 
-    .mc-snowman-btn:hover {
-      transform: translateX(0px) scale(1.05);
+    .frost-clinger-btn:hover {
+      transform: translateX(0px);
+      box-shadow: -10px 12px 30px rgba(0, 0, 0, 0.8), 0 0 34px rgba(125, 211, 252, 0.6);
     }
 
-    @keyframes mcPeek {
-      0%, 100% { transform: translateX(10px) translateY(0px); }
-      50% { transform: translateX(4px) translateY(-5px); }
-    }
-
-    .mc-arm-left {
-      transform-origin: 28px 66px;
-      animation: mcGripWiggle 2.4s steps(3, end) infinite;
-    }
-
-    @keyframes mcGripWiggle {
-      0%, 100% { transform: rotate(0deg); }
-      50% { transform: rotate(-10deg); }
-    }
-
-    /* Pixelated Chat Panel */
-    .snowman-chat-panel {
-      margin-right: 16px;
-      width: min(375px, calc(100vw - 28px));
-      height: 465px;
+    /* Chill Chat Panel */
+    .frost-chat-panel {
+      margin-right: 14px;
+      width: min(370px, calc(100vw - 28px));
+      height: 455px;
       border-radius: 18px;
       background: linear-gradient(165deg, rgba(16, 33, 58, 0.98), rgba(5, 11, 21, 0.99));
-      border: 2px solid rgba(125, 211, 252, 0.65);
-      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.92), 0 0 56px rgba(56, 189, 248, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(125, 211, 252, 0.62);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.92), 0 0 56px rgba(56, 189, 248, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(22px);
       display: none;
       flex-direction: column;
@@ -562,13 +539,13 @@
       animation: popModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .snowman-chat-panel.open {
+    .frost-chat-panel.open {
       display: flex;
     }
 
     .chat-header {
       padding: 13px 16px;
-      background: linear-gradient(90deg, rgba(125, 211, 252, 0.22), rgba(2, 132, 199, 0.14));
+      background: linear-gradient(90deg, rgba(125, 211, 252, 0.2), rgba(2, 132, 199, 0.12));
       border-bottom: 1px solid rgba(186, 230, 253, 0.18);
       display: flex;
       align-items: center;
@@ -583,15 +560,15 @@
     }
 
     .chat-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
       background: rgba(125, 211, 252, 0.16);
-      border: 1px solid rgba(125, 211, 252, 0.55);
+      border: 1px solid rgba(125, 211, 252, 0.5);
       display: grid;
       place-items: center;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 800;
       color: #ffffff;
     }
@@ -660,7 +637,6 @@
       border-bottom-right-radius: 3px;
     }
 
-    /* Smooth Typing Dots Animation */
     .typing-dots {
       display: inline-flex;
       align-items: center;
@@ -671,21 +647,16 @@
     .typing-dots span {
       width: 6px;
       height: 6px;
-      border-radius: 2px;
+      border-radius: 999px;
       background: var(--ice-bright);
-      box-shadow: 0 0 8px rgba(125, 211, 252, 0.8);
-      animation: pixelDotBounce 1.1s infinite ease-in-out;
+      box-shadow: 0 0 8px rgba(125, 211, 252, 0.85);
+      animation: dotBounce 1.1s infinite ease-in-out;
     }
 
-    .typing-dots span:nth-child(2) {
-      animation-delay: 0.18s;
-    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.18s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.36s; }
 
-    .typing-dots span:nth-child(3) {
-      animation-delay: 0.36s;
-    }
-
-    @keyframes pixelDotBounce {
+    @keyframes dotBounce {
       0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
       40% { transform: translateY(-5px); opacity: 1; }
     }
@@ -835,7 +806,7 @@
       color: var(--text-muted);
     }
 
-    /* Legal Modal (Terms of Service & Privacy Policy) */
+    /* Legal Modal */
     #legal-modal {
       position: fixed;
       inset: 0;
@@ -1086,7 +1057,6 @@
       flex-wrap: wrap;
     }
 
-    /* Shimmering Primary Button */
     .btn-primary {
       position: relative;
       overflow: hidden;
@@ -1184,7 +1154,7 @@
       color: #ffffff;
     }
 
-    /* Toast Notification for Early Access Build */
+    /* Toast Notification */
     #toast-notice {
       position: fixed;
       bottom: 24px;
@@ -1439,7 +1409,6 @@
       box-shadow: 0 0 20px rgba(125, 211, 252, 0.4);
     }
 
-    /* Interactive Live In-Game HUD Bar inside Preview */
     .live-hud-bar {
       margin-bottom: 16px;
       padding: 12px 16px;
@@ -1594,7 +1563,6 @@
       left: 18px;
     }
 
-    /* Spotlight Hover Effect for Cards */
     .spotlight-card {
       position: relative;
       overflow: hidden;
@@ -1629,7 +1597,6 @@
       pointer-events: none;
     }
 
-    /* Stats Strip */
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1670,7 +1637,6 @@
       margin-top: 5px;
     }
 
-    /* Section Headings */
     .section-title {
       text-align: center;
       margin-bottom: 48px;
@@ -1692,7 +1658,6 @@
       margin: 0 auto;
     }
 
-    /* Performance Benchmarks Section + Hardware Tier Selector */
     .benchmark-section {
       max-width: 920px;
       margin: 0 auto 104px;
@@ -1808,14 +1773,8 @@
       transition: width 1.1s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .bench-fill.sodium {
-      background: rgba(125, 211, 252, 0.42);
-    }
-
-    .bench-fill.lunar {
-      background: rgba(56, 189, 248, 0.54);
-    }
-
+    .bench-fill.sodium { background: rgba(125, 211, 252, 0.42); }
+    .bench-fill.lunar { background: rgba(56, 189, 248, 0.54); }
     .bench-fill.glacier {
       background: linear-gradient(90deg, #0284c7, #38bdf8, #bae6fd, #ffffff);
       box-shadow: 0 0 28px rgba(125, 211, 252, 0.95);
@@ -1833,7 +1792,6 @@
       color: var(--text-muted);
     }
 
-    /* Live Frame-Time & Telemetry Simulator Section */
     .simulator-section {
       max-width: 980px;
       margin: 0 auto 104px;
@@ -1957,7 +1915,6 @@
       display: block;
     }
 
-    /* Multi-Version Support Section */
     .versions-section {
       margin-bottom: 104px;
     }
@@ -2042,7 +1999,6 @@
       color: var(--text-muted);
     }
 
-    /* Features Grid */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -2089,7 +2045,6 @@
       font-size: 0.92rem;
     }
 
-    /* Rust vs Java Architecture Comparison Table */
     .arch-section {
       max-width: 960px;
       margin: 0 auto 104px;
@@ -2146,7 +2101,6 @@
       color: var(--text-muted);
     }
 
-    /* Roadmap Section */
     .roadmap-section {
       margin-bottom: 104px;
     }
@@ -2197,7 +2151,6 @@
       color: var(--text-muted);
     }
 
-    /* FAQ Section */
     .faq-section {
       max-width: 820px;
       margin: 0 auto 104px;
@@ -2269,7 +2222,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Download & Community CTA */
     .cta-box {
       padding: 64px 34px;
       border-radius: 28px;
@@ -2366,12 +2318,8 @@
         padding: 14px 14px;
         font-size: 0.84rem;
       }
-      .snowman-speech {
+      .frost-speech {
         display: none;
-      }
-      .mc-snowman-btn {
-        width: 64px;
-        height: 86px;
       }
     }
   </style>
@@ -2408,89 +2356,47 @@
   <!-- Snowfall + Constellations + Ice Crystals + Frost Ripples Canvas -->
   <canvas id="snow-canvas"></canvas>
 
-  <!-- Minecraft Pixel Snowman Clinging to Right Edge + Chill English Chat -->
-  <div id="snowman-widget">
-    <div class="snowman-chat-panel" id="snowman-chat-panel" role="dialog" aria-label="Chat with Frosty the Minecraft Snowman">
+  <!-- Sleek Side-Clinging Frost Companion + Chill English Chat -->
+  <div id="frost-widget">
+    <div class="frost-chat-panel" id="frost-chat-panel" role="dialog" aria-label="Calm English chat with Glacier guide">
       <div class="chat-header">
         <div class="chat-identity">
-          <div class="chat-avatar">MC</div>
+          <div class="chat-avatar">✦</div>
           <div>
-            <div class="chat-title">Frosty • Chill Glacier Guide</div>
+            <div class="chat-title">Glacier • Calm Guide</div>
             <div class="chat-status">RELAXED • ENGLISH CHAT</div>
           </div>
         </div>
-        <button type="button" class="chat-close" onclick="toggleSnowmanChat(false)" aria-label="Close chat">×</button>
+        <button type="button" class="chat-close" onclick="toggleFrostChat(false)" aria-label="Close chat">×</button>
       </div>
 
       <div class="chat-messages" id="chat-messages">
         <div class="msg bot">
-          Hey there, take a deep breath... ❄️ I'm <strong>Frosty</strong>. Ask me anything about <strong>Glacier Client</strong> in English—no rush at all.
+          Sit back, breathe easy... ✨ Ask me anything about <strong>Glacier Client</strong> in English at your own pace.
         </div>
       </div>
 
       <div class="chat-quick-prompts">
-        <button type="button" class="quick-chip" onclick="askPreset('Why is Glacier so smooth in Rust?')">✨ Smooth Rust FPS</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Why is Glacier so smooth in Rust?')">✨ Rust smoothness</button>
         <button type="button" class="quick-chip" onclick="askPreset('Which Minecraft versions are supported?')">🧊 Versions</button>
         <button type="button" class="quick-chip" onclick="askPreset('Is it safe and anti-cheat friendly?')">🛡️ Safety</button>
         <button type="button" class="quick-chip" onclick="askPreset('When is macOS coming?')">🌙 macOS</button>
       </div>
 
       <form class="chat-form" onsubmit="handleChatSubmit(event)">
-        <input type="text" id="chat-input" class="chat-input" placeholder="Ask anything calmly in English..." autocomplete="off" required />
+        <input type="text" id="chat-input" class="chat-input" placeholder="Ask calmly in English..." autocomplete="off" required />
         <button type="submit" class="chat-send">Send</button>
       </form>
     </div>
 
-    <div class="snowman-clinger-row">
-      <button type="button" class="snowman-speech" id="snowman-speech" onclick="toggleSnowmanChat(true)">
-        Psst... chat with me 🧊
+    <div class="frost-clinger-row">
+      <button type="button" class="frost-speech" id="frost-speech" onclick="toggleFrostChat(true)">
+        Chill chat ✦
       </button>
-      <button type="button" class="mc-snowman-btn" onclick="toggleSnowmanChat()" aria-label="Open Minecraft snowman chat">
-        <!-- Pixelated Minecraft-style Snow Golem / Snowman clinging to right edge -->
-        <svg viewBox="0 0 80 104" width="100%" height="100%" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
-          <!-- Left stick arm gripping the edge -->
-          <g class="mc-arm-left">
-            <rect x="6" y="54" width="16" height="6" fill="#78350f"/>
-            <rect x="2" y="48" width="6" height="6" fill="#92400e"/>
-            <rect x="2" y="60" width="6" height="6" fill="#92400e"/>
-          </g>
-
-          <!-- Bottom snow block body -->
-          <rect x="22" y="68" width="38" height="30" fill="#e2e8f0"/>
-          <rect x="22" y="68" width="32" height="26" fill="#f8fafc"/>
-          <rect x="26" y="72" width="6" height="6" fill="#ffffff"/>
-          <!-- Coal buttons -->
-          <rect x="37" y="76" width="6" height="6" fill="#0f172a"/>
-          <rect x="37" y="86" width="6" height="6" fill="#0f172a"/>
-
-          <!-- Pixel sky-blue scarf -->
-          <rect x="20" y="60" width="40" height="8" fill="#0284c7"/>
-          <rect x="20" y="60" width="34" height="5" fill="#38bdf8"/>
-          <rect x="26" y="68" width="8" height="10" fill="#0ea5e9"/>
-          <rect x="26" y="68" width="5" height="8" fill="#7dd3fc"/>
-
-          <!-- Minecraft Block Head -->
-          <rect x="22" y="24" width="38" height="36" fill="#cbd5e1"/>
-          <rect x="22" y="24" width="32" height="32" fill="#ffffff"/>
-
-          <!-- Pixel Eyes -->
-          <rect x="30" y="34" width="6" height="6" fill="#0f172a"/>
-          <rect x="46" y="34" width="6" height="6" fill="#0f172a"/>
-          <rect x="30" y="34" width="2" height="2" fill="#7dd3fc"/>
-          <rect x="46" y="34" width="2" height="2" fill="#7dd3fc"/>
-
-          <!-- Pixel Carrot Nose -->
-          <rect x="38" y="40" width="8" height="5" fill="#f97316"/>
-          <rect x="46" y="41" width="5" height="3" fill="#fb923c"/>
-
-          <!-- Calm little pixel mouth -->
-          <rect x="34" y="48" width="12" height="3" fill="#1e293b"/>
-
-          <!-- Pixel Arctic Beanie -->
-          <rect x="20" y="14" width="40" height="10" fill="#0369a1"/>
-          <rect x="20" y="14" width="34" height="7" fill="#38bdf8"/>
-          <rect x="20" y="22" width="40" height="4" fill="#bae6fd"/>
-          <rect x="35" y="6" width="10" height="8" fill="#e0f2fe"/>
+      <button type="button" class="frost-clinger-btn" onclick="toggleFrostChat()" aria-label="Open calm English chat">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#bae6fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
+          <circle cx="12" cy="12" r="2.8" fill="#7dd3fc" stroke="none"/>
         </svg>
       </button>
     </div>
@@ -2531,6 +2437,11 @@
     </a>
   </div>
 
+  <!-- Royalty-Free Audio Element for Warm Fireplace & Relaxing Piano/Acoustic Loop -->
+  <audio id="fireplace-audio" loop preload="none" crossorigin="anonymous">
+    <source src="https://cdn.pixabay.com/download/audio/2022/11/22/audio_febc508520.mp3?filename=fireplace-with-crackling-fire-sounds-126619.mp3" type="audio/mpeg" />
+  </audio>
+
   <header>
     <div class="container nav-inner">
       <a href="#" class="brand">
@@ -2548,10 +2459,10 @@
         <a href="#versions">Versions</a>
         <a href="#features">Features</a>
         <a href="#faq">FAQ</a>
-        <button type="button" class="music-pill" id="music-toggle-btn" onclick="toggleChristmasMusic()" title="Royalty-Free Winter Chime Music">
-          <span id="music-icon">🎄</span>
-          <span id="music-label">Xmas Ambient: OFF</span>
-          <input type="range" id="music-vol" class="music-vol" min="0" max="1" step="0.05" value="0.35" onclick="event.stopPropagation()" oninput="setMusicVolume(this.value)" title="Volume" />
+        <button type="button" class="music-pill" id="music-toggle-btn" onclick="toggleFireplaceRelax()" title="Relaxing Fireplace & Soft Chords (Royalty-Free)">
+          <span>🔥</span>
+          <span id="music-label">Fireplace: OFF</span>
+          <input type="range" id="music-vol" class="music-vol" min="0" max="1" step="0.05" value="0.45" onclick="event.stopPropagation()" oninput="setRelaxVolume(this.value)" title="Volume" />
         </button>
         <button type="button" class="cmd-trigger" onclick="openCmdPalette()" title="Quick Navigation">Ctrl K</button>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="nav-discord">
@@ -2645,7 +2556,6 @@
             </div>
           </div>
 
-          <!-- Live Interactive In-Game HUD Preview Bar -->
           <div class="live-hud-bar">
             <div class="hud-badges-wrap">
               <span class="hud-chip" id="hud-chip-fps">550 FPS</span>
@@ -2738,7 +2648,6 @@
       </div>
     </section>
 
-    <!-- Performance Benchmarks Section with Hardware Tier Selector -->
     <section id="benchmarks" class="benchmark-section reveal">
       <div class="section-title">
         <h2>Performance Benchmarks</h2>
@@ -2802,7 +2711,6 @@
       </div>
     </section>
 
-    <!-- Interactive Live Frame-Time & Telemetry Simulator -->
     <section id="simulator" class="simulator-section reveal">
       <div class="section-title">
         <h2>Live Frame-Time Lab</h2>
@@ -2845,7 +2753,6 @@
       </div>
     </section>
 
-    <!-- Multi-Version Support Section -->
     <section id="versions" class="versions-section reveal">
       <div class="section-title">
         <h2>Multi-Version Architecture</h2>
@@ -2945,7 +2852,6 @@
       </div>
     </section>
 
-    <!-- Rust vs Java Architecture Comparison -->
     <section class="arch-section reveal">
       <div class="section-title">
         <h2>Why Native Rust Wins</h2>
@@ -2987,7 +2893,6 @@
       </div>
     </section>
 
-    <!-- Development Roadmap -->
     <section id="roadmap" class="roadmap-section reveal">
       <div class="section-title">
         <h2>Development Roadmap</h2>
@@ -3021,7 +2926,6 @@
       </div>
     </section>
 
-    <!-- FAQ Section (All Closed by Default on Load) -->
     <section id="faq" class="faq-section reveal">
       <div class="section-title">
         <h2>Frequently Asked Questions</h2>
@@ -3118,109 +3022,95 @@
   </main>
 
   <script>
-    // Cinematic Splash Auto-Dismiss
     function dismissSplash() {
       const splash = document.getElementById('intro-splash');
       if (splash) splash.classList.add('hide');
     }
     setTimeout(dismissSplash, 850);
 
-    // Royalty-Free Ambient Christmas Music Synth (Web Audio API - Zero Copyright)
-    let audioCtx = null;
-    let masterGain = null;
-    let musicPlaying = false;
-    let musicTimer = null;
-    let stepIndex = 0;
+    // Warm Fireplace Crackling Audio + Soft Warm Pad Fallback
+    const fireAudio = document.getElementById('fireplace-audio');
+    let relaxPlaying = false;
+    let fallbackCtx = null;
+    let fallbackGain = null;
 
-    // Gentle winter chime sequence (frequencies in Hz)
-    const chimeNotes = [
-      392.00, 523.25, 659.25, 587.33,
-      523.25, 440.00, 392.00, 493.88,
-      523.25, 659.25, 783.99, 659.25,
-      587.33, 523.25, 493.88, 392.00
-    ];
-
-    function initAudioEngine() {
-      if (!audioCtx) {
-        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContextClass();
-        masterGain = audioCtx.createGain();
-        masterGain.gain.value = parseFloat(document.getElementById('music-vol').value || '0.35') * 0.22;
-        masterGain.connect(audioCtx.destination);
+    function startWarmFallback() {
+      if (fallbackCtx) {
+        if (fallbackCtx.state === 'suspended') fallbackCtx.resume();
+        if (fallbackGain) fallbackGain.gain.setTargetAtTime(0.08, fallbackCtx.currentTime, 0.2);
+        return;
       }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      fallbackCtx = new AudioCtx();
+      fallbackGain = fallbackCtx.createGain();
+      fallbackGain.gain.value = 0.08;
+
+      // Filtered warm pink-ish noise for soft hearth warmth
+      const bufferSize = fallbackCtx.sampleRate * 2;
+      const noiseBuffer = fallbackCtx.createBuffer(1, bufferSize, fallbackCtx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      let b0 = 0, b1 = 0, b2 = 0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.99765 * b0 + white * 0.0990460;
+        b1 = 0.96300 * b1 + white * 0.2965164;
+        b2 = 0.57000 * b2 + white * 1.0526913;
+        output[i] = (b0 + b1 + b2 + white * 0.1848) * 0.04;
+      }
+
+      const whiteNoise = fallbackCtx.createBufferSource();
+      whiteNoise.buffer = noiseBuffer;
+      whiteNoise.loop = true;
+
+      const filter = fallbackCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 340;
+
+      whiteNoise.connect(filter);
+      filter.connect(fallbackGain);
+      fallbackGain.connect(fallbackCtx.destination);
+      whiteNoise.start(0);
+    }
+
+    function stopWarmFallback() {
+      if (fallbackGain && fallbackCtx) {
+        fallbackGain.gain.setTargetAtTime(0.0001, fallbackCtx.currentTime, 0.15);
       }
     }
 
-    function playSoftChime(freq) {
-      if (!audioCtx || !masterGain || !musicPlaying) return;
-      const now = audioCtx.currentTime;
-
-      const osc = audioCtx.createOscillator();
-      const sub = audioCtx.createOscillator();
-      const noteGain = audioCtx.createGain();
-
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq, now);
-
-      sub.type = 'triangle';
-      sub.frequency.setValueAtTime(freq * 0.5, now);
-
-      const subGain = audioCtx.createGain();
-      subGain.gain.value = 0.22;
-
-      noteGain.gain.setValueAtTime(0.0001, now);
-      noteGain.gain.exponentialRampToValueAtTime(0.45, now + 0.08);
-      noteGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.45);
-
-      osc.connect(noteGain);
-      sub.connect(subGain);
-      subGain.connect(noteGain);
-      noteGain.connect(masterGain);
-
-      osc.start(now);
-      sub.start(now);
-      osc.stop(now + 1.5);
-      sub.stop(now + 1.5);
-    }
-
-    function toggleChristmasMusic() {
-      initAudioEngine();
-      musicPlaying = !musicPlaying;
-
+    function toggleFireplaceRelax() {
       const btn = document.getElementById('music-toggle-btn');
       const label = document.getElementById('music-label');
-      btn.classList.toggle('playing', musicPlaying);
+      const vol = parseFloat(document.getElementById('music-vol').value || '0.45');
 
-      if (musicPlaying) {
-        label.textContent = 'Xmas Ambient: ON';
-        playSoftChime(chimeNotes[stepIndex % chimeNotes.length]);
-        stepIndex++;
-        musicTimer = setInterval(() => {
-          playSoftChime(chimeNotes[stepIndex % chimeNotes.length]);
-          stepIndex++;
-        }, 720);
+      relaxPlaying = !relaxPlaying;
+      btn.classList.toggle('playing', relaxPlaying);
+
+      if (relaxPlaying) {
+        label.textContent = 'Fireplace: ON';
+        fireAudio.volume = vol;
+        fireAudio.play().catch(() => {
+          startWarmFallback();
+        });
       } else {
-        label.textContent = 'Xmas Ambient: OFF';
-        if (musicTimer) {
-          clearInterval(musicTimer);
-          musicTimer = null;
-        }
+        label.textContent = 'Fireplace: OFF';
+        fireAudio.pause();
+        stopWarmFallback();
       }
     }
 
-    function setMusicVolume(val) {
-      const vol = parseFloat(val);
-      if (masterGain && audioCtx) {
-        masterGain.gain.setTargetAtTime(vol * 0.22, audioCtx.currentTime, 0.04);
+    function setRelaxVolume(val) {
+      const v = parseFloat(val);
+      fireAudio.volume = v;
+      if (fallbackGain && fallbackCtx) {
+        fallbackGain.gain.setTargetAtTime(v * 0.14, fallbackCtx.currentTime, 0.05);
       }
     }
 
-    // Minecraft Snowman Chat Logic (Relaxing English + Animated Typing Dots)
-    function toggleSnowmanChat(forceOpen) {
-      const panel = document.getElementById('snowman-chat-panel');
-      const speech = document.getElementById('snowman-speech');
+    // Calm Side Companion Chat (Relaxing English + Animated Typing Dots)
+    function toggleFrostChat(forceOpen) {
+      const panel = document.getElementById('frost-chat-panel');
+      const speech = document.getElementById('frost-speech');
       const willOpen = typeof forceOpen === 'boolean' ? forceOpen : !panel.classList.contains('open');
       panel.classList.toggle('open', willOpen);
       if (willOpen) {
@@ -3246,32 +3136,25 @@
 
     function getChillEnglishReply(rawQuestion) {
       const q = rawQuestion.toLowerCase();
-
       if (q.includes('fps') || q.includes('rust') || q.includes('smooth') || q.includes('gc') || q.includes('lag') || q.includes('fast')) {
-        return 'Take it easy... ❄️ Glacier is built in <strong>native Rust</strong> with <strong>wgpu</strong>, so there are <strong>0 ms Garbage Collector pauses</strong> and calm, steady frame pacing up to <strong>5.5x</strong> over vanilla.';
+        return 'Take it easy... ✨ Glacier is built in <strong>native Rust</strong> with <strong>wgpu</strong>, giving <strong>0 ms Garbage Collector pauses</strong> and calm, steady FPS up to <strong>5.5x</strong> over vanilla.';
       }
       if (q.includes('version') || q.includes('1.8') || q.includes('26.2') || q.includes('26.3')) {
-        return 'Nice and simple: Glacier supports <strong>1.8.9</strong> for relaxed PvP or duels, plus <strong>26.2</strong> and <strong>26.3</strong> all in one clean launcher. 🧊';
+        return 'Nice and simple: Glacier supports <strong>1.8.9</strong> for relaxed PvP or duels, plus <strong>26.2</strong> and <strong>26.3</strong> in one clean launcher. 🧊';
       }
       if (q.includes('safe') || q.includes('ban') || q.includes('cheat') || q.includes('anti-cheat') || q.includes('open source')) {
-        return 'You can relax knowing Glacier has zero cheats or unfair mods—just clean performance and HUD parity, using official <strong>Microsoft OAuth</strong> with no password storage. 🛡️';
+        return 'You can unwind knowing Glacier has zero cheats—only smooth performance and HUD parity, using official <strong>Microsoft OAuth</strong> with no password storage. 🛡️';
       }
       if (q.includes('mac') || q.includes('linux') || q.includes('windows') || q.includes('download')) {
-        return '<strong>Windows</strong> and <strong>Linux</strong> builds are out now via Discord, while native <strong>macOS</strong> (Metal) is gently on the way in our roadmap. ❄️';
+        return '<strong>Windows</strong> and <strong>Linux</strong> builds are available via Discord, while native <strong>macOS</strong> (Metal) is gently on our roadmap. ❄️';
       }
-      if (q.includes('music') || q.includes('christmas') || q.includes('chill') || q.includes('relax')) {
-        return 'Slow down and enjoy the snowfall... 🎄 You can toggle the gentle no-copyright winter chimes right in the top bar anytime you want to unwind.';
-      }
-      if (q.includes('privacy') || q.includes('data') || q.includes('account') || q.includes('sell')) {
-        return 'Your data is never sold to other companies, your preferences stay local, and you only need a genuine <strong>Minecraft: Java Edition</strong> account. ✨';
-      }
-      return 'No rush at all... ❄️ Glacier Client keeps things calm and fast with <strong>Rust</strong>, clean HUDs, and <strong>1.8.9 / 26.2 / 26.3</strong> support. Feel free to ask another question whenever you feel like it.';
+      return 'No rush at all... ✨ Glacier Client keeps things calm and fast with <strong>Rust</strong>, clean HUDs, and <strong>1.8.9 / 26.2 / 26.3</strong> support. Ask whatever you like.';
     }
 
     function sendUserQuestion(questionText) {
       const clean = questionText.trim();
       if (!clean) return;
-      toggleSnowmanChat(true);
+      toggleFrostChat(true);
       appendChatMsg(clean.replace(/</g, '&lt;').replace(/>/g, '&gt;'), 'user');
 
       const typingBubble = appendChatMsg(
@@ -3298,7 +3181,7 @@
       sendUserQuestion(val);
     }
 
-    // 0. Generate 192x192 PNG Favicon & Apple Touch Icon matching the exact Site Logo
+    // Generate 192x192 PNG Favicon
     (function generateExactPngFavicon() {
       const c = document.createElement('canvas');
       c.width = 192;
@@ -3353,7 +3236,6 @@
       if (appleLink) appleLink.href = dataUrl;
     })();
 
-    // Detailed Legal Modal Content (Terms of Service & Privacy Policy)
     const legalDocs = {
       terms: `
         <div class="legal-switcher">
@@ -3372,37 +3254,19 @@
           <div class="legal-highlight">
             <strong>Open &amp; Transparent:</strong> Glacier Client is an open-source performance &amp; HUD client built in Rust. Simply respect the project's license, own Minecraft legally, and follow server rules when playing online.
           </div>
-
           <h4>1. Acceptance &amp; Scope of Agreement</h4>
-          <p>
-            By accessing this website or using <strong>Glacier Client</strong> and the Glacier Launcher (collectively, the <strong>"Services"</strong>), you agree to these Terms of Service. If you do not agree with any part of these terms, please discontinue use of the Services.
-          </p>
-
+          <p>By accessing this website or using <strong>Glacier Client</strong> and the Glacier Launcher, you agree to these Terms of Service.</p>
           <h4>2. Open-Source License Compliance</h4>
-          <p>
-            Because Glacier Client is an open-source project, you are welcome to explore, inspect, build upon, and share in accordance with the project's license. Whenever you use, modify, or redistribute code or materials from Glacier Client, you must respect and comply with the terms of that license.
-          </p>
-
+          <p>You may inspect, build upon, and share in accordance with Glacier Client's open-source license terms.</p>
           <h4>3. Legitimate Account &amp; Ownership Requirement</h4>
-          <p>
-            Glacier Client is intended for players who legitimately own <strong>Minecraft: Java Edition</strong> and sign in via official Microsoft authentication. We do not support cracked accounts, pirated game files, or unauthorized access.
-          </p>
-
+          <p>Intended for players who legitimately own <strong>Minecraft: Java Edition</strong> and sign in via official Microsoft authentication.</p>
           <h4>4. Fair Play &amp; Multiplayer Responsibility</h4>
           <ul>
-            <li><strong>Performance &amp; HUD Focus:</strong> Glacier Client focuses on native Rust performance, rendering speed, and clean HUD overlays rather than unfair gameplay exploits.</li>
-            <li><strong>Server Rules:</strong> Every multiplayer server sets its own rules regarding client modifications and HUD elements. You are responsible for checking and following the rules of any server you join.</li>
+            <li><strong>Performance &amp; HUD Focus:</strong> Focuses on native Rust speed and clean HUD overlays.</li>
+            <li><strong>Server Rules:</strong> Always follow the rules of any multiplayer server you join.</li>
           </ul>
-
-          <h4>5. Versions, Beta Builds &amp; Updates</h4>
-          <p>
-            Support for versions such as <strong>1.8.9</strong>, <strong>26.2</strong>, and <strong>26.3</strong>, as well as experimental features, may evolve continuously during development. Builds may include experimental code or occasional bugs.
-          </p>
-
-          <h4>6. Non-Affiliation &amp; Disclaimer</h4>
-          <p>
-            <strong>Glacier Client is an independent project and is NOT affiliated with, endorsed by, or associated with Mojang Studios or Microsoft Corporation.</strong> The Services are provided <strong>"AS IS"</strong> without warranties of any kind, and the authors are not liable for indirect damages, local configuration issues, or server-side actions.
-          </p>
+          <h4>5. Non-Affiliation &amp; Disclaimer</h4>
+          <p><strong>Glacier Client is NOT affiliated with Mojang Studios or Microsoft Corporation</strong> and is provided <strong>"AS IS"</strong>.</p>
         </div>
       `,
       privacy: `
@@ -3420,35 +3284,15 @@
         </div>
         <div class="legal-content">
           <div class="legal-highlight">
-            <strong>We Do Not Sell Your Data:</strong> Glacier Client <strong>never sells</strong>, rents, trades, or monetizes your personal data, preferences, or information to other companies, data brokers, or third parties.
+            <strong>We Do Not Sell Your Data:</strong> Glacier Client <strong>never sells</strong>, rents, or trades your data to other companies.
           </div>
-
-          <h4>1. Our Privacy Promise (Zero Sale to Other Companies)</h4>
-          <p>
-            Your privacy matters. We explicitly guarantee that <strong>we do not sell your data to other companies</strong>. We do not sell user information to third-party advertisers, analytics resellers, or external commercial organizations under any circumstances.
-          </p>
-
+          <h4>1. Zero Sale to Other Companies</h4>
+          <p>We never sell user information to third-party advertisers, data brokers, or external organizations.</p>
           <h4>2. Microsoft OAuth &amp; Local Credentials</h4>
           <ul>
-            <li><strong>No Password Collection:</strong> Authentication uses official Microsoft OAuth endpoints. Glacier Client never collects, reads, or stores your Microsoft password.</li>
-            <li><strong>Local Storage:</strong> Session tokens and account profiles stay stored locally on your machine to launch the game.</li>
+            <li><strong>No Password Collection:</strong> Authentication uses official Microsoft OAuth endpoints.</li>
+            <li><strong>Local Storage:</strong> Session tokens and settings remain on your device.</li>
           </ul>
-
-          <h4>3. Local Settings &amp; Minimal Technical Data</h4>
-          <ul>
-            <li><strong>Client Configuration:</strong> Your module toggles, HUD layout, keybinds, and profiles are saved locally on your device.</li>
-            <li><strong>Network &amp; Diagnostics:</strong> Standard connection details (such as IP address when making network/server requests, OS/build version, or optional error reports) are only used to deliver updates, connect to servers you choose, or troubleshoot technical issues—never sold to other companies.</li>
-          </ul>
-
-          <h4>4. External Links &amp; Community Platforms</h4>
-          <p>
-            Links to external platforms (such as Discord or GitHub) or multiplayer servers you connect to are governed by their own respective privacy policies.
-          </p>
-
-          <h4>5. Your Control &amp; Contact</h4>
-          <p>
-            You keep full control over your local files and settings on your device, and you can delete them anytime. If you have questions about privacy or want to reach out, join our official Discord community.
-          </p>
         </div>
       `
     };
@@ -3465,35 +3309,18 @@
       document.getElementById('legal-modal').classList.remove('open');
     }
 
-    // 1. Automatic OS Detection + Manual Switcher + Clean Toast Feedback
     let currentOS = 'windows';
     const downloadLinks = {
-      windows: {
-        label: 'Download for Windows',
-        osName: 'Windows',
-        disabled: false
-      },
-      linux: {
-        label: 'Download for Linux',
-        osName: 'Linux',
-        disabled: false
-      },
-      mac: {
-        label: 'macOS is in development',
-        osName: 'macOS',
-        disabled: true
-      }
+      windows: { label: 'Download for Windows', osName: 'Windows', disabled: false },
+      linux: { label: 'Download for Linux', osName: 'Linux', disabled: false },
+      mac: { label: 'macOS is in development', osName: 'macOS', disabled: true }
     };
 
     function detectOS() {
       const ua = navigator.userAgent.toLowerCase();
       const platform = (navigator.platform || '').toLowerCase();
-      if (platform.includes('mac') || ua.includes('mac os') || ua.includes('macintosh')) {
-        return 'mac';
-      }
-      if (platform.includes('linux') || ua.includes('linux')) {
-        return 'linux';
-      }
+      if (platform.includes('mac') || ua.includes('mac os') || ua.includes('macintosh')) return 'mac';
+      if (platform.includes('linux') || ua.includes('linux')) return 'linux';
       return 'windows';
     }
 
@@ -3536,7 +3363,6 @@
 
     setOS(detectOS());
 
-    // 2. Command Palette (Ctrl+K / /)
     function openCmdPalette() {
       const modal = document.getElementById('cmd-modal');
       const input = document.getElementById('cmd-input');
@@ -3557,29 +3383,10 @@
       });
     }
 
-    // 3. Hardware Tier Benchmark Switcher
     const hwTiers = {
-      laptop: {
-        glacier: 260,
-        lunar: 110,
-        sodium: 95,
-        vanilla: 45,
-        label: 'Test setup: 1080p • Integrated Graphics • 12 Chunks'
-      },
-      mid: {
-        glacier: 550,
-        lunar: 250,
-        sodium: 200,
-        vanilla: 100,
-        label: 'Test setup: 1080p • 16 Chunks Render Distance • Fancy Graphics'
-      },
-      high: {
-        glacier: 1180,
-        lunar: 510,
-        sodium: 430,
-        vanilla: 210,
-        label: 'Test setup: 1440p • RTX / Ryzen • 24 Chunks Render Distance'
-      }
+      laptop: { glacier: 260, lunar: 110, sodium: 95, vanilla: 45, label: 'Test setup: 1080p • Integrated Graphics • 12 Chunks' },
+      mid: { glacier: 550, lunar: 250, sodium: 200, vanilla: 100, label: 'Test setup: 1080p • 16 Chunks Render Distance • Fancy Graphics' },
+      high: { glacier: 1180, lunar: 510, sodium: 430, vanilla: 210, label: 'Test setup: 1440p • RTX / Ryzen • 24 Chunks Render Distance' }
     };
 
     function setHardwareTier(tierKey, btn) {
@@ -3587,14 +3394,12 @@
       btn.classList.add('active');
       const tier = hwTiers[tierKey] || hwTiers.mid;
       document.getElementById('bench-setup-label').textContent = tier.label;
-
       document.getElementById('fps-glacier').textContent = tier.glacier;
       document.getElementById('fps-lunar').textContent = tier.lunar;
       document.getElementById('fps-sodium').textContent = tier.sodium;
       document.getElementById('fps-vanilla').textContent = tier.vanilla;
     }
 
-    // 4. Interactive Preview Sidebar, Search, Toggle & Live In-Game HUD Sync
     let currentCategory = 'all';
     let currentSearch = '';
     let clickTimestamps = [];
@@ -3603,13 +3408,8 @@
       const cards = document.querySelectorAll('.mod-card');
       cards.forEach(card => {
         const matchesCat = currentCategory === 'all' || card.dataset.cat === currentCategory;
-        const text = card.textContent.toLowerCase();
-        const matchesSearch = text.includes(currentSearch);
-        if (matchesCat && matchesSearch) {
-          card.classList.remove('hidden-mod');
-        } else {
-          card.classList.add('hidden-mod');
-        }
+        const matchesSearch = card.textContent.toLowerCase().includes(currentSearch);
+        card.classList.toggle('hidden-mod', !(matchesCat && matchesSearch));
       });
     }
 
@@ -3629,9 +3429,7 @@
     function syncHudChips() {
       document.querySelectorAll('.mod-card[data-hud]').forEach(card => {
         const chip = document.getElementById(card.dataset.hud);
-        if (chip) {
-          chip.classList.toggle('off', !card.classList.contains('enabled'));
-        }
+        if (chip) chip.classList.toggle('off', !card.classList.contains('enabled'));
       });
     }
 
@@ -3648,9 +3446,7 @@
     }
 
     function setAllMods(state) {
-      document.querySelectorAll('.mod-card').forEach(card => {
-        card.classList.toggle('enabled', state);
-      });
+      document.querySelectorAll('.mod-card').forEach(card => card.classList.toggle('enabled', state));
       updateActiveCounter();
     }
 
@@ -3693,7 +3489,7 @@
         closeLegalModal();
         closeToast();
         dismissSplash();
-        toggleSnowmanChat(false);
+        toggleFrostChat(false);
         return;
       }
       if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
@@ -3702,18 +3498,15 @@
         openCmdPalette();
         return;
       }
-      const k = e.key.toLowerCase();
-      const box = document.querySelector(`.k-box[data-key="${k}"]`);
+      const box = document.querySelector(`.k-box[data-key="${e.key.toLowerCase()}"]`);
       if (box) box.classList.add('pressed');
     });
 
     document.addEventListener('keyup', (e) => {
-      const k = e.key.toLowerCase();
-      const box = document.querySelector(`.k-box[data-key="${k}"]`);
+      const box = document.querySelector(`.k-box[data-key="${e.key.toLowerCase()}"]`);
       if (box) box.classList.remove('pressed');
     });
 
-    // 5. Live Frame-Time Graph Simulator (Rust vs JVM)
     let simMode = 'rust';
     const ftCanvas = document.getElementById('frametime-canvas');
     const ftCtx = ftCanvas.getContext('2d');
@@ -3790,16 +3583,13 @@
       ftCtx.restore();
     }
 
-    // 6. Top Ice Scroll Progress Bar
     const scrollBar = document.getElementById('scroll-progress');
     window.addEventListener('scroll', () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      scrollBar.style.width = `${progress}%`;
+      scrollBar.style.width = `${docHeight > 0 ? (scrollTop / docHeight) * 100 : 0}%`;
     }, { passive: true });
 
-    // 7. Smooth GPU-Accelerated Mouse Glow + Card Spotlight + Frost Click Ripples
     const cursorGlow = document.getElementById('cursor-glow');
     const spotlightCards = document.querySelectorAll('.spotlight-card');
     let mouseX = window.innerWidth / 2;
@@ -3846,12 +3636,7 @@
 
     document.addEventListener('click', (e) => {
       if (ripples.length < 12) {
-        ripples.push({
-          x: e.clientX,
-          y: e.clientY,
-          radius: 4,
-          alpha: 0.65
-        });
+        ripples.push({ x: e.clientX, y: e.clientY, radius: 4, alpha: 0.65 });
       }
     }, { passive: true });
 
@@ -3860,7 +3645,6 @@
       glowVisible = false;
     });
 
-    // 8. 3D Tilt + Glass Glare on Client Preview Window
     const previewWindow = document.getElementById('client-preview');
     const previewGlare = document.getElementById('preview-glare');
 
@@ -3870,7 +3654,6 @@
       const y = e.clientY - rect.top;
       const rotateX = (((y - rect.height / 2) / (rect.height / 2)) * -4).toFixed(2);
       const rotateY = (((x - rect.width / 2) / (rect.width / 2)) * 4).toFixed(2);
-
       previewWindow.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       previewGlare.style.setProperty('--glare-x', `${x}px`);
       previewGlare.style.setProperty('--glare-y', `${y}px`);
@@ -3880,9 +3663,7 @@
       previewWindow.style.transform = 'rotateX(0deg) rotateY(0deg)';
     });
 
-    // 9. Scroll Reveal + Animated Benchmark Bars & FPS Counters
     let benchmarksAnimated = false;
-
     function animateBenchmarks() {
       if (benchmarksAnimated) return;
       benchmarksAnimated = true;
@@ -3900,9 +3681,7 @@
           const progress = Math.min((now - start) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
           counter.textContent = Math.round(eased * target);
-          if (progress < 1) {
-            requestAnimationFrame(updateCount);
-          }
+          if (progress < 1) requestAnimationFrame(updateCount);
         }
         requestAnimationFrame(updateCount);
       });
@@ -3912,9 +3691,7 @@
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
-          if (entry.target.id === 'benchmarks') {
-            animateBenchmarks();
-          }
+          if (entry.target.id === 'benchmarks') animateBenchmarks();
           observer.unobserve(entry.target);
         }
       });
@@ -3922,7 +3699,6 @@
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-    // 10. Optimized Snowfall + Ice Constellations + Crystals + Frost Ripples Loop
     const canvas = document.getElementById('snow-canvas');
     const ctx = canvas.getContext('2d');
     let width, height, flakes, crystals;
@@ -4000,10 +3776,7 @@
         f.y += f.speedY;
         f.x += f.speedX;
 
-        if (f.y > height) {
-          f.y = -5;
-          f.x = Math.random() * width;
-        }
+        if (f.y > height) { f.y = -5; f.x = Math.random() * width; }
         if (f.x > width) f.x = 0;
         if (f.x < 0) f.x = width;
       }
@@ -4013,10 +3786,7 @@
         drawHexCrystal(c.x, c.y, c.size, c.angle, c.alpha);
         c.y += c.speedY;
         c.angle += c.spin;
-        if (c.y > height + 10) {
-          c.y = -10;
-          c.x = Math.random() * width;
-        }
+        if (c.y > height + 10) { c.y = -10; c.x = Math.random() * width; }
       }
 
       for (let i = sparkles.length - 1; i >= 0; i--) {
@@ -4025,14 +3795,10 @@
         ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(186, 230, 253, ${s.life * 0.82})`;
         ctx.fill();
-
         s.x += s.vx;
         s.y += s.vy;
         s.life -= 0.035;
-
-        if (s.life <= 0) {
-          sparkles.splice(i, 1);
-        }
+        if (s.life <= 0) sparkles.splice(i, 1);
       }
 
       for (let i = ripples.length - 1; i >= 0; i--) {
@@ -4042,12 +3808,9 @@
         ctx.strokeStyle = `rgba(125, 211, 252, ${r.alpha})`;
         ctx.lineWidth = 1.6;
         ctx.stroke();
-
         r.radius += 3.2;
         r.alpha -= 0.022;
-        if (r.alpha <= 0) {
-          ripples.splice(i, 1);
-        }
+        if (r.alpha <= 0) ripples.splice(i, 1);
       }
 
       drawFrameTimeGraph();
