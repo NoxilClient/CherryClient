@@ -3093,7 +3093,7 @@
       </div>
 
       <div class="sec-warning-banner">
-        <span><strong>? FastClient Security Status Unknown:</strong> Because FastClient is closed source without public auditability, its security practices cannot be independently verified (marked <strong>?</strong> below). <strong>Silent Client</strong> and <strong>NoRisk Client</strong> are marked <strong>SAFE</strong>.</span>
+        <span><strong>? FastClient Security Status Unknown:</strong> Because FastClient is closed source without public auditability, its security practices cannot be independently verified (marked <strong>?</strong> below). All listed clients including <strong>Silent Client</strong>, <strong>Lunar Client</strong>, <strong>NoRisk Client</strong>, <strong>Dawn Client</strong>, <strong>Feather Client</strong>, <strong>Badlion Client</strong>, <strong>Sodium (Fabric)</strong>, and <strong>Minecraft Launcher (Vanilla)</strong> are marked <strong>SAFE</strong>.</span>
         <span class="unknown-pill">? FASTCLIENT UNVERIFIED</span>
       </div>
 
@@ -3104,7 +3104,7 @@
           <button type="button" class="sec-filter-btn" onclick="filterSecurityTable('oauth', this)">Browser OAuth Only</button>
           <button type="button" class="sec-filter-btn unknown-filter" onclick="filterSecurityTable('unknown', this)">? Unverified Status</button>
         </div>
-        <span style="font-size:0.78rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">GLACIER: 6/6 SAFE • SILENT &amp; NORISK: SAFE • FASTCLIENT: ?</span>
+        <span style="font-size:0.78rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">GLACIER: 6/6 SAFE • LISTED CLIENTS: SAFE • FASTCLIENT: ?</span>
       </div>
 
       <div class="security-table-wrap spotlight-card">
@@ -3152,7 +3152,7 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unknown="no">
+            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
               <td>Silent Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -3162,17 +3162,17 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag clean">Safe</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unknown="no">
-              <td>Lunar Client</td>
-              <td><span class="mark-no">✕</span></td>
+            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
+              <td>Lunar Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag">Closed</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag clean">Safe</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unknown="no">
+            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
               <td>NoRisk Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -3182,55 +3182,55 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag clean">Safe</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="no" data-unknown="no">
-              <td>Dawn Client</td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
+            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
+              <td>Dawn Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag">Closed</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag clean">Safe</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unknown="no">
-              <td>Feather Client</td>
-              <td><span class="mark-no">✕</span></td>
+            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
+              <td>Feather Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag">Closed</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag clean">Safe</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unknown="no">
-              <td>Badlion Client</td>
-              <td><span class="mark-no">✕</span></td>
+            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
+              <td>Badlion Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag">Closed</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag clean">Safe</span></td>
             </tr>
-            <tr data-oss="yes" data-oauth="no" data-unknown="no">
-              <td>Sodium (Fabric)</td>
+            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
+              <td>Sodium (Fabric) <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag clean">Zero Tracking</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unknown="no">
-              <td>Minecraft Launcher (Vanilla)</td>
-              <td><span class="mark-no">✕</span></td>
+            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
+              <td>Minecraft Launcher (Vanilla) <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag">Official</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag clean">Safe</span></td>
             </tr>
           </tbody>
         </table>
@@ -3505,9 +3505,9 @@
 
       <div class="faq-list">
         <details class="faq-item">
-          <summary>Are Silent Client and NoRisk Client marked safe in the comparison?</summary>
+          <summary>Are Silent Client, Lunar Client, NoRisk, Dawn, Feather, Badlion, Sodium, and Vanilla marked safe?</summary>
           <div class="faq-answer">
-            Yes. Both <strong>Silent Client</strong> and <strong>NoRisk Client</strong> are listed as <strong>SAFE</strong> in the Security vs Other comparison, while <strong>FastClient</strong> remains marked with <strong>?</strong> due to closed-source unverified status.
+            Yes. All of those requested clients are marked as <strong>SAFE</strong> in the Security vs Other comparison, while <strong>FastClient</strong> remains marked with <strong>?</strong> due to closed-source unverified status.
           </div>
         </details>
 
@@ -3807,8 +3807,8 @@
         return "Hey there! I'm Snowy, the mascot of Glacier Client. Ask me anything about FPS, open source code, or our security comparison.";
       }
 
-      if (/\b(silent|norisk|no risk)\b/.test(q)) {
-        return 'Both Silent Client and NoRisk Client are marked as SAFE in our security table, and both appear in the FPS benchmark list.';
+      if (/\b(silent|norisk|no risk|lunar|dawn|feather|badlion|sodium|vanilla)\b/.test(q)) {
+        return 'Those clients are all marked as SAFE in our security table, and they are included in the FPS benchmark list.';
       }
 
       if (/\b(fastclient|fast client|unverified|unknown)\b/.test(q)) {
