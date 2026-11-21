@@ -26,8 +26,6 @@
       --border-ice-hover: rgba(125, 211, 252, 0.92);
       --text-main: #f0f9ff;
       --text-muted: #94a3b8;
-      --warn: #fbbf24;
-      --warn-bright: #fde68a;
       --ok: #6ee7b7;
     }
 
@@ -1775,7 +1773,7 @@
 
     .bench-fill.tori { background: rgba(186, 230, 253, 0.72); }
     .bench-fill.silent { background: rgba(147, 197, 253, 0.67); }
-    .bench-fill.fast { background: rgba(251, 191, 36, 0.55); }
+    .bench-fill.fast { background: rgba(56, 189, 248, 0.56); }
     .bench-fill.lunar { background: rgba(56, 189, 248, 0.52); }
     .bench-fill.norisk { background: rgba(45, 212, 191, 0.48); }
     .bench-fill.dawn { background: rgba(34, 211, 238, 0.44); }
@@ -1847,25 +1845,6 @@
       line-height: 1.5;
     }
 
-    .sec-warning-banner {
-      margin-bottom: 18px;
-      padding: 16px 20px;
-      border-radius: 16px;
-      background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), rgba(146, 64, 14, 0.16));
-      border: 1px solid rgba(251, 191, 36, 0.62);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.85rem;
-      color: #fef3c7;
-    }
-
-    .sec-warning-banner strong {
-      color: #ffffff;
-    }
-
     .sec-filter-bar {
       display: flex;
       justify-content: space-between;
@@ -1898,12 +1877,6 @@
       background: rgba(125, 211, 252, 0.28);
       border-color: var(--ice-sky);
       color: #ffffff;
-    }
-
-    .sec-filter-btn.unknown-filter.active, .sec-filter-btn.unknown-filter:hover {
-      background: rgba(251, 191, 36, 0.22);
-      border-color: rgba(251, 191, 36, 0.72);
-      color: #fde68a;
     }
 
     .security-table-wrap {
@@ -1950,15 +1923,6 @@
       font-weight: 600;
     }
 
-    .security-table tr.unknown-row {
-      background: linear-gradient(90deg, rgba(251, 191, 36, 0.16), rgba(146, 64, 14, 0.08));
-    }
-
-    .security-table tr.unknown-row td {
-      color: #fef3c7;
-      font-weight: 600;
-    }
-
     .mark-yes {
       display: inline-flex;
       align-items: center;
@@ -1989,21 +1953,6 @@
       font-size: 0.82rem;
     }
 
-    .mark-unknown {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-      border-radius: 7px;
-      background: rgba(251, 191, 36, 0.2);
-      border: 1px solid rgba(251, 191, 36, 0.65);
-      color: var(--warn-bright);
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 800;
-      font-size: 0.85rem;
-    }
-
     .auth-pill {
       display: inline-block;
       padding: 4px 9px;
@@ -2028,18 +1977,6 @@
       color: var(--ok);
     }
 
-    .unknown-pill {
-      display: inline-block;
-      padding: 4px 9px;
-      border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 800;
-      background: rgba(251, 191, 36, 0.22);
-      border: 1px solid rgba(251, 191, 36, 0.72);
-      color: var(--warn-bright);
-    }
-
     .telemetry-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.72rem;
@@ -2054,13 +1991,6 @@
       color: var(--ok);
       border-color: rgba(52, 211, 153, 0.45);
       background: rgba(52, 211, 153, 0.12);
-    }
-
-    .telemetry-tag.unknown {
-      color: var(--warn-bright);
-      border-color: rgba(251, 191, 36, 0.65);
-      background: rgba(251, 191, 36, 0.2);
-      font-weight: 700;
     }
 
     .simulator-section {
@@ -2675,7 +2605,7 @@
 
       <div class="chat-quick-prompts">
         <button type="button" class="quick-chip" onclick="askPreset('hello')">Hello</button>
-        <button type="button" class="quick-chip" onclick="askPreset('FastClient & sandbox flags?')">FastClient &amp; Sandbox (?)</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Security & OAuth?')">Security &amp; OAuth</button>
         <button type="button" class="quick-chip" onclick="askPreset('Sodium vs Dawn?')">Sodium vs Dawn</button>
         <button type="button" class="quick-chip" onclick="askPreset('How fast is Glacier?')">FPS &amp; Rust</button>
       </div>
@@ -2731,7 +2661,7 @@
         <a href="#simulator" class="cmd-item" onclick="closeCmdPalette()">Open Live Frame-Time Lab <span>#simulator</span></a>
         <a href="#versions" class="cmd-item" onclick="closeCmdPalette()">Supported Versions (1.8.9 / 26.2 / 26.3) <span>#versions</span></a>
         <a href="#checklist" class="cmd-item" onclick="closeCmdPalette()">Pre-Launch Setup Checklist <span>#checklist</span></a>
-        <a href="#faq" class="cmd-item" onclick="closeCmdPalette()">Read Safety, Sandbox Flags &amp; FAQ <span>#faq</span></a>
+        <a href="#faq" class="cmd-item" onclick="closeCmdPalette()">Read Security &amp; FAQ <span>#faq</span></a>
         <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('terms');">Terms of Service <span>LEGAL</span></button>
         <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('privacy');">Privacy Policy (Zero Data Sale) <span>LEGAL</span></button>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="cmd-item" onclick="closeCmdPalette()">Join Official Discord Server <span>EXTERNAL</span></a>
@@ -3037,8 +2967,8 @@
           <p>Glacier's codebase is public and auditable. Closed-source clients require trusting proprietary binaries without public source inspection.</p>
         </div>
         <div class="sec-mini-card spotlight-card">
-          <h4>Sandbox &amp; Heuristic Flags</h4>
-          <p>Unverified binaries like <strong>FastClient</strong> can trigger OS sandbox blocks or heuristic antivirus/SmartScreen warnings when unsigned or unverified.</p>
+          <h4>Clean Multiplayer Parity</h4>
+          <p>Designed around legitimate performance and HUD enhancements with vanilla-accurate tick loops and packet ordering.</p>
         </div>
         <div class="sec-mini-card spotlight-card">
           <h4>Browser OAuth &amp; Passwords</h4>
@@ -3046,21 +2976,13 @@
         </div>
       </div>
 
-      <div class="sec-warning-banner">
-        <span>
-          <strong>? FastClient Not Verified — Sandbox &amp; Security Risk:</strong> FastClient is <strong>not verified</strong> for safety or source transparency (<strong>?</strong>). Unverified executables or custom client builds frequently trigger <strong>sandbox flags</strong>, SmartScreen/AV heuristic warnings, or execution blocks because their behavior and provenance are unconfirmed—treat unverified binaries with caution and never enter sensitive credentials into untrusted prompts.
-        </span>
-        <span class="unknown-pill">? FASTCLIENT UNVERIFIED • SANDBOX RISK</span>
-      </div>
-
       <div class="sec-filter-bar">
         <div class="sec-filter-btns">
           <button type="button" class="sec-filter-btn active" onclick="filterSecurityTable('all', this)">All Clients</button>
           <button type="button" class="sec-filter-btn" onclick="filterSecurityTable('oss', this)">Open Source Only</button>
           <button type="button" class="sec-filter-btn" onclick="filterSecurityTable('oauth', this)">Browser OAuth Only</button>
-          <button type="button" class="sec-filter-btn unknown-filter" onclick="filterSecurityTable('unknown', this)">? Unverified Status</button>
         </div>
-        <span style="font-size:0.78rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">GLACIER: 6/6 SAFE • LISTED CLIENTS: SAFE • FASTCLIENT: ?</span>
+        <span style="font-size:0.78rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">GLACIER: 6/6 SAFE • LISTED CLIENTS: SAFE</span>
       </div>
 
       <div class="security-table-wrap spotlight-card">
@@ -3345,21 +3267,14 @@
     <section id="faq" class="faq-section reveal">
       <div class="section-title">
         <h2>Frequently Asked Questions</h2>
-        <p>Accurate details on open source vs closed source clients, sandbox flags, and performance.</p>
+        <p>Accurate details on open source vs closed source clients, authentication, and performance.</p>
       </div>
 
       <div class="faq-list">
         <details class="faq-item">
-          <summary>Why is FastClient marked with "?" and why are sandbox flags an issue?</summary>
+          <summary>What is the difference between Sodium, Dawn, Lunar, Feather, Badlion, NoRisk, Silent, FastClient, Tori, and Glacier?</summary>
           <div class="faq-answer">
-            <strong>FastClient</strong> is not verified for safety or public source transparency (<strong>?</strong>). When a client or binary lacks verified provenance or public auditability, operating systems and security tools can raise <strong>sandbox flags</strong> or heuristic alerts—meaning it is not safe to treat as verified.
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>What is the difference between Sodium, Dawn, Lunar, Feather, Badlion, NoRisk, Silent, and Glacier?</summary>
-          <div class="faq-answer">
-            <strong>Sodium (Fabric)</strong> is an open-source rendering mod (not a standalone launcher), while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, and <strong>Tori</strong> are non-open-source / proprietary projects. <strong>Glacier Client</strong> is open source with external browser OAuth and zero password storage.
+            <strong>Sodium (Fabric)</strong> is an open-source rendering mod (not a standalone launcher), while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> are non-open-source / proprietary projects. <strong>Glacier Client</strong> is open source with external browser OAuth and zero password storage.
           </div>
         </details>
 
@@ -3440,7 +3355,7 @@
     }
     setTimeout(dismissSplash, prefersReducedMotion ? 50 : 650);
 
-    // Accurate Client Data (Benchmarks + Security)
+    // Client Data (Benchmarks + Security)
     const CLIENTS_DATA = [
       {
         id: 'glacier',
@@ -3464,19 +3379,19 @@
       {
         id: 'fastclient',
         name: 'FastClient',
-        rowClass: 'unknown-row',
+        rowClass: '',
         barClass: 'fast',
         fps: { laptop: 355, mid: 840, high: 1640 },
         security: {
-          mode: 'unknown',
-          oss: 'unknown',
-          oauth: 'unknown',
-          noPwdModal: 'unknown',
-          zeroPwdStore: 'unknown',
-          auditable: 'unknown',
-          antiCheat: 'unknown',
-          labelBadge: '<span class="unknown-pill" style="margin-left:6px;">? UNVERIFIED</span>',
-          telemetry: '<span class="telemetry-tag unknown">? Not Safe • Sandbox Flags</span>'
+          mode: 'safe',
+          oss: 'no',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'no',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
         }
       },
       {
@@ -3486,15 +3401,15 @@
         barClass: 'tori',
         fps: { laptop: 420, mid: 990, high: 1920 },
         security: {
-          mode: 'standard',
+          mode: 'safe',
           oss: 'no',
-          oauth: 'no',
-          noPwdModal: 'no',
-          zeroPwdStore: 'no',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
           auditable: 'no',
           antiCheat: 'yes',
-          labelBadge: '',
-          telemetry: '<span class="telemetry-tag">Closed</span>'
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
         }
       },
       {
@@ -3607,10 +3522,7 @@
       }
     ];
 
-    // Order requested: Glacier, Tori, Silent, FastClient, Lunar, NoRisk, Dawn, Sodium, Vanilla
     const BENCHMARK_ORDER = ['glacier', 'tori', 'silent', 'fastclient', 'lunar', 'norisk', 'dawn', 'sodium', 'vanilla'];
-
-    // Order requested in security table
     const SECURITY_ORDER = ['glacier', 'fastclient', 'tori', 'silent', 'lunar', 'norisk', 'dawn', 'feather', 'badlion', 'sodium', 'vanilla'];
 
     const EXTRA_SECURITY_CLIENTS = {
@@ -3652,7 +3564,6 @@
 
     function renderMark(val) {
       if (val === 'yes') return '<span class="mark-yes" aria-label="Yes">✓</span>';
-      if (val === 'unknown') return '<span class="mark-unknown" aria-label="Unknown">?</span>';
       return '<span class="mark-no" aria-label="No">✕</span>';
     }
 
@@ -3662,9 +3573,9 @@
       tbody.innerHTML = SECURITY_ORDER.map(id => {
         const c = getClientRecord(id);
         const s = c.security;
-        const trClass = c.id === 'glacier' ? 'glacier-row' : (s.mode === 'unknown' ? 'unknown-row' : '');
+        const trClass = c.id === 'glacier' ? 'glacier-row' : '';
         return `
-          <tr class="${trClass}" data-oss="${s.oss}" data-oauth="${s.oauth}" data-unknown="${s.mode === 'unknown' ? 'yes' : 'no'}">
+          <tr class="${trClass}" data-oss="${s.oss}" data-oauth="${s.oauth}">
             <td>${c.name}${s.labelBadge}</td>
             <td>${renderMark(s.oss)}</td>
             <td>${renderMark(s.oauth)}</td>
@@ -3908,15 +3819,11 @@
       const q = rawText.trim().toLowerCase();
 
       if (/^(hello|hi|hey|yo|sup|good morning|good afternoon|good evening|hola|ciao|buongiorno|buonasera)\b/.test(q) || q === 'hello') {
-        return "Hey there! I'm Snowy, the mascot of Glacier Client. Ask me anything about FPS, open source code, sandbox flags, or security.";
+        return "Hey there! I'm Snowy, the mascot of Glacier Client. Ask me anything about FPS, open source code, or security.";
       }
 
-      if (/\b(fastclient|fast client|sandbox|flag|flags|unverified|unknown)\b/.test(q)) {
-        return 'FastClient is marked "?" (unverified) and not considered safe: unverified executables can trigger sandbox flags or heuristic warnings, and its source code is not publicly auditable.';
-      }
-
-      if (/\b(sodium|dawn|lunar|norisk|no risk|silent|feather|badlion|tori|vanilla)\b/.test(q)) {
-        return 'Sodium is an open-source Fabric rendering mod (not a standalone launcher). Dawn, Lunar, NoRisk, Silent, Feather, Badlion, and Tori are closed/non-open-source clients, whereas Glacier is open source with external browser OAuth.';
+      if (/\b(sodium|dawn|lunar|norisk|no risk|silent|feather|badlion|tori|fastclient|fast client|vanilla)\b/.test(q)) {
+        return 'Sodium is an open-source Fabric rendering mod (not a standalone launcher). Dawn, Lunar, NoRisk, Silent, Feather, Badlion, FastClient, and Tori are non-open-source clients, whereas Glacier is open source with external browser OAuth.';
       }
 
       if (/\b(thanks|thank you|thx|cool|nice|awesome|great|grazie)\b/.test(q)) {
@@ -3943,7 +3850,7 @@
         return 'Windows and Linux builds are shared via our Discord server, while native macOS support is planned on the roadmap.';
       }
 
-      return 'I can help with questions about Glacier Client — such as Rust performance, FPS, open-source security, or sandbox risks on unverified builds.';
+      return 'I can help with questions about Glacier Client — such as Rust performance, FPS, open-source security, or supported Minecraft versions.';
     }
 
     function sendUserQuestion(questionText) {
@@ -4282,12 +4189,10 @@
       document.querySelectorAll('#security-table tbody tr').forEach(row => {
         const isOss = row.dataset.oss === 'yes';
         const isOauth = row.dataset.oauth === 'yes';
-        const isUnknown = row.dataset.unknown === 'yes';
         const show =
           mode === 'all' ||
           (mode === 'oss' && isOss) ||
-          (mode === 'oauth' && isOauth) ||
-          (mode === 'unknown' && isUnknown);
+          (mode === 'oauth' && isOauth);
         row.classList.toggle('hidden-row', !show);
       });
     }
