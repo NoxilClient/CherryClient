@@ -389,7 +389,7 @@
       color: var(--ice-bright);
     }
 
-    /* Cozy Xmas Carol + Fireside Audio Pill */
+    /* Cozy Xmas Carol Audio Pill */
     .music-pill {
       display: inline-flex;
       align-items: center;
@@ -468,8 +468,8 @@
       box-shadow: 0 0 34px rgba(125, 211, 252, 0.62);
     }
 
-    /* Snowman with "IA" Badge + Sensible Chat */
-    #snowman-ia-widget {
+    /* Fine Pixel-Art Snowman Mascot + Chat */
+    #snowy-widget {
       position: fixed;
       right: 18px;
       bottom: 20px;
@@ -480,13 +480,13 @@
       gap: 10px;
     }
 
-    .snowman-bubble-row {
+    .snowy-bubble-row {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .snowman-speech {
+    .snowy-speech {
       background: linear-gradient(135deg, rgba(16, 35, 62, 0.97), rgba(6, 14, 27, 0.99));
       border: 1px solid rgba(125, 211, 252, 0.72);
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.72), 0 0 24px rgba(125, 211, 252, 0.32);
@@ -501,13 +501,13 @@
       transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
-    .snowman-trigger-btn {
+    .snowy-trigger-btn {
       position: relative;
-      width: 74px;
-      height: 88px;
+      width: 72px;
+      height: 82px;
       padding: 0;
       border: 1px solid rgba(125, 211, 252, 0.65);
-      border-radius: 22px;
+      border-radius: 20px;
       background: linear-gradient(165deg, rgba(18, 42, 72, 0.95), rgba(6, 15, 29, 0.98));
       box-shadow: 0 16px 38px rgba(0, 0, 0, 0.78), 0 0 30px rgba(125, 211, 252, 0.36);
       cursor: pointer;
@@ -516,29 +516,18 @@
       transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
     }
 
-    .snowman-trigger-btn:hover {
+    .snowy-trigger-btn:hover {
       transform: translateY(-4px) scale(1.04);
       box-shadow: 0 20px 44px rgba(0, 0, 0, 0.85), 0 0 42px rgba(125, 211, 252, 0.62);
     }
 
-    .ia-tag {
-      position: absolute;
-      top: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: linear-gradient(135deg, #38bdf8, #0284c7);
-      border: 1px solid #e0f2fe;
-      color: #02060e;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      font-weight: 900;
-      letter-spacing: 0.06em;
-      box-shadow: 0 0 14px rgba(125, 211, 252, 0.85);
+    .snowy-pixel-svg {
+      width: 54px;
+      height: 66px;
+      shape-rendering: crispEdges;
     }
 
-    .snowman-chat-panel {
+    .snowy-chat-panel {
       width: min(375px, calc(100vw - 32px));
       height: 455px;
       border-radius: 18px;
@@ -552,7 +541,7 @@
       animation: popModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .snowman-chat-panel.open {
+    .snowy-chat-panel.open {
       display: flex;
     }
 
@@ -580,10 +569,6 @@
       border: 1px solid rgba(125, 211, 252, 0.52);
       display: grid;
       place-items: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
-      font-weight: 900;
-      color: #ffffff;
     }
 
     .chat-title {
@@ -2331,7 +2316,7 @@
         padding: 14px 14px;
         font-size: 0.84rem;
       }
-      .snowman-speech {
+      .snowy-speech {
         display: none;
       }
     }
@@ -2369,71 +2354,90 @@
   <!-- Snowfall + Constellations + Ice Crystals + Frost Ripples Canvas -->
   <canvas id="snow-canvas"></canvas>
 
-  <!-- Snowman with "IA" Badge + Sensible English Chat -->
-  <div id="snowman-ia-widget">
-    <div class="snowman-chat-panel" id="snowman-chat-panel" role="dialog" aria-label="Snowman IA assistant">
+  <!-- Fine Pixel-Art Snowy Mascot + Chat -->
+  <div id="snowy-widget">
+    <div class="snowy-chat-panel" id="snowy-chat-panel" role="dialog" aria-label="Snowy chat">
       <div class="chat-header">
         <div class="chat-identity">
-          <div class="chat-avatar">IA</div>
+          <div class="chat-avatar">
+            <svg class="snowy-pixel-svg" style="width:24px;height:28px;" viewBox="0 0 24 28">
+              <rect x="8" y="2" width="8" height="2" fill="#1e293b"/>
+              <rect x="8" y="4" width="8" height="2" fill="#38bdf8"/>
+              <rect x="6" y="6" width="12" height="2" fill="#334155"/>
+              <rect x="7" y="8" width="10" height="8" fill="#f0f9ff"/>
+              <rect x="9" y="10" width="2" height="2" fill="#0f172a"/>
+              <rect x="13" y="10" width="2" height="2" fill="#0f172a"/>
+              <rect x="11" y="12" width="3" height="2" fill="#fb923c"/>
+              <rect x="7" y="16" width="10" height="2" fill="#38bdf8"/>
+              <rect x="5" y="18" width="14" height="8" fill="#e0f2fe"/>
+              <rect x="11" y="20" width="2" height="2" fill="#0f172a"/>
+            </svg>
+          </div>
           <div>
-            <div class="chat-title">Snowman • IA</div>
-            <div class="chat-status">ONLINE • SENSE-BASED REPLIES</div>
+            <div class="chat-title">Snowy</div>
+            <div class="chat-status">GLACIER CLIENT MASCOT</div>
           </div>
         </div>
-        <button type="button" class="chat-close" onclick="toggleSnowmanChat(false)" aria-label="Close chat">×</button>
+        <button type="button" class="chat-close" onclick="toggleSnowyChat(false)" aria-label="Close chat">×</button>
       </div>
 
       <div class="chat-messages" id="chat-messages">
         <div class="msg bot">
-          Hello! ⛄ I'm the <strong>IA</strong> snowman. Say <strong>hello</strong> or ask me a real question about Glacier Client (FPS, Rust, 1.8.9 / 26.2 / 26.3, safety, or OS).
+          Hi! I'm Snowy, the mascot of Glacier Client.
         </div>
       </div>
 
       <div class="chat-quick-prompts">
-        <button type="button" class="quick-chip" onclick="askPreset('hello')">👋 Say hello</button>
-        <button type="button" class="quick-chip" onclick="askPreset('How fast is Glacier?')">⚡ FPS &amp; Rust</button>
-        <button type="button" class="quick-chip" onclick="askPreset('Which versions work?')">🧊 Versions</button>
-        <button type="button" class="quick-chip" onclick="askPreset('Is it safe to use?')">🛡️ Safety</button>
+        <button type="button" class="quick-chip" onclick="askPreset('hello')">Hello</button>
+        <button type="button" class="quick-chip" onclick="askPreset('How fast is Glacier?')">FPS &amp; Rust</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Which versions work?')">Versions</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Is it safe to use?')">Safety</button>
       </div>
 
       <form class="chat-form" onsubmit="handleChatSubmit(event)">
-        <input type="text" id="chat-input" class="chat-input" placeholder="Type hello or ask a question..." autocomplete="off" required />
+        <input type="text" id="chat-input" class="chat-input" placeholder="Ask me anything about the client..." autocomplete="off" required />
         <button type="submit" class="chat-send">Send</button>
       </form>
     </div>
 
-    <div class="snowman-bubble-row">
-      <button type="button" class="snowman-speech" id="snowman-speech" onclick="toggleSnowmanChat(true)">
-        Ask Snowman IA ⛄
+    <div class="snowy-bubble-row">
+      <button type="button" class="snowy-speech" id="snowy-speech" onclick="toggleSnowyChat(true)">
+        Ask me anything about the client
       </button>
-      <button type="button" class="snowman-trigger-btn" onclick="toggleSnowmanChat()" aria-label="Open Snowman IA chat">
-        <span class="ia-tag">IA</span>
-        <svg width="52" height="62" viewBox="0 0 64 76" fill="none">
-          <!-- Top Hat -->
-          <rect x="20" y="6" width="24" height="12" rx="2" fill="#0f172a" stroke="#7dd3fc" stroke-width="1.6"/>
-          <rect x="20" y="15" width="24" height="3" fill="#38bdf8"/>
-          <rect x="14" y="18" width="36" height="3.5" rx="1.75" fill="#1e293b" stroke="#bae6fd" stroke-width="1.5"/>
+      <button type="button" class="snowy-trigger-btn" onclick="toggleSnowyChat()" aria-label="Open chat with Snowy">
+        <svg class="snowy-pixel-svg" viewBox="0 0 24 28">
+          <!-- Top hat & ice band -->
+          <rect x="8" y="1" width="8" height="3" fill="#1e293b"/>
+          <rect x="8" y="4" width="8" height="2" fill="#38bdf8"/>
+          <rect x="5" y="6" width="14" height="2" fill="#334155"/>
           <!-- Head -->
-          <circle cx="32" cy="31" r="10.5" fill="#f0f9ff" stroke="#bae6fd" stroke-width="1.8"/>
+          <rect x="7" y="8" width="10" height="2" fill="#ffffff"/>
+          <rect x="6" y="10" width="12" height="5" fill="#f0f9ff"/>
+          <rect x="7" y="15" width="10" height="1" fill="#e0f2fe"/>
           <!-- Eyes -->
-          <circle cx="28.5" cy="29.5" r="1.7" fill="#02060e"/>
-          <circle cx="35.5" cy="29.5" r="1.7" fill="#02060e"/>
-          <!-- Carrot Nose -->
-          <polygon points="32,31.5 41,33.5 32,35.5" fill="#fb923c"/>
-          <!-- Smile -->
-          <path d="M28 36.5 Q32 39 36 36.5" stroke="#02060e" stroke-width="1.6" stroke-linecap="round"/>
+          <rect x="8" y="11" width="2" height="2" fill="#0f172a"/>
+          <rect x="14" y="11" width="2" height="2" fill="#0f172a"/>
+          <!-- Carrot nose -->
+          <rect x="11" y="12" width="2" height="2" fill="#fb923c"/>
+          <rect x="13" y="13" width="2" height="1" fill="#f97316"/>
+          <!-- Subtle smile -->
+          <rect x="9" y="14" width="1" height="1" fill="#334155"/>
+          <rect x="10" y="15" width="4" height="1" fill="#334155"/>
+          <rect x="14" y="14" width="1" height="1" fill="#334155"/>
           <!-- Scarf -->
-          <rect x="22" y="40.5" width="20" height="5" rx="2.5" fill="#38bdf8" stroke="#e0f2fe" stroke-width="1.2"/>
-          <path d="M36 45 L40 54" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+          <rect x="6" y="16" width="12" height="2" fill="#38bdf8"/>
+          <rect x="14" y="18" width="3" height="3" fill="#0284c7"/>
           <!-- Body -->
-          <circle cx="32" cy="57.5" r="14.5" fill="#e0f2fe" stroke="#bae6fd" stroke-width="1.8"/>
+          <rect x="5" y="18" width="14" height="7" fill="#e0f2fe"/>
+          <rect x="6" y="25" width="12" height="2" fill="#bae6fd"/>
           <!-- Buttons -->
-          <circle cx="32" cy="53" r="1.8" fill="#02060e"/>
-          <circle cx="32" cy="58.5" r="1.8" fill="#02060e"/>
-          <circle cx="32" cy="64" r="1.8" fill="#02060e"/>
-          <!-- Stick Arms -->
-          <line x1="18" y1="53" x2="8" y2="46" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round"/>
-          <line x1="46" y1="53" x2="56" y2="46" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round"/>
+          <rect x="11" y="19" width="2" height="2" fill="#0f172a"/>
+          <rect x="11" y="23" width="2" height="2" fill="#0f172a"/>
+          <!-- Arms -->
+          <rect x="2" y="19" width="3" height="1" fill="#94a3b8"/>
+          <rect x="1" y="18" width="1" height="1" fill="#94a3b8"/>
+          <rect x="19" y="19" width="3" height="1" fill="#94a3b8"/>
+          <rect x="22" y="18" width="1" height="1" fill="#94a3b8"/>
         </svg>
       </button>
     </div>
@@ -2491,7 +2495,7 @@
         <a href="#versions">Versions</a>
         <a href="#features">Features</a>
         <a href="#faq">FAQ</a>
-        <button type="button" class="music-pill" id="music-toggle-btn" onclick="toggleXmasCarol()" title="Gentle Holiday Carol & Warm Hearth">
+        <button type="button" class="music-pill" id="music-toggle-btn" onclick="toggleXmasCarol()" title="Gentle Holiday Carol">
           <span>🎄</span>
           <span id="music-label">Carol: OFF</span>
           <input type="range" id="music-vol" class="music-vol" min="0" max="1" step="0.05" value="0.45" onclick="event.stopPropagation()" oninput="setCarolVolume(this.value)" title="Volume" />
@@ -3060,14 +3064,13 @@
     }
     setTimeout(dismissSplash, 850);
 
-    // Gentle Holiday Carol Melody (Jingle Bells gentle motif + warm carillon chords)
+    // Gentle Holiday Carol Melody
     let carolCtx = null;
     let carolMaster = null;
     let carolTimer = null;
     let carolPlaying = false;
     let carolStep = 0;
 
-    // Gentle carillon melody notes in Hz (E5, G5, C5, D5, E5, F5...) - calm holiday motif
     const carolNotes = [
       659.25, 659.25, 659.25, 0,
       659.25, 659.25, 659.25, 0,
@@ -3086,17 +3089,15 @@
       const osc1 = carolCtx.createOscillator();
       const osc2 = carolCtx.createOscillator();
       const gain = carolCtx.createGain();
+      const subGain = carolCtx.createGain();
 
       osc1.type = 'sine';
       osc1.frequency.setValueAtTime(freq, now);
 
       osc2.type = 'triangle';
       osc2.frequency.setValueAtTime(freq * 2, now);
-
-      const subGain = carolCtx.createGain();
       subGain.gain.setValueAtTime(0.14, now);
 
-      // Soft bell envelope (no sharp clicks, no action attack)
       gain.gain.setValueAtTime(0.0001, now);
       gain.gain.linearRampToValueAtTime(0.32, now + 0.045);
       gain.gain.exponentialRampToValueAtTime(0.0008, now + durationSec);
@@ -3132,7 +3133,6 @@
           carolMaster.gain.value = vol * 0.28;
           filter.connect(carolMaster);
           carolMaster.connect(carolCtx.destination);
-          carolCtx._warmFilter = filter;
         }
         if (carolCtx.state === 'suspended') carolCtx.resume();
         carolMaster.gain.setTargetAtTime(vol * 0.28, carolCtx.currentTime, 0.08);
@@ -3160,10 +3160,10 @@
       }
     }
 
-    // Snowman IA Chat: Sensible, context-aware English replies
-    function toggleSnowmanChat(forceOpen) {
-      const panel = document.getElementById('snowman-chat-panel');
-      const speech = document.getElementById('snowman-speech');
+    // Snowy Mascot Chat
+    function toggleSnowyChat(forceOpen) {
+      const panel = document.getElementById('snowy-chat-panel');
+      const speech = document.getElementById('snowy-speech');
       const willOpen = typeof forceOpen === 'boolean' ? forceOpen : !panel.classList.contains('open');
       panel.classList.toggle('open', willOpen);
       if (willOpen) {
@@ -3187,47 +3187,40 @@
       return div;
     }
 
-    function getSensibleSnowmanReply(rawText) {
+    function getSnowyReply(rawText) {
       const q = rawText.trim().toLowerCase();
 
-      // Greetings ("hello", "hi", "hey", "good morning", etc.)
       if (/^(hello|hi|hey|yo|sup|good morning|good afternoon|good evening|hola|ciao)\b/.test(q) || q === 'hello') {
-        return 'Hello! ⛄ Glad you stopped by. Ask me anything about <strong>Glacier Client</strong> — like FPS in Rust, supported versions (<strong>1.8.9</strong>, <strong>26.2</strong>, <strong>26.3</strong>), or anti-cheat safety.';
+        return "Hi! I'm Snowy, the mascot of Glacier Client. Ask me anything about the client!";
       }
 
-      // Thanks / compliments
       if (/\b(thanks|thank you|thx|cool|nice|awesome|great)\b/.test(q)) {
-        return 'You’re very welcome! ❄️ Let me know if you want to check benchmarks, versions, or how to get a build.';
+        return "You're welcome! Let me know if you want to know more about Glacier Client.";
       }
 
-      // FPS / Rust / Performance / GC
       if (/\b(fps|rust|fast|speed|performance|gc|garbage|lag|stutter|wgpu)\b/.test(q)) {
-        return 'Glacier is written in <strong>native Rust</strong> with <strong>wgpu</strong>, which means <strong>0 ms Garbage Collector pauses</strong> and up to <strong>5.5x</strong> higher FPS compared to standard vanilla play.';
+        return 'Glacier Client is built in native Rust with wgpu, giving 0 ms Garbage Collector pauses and up to 5.5x higher FPS than vanilla.';
       }
 
-      // Versions
       if (/\b(version|versions|1\.8\.9|1\.8|26\.2|26\.3|pvp)\b/.test(q)) {
-        return 'Glacier supports Minecraft <strong>1.8.9</strong> (for PvP and duels), <strong>26.2</strong>, and <strong>26.3</strong>.';
+        return 'Glacier Client supports Minecraft 1.8.9 (for PvP), 26.2, and 26.3.';
       }
 
-      // Safety / Bans / Cheats / Account
       if (/\b(safe|ban|banned|cheat|cheats|hack|anticheat|anti-cheat|open source|account|microsoft)\b/.test(q)) {
-        return 'Glacier is a legitimate performance and HUD client with zero cheats, tested against anti-cheats like GrimAC and Vulcan, and uses official <strong>Microsoft OAuth</strong> without storing your password.';
+        return 'Glacier Client has zero cheats, is tested against anti-cheats like GrimAC and Vulcan, and signs in through official Microsoft OAuth.';
       }
 
-      // OS / Download / Discord
       if (/\b(windows|linux|mac|macos|download|install|discord)\b/.test(q)) {
-        return '<strong>Windows</strong> and <strong>Linux</strong> builds are shared through our official <strong>Discord</strong> server, while native <strong>macOS</strong> support is planned on the roadmap.';
+        return 'Windows and Linux builds are shared via our Discord server, while native macOS support is planned on the roadmap.';
       }
 
-      // Direct fallback that still makes sense
-      return 'That sounds like a question about <strong>Glacier Client</strong>! Try asking about <strong>FPS</strong>, <strong>Rust</strong>, supported versions (<strong>1.8.9</strong>, <strong>26.2</strong>, <strong>26.3</strong>), <strong>safety</strong>, or <strong>Windows/Linux/macOS</strong>.';
+      return 'I can help with questions about Glacier Client — such as Rust performance, FPS, supported versions (1.8.9, 26.2, 26.3), safety, or downloads.';
     }
 
     function sendUserQuestion(questionText) {
       const clean = questionText.trim();
       if (!clean) return;
-      toggleSnowmanChat(true);
+      toggleSnowyChat(true);
       appendChatMsg(clean.replace(/</g, '&lt;').replace(/>/g, '&gt;'), 'user');
 
       const typingBubble = appendChatMsg(
@@ -3236,10 +3229,10 @@
       );
 
       setTimeout(() => {
-        typingBubble.innerHTML = getSensibleSnowmanReply(clean);
+        typingBubble.innerHTML = getSnowyReply(clean);
         const box = document.getElementById('chat-messages');
         box.scrollTop = box.scrollHeight;
-      }, 550);
+      }, 500);
     }
 
     function askPreset(presetQuestion) {
@@ -3562,7 +3555,7 @@
         closeLegalModal();
         closeToast();
         dismissSplash();
-        toggleSnowmanChat(false);
+        toggleSnowyChat(false);
         return;
       }
       if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
