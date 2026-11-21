@@ -54,7 +54,7 @@
       color: #ffffff;
     }
 
-    /* Cinematic Intro Overlay (Kept Crisp & Punchy) */
+    /* Cinematic Intro Overlay */
     #intro-splash {
       position: fixed;
       inset: 0;
@@ -437,6 +437,262 @@
       background: rgba(125, 211, 252, 0.42);
       transform: translateY(-1.5px);
       box-shadow: 0 0 34px rgba(125, 211, 252, 0.62);
+    }
+
+    /* Cartoon Snowman Companion & Interactive Chat */
+    #snowman-widget {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 110;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .snowman-trigger-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .snowman-speech {
+      background: linear-gradient(135deg, rgba(18, 38, 66, 0.96), rgba(7, 17, 32, 0.98));
+      border: 1px solid rgba(125, 211, 252, 0.65);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 0 24px rgba(125, 211, 252, 0.32);
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 14px 14px 4px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      animation: speechFloat 2.8s ease-in-out infinite;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .snowman-speech:hover {
+      transform: scale(1.04);
+    }
+
+    @keyframes speechFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .snowman-btn {
+      width: 78px;
+      height: 92px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.72)) drop-shadow(0 0 18px rgba(125, 211, 252, 0.38));
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: snowmanBob 3.4s ease-in-out infinite;
+    }
+
+    .snowman-btn:hover {
+      transform: translateY(-5px) scale(1.06);
+    }
+
+    @keyframes snowmanBob {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .snowman-arm-wave {
+      transform-origin: 24px 58px;
+      animation: armWave 2.2s ease-in-out infinite;
+    }
+
+    @keyframes armWave {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-22deg); }
+      40% { transform: rotate(10deg); }
+      60% { transform: rotate(-18deg); }
+      80% { transform: rotate(0deg); }
+    }
+
+    .snowman-chat-panel {
+      width: min(370px, calc(100vw - 32px));
+      height: 460px;
+      border-radius: 22px;
+      background: linear-gradient(165deg, rgba(16, 33, 58, 0.98), rgba(5, 11, 21, 0.99));
+      border: 1px solid rgba(125, 211, 252, 0.62);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.92), 0 0 56px rgba(56, 189, 248, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(22px);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      animation: popModal 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .snowman-chat-panel.open {
+      display: flex;
+    }
+
+    .chat-header {
+      padding: 14px 16px;
+      background: linear-gradient(90deg, rgba(125, 211, 252, 0.22), rgba(2, 132, 199, 0.14));
+      border-bottom: 1px solid rgba(186, 230, 253, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .chat-identity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: rgba(125, 211, 252, 0.2);
+      border: 1px solid rgba(125, 211, 252, 0.55);
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+    }
+
+    .chat-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .chat-status {
+      font-size: 0.72rem;
+      color: var(--ice-sky);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .chat-close {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1px solid rgba(125, 211, 252, 0.35);
+      background: rgba(125, 211, 252, 0.12);
+      color: var(--ice-bright);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: background 0.2s;
+    }
+
+    .chat-close:hover {
+      background: rgba(125, 211, 252, 0.28);
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 14px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .msg {
+      max-width: 85%;
+      padding: 10px 13px;
+      border-radius: 14px;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+      background: rgba(17, 36, 62, 0.92);
+      border: 1px solid rgba(125, 211, 252, 0.28);
+      color: var(--text-main);
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, #38bdf8, #0284c7);
+      color: #02060e;
+      font-weight: 600;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-quick-prompts {
+      padding: 8px 12px;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      border-top: 1px solid rgba(186, 230, 253, 0.1);
+      background: rgba(4, 10, 18, 0.55);
+    }
+
+    .quick-chip {
+      flex-shrink: 0;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(125, 211, 252, 0.34);
+      background: rgba(125, 211, 252, 0.12);
+      color: var(--ice-bright);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .quick-chip:hover {
+      background: rgba(125, 211, 252, 0.28);
+      border-color: var(--ice-sky);
+      color: #ffffff;
+    }
+
+    .chat-form {
+      padding: 10px 12px;
+      border-top: 1px solid rgba(186, 230, 253, 0.16);
+      background: rgba(4, 10, 18, 0.88);
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(125, 211, 252, 0.28);
+      background: rgba(15, 29, 48, 0.9);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.84rem;
+      outline: none;
+    }
+
+    .chat-input:focus {
+      border-color: var(--ice-sky);
+      box-shadow: 0 0 14px rgba(125, 211, 252, 0.3);
+    }
+
+    .chat-send {
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(186, 230, 253, 0.7);
+      background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+      color: #02060e;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+
+    .chat-send:hover {
+      transform: scale(1.04);
     }
 
     /* Command Palette Modal (Ctrl+K) */
@@ -868,7 +1124,7 @@
     #toast-notice {
       position: fixed;
       bottom: 24px;
-      right: 24px;
+      left: 24px;
       z-index: 90;
       max-width: 360px;
       padding: 16px 20px;
@@ -2046,6 +2302,13 @@
         padding: 14px 14px;
         font-size: 0.84rem;
       }
+      .snowman-speech {
+        display: none;
+      }
+      .snowman-btn {
+        width: 66px;
+        height: 78px;
+      }
     }
   </style>
 </head>
@@ -2080,6 +2343,95 @@
 
   <!-- Snowfall + Constellations + Ice Crystals + Frost Ripples Canvas -->
   <canvas id="snow-canvas"></canvas>
+
+  <!-- Cartoon Snowman Side Companion + Interactive Client Chat -->
+  <div id="snowman-widget">
+    <div class="snowman-chat-panel" id="snowman-chat-panel" role="dialog" aria-label="Chat con Frosty, il pupazzo di neve di Glacier Client">
+      <div class="chat-header">
+        <div class="chat-identity">
+          <div class="chat-avatar">⛄</div>
+          <div>
+            <div class="chat-title">Frosty • Glacier Assistant</div>
+            <div class="chat-status">ONLINE • RUST CLIENT AI</div>
+          </div>
+        </div>
+        <button type="button" class="chat-close" onclick="toggleSnowmanChat(false)" aria-label="Chiudi chat">×</button>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg bot">
+          Ciao! ⛄ Sono <strong>Frosty</strong>. Chiedimi pure qualsiasi cosa su <strong>Glacier Client</strong> (FPS, Rust, 1.8.9 / 26.2 / 26.3, anti-cheat, macOS o privacy)!
+        </div>
+      </div>
+
+      <div class="chat-quick-prompts">
+        <button type="button" class="quick-chip" onclick="askPreset('Perché va così veloce in Rust?')">⚡ FPS &amp; Rust</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Quali versioni supporta?')">🎮 Versioni</button>
+        <button type="button" class="quick-chip" onclick="askPreset('È sicuro e safe per gli anti-cheat?')">🛡️ Sicurezza</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Quando esce per macOS?')">🍎 macOS</button>
+      </div>
+
+      <form class="chat-form" onsubmit="handleChatSubmit(event)">
+        <input type="text" id="chat-input" class="chat-input" placeholder="Scrivi una domanda sul client..." autocomplete="off" required />
+        <button type="submit" class="chat-send">Invia</button>
+      </form>
+    </div>
+
+    <div class="snowman-trigger-wrap">
+      <button type="button" class="snowman-speech" id="snowman-speech" onclick="toggleSnowmanChat(true)">
+        Ciao! Chiedimi del client 👋
+      </button>
+      <button type="button" class="snowman-btn" onclick="toggleSnowmanChat()" aria-label="Apri chat con il pupazzo di neve">
+        <svg viewBox="0 0 100 116" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- Shadow -->
+          <ellipse cx="52" cy="108" rx="28" ry="6" fill="rgba(2, 132, 199, 0.38)"/>
+
+          <!-- Left waving stick arm -->
+          <g class="snowman-arm-wave">
+            <path d="M26 60 L9 44 M14 48 L8 39 M15 49 L19 38" stroke="#854d0e" stroke-width="3.6" stroke-linecap="round"/>
+          </g>
+
+          <!-- Right stick arm -->
+          <path d="M74 60 L91 50 M86 53 L93 45" stroke="#854d0e" stroke-width="3.6" stroke-linecap="round"/>
+
+          <!-- Bottom snowball -->
+          <circle cx="50" cy="84" r="23" fill="#f0f9ff" stroke="#bae6fd" stroke-width="2.2"/>
+          <circle cx="50" cy="77" r="2.6" fill="#0f172a"/>
+          <circle cx="50" cy="86" r="2.6" fill="#0f172a"/>
+          <circle cx="50" cy="95" r="2.6" fill="#0f172a"/>
+
+          <!-- Middle snowball -->
+          <circle cx="50" cy="57" r="17" fill="#f8fafc" stroke="#bae6fd" stroke-width="2.2"/>
+
+          <!-- Sky-blue cartoon scarf -->
+          <path d="M35 43 Q50 50 65 43 L63 50 Q50 56 37 50 Z" fill="#38bdf8" stroke="#bae6fd" stroke-width="1.4"/>
+          <path d="M58 48 L64 62 L57 62 L53 50 Z" fill="#0284c7" stroke="#bae6fd" stroke-width="1.3"/>
+
+          <!-- Head snowball -->
+          <circle cx="50" cy="31" r="13.5" fill="#ffffff" stroke="#bae6fd" stroke-width="2.2"/>
+
+          <!-- Cute cartoon eyes & rosy cheeks -->
+          <circle cx="45.5" cy="29.5" r="2.1" fill="#0f172a"/>
+          <circle cx="54.5" cy="29.5" r="2.1" fill="#0f172a"/>
+          <circle cx="46.2" cy="28.8" r="0.7" fill="#ffffff"/>
+          <circle cx="55.2" cy="28.8" r="0.7" fill="#ffffff"/>
+          <ellipse cx="42.5" cy="33" rx="2.4" ry="1.3" fill="rgba(56, 189, 248, 0.45)"/>
+          <ellipse cx="57.5" cy="33" rx="2.4" ry="1.3" fill="rgba(56, 189, 248, 0.45)"/>
+
+          <!-- Carrot nose -->
+          <polygon points="50,31 61,33.5 50,36" fill="#fb923c" stroke="#ea580c" stroke-width="1"/>
+
+          <!-- Friendly smile -->
+          <path d="M45.5 37.5 Q50 41 54.5 37.5" fill="none" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round"/>
+
+          <!-- Arctic Beanie / Hat -->
+          <path d="M36.5 23 Q50 11 63.5 23 Z" fill="#0284c7" stroke="#bae6fd" stroke-width="1.5"/>
+          <rect x="35" y="21" width="30" height="5" rx="2.5" fill="#7dd3fc" stroke="#ffffff" stroke-width="1"/>
+          <circle cx="50" cy="12" r="4.2" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1.2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
 
   <!-- Quick Command Palette (Ctrl + K) -->
   <div id="cmd-modal" onclick="if(event.target === this) closeCmdPalette()">
@@ -2425,7 +2777,7 @@
       </div>
     </section>
 
-    <!-- Supported Versions Section -->
+    <!-- Multi-Version Support Section -->
     <section id="versions" class="versions-section reveal">
       <div class="section-title">
         <h2>Multi-Version Architecture</h2>
@@ -2704,6 +3056,83 @@
       if (splash) splash.classList.add('hide');
     }
     setTimeout(dismissSplash, 850);
+
+    // Cartoon Snowman Chat Logic
+    function toggleSnowmanChat(forceOpen) {
+      const panel = document.getElementById('snowman-chat-panel');
+      const speech = document.getElementById('snowman-speech');
+      const willOpen = typeof forceOpen === 'boolean' ? forceOpen : !panel.classList.contains('open');
+      panel.classList.toggle('open', willOpen);
+      if (willOpen) {
+        if (speech) speech.style.opacity = '0';
+        setTimeout(() => {
+          const inp = document.getElementById('chat-input');
+          if (inp) inp.focus();
+        }, 60);
+      } else if (speech) {
+        speech.style.opacity = '1';
+      }
+    }
+
+    function appendChatMsg(text, sender) {
+      const box = document.getElementById('chat-messages');
+      const div = document.createElement('div');
+      div.className = `msg ${sender}`;
+      div.innerHTML = text;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+      return div;
+    }
+
+    function getSnowmanReply(rawQuestion) {
+      const q = rawQuestion.toLowerCase();
+
+      if (q.includes('fps') || q.includes('rust') || q.includes('veloce') || q.includes('gc') || q.includes('lag')) {
+        return 'Glacier è scritto in <strong>Rust nativo</strong> con <strong>wgpu</strong> (Vulkan / DirectX 12): <strong>0 ms di Garbage Collector</strong>, chunk meshing multi-thread e fino a <strong>5.5x FPS</strong> rispetto al launcher vanilla! 🚀';
+      }
+      if (q.includes('version') || q.includes('1.8') || q.includes('26.2') || q.includes('26.3')) {
+        return 'Supportiamo <strong>1.8.9</strong> (per PvP, duels e BedWars), <strong>26.2</strong> e <strong>26.3</strong> con un singolo launcher leggero! 🎮';
+      }
+      if (q.includes('sicur') || q.includes('ban') || q.includes('cheat') || q.includes('anti-cheat') || q.includes('open source')) {
+        return 'Zero cheat o macro: è un client legittimo per performance e HUD, testato su anti-cheat come GrimAC e Vulcan, con autenticazione solo via <strong>Microsoft OAuth</strong> ufficiale. 🛡️';
+      }
+      if (q.includes('mac') || q.includes('linux') || q.includes('windows') || q.includes('scaric') || q.includes('download')) {
+        return '<strong>Windows</strong> e <strong>Linux</strong> sono già supportati (le build early access si trovano sul nostro Discord). <strong>macOS</strong> (Metal) è in sviluppo nella roadmap! ❄️';
+      }
+      if (q.includes('privacy') || q.includes('dati') || q.includes('account') || q.includes('pagare') || q.includes('gratis')) {
+        return 'Non vendiamo mai i tuoi dati a terze parti, le impostazioni restano in locale e serve solo un account <strong>Minecraft: Java Edition</strong> originale. 🧊';
+      }
+      if (q.includes('ciao') || q.includes('hey') || q.includes('hello') || q.includes('chi sei')) {
+        return 'Brrr-ciao! ⛄ Sono <strong>Frosty</strong>, la mascotte di <strong>Glacier Client</strong>. Chiedimi pure di FPS, Rust, versioni 1.8.9 / 26.2 / 26.3, sicurezza o HUD!';
+      }
+      return 'Ottima domanda! ❄️ <strong>Glacier Client</strong> punta su prestazioni native in Rust, HUD puliti e supporto a <strong>1.8.9, 26.2 e 26.3</strong>. Per dettagli tecnici o beta build puoi anche passare dal nostro <strong>Discord</strong>!';
+    }
+
+    function sendUserQuestion(questionText) {
+      const clean = questionText.trim();
+      if (!clean) return;
+      toggleSnowmanChat(true);
+      appendChatMsg(clean.replace(/</g, '&lt;').replace(/>/g, '&gt;'), 'user');
+
+      const thinking = appendChatMsg('Sta scrivendo... ❄️', 'bot');
+      setTimeout(() => {
+        thinking.innerHTML = getSnowmanReply(clean);
+        const box = document.getElementById('chat-messages');
+        box.scrollTop = box.scrollHeight;
+      }, 280);
+    }
+
+    function askPreset(presetQuestion) {
+      sendUserQuestion(presetQuestion);
+    }
+
+    function handleChatSubmit(event) {
+      event.preventDefault();
+      const input = document.getElementById('chat-input');
+      const val = input.value;
+      input.value = '';
+      sendUserQuestion(val);
+    }
 
     // 0. Generate 192x192 PNG Favicon & Apple Touch Icon matching the exact Site Logo
     (function generateExactPngFavicon() {
@@ -3100,9 +3529,10 @@
         closeLegalModal();
         closeToast();
         dismissSplash();
+        toggleSnowmanChat(false);
         return;
       }
-      if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+      if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) return;
       if (e.key === '/') {
         e.preventDefault();
         openCmdPalette();
