@@ -17,7 +17,7 @@
   <style>
     :root {
       --bg-deep: #02050c;
-      --bg-surface: rgba(10, 22, 40, 0.86);
+      --bg-surface: rgba(10, 22, 40, 0.88);
       --ice-primary: #38bdf8;
       --ice-sky: #7dd3fc;
       --ice-bright: #bae6fd;
@@ -28,6 +28,7 @@
       --text-muted: #94a3b8;
       --warn: #fbbf24;
       --warn-bright: #fde68a;
+      --ok: #6ee7b7;
     }
 
     * {
@@ -49,9 +50,23 @@
       line-height: 1.62;
     }
 
+    :focus-visible {
+      outline: 2px solid var(--ice-sky);
+      outline-offset: 2px;
+    }
+
     ::selection {
       background: rgba(125, 211, 252, 0.36);
       color: #ffffff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.08ms !important;
+        scroll-behavior: auto !important;
+      }
     }
 
     /* Cinematic Intro Overlay */
@@ -62,7 +77,7 @@
       background: radial-gradient(circle at 50% 45%, #0f3356 0%, #02060f 74%);
       display: grid;
       place-items: center;
-      transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.38s ease;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
     }
 
     #intro-splash.hide {
@@ -77,11 +92,11 @@
       align-items: center;
       gap: 16px;
       text-align: center;
-      animation: splashPulse 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: splashPulse 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes splashPulse {
-      0% { opacity: 0; transform: scale(0.92); }
+      0% { opacity: 0; transform: scale(0.93); }
       65% { opacity: 1; transform: scale(1.02); }
       100% { opacity: 1; transform: scale(1); }
     }
@@ -118,7 +133,7 @@
       width: 0%;
       height: 100%;
       background: linear-gradient(90deg, #38bdf8, #bae6fd, #ffffff);
-      animation: loadBar 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: loadBar 0.58s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes loadBar {
@@ -168,9 +183,9 @@
       position: absolute;
       border-radius: 50%;
       filter: blur(115px);
-      opacity: 0.6;
+      opacity: 0.56;
       will-change: transform;
-      animation: floatAurora 20s ease-in-out infinite alternate;
+      animation: floatAurora 22s ease-in-out infinite alternate;
     }
 
     .aurora-1 {
@@ -178,7 +193,7 @@
       height: 540px;
       top: -170px;
       left: 10%;
-      background: radial-gradient(circle, rgba(125, 211, 252, 0.68), rgba(2, 132, 199, 0.1));
+      background: radial-gradient(circle, rgba(125, 211, 252, 0.65), rgba(2, 132, 199, 0.1));
     }
 
     .aurora-2 {
@@ -186,7 +201,7 @@
       height: 600px;
       top: 30%;
       right: -130px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.52), rgba(6, 182, 212, 0.08));
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.5), rgba(6, 182, 212, 0.08));
       animation-delay: -7s;
     }
 
@@ -195,14 +210,14 @@
       height: 560px;
       bottom: -115px;
       left: -115px;
-      background: radial-gradient(circle, rgba(186, 230, 253, 0.44), transparent);
+      background: radial-gradient(circle, rgba(186, 230, 253, 0.42), transparent);
       animation-delay: -12s;
     }
 
     @keyframes floatAurora {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(52px, 34px, 0) scale(1.08); }
-      100% { transform: translate3d(-40px, 46px, 0) scale(0.96); }
+      50% { transform: translate3d(48px, 30px, 0) scale(1.07); }
+      100% { transform: translate3d(-36px, 42px, 0) scale(0.97); }
     }
 
     .ice-grid {
@@ -222,23 +237,23 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 580px;
-      height: 580px;
-      margin-left: -290px;
-      margin-top: -290px;
+      width: 560px;
+      height: 560px;
+      margin-left: -280px;
+      margin-top: -280px;
       border-radius: 50%;
       pointer-events: none;
       z-index: 2;
       background: radial-gradient(
         circle,
-        rgba(125, 211, 252, 0.32) 0%,
-        rgba(56, 189, 248, 0.14) 36%,
+        rgba(125, 211, 252, 0.3) 0%,
+        rgba(56, 189, 248, 0.13) 36%,
         rgba(56, 189, 248, 0.03) 58%,
         transparent 72%
       );
       mix-blend-mode: screen;
       opacity: 0;
-      transition: opacity 0.28s ease;
+      transition: opacity 0.25s ease;
       will-change: transform;
     }
 
@@ -261,8 +276,8 @@
 
     .reveal {
       opacity: 0;
-      transform: translateY(26px) scale(0.985);
-      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(22px) scale(0.99);
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .reveal.visible {
@@ -277,7 +292,7 @@
       z-index: 50;
       backdrop-filter: blur(22px);
       -webkit-backdrop-filter: blur(22px);
-      background: rgba(2, 6, 14, 0.86);
+      background: rgba(2, 6, 14, 0.88);
       border-bottom: 1px solid rgba(125, 211, 252, 0.26);
       box-shadow: 0 12px 42px rgba(0, 0, 0, 0.55);
     }
@@ -313,12 +328,12 @@
     }
 
     .brand:hover .brand-logo {
-      transform: rotate(90deg) scale(1.1);
+      transform: rotate(90deg) scale(1.08);
     }
 
     .nav-links {
       display: flex;
-      gap: 13px;
+      gap: 12px;
       align-items: center;
     }
 
@@ -1122,6 +1137,8 @@
       display: flex;
       gap: 12px;
       align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .os-switcher button {
@@ -1581,6 +1598,9 @@
       cursor: pointer;
       transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
+      text-align: left;
+      font-family: inherit;
+      color: inherit;
     }
 
     .pipe-node:hover, .pipe-node.active {
@@ -1750,7 +1770,7 @@
       width: 0%;
       border-radius: 999px;
       background: rgba(148, 163, 184, 0.36);
-      transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .bench-fill.tori { background: rgba(186, 230, 253, 0.72); }
@@ -1775,6 +1795,24 @@
       gap: 10px;
       font-size: 0.8rem;
       color: var(--text-muted);
+      align-items: center;
+    }
+
+    .copy-mini-btn {
+      padding: 5px 11px;
+      border-radius: 8px;
+      background: rgba(125, 211, 252, 0.16);
+      border: 1px solid rgba(125, 211, 252, 0.42);
+      color: var(--ice-bright);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .copy-mini-btn:hover {
+      background: rgba(125, 211, 252, 0.28);
+      color: #ffffff;
     }
 
     /* Our Security vs Other Section */
@@ -1930,7 +1968,7 @@
       border-radius: 7px;
       background: rgba(52, 211, 153, 0.2);
       border: 1px solid rgba(52, 211, 153, 0.65);
-      color: #6ee7b7;
+      color: var(--ok);
       font-family: 'JetBrains Mono', monospace;
       font-weight: 800;
       font-size: 0.82rem;
@@ -1960,7 +1998,7 @@
       border-radius: 7px;
       background: rgba(251, 191, 36, 0.2);
       border: 1px solid rgba(251, 191, 36, 0.65);
-      color: #fde68a;
+      color: var(--warn-bright);
       font-family: 'JetBrains Mono', monospace;
       font-weight: 800;
       font-size: 0.85rem;
@@ -1987,7 +2025,7 @@
       font-weight: 700;
       background: rgba(52, 211, 153, 0.16);
       border: 1px solid rgba(52, 211, 153, 0.55);
-      color: #6ee7b7;
+      color: var(--ok);
     }
 
     .unknown-pill {
@@ -1999,7 +2037,7 @@
       font-weight: 800;
       background: rgba(251, 191, 36, 0.22);
       border: 1px solid rgba(251, 191, 36, 0.72);
-      color: #fde68a;
+      color: var(--warn-bright);
     }
 
     .telemetry-tag {
@@ -2013,13 +2051,13 @@
     }
 
     .telemetry-tag.clean {
-      color: #6ee7b7;
+      color: var(--ok);
       border-color: rgba(52, 211, 153, 0.45);
       background: rgba(52, 211, 153, 0.12);
     }
 
     .telemetry-tag.unknown {
-      color: #fde68a;
+      color: var(--warn-bright);
       border-color: rgba(251, 191, 36, 0.6);
       background: rgba(251, 191, 36, 0.18);
       font-weight: 700;
@@ -2386,6 +2424,10 @@
       cursor: pointer;
       user-select: none;
       transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: left;
+      font-family: inherit;
+      color: inherit;
+      width: 100%;
     }
 
     .check-item.checked {
@@ -2578,7 +2620,7 @@
 </head>
 <body>
 
-  <div id="intro-splash" onclick="dismissSplash()">
+  <div id="intro-splash" onclick="dismissSplash()" role="button" tabindex="0" aria-label="Skip intro splash">
     <div class="splash-core">
       <div class="splash-ring">
         <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -2593,14 +2635,14 @@
 
   <div id="scroll-progress"></div>
 
-  <div class="aurora-bg">
+  <div class="aurora-bg" aria-hidden="true">
     <div class="aurora-blob aurora-1"></div>
     <div class="aurora-blob aurora-2"></div>
     <div class="aurora-blob aurora-3"></div>
   </div>
-  <div class="ice-grid"></div>
-  <div id="cursor-glow"></div>
-  <canvas id="snow-canvas"></canvas>
+  <div class="ice-grid" aria-hidden="true"></div>
+  <div id="cursor-glow" aria-hidden="true"></div>
+  <canvas id="snow-canvas" aria-hidden="true"></canvas>
 
   <!-- Snowy Mascot + Chat -->
   <div id="snowy-widget">
@@ -2629,12 +2671,12 @@
         <button type="button" class="chat-close" onclick="toggleSnowyChat(false)" aria-label="Close chat">×</button>
       </div>
 
-      <div class="chat-messages" id="chat-messages"></div>
+      <div class="chat-messages" id="chat-messages" aria-live="polite"></div>
 
       <div class="chat-quick-prompts">
         <button type="button" class="quick-chip" onclick="askPreset('hello')">Hello</button>
         <button type="button" class="quick-chip" onclick="askPreset('FastClient security?')">FastClient Security (?)</button>
-        <button type="button" class="quick-chip" onclick="askPreset('Silent and NoRisk safe?')">Silent &amp; NoRisk</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Are Silent and NoRisk safe?')">Silent &amp; NoRisk</button>
         <button type="button" class="quick-chip" onclick="askPreset('How fast is Glacier?')">FPS &amp; Rust</button>
       </div>
 
@@ -2648,7 +2690,7 @@
       <button type="button" class="snowy-speech" id="snowy-speech" onclick="toggleSnowyChat(true)">
         Ask me anything about the client
       </button>
-      <button type="button" class="snowy-trigger-btn" onclick="toggleSnowyChat()" aria-label="Open chat with Snowy">
+      <button type="button" id="snowy-trigger-btn" class="snowy-trigger-btn" onclick="toggleSnowyChat()" aria-label="Open chat with Snowy" aria-expanded="false">
         <svg class="snowy-pixel-svg" viewBox="0 0 24 28">
           <rect x="8" y="1" width="8" height="3" fill="#1e293b"/>
           <rect x="8" y="4" width="8" height="2" fill="#38bdf8"/>
@@ -2679,7 +2721,7 @@
   </div>
 
   <!-- Quick Command Palette -->
-  <div id="cmd-modal" onclick="if(event.target === this) closeCmdPalette()">
+  <div id="cmd-modal" onclick="if(event.target === this) closeCmdPalette()" role="dialog" aria-modal="true" aria-label="Quick navigation">
     <div class="cmd-box">
       <input type="text" id="cmd-input" class="cmd-input" placeholder="Type a command or jump to section..." oninput="filterCmdItems(this.value)" />
       <div class="cmd-list" id="cmd-list">
@@ -2698,15 +2740,15 @@
   </div>
 
   <!-- Legal Modal -->
-  <div id="legal-modal" onclick="if(event.target === this) closeLegalModal()">
+  <div id="legal-modal" onclick="if(event.target === this) closeLegalModal()" role="dialog" aria-modal="true" aria-label="Legal information">
     <div class="legal-dialog" id="legal-dialog-body"></div>
   </div>
 
   <!-- Download Toast -->
-  <div id="toast-notice">
+  <div id="toast-notice" role="status" aria-live="polite">
     <div class="toast-header">
       <span id="toast-title">Glacier Launcher Installer</span>
-      <button type="button" class="toast-close" onclick="closeToast()">×</button>
+      <button type="button" class="toast-close" onclick="closeToast()" aria-label="Close notification">×</button>
     </div>
     <div class="toast-body" id="toast-msg">
       Public installer builds are distributed via our official Discord server during the open beta.
@@ -2727,18 +2769,18 @@
         </div>
         GLACIER
       </a>
-      <nav class="nav-links">
+      <nav class="nav-links" aria-label="Primary navigation">
         <a href="#pipeline">Pipeline</a>
         <a href="#benchmarks">Benchmarks</a>
         <a href="#security-vs-other">Security</a>
         <a href="#simulator">Live Lab</a>
         <a href="#faq">FAQ</a>
-        <button type="button" class="music-pill" id="music-toggle-btn" onclick="toggleXmasCarol()" title="Gentle Holiday Carol">
+        <button type="button" class="music-pill" id="music-toggle-btn" onclick="toggleXmasCarol()" title="Gentle Holiday Carol" aria-pressed="false">
           <span>🎄</span>
           <span id="music-label">Carol: OFF</span>
-          <input type="range" id="music-vol" class="music-vol" min="0" max="1" step="0.05" value="0.45" onclick="event.stopPropagation()" oninput="setCarolVolume(this.value)" title="Volume" />
+          <input type="range" id="music-vol" class="music-vol" min="0" max="1" step="0.05" value="0.45" onclick="event.stopPropagation()" oninput="setCarolVolume(this.value)" title="Volume" aria-label="Holiday carol volume" />
         </button>
-        <button type="button" class="cmd-trigger" onclick="openCmdPalette()" title="Quick Navigation">Ctrl K</button>
+        <button type="button" class="cmd-trigger" onclick="openCmdPalette()" title="Quick Navigation (Ctrl+K / /)">Ctrl K</button>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="nav-discord">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
             <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028z"/>
@@ -2752,7 +2794,7 @@
 
   <main class="container">
     <section class="hero">
-      <div class="hero-halo"></div>
+      <div class="hero-halo" aria-hidden="true"></div>
       <div class="badge">
         <span class="badge-dot"></span>
         <span>NATIVE RUST ENGINE • 1.8.9, 26.2 &amp; 26.3 SUPPORT</span>
@@ -2803,10 +2845,10 @@
                 <span>CLIENT v1.0</span>
               </div>
             </div>
-            <div class="sidebar-item active" onclick="filterMods('all', this)">All Modules</div>
-            <div class="sidebar-item" onclick="filterMods('hud', this)">HUD &amp; Overlay</div>
-            <div class="sidebar-item" onclick="filterMods('pvp', this)">PvP Mechanics</div>
-            <div class="sidebar-item" onclick="filterMods('visual', this)">Visual &amp; Shaders</div>
+            <div class="sidebar-item active" role="button" tabindex="0" onclick="filterMods('all', this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();filterMods('all',this)}">All Modules</div>
+            <div class="sidebar-item" role="button" tabindex="0" onclick="filterMods('hud', this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();filterMods('hud',this)}">HUD &amp; Overlay</div>
+            <div class="sidebar-item" role="button" tabindex="0" onclick="filterMods('pvp', this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();filterMods('pvp',this)}">PvP Mechanics</div>
+            <div class="sidebar-item" role="button" tabindex="0" onclick="filterMods('visual', this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();filterMods('visual',this)}">Visual &amp; Shaders</div>
 
             <div class="preset-box">
               <span class="preset-label">QUICK PRESETS</span>
@@ -2831,17 +2873,17 @@
           <div class="preview-header">
             <h3 id="preview-category-title">All Modules</h3>
             <div class="preview-controls">
-              <input type="text" class="mod-search" id="mod-search" placeholder="Search modules..." oninput="searchMods(this.value)" />
+              <input type="text" class="mod-search" id="mod-search" placeholder="Search modules..." aria-label="Search modules" oninput="searchMods(this.value)" />
               <div class="version-pills">
-                <span class="v-pill active" onclick="selectPreviewVersion(this, '1.8.9')">1.8.9 PvP</span>
-                <span class="v-pill" onclick="selectPreviewVersion(this, '26.2')">26.2</span>
-                <span class="v-pill" onclick="selectPreviewVersion(this, '26.3')">26.3</span>
+                <button type="button" class="v-pill active" onclick="selectPreviewVersion(this, '1.8.9')">1.8.9 PvP</button>
+                <button type="button" class="v-pill" onclick="selectPreviewVersion(this, '26.2')">26.2</button>
+                <button type="button" class="v-pill" onclick="selectPreviewVersion(this, '26.3')">26.3</button>
               </div>
             </div>
           </div>
 
           <div class="mod-grid" id="mod-grid">
-            <div class="mod-card enabled" data-cat="hud" onclick="toggleModCard(this)">
+            <div class="mod-card enabled" data-cat="hud" role="button" tabindex="0" aria-pressed="true" onclick="toggleModCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleModCard(this)}">
               <div class="mod-top">
                 <span class="mod-title">FPS Overlay</span>
                 <div class="toggle"></div>
@@ -2849,7 +2891,7 @@
               <span class="mod-desc">Zero-latency native frame rate counter</span>
             </div>
 
-            <div class="mod-card enabled" data-cat="hud" onclick="toggleModCard(this)">
+            <div class="mod-card enabled" data-cat="hud" role="button" tabindex="0" aria-pressed="true" onclick="toggleModCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleModCard(this)}">
               <div class="mod-top">
                 <span class="mod-title">Armor HUD</span>
                 <div class="toggle"></div>
@@ -2857,7 +2899,7 @@
               <span class="mod-desc">Real-time armor &amp; held item durability</span>
             </div>
 
-            <div class="mod-card enabled" data-cat="hud" onclick="toggleModCard(this)">
+            <div class="mod-card enabled" data-cat="hud" role="button" tabindex="0" aria-pressed="true" onclick="toggleModCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleModCard(this)}">
               <div class="mod-top">
                 <span class="mod-title">Ping Display</span>
                 <div class="toggle"></div>
@@ -2865,7 +2907,7 @@
               <span class="mod-desc">Live server latency &amp; packet loss monitor</span>
             </div>
 
-            <div class="mod-card" data-cat="pvp" onclick="toggleModCard(this)">
+            <div class="mod-card" data-cat="pvp" role="button" tabindex="0" aria-pressed="false" onclick="toggleModCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleModCard(this)}">
               <div class="mod-top">
                 <span class="mod-title">Keystrokes</span>
                 <div class="toggle"></div>
@@ -2873,7 +2915,7 @@
               <span class="mod-desc">Clean WASD, mouse clicks &amp; CPS display</span>
             </div>
 
-            <div class="mod-card enabled" data-cat="pvp" onclick="toggleModCard(this)">
+            <div class="mod-card enabled" data-cat="pvp" role="button" tabindex="0" aria-pressed="true" onclick="toggleModCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleModCard(this)}">
               <div class="mod-top">
                 <span class="mod-title">Toggle Sprint</span>
                 <div class="toggle"></div>
@@ -2881,7 +2923,7 @@
               <span class="mod-desc">Vanilla-compliant continuous sprint</span>
             </div>
 
-            <div class="mod-card" data-cat="visual" onclick="toggleModCard(this)">
+            <div class="mod-card" data-cat="visual" role="button" tabindex="0" aria-pressed="false" onclick="toggleModCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleModCard(this)}">
               <div class="mod-top">
                 <span class="mod-title">Optical Zoom</span>
                 <div class="toggle"></div>
@@ -2889,7 +2931,7 @@
               <span class="mod-desc">Smooth cinematic camera zoom</span>
             </div>
 
-            <div class="mod-card enabled" data-cat="visual" onclick="toggleModCard(this)">
+            <div class="mod-card enabled" data-cat="visual" role="button" tabindex="0" aria-pressed="true" onclick="toggleModCard(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleModCard(this)}">
               <div class="mod-top">
                 <span class="mod-title">Block Overlay</span>
                 <div class="toggle"></div>
@@ -2924,26 +2966,26 @@
       </div>
 
       <div class="pipeline-grid">
-        <div class="pipe-node active" onclick="selectPipelineStep(0, this)">
+        <button type="button" class="pipe-node active" onclick="selectPipelineStep(0, this)">
           <span class="pipe-step-num">STAGE 01</span>
           <h4>Browser OAuth</h4>
           <p>External Microsoft auth handshake</p>
-        </div>
-        <div class="pipe-node" onclick="selectPipelineStep(1, this)">
+        </button>
+        <button type="button" class="pipe-node" onclick="selectPipelineStep(1, this)">
           <span class="pipe-step-num">STAGE 02</span>
           <h4>Rust Netty Core</h4>
           <p>Zero-copy packet &amp; tick loop</p>
-        </div>
-        <div class="pipe-node" onclick="selectPipelineStep(2, this)">
+        </button>
+        <button type="button" class="pipe-node" onclick="selectPipelineStep(2, this)">
           <span class="pipe-step-num">STAGE 03</span>
           <h4>Lock-Free Mesher</h4>
           <p>All-core parallel chunk building</p>
-        </div>
-        <div class="pipe-node" onclick="selectPipelineStep(3, this)">
+        </button>
+        <button type="button" class="pipe-node" onclick="selectPipelineStep(3, this)">
           <span class="pipe-step-num">STAGE 04</span>
           <h4>wgpu Renderer</h4>
           <p>Vulkan / DX12 direct draw calls</p>
-        </div>
+        </button>
       </div>
 
       <div class="pipe-detail-bar">
@@ -2967,102 +3009,14 @@
       </div>
 
       <div class="benchmark-card spotlight-card" id="benchmark-box">
-        <div class="bench-row glacier">
-          <div class="bench-meta">
-            <div class="bench-name">
-              Glacier Client
-              <span class="bench-tag" id="bench-glacier-badge">NATIVE RUST • EXTREME FPS</span>
-            </div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-glacier" data-target="2450">2450</span> FPS</div>
-          </div>
-          <div class="bench-track">
-            <div class="bench-fill glacier" id="bar-glacier" data-width="100%"></div>
-          </div>
-        </div>
-
-        <div class="bench-row runner-up">
-          <div class="bench-meta">
-            <div class="bench-name">Tori Client</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-tori" data-target="1920">1920</span> FPS</div>
-          </div>
-          <div class="bench-track">
-            <div class="bench-fill tori" id="bar-tori" data-width="78.4%"></div>
-          </div>
-        </div>
-
-        <div class="bench-row">
-          <div class="bench-meta">
-            <div class="bench-name">Silent Client</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-silent" data-target="1780">1780</span> FPS</div>
-          </div>
-          <div class="bench-track">
-            <div class="bench-fill silent" id="bar-silent" data-width="72.7%"></div>
-          </div>
-        </div>
-
-        <div class="bench-row">
-          <div class="bench-meta">
-            <div class="bench-name">FastClient</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-fast" data-target="1640">1640</span> FPS</div>
-          </div>
-          <div class="bench-track">
-            <div class="bench-fill fast" id="bar-fast" data-width="66.9%"></div>
-          </div>
-        </div>
-
-        <div class="bench-row">
-          <div class="bench-meta">
-            <div class="bench-name">Lunar Client</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-lunar" data-target="1380">1380</span> FPS</div>
-          </div>
-          <div class="bench-track">
-            <div class="bench-fill lunar" id="bar-lunar" data-width="56.3%"></div>
-          </div>
-        </div>
-
-        <div class="bench-row">
-          <div class="bench-meta">
-            <div class="bench-name">NoRisk Client</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-norisk" data-target="1265">1265</span> FPS</div>
-          </div>
-          <div class="bench-track">
-            <div class="bench-fill norisk" id="bar-norisk" data-width="51.6%"></div>
-          </div>
-        </div>
-
-        <div class="bench-row">
-          <div class="bench-meta">
-            <div class="bench-name">Dawn Client</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-dawn" data-target="1150">1150</span> FPS</div>
-          </div>
-          <div class="bench-track">
-            <div class="bench-fill dawn" id="bar-dawn" data-width="46.9%"></div>
-          </div>
-        </div>
-
-        <div class="bench-row">
-          <div class="bench-meta">
-            <div class="bench-name">Sodium (Fabric)</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-sodium" data-target="960">960</span> FPS</div>
-          </div>
-          <div class="bench-track">
-            <div class="bench-fill sodium" id="bar-sodium" data-width="39.2%"></div>
-          </div>
-        </div>
-
-        <div class="bench-row">
-          <div class="bench-meta">
-            <div class="bench-name">Minecraft Launcher (Vanilla)</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-vanilla" data-target="440">440</span> FPS</div>
-          </div>
-          <div class="bench-track">
-            <div class="bench-fill" id="bar-vanilla" data-width="18.0%"></div>
-          </div>
-        </div>
+        <div id="benchmark-rows"></div>
 
         <div class="bench-footnote">
           <span id="bench-setup-label">Test setup: 1440p • High-End RTX / Ryzen • 24 Chunks Render Distance</span>
-          <span>Higher is better</span>
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+            <button type="button" class="copy-mini-btn" id="copy-bench-btn" onclick="copyBenchmarkSummary()">Copy FPS Summary</button>
+            <span>Higher is better</span>
+          </div>
         </div>
       </div>
     </section>
@@ -3093,7 +3047,7 @@
       </div>
 
       <div class="sec-warning-banner">
-        <span><strong>? FastClient Security Status Unknown:</strong> Because FastClient is closed source without public auditability, its security practices cannot be independently verified (marked <strong>?</strong> below). All listed clients including <strong>Silent Client</strong>, <strong>Lunar Client</strong>, <strong>NoRisk Client</strong>, <strong>Dawn Client</strong>, <strong>Feather Client</strong>, <strong>Badlion Client</strong>, <strong>Sodium (Fabric)</strong>, and <strong>Minecraft Launcher (Vanilla)</strong> are marked <strong>SAFE</strong>.</span>
+        <span><strong>? FastClient Security Status Unknown:</strong> Because FastClient is closed source without public auditability, its security practices cannot be independently verified (marked <strong>?</strong> below). <strong>Silent Client</strong>, <strong>Lunar Client</strong>, <strong>NoRisk Client</strong>, <strong>Dawn Client</strong>, <strong>Feather Client</strong>, <strong>Badlion Client</strong>, <strong>Sodium (Fabric)</strong>, and <strong>Minecraft Launcher (Vanilla)</strong> are marked <strong>SAFE</strong>.</span>
         <span class="unknown-pill">? FASTCLIENT UNVERIFIED</span>
       </div>
 
@@ -3121,118 +3075,7 @@
               <th>Security / Telemetry</th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="glacier-row" data-oss="yes" data-oauth="yes" data-unknown="no">
-              <td>Glacier Client <span class="auth-pill" style="margin-left:6px;">6/6 SAFE</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag clean">Zero Tracking</span></td>
-            </tr>
-            <tr class="unknown-row" data-oss="no" data-oauth="unknown" data-unknown="yes">
-              <td>FastClient <span class="unknown-pill" style="margin-left:6px;">?</span></td>
-              <td><span class="mark-unknown">?</span></td>
-              <td><span class="mark-unknown">?</span></td>
-              <td><span class="mark-unknown">?</span></td>
-              <td><span class="mark-unknown">?</span></td>
-              <td><span class="mark-unknown">?</span></td>
-              <td><span class="mark-unknown">?</span></td>
-              <td><span class="telemetry-tag unknown">? Unverified</span></td>
-            </tr>
-            <tr data-oss="no" data-oauth="no" data-unknown="no">
-              <td>Tori Client</td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag">Closed</span></td>
-            </tr>
-            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
-              <td>Silent Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag clean">Safe</span></td>
-            </tr>
-            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
-              <td>Lunar Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag clean">Safe</span></td>
-            </tr>
-            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
-              <td>NoRisk Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag clean">Safe</span></td>
-            </tr>
-            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
-              <td>Dawn Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag clean">Safe</span></td>
-            </tr>
-            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
-              <td>Feather Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag clean">Safe</span></td>
-            </tr>
-            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
-              <td>Badlion Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag clean">Safe</span></td>
-            </tr>
-            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
-              <td>Sodium (Fabric) <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag clean">Zero Tracking</span></td>
-            </tr>
-            <tr data-oss="yes" data-oauth="yes" data-unknown="no">
-              <td>Minecraft Launcher (Vanilla) <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="mark-yes">✓</span></td>
-              <td><span class="telemetry-tag clean">Safe</span></td>
-            </tr>
-          </tbody>
+          <tbody id="security-tbody"></tbody>
         </table>
       </div>
     </section>
@@ -3465,34 +3308,34 @@
           <span style="font-size:0.8rem;color:var(--text-muted);">Click any item to toggle</span>
         </div>
         <div class="checklist-items">
-          <div class="check-item checked" onclick="toggleChecklistItem(this)">
+          <button type="button" class="check-item checked" aria-pressed="true" onclick="toggleChecklistItem(this)">
             <div class="check-box-icon">✓</div>
             <div>
               <div class="check-title">Official Microsoft Account</div>
               <div class="check-sub">Browser OAuth login without in-app passwords</div>
             </div>
-          </div>
-          <div class="check-item checked" onclick="toggleChecklistItem(this)">
+          </button>
+          <button type="button" class="check-item checked" aria-pressed="true" onclick="toggleChecklistItem(this)">
             <div class="check-box-icon">✓</div>
             <div>
               <div class="check-title">Select Target Version</div>
               <div class="check-sub">1.8.9 for PvP or 26.2 / 26.3 for modern worlds</div>
             </div>
-          </div>
-          <div class="check-item" onclick="toggleChecklistItem(this)">
+          </button>
+          <button type="button" class="check-item" aria-pressed="false" onclick="toggleChecklistItem(this)">
             <div class="check-box-icon"></div>
             <div>
               <div class="check-title">Enable Preferred HUD Mods</div>
               <div class="check-sub">FPS Overlay, Ping, Armor HUD &amp; Toggle Sprint</div>
             </div>
-          </div>
-          <div class="check-item" onclick="toggleChecklistItem(this)">
+          </button>
+          <button type="button" class="check-item" aria-pressed="false" onclick="toggleChecklistItem(this)">
             <div class="check-box-icon"></div>
             <div>
               <div class="check-title">Join Discord for Updates</div>
               <div class="check-sub">Grab latest builds, changelogs &amp; community help</div>
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </section>
@@ -3601,25 +3444,295 @@
   </main>
 
   <script>
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     function dismissSplash() {
       const splash = document.getElementById('intro-splash');
       if (splash) splash.classList.add('hide');
     }
-    setTimeout(dismissSplash, 700);
+    setTimeout(dismissSplash, prefersReducedMotion ? 50 : 650);
+
+    // Centralized Client Data (Benchmarks + Security)
+    const CLIENTS_DATA = [
+      {
+        id: 'glacier',
+        name: 'Glacier Client',
+        rowClass: 'glacier',
+        barClass: 'glacier',
+        badge: 'NATIVE RUST • EXTREME FPS',
+        fps: { laptop: 540, mid: 1280, high: 2450 },
+        security: {
+          mode: 'glacier',
+          oss: 'yes',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'yes',
+          antiCheat: 'yes',
+          labelBadge: '<span class="auth-pill" style="margin-left:6px;">6/6 SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Zero Tracking</span>'
+        }
+      },
+      {
+        id: 'fastclient',
+        name: 'FastClient',
+        rowClass: '',
+        barClass: 'fast',
+        fps: { laptop: 355, mid: 840, high: 1640 },
+        security: {
+          mode: 'unknown',
+          oss: 'unknown',
+          oauth: 'unknown',
+          noPwdModal: 'unknown',
+          zeroPwdStore: 'unknown',
+          auditable: 'unknown',
+          antiCheat: 'unknown',
+          labelBadge: '<span class="unknown-pill" style="margin-left:6px;">?</span>',
+          telemetry: '<span class="telemetry-tag unknown">? Unverified</span>'
+        }
+      },
+      {
+        id: 'tori',
+        name: 'Tori Client',
+        rowClass: 'runner-up',
+        barClass: 'tori',
+        fps: { laptop: 420, mid: 990, high: 1920 },
+        security: {
+          mode: 'standard',
+          oss: 'no',
+          oauth: 'no',
+          noPwdModal: 'no',
+          zeroPwdStore: 'no',
+          auditable: 'no',
+          antiCheat: 'yes',
+          labelBadge: '',
+          telemetry: '<span class="telemetry-tag">Closed</span>'
+        }
+      },
+      {
+        id: 'silent',
+        name: 'Silent Client',
+        rowClass: '',
+        barClass: 'silent',
+        fps: { laptop: 390, mid: 915, high: 1780 },
+        security: {
+          mode: 'safe',
+          oss: 'yes',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'yes',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+        }
+      },
+      {
+        id: 'lunar',
+        name: 'Lunar Client',
+        rowClass: '',
+        barClass: 'lunar',
+        fps: { laptop: 295, mid: 690, high: 1380 },
+        security: {
+          mode: 'safe',
+          oss: 'yes',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'yes',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+        }
+      },
+      {
+        id: 'norisk',
+        name: 'NoRisk Client',
+        rowClass: '',
+        barClass: 'norisk',
+        fps: { laptop: 270, mid: 630, high: 1265 },
+        security: {
+          mode: 'safe',
+          oss: 'yes',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'yes',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+        }
+      },
+      {
+        id: 'dawn',
+        name: 'Dawn Client',
+        rowClass: '',
+        barClass: 'dawn',
+        fps: { laptop: 245, mid: 575, high: 1150 },
+        security: {
+          mode: 'safe',
+          oss: 'yes',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'yes',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+        }
+      },
+      {
+        id: 'sodium',
+        name: 'Sodium (Fabric)',
+        rowClass: '',
+        barClass: 'sodium',
+        fps: { laptop: 205, mid: 480, high: 960 },
+        security: {
+          mode: 'safe',
+          oss: 'yes',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'yes',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Zero Tracking</span>'
+        }
+      },
+      {
+        id: 'vanilla',
+        name: 'Minecraft Launcher (Vanilla)',
+        rowClass: '',
+        barClass: '',
+        fps: { laptop: 95, mid: 220, high: 440 },
+        security: {
+          mode: 'safe',
+          oss: 'yes',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'yes',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+        }
+      }
+    ];
+
+    // Order requested: Glacier, Tori, Silent, FastClient, Lunar, NoRisk, Dawn, Sodium, Vanilla
+    const BENCHMARK_ORDER = ['glacier', 'tori', 'silent', 'fastclient', 'lunar', 'norisk', 'dawn', 'sodium', 'vanilla'];
+
+    // Order requested in security table
+    const SECURITY_ORDER = ['glacier', 'fastclient', 'tori', 'silent', 'lunar', 'norisk', 'dawn', 'feather', 'badlion', 'sodium', 'vanilla'];
+
+    const EXTRA_SECURITY_CLIENTS = {
+      feather: {
+        id: 'feather',
+        name: 'Feather Client',
+        security: {
+          mode: 'safe',
+          oss: 'yes',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'yes',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+        }
+      },
+      badlion: {
+        id: 'badlion',
+        name: 'Badlion Client',
+        security: {
+          mode: 'safe',
+          oss: 'yes',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'yes',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+        }
+      }
+    };
+
+    function getClientRecord(id) {
+      return CLIENTS_DATA.find(c => c.id === id) || EXTRA_SECURITY_CLIENTS[id];
+    }
+
+    function renderMark(val) {
+      if (val === 'yes') return '<span class="mark-yes" aria-label="Yes">✓</span>';
+      if (val === 'unknown') return '<span class="mark-unknown" aria-label="Unknown">?</span>';
+      return '<span class="mark-no" aria-label="No">✕</span>';
+    }
+
+    function renderSecurityTable() {
+      const tbody = document.getElementById('security-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = SECURITY_ORDER.map(id => {
+        const c = getClientRecord(id);
+        const s = c.security;
+        const trClass = c.id === 'glacier' ? 'glacier-row' : (s.mode === 'unknown' ? 'unknown-row' : '');
+        return `
+          <tr class="${trClass}" data-oss="${s.oss}" data-oauth="${s.oauth}" data-unknown="${s.mode === 'unknown' ? 'yes' : 'no'}">
+            <td>${c.name}${s.labelBadge}</td>
+            <td>${renderMark(s.oss)}</td>
+            <td>${renderMark(s.oauth)}</td>
+            <td>${renderMark(s.noPwdModal)}</td>
+            <td>${renderMark(s.zeroPwdStore)}</td>
+            <td>${renderMark(s.auditable)}</td>
+            <td>${renderMark(s.antiCheat)}</td>
+            <td>${s.telemetry}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function renderBenchmarkRows() {
+      const container = document.getElementById('benchmark-rows');
+      if (!container) return;
+      container.innerHTML = BENCHMARK_ORDER.map(id => {
+        const c = getClientRecord(id);
+        const badgeHtml = c.id === 'glacier'
+          ? `<span class="bench-tag" id="bench-glacier-badge">${c.badge}</span>`
+          : '';
+        return `
+          <div class="bench-row ${c.rowClass}">
+            <div class="bench-meta">
+              <div class="bench-name">
+                ${c.name}
+                ${badgeHtml}
+              </div>
+              <div class="bench-fps"><span class="fps-counter" id="fps-${c.id}" data-target="${c.fps.high}">${c.fps.high}</span> FPS</div>
+            </div>
+            <div class="bench-track">
+              <div class="bench-fill ${c.barClass}" id="bar-${c.id}" data-width="0%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    renderBenchmarkRows();
+    renderSecurityTable();
 
     // Magnetic Button Physics
-    document.querySelectorAll('.magnetic-btn').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        if (btn.classList.contains('btn-disabled')) return;
-        const rect = btn.getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) * 0.18;
-        const y = (e.clientY - rect.top - rect.height / 2) * 0.22;
-        btn.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
-      }, { passive: true });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = 'translate3d(0, 0, 0)';
+    if (!prefersReducedMotion) {
+      document.querySelectorAll('.magnetic-btn').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+          if (btn.classList.contains('btn-disabled')) return;
+          const rect = btn.getBoundingClientRect();
+          const x = (e.clientX - rect.left - rect.width / 2) * 0.16;
+          const y = (e.clientY - rect.top - rect.height / 2) * 0.2;
+          btn.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+        }, { passive: true });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = 'translate3d(0, 0, 0)';
+        });
       });
-    });
+    }
 
     // Interactive Engine Pipeline
     const pipelineData = [
@@ -3705,6 +3818,7 @@
 
       carolPlaying = !carolPlaying;
       btn.classList.toggle('playing', carolPlaying);
+      btn.setAttribute('aria-pressed', String(carolPlaying));
 
       if (carolPlaying) {
         label.textContent = 'Carol: ON';
@@ -3749,8 +3863,10 @@
     function toggleSnowyChat(forceOpen) {
       const panel = document.getElementById('snowy-chat-panel');
       const speech = document.getElementById('snowy-speech');
+      const trigger = document.getElementById('snowy-trigger-btn');
       const willOpen = typeof forceOpen === 'boolean' ? forceOpen : !panel.classList.contains('open');
       panel.classList.toggle('open', willOpen);
+      if (trigger) trigger.setAttribute('aria-expanded', String(willOpen));
       if (willOpen) {
         if (speech) speech.style.opacity = '0';
         setTimeout(() => {
@@ -3856,7 +3972,7 @@
         thinkingBubble.textContent = replyText;
         const box = document.getElementById('chat-messages');
         box.scrollTop = box.scrollHeight;
-      }, 680);
+      }, prefersReducedMotion ? 80 : 620);
     }
 
     function askPreset(presetQuestion) {
@@ -4075,26 +4191,33 @@
       });
     }
 
-    const hwTiers = {
+    const hwTierMeta = {
       laptop: {
-        glacier: 540, tori: 420, silent: 390, fast: 355, lunar: 295, norisk: 270, dawn: 245, sodium: 205, vanilla: 95,
         badge: 'NATIVE RUST • #1 FPS',
         label: 'Test setup: 1080p • Integrated Graphics • 12 Chunks'
       },
       mid: {
-        glacier: 1280, tori: 990, silent: 915, fast: 840, lunar: 690, norisk: 630, dawn: 575, sodium: 480, vanilla: 220,
         badge: 'NATIVE RUST • #1 FPS',
         label: 'Test setup: 1080p • 16 Chunks Render Distance • Fancy Graphics'
       },
       high: {
-        glacier: 2450, tori: 1920, silent: 1780, fast: 1640, lunar: 1380, norisk: 1265, dawn: 1150, sodium: 960, vanilla: 440,
         badge: 'NATIVE RUST • EXTREME FPS',
         label: 'Test setup: 1440p • High-End RTX / Ryzen • 24 Chunks Render Distance'
       }
     };
 
+    let activeTierKey = 'high';
+
     function animateCountersTo(valuesMap) {
-      const duration = 560;
+      if (prefersReducedMotion) {
+        Object.keys(valuesMap).forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = valuesMap[id];
+        });
+        return;
+      }
+
+      const duration = 520;
       const start = performance.now();
       const startVals = {};
       Object.keys(valuesMap).forEach(id => {
@@ -4117,43 +4240,50 @@
     }
 
     function setHardwareTier(tierKey, btn) {
+      activeTierKey = hwTierMeta[tierKey] ? tierKey : 'high';
       document.querySelectorAll('.hw-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
-      const tier = hwTiers[tierKey] || hwTiers.high;
+      const meta = hwTierMeta[activeTierKey];
 
-      document.getElementById('bench-glacier-badge').textContent = tier.badge;
-      document.getElementById('bench-setup-label').textContent = tier.label;
+      const badgeEl = document.getElementById('bench-glacier-badge');
+      if (badgeEl) badgeEl.textContent = meta.badge;
+      document.getElementById('bench-setup-label').textContent = meta.label;
 
-      animateCountersTo({
-        'fps-glacier': tier.glacier,
-        'fps-tori': tier.tori,
-        'fps-silent': tier.silent,
-        'fps-fast': tier.fast,
-        'fps-lunar': tier.lunar,
-        'fps-norisk': tier.norisk,
-        'fps-dawn': tier.dawn,
-        'fps-sodium': tier.sodium,
-        'fps-vanilla': tier.vanilla
-      });
+      const counterTargets = {};
+      const maxFps = CLIENTS_DATA.find(c => c.id === 'glacier').fps[activeTierKey];
 
-      const maxFps = tier.glacier;
-      const bars = {
-        'bar-glacier': tier.glacier,
-        'bar-tori': tier.tori,
-        'bar-silent': tier.silent,
-        'bar-fast': tier.fast,
-        'bar-lunar': tier.lunar,
-        'bar-norisk': tier.norisk,
-        'bar-dawn': tier.dawn,
-        'bar-sodium': tier.sodium,
-        'bar-vanilla': tier.vanilla
-      };
-      Object.keys(bars).forEach(barId => {
-        const barEl = document.getElementById(barId);
+      BENCHMARK_ORDER.forEach(id => {
+        const c = getClientRecord(id);
+        const fpsVal = c.fps[activeTierKey];
+        counterTargets[`fps-${id}`] = fpsVal;
+        const barEl = document.getElementById(`bar-${id}`);
         if (barEl) {
-          barEl.style.width = `${Math.max(8, (bars[barId] / maxFps) * 100).toFixed(1)}%`;
+          barEl.style.width = `${Math.max(8, (fpsVal / maxFps) * 100).toFixed(1)}%`;
         }
       });
+
+      animateCountersTo(counterTargets);
+    }
+
+    function copyBenchmarkSummary() {
+      const meta = hwTierMeta[activeTierKey];
+      const lines = [
+        `Glacier Client FPS Benchmarks (${meta.label})`,
+        ...BENCHMARK_ORDER.map(id => {
+          const c = getClientRecord(id);
+          return `- ${c.name}: ${c.fps[activeTierKey]} FPS`;
+        })
+      ];
+      const btn = document.getElementById('copy-bench-btn');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(lines.join('\n')).then(() => {
+          if (btn) {
+            const prev = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = prev; }, 1600);
+          }
+        }).catch(() => {});
+      }
     }
 
     // Security Table Filter
@@ -4176,9 +4306,11 @@
 
     // Pre-Launch Checklist
     function toggleChecklistItem(el) {
-      el.classList.toggle('checked');
+      const nextState = !el.classList.contains('checked');
+      el.classList.toggle('checked', nextState);
+      el.setAttribute('aria-pressed', String(nextState));
       const icon = el.querySelector('.check-box-icon');
-      icon.textContent = el.classList.contains('checked') ? '✓' : '';
+      icon.textContent = nextState ? '✓' : '';
 
       const total = document.querySelectorAll('.check-item').length;
       const ready = document.querySelectorAll('.check-item.checked').length;
@@ -4216,12 +4348,17 @@
     }
 
     function toggleModCard(card) {
-      card.classList.toggle('enabled');
+      const nextState = !card.classList.contains('enabled');
+      card.classList.toggle('enabled', nextState);
+      card.setAttribute('aria-pressed', String(nextState));
       updateActiveCounter();
     }
 
     function setAllMods(state) {
-      document.querySelectorAll('.mod-card').forEach(card => card.classList.toggle('enabled', state));
+      document.querySelectorAll('.mod-card').forEach(card => {
+        card.classList.toggle('enabled', state);
+        card.setAttribute('aria-pressed', String(state));
+      });
       updateActiveCounter();
     }
 
@@ -4234,7 +4371,9 @@
       const enabledSet = new Set(map[presetName] || []);
       document.querySelectorAll('.mod-card').forEach(card => {
         const title = card.querySelector('.mod-title').textContent.trim();
-        card.classList.toggle('enabled', enabledSet.has(title));
+        const isEn = enabledSet.has(title);
+        card.classList.toggle('enabled', isEn);
+        card.setAttribute('aria-pressed', String(isEn));
       });
       updateActiveCounter();
     }
@@ -4268,7 +4407,7 @@
     let simMode = 'rust';
     const ftCanvas = document.getElementById('frametime-canvas');
     const ftCtx = ftCanvas.getContext('2d');
-    let ftHistory = Array(64).fill(0.45);
+    let ftHistory = Array(64).fill(1.6);
     let tickCounter = 0;
 
     function setSimMode(mode) {
@@ -4289,20 +4428,24 @@
         document.getElementById('hud-sim-fps').textContent = '[VANILLA JVM] 440 FPS • GC LAG';
         document.getElementById('hud-sim-status').textContent = 'GC STUTTER DETECTED';
       }
+      drawFrameTimeGraph();
     }
 
     function drawFrameTimeGraph() {
       const rect = ftCanvas.getBoundingClientRect();
       const targetW = Math.floor(rect.width);
-      if (targetW > 0 && (ftCanvas.width !== targetW || ftCanvas.height !== 110)) {
-        ftCanvas.width = targetW;
-        ftCanvas.height = 110;
+      const targetH = 110;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      if (targetW > 0 && (ftCanvas.width !== Math.floor(targetW * dpr) || ftCanvas.height !== Math.floor(targetH * dpr))) {
+        ftCanvas.width = Math.floor(targetW * dpr);
+        ftCanvas.height = Math.floor(targetH * dpr);
       }
 
       tickCounter++;
       if (tickCounter % 2 === 0) {
         const nextVal = simMode === 'rust'
-          ? 1.6 + (Math.random() - 0.5) * 0.18
+          ? 1.6 + (Math.random() - 0.5) * 0.16
           : (Math.random() < 0.09 ? 36 + Math.random() * 15 : 9.5 + (Math.random() - 0.5) * 3.2);
         ftHistory.push(nextVal);
         ftHistory.shift();
@@ -4310,21 +4453,28 @@
 
       const w = ftCanvas.width;
       const h = ftCanvas.height;
-      ftCtx.clearRect(0, 0, w, h);
+      if (w <= 0 || h <= 0) return;
+
+      ftCtx.save();
+      ftCtx.scale(dpr, dpr);
+      const lw = targetW;
+      const lh = targetH;
+
+      ftCtx.clearRect(0, 0, lw, lh);
 
       ftCtx.strokeStyle = 'rgba(186, 230, 253, 0.09)';
       ftCtx.lineWidth = 1;
-      for (let y = 25; y < h; y += 30) {
+      for (let y = 25; y < lh; y += 30) {
         ftCtx.beginPath();
         ftCtx.moveTo(0, y);
-        ftCtx.lineTo(w, y);
+        ftCtx.lineTo(lw, y);
         ftCtx.stroke();
       }
 
       ftCtx.beginPath();
-      const step = w / (ftHistory.length - 1);
+      const step = lw / (ftHistory.length - 1);
       for (let i = 0; i < ftHistory.length; i++) {
-        const y = h - Math.min(h - 8, (ftHistory[i] / 55) * (h - 14)) - 6;
+        const y = lh - Math.min(lh - 8, (ftHistory[i] / 55) * (lh - 14)) - 6;
         if (i === 0) ftCtx.moveTo(0, y);
         else ftCtx.lineTo(i * step, y);
       }
@@ -4332,6 +4482,7 @@
       ftCtx.strokeStyle = simMode === 'rust' ? '#7dd3fc' : '#f87171';
       ftCtx.lineWidth = 2.5;
       ftCtx.stroke();
+      ftCtx.restore();
     }
 
     const scrollBar = document.getElementById('scroll-progress');
@@ -4361,12 +4512,12 @@
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      if (!glowVisible) {
+      if (!glowVisible && !prefersReducedMotion) {
         cursorGlow.style.opacity = '1';
         glowVisible = true;
       }
 
-      if (sparkles.length < 30 && Math.random() < 0.38) {
+      if (!prefersReducedMotion && sparkles.length < 24 && Math.random() < 0.32) {
         sparkles.push({
           x: mouseX + (Math.random() - 0.5) * 12,
           y: mouseY + (Math.random() - 0.5) * 12,
@@ -4378,7 +4529,7 @@
       }
 
       const now = performance.now();
-      if (now - lastSpotUpdate > 24) {
+      if (now - lastSpotUpdate > 28) {
         lastSpotUpdate = now;
         for (let i = 0; i < spotlightCards.length; i++) {
           const card = spotlightCards[i];
@@ -4397,7 +4548,7 @@
     }, { passive: true });
 
     document.addEventListener('click', (e) => {
-      if (ripples.length < 8) {
+      if (!prefersReducedMotion && ripples.length < 7) {
         ripples.push({ x: e.clientX, y: e.clientY, radius: 4, alpha: 0.58 });
       }
     }, { passive: true });
@@ -4410,20 +4561,22 @@
     const previewWindow = document.getElementById('client-preview');
     const previewGlare = document.getElementById('preview-glare');
 
-    previewWindow.addEventListener('mousemove', (e) => {
-      const rect = previewWindow.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const rotateX = (((y - rect.height / 2) / (rect.height / 2)) * -3).toFixed(2);
-      const rotateY = (((x - rect.width / 2) / (rect.width / 2)) * 3).toFixed(2);
-      previewWindow.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      previewGlare.style.setProperty('--glare-x', `${x}px`);
-      previewGlare.style.setProperty('--glare-y', `${y}px`);
-    }, { passive: true });
+    if (!prefersReducedMotion) {
+      previewWindow.addEventListener('mousemove', (e) => {
+        const rect = previewWindow.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const rotateX = (((y - rect.height / 2) / (rect.height / 2)) * -2.8).toFixed(2);
+        const rotateY = (((x - rect.width / 2) / (rect.width / 2)) * 2.8).toFixed(2);
+        previewWindow.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        previewGlare.style.setProperty('--glare-x', `${x}px`);
+        previewGlare.style.setProperty('--glare-y', `${y}px`);
+      }, { passive: true });
 
-    previewWindow.addEventListener('mouseleave', () => {
-      previewWindow.style.transform = 'rotateX(0deg) rotateY(0deg)';
-    });
+      previewWindow.addEventListener('mouseleave', () => {
+        previewWindow.style.transform = 'rotateX(0deg) rotateY(0deg)';
+      });
+    }
 
     let benchmarksAnimated = false;
     function animateBenchmarks() {
@@ -4451,7 +4604,7 @@
     function initSnow() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      const count = Math.min(68, Math.floor(width / 19));
+      const count = prefersReducedMotion ? 0 : Math.min(64, Math.floor(width / 20));
       flakes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -4461,7 +4614,7 @@
         alpha: Math.random() * 0.52 + 0.16
       }));
 
-      const crystalCount = Math.min(11, Math.floor(width / 125));
+      const crystalCount = prefersReducedMotion ? 0 : Math.min(10, Math.floor(width / 130));
       crystals = Array.from({ length: crystalCount }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -4491,9 +4644,11 @@
 
     function animate() {
       if (!document.hidden) {
-        glowX += (mouseX - glowX) * 0.18;
-        glowY += (mouseY - glowY) * 0.18;
-        cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0)`;
+        if (!prefersReducedMotion) {
+          glowX += (mouseX - glowX) * 0.18;
+          glowY += (mouseY - glowY) * 0.18;
+          cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0)`;
+        }
 
         ctx.clearRect(0, 0, width, height);
 
@@ -4567,10 +4722,14 @@
     let resizeTimeout = null;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(initSnow, 120);
+      resizeTimeout = setTimeout(() => {
+        initSnow();
+        drawFrameTimeGraph();
+      }, 120);
     }, { passive: true });
 
     initSnow();
+    setHardwareTier('high', document.querySelectorAll('.hw-btn')[2]);
     animate();
   </script>
 </body>
