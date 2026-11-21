@@ -1573,7 +1573,7 @@
 
     .section-title p {
       color: var(--text-muted);
-      max-width: 740px;
+      max-width: 780px;
       margin: 0 auto;
     }
 
@@ -1775,7 +1775,7 @@
 
     .bench-fill.tori { background: rgba(186, 230, 253, 0.72); }
     .bench-fill.silent { background: rgba(147, 197, 253, 0.67); }
-    .bench-fill.fast { background: rgba(125, 211, 252, 0.62); }
+    .bench-fill.fast { background: rgba(251, 191, 36, 0.55); }
     .bench-fill.lunar { background: rgba(56, 189, 248, 0.52); }
     .bench-fill.norisk { background: rgba(45, 212, 191, 0.48); }
     .bench-fill.dawn { background: rgba(34, 211, 238, 0.44); }
@@ -1849,10 +1849,10 @@
 
     .sec-warning-banner {
       margin-bottom: 18px;
-      padding: 15px 20px;
+      padding: 16px 20px;
       border-radius: 16px;
-      background: linear-gradient(90deg, rgba(251, 191, 36, 0.18), rgba(146, 64, 14, 0.14));
-      border: 1px solid rgba(251, 191, 36, 0.52);
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.2), rgba(146, 64, 14, 0.16));
+      border: 1px solid rgba(251, 191, 36, 0.62);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -2058,8 +2058,8 @@
 
     .telemetry-tag.unknown {
       color: var(--warn-bright);
-      border-color: rgba(251, 191, 36, 0.6);
-      background: rgba(251, 191, 36, 0.18);
+      border-color: rgba(251, 191, 36, 0.65);
+      background: rgba(251, 191, 36, 0.2);
       font-weight: 700;
     }
 
@@ -2675,8 +2675,8 @@
 
       <div class="chat-quick-prompts">
         <button type="button" class="quick-chip" onclick="askPreset('hello')">Hello</button>
-        <button type="button" class="quick-chip" onclick="askPreset('FastClient security?')">FastClient Security (?)</button>
-        <button type="button" class="quick-chip" onclick="askPreset('Are Silent and NoRisk safe?')">Silent &amp; NoRisk</button>
+        <button type="button" class="quick-chip" onclick="askPreset('FastClient & sandbox flags?')">FastClient &amp; Sandbox (?)</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Sodium vs Dawn?')">Sodium vs Dawn</button>
         <button type="button" class="quick-chip" onclick="askPreset('How fast is Glacier?')">FPS &amp; Rust</button>
       </div>
 
@@ -2731,7 +2731,7 @@
         <a href="#simulator" class="cmd-item" onclick="closeCmdPalette()">Open Live Frame-Time Lab <span>#simulator</span></a>
         <a href="#versions" class="cmd-item" onclick="closeCmdPalette()">Supported Versions (1.8.9 / 26.2 / 26.3) <span>#versions</span></a>
         <a href="#checklist" class="cmd-item" onclick="closeCmdPalette()">Pre-Launch Setup Checklist <span>#checklist</span></a>
-        <a href="#faq" class="cmd-item" onclick="closeCmdPalette()">Read Safety, False Positives &amp; FAQ <span>#faq</span></a>
+        <a href="#faq" class="cmd-item" onclick="closeCmdPalette()">Read Safety, Sandbox Flags &amp; FAQ <span>#faq</span></a>
         <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('terms');">Terms of Service <span>LEGAL</span></button>
         <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('privacy');">Privacy Policy (Zero Data Sale) <span>LEGAL</span></button>
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="cmd-item" onclick="closeCmdPalette()">Join Official Discord Server <span>EXTERNAL</span></a>
@@ -3026,29 +3026,31 @@
       <div class="section-title">
         <h2>Our Security vs Other</h2>
         <p>
-          Glacier Client is <strong>open source</strong>, opens your <strong>external browser</strong> for official Microsoft OAuth login,
-          never touches or stores passwords inside the app, and keeps every line of code auditable.
+          Honest technical breakdown: <strong>Glacier Client</strong> is open source with external browser OAuth and zero password storage.
+          Proprietary / closed-source clients do not expose public source code for independent audit, and <strong>Sodium</strong> is an open-source rendering mod rather than a standalone launcher.
         </p>
       </div>
 
       <div class="security-highlights">
         <div class="sec-mini-card spotlight-card">
-          <h4>100% Open Source Code</h4>
-          <p>Unlike closed-source benchmark clients, Glacier's codebase is open for inspection—zero hidden telemetry or mystery binaries.</p>
+          <h4>Open Source Transparency</h4>
+          <p>Glacier's codebase is public and auditable. Closed-source clients require trusting proprietary binaries without public source inspection.</p>
         </div>
         <div class="sec-mini-card spotlight-card">
-          <h4>External Browser OAuth</h4>
-          <p>Logging in launches your real browser with official Microsoft endpoints—no fake embedded login modals inside the app.</p>
+          <h4>Sandbox &amp; Heuristic Flags</h4>
+          <p>Unverified binaries like <strong>FastClient</strong> can trigger OS sandbox blocks or heuristic antivirus/SmartScreen warnings when unsigned or unverified.</p>
         </div>
         <div class="sec-mini-card spotlight-card">
-          <h4>Zero Password Storage</h4>
-          <p>We never ask for, process, or store your password anywhere—on disk or on any server.</p>
+          <h4>Browser OAuth &amp; Passwords</h4>
+          <p>Official Microsoft OAuth in an external browser avoids embedded credential prompts and never stores account passwords locally.</p>
         </div>
       </div>
 
       <div class="sec-warning-banner">
-        <span><strong>? FastClient Security Status Unknown:</strong> Because FastClient is closed source without public auditability, its security practices cannot be independently verified (marked <strong>?</strong> below). <strong>Silent Client</strong>, <strong>Lunar Client</strong>, <strong>NoRisk Client</strong>, <strong>Dawn Client</strong>, <strong>Feather Client</strong>, <strong>Badlion Client</strong>, <strong>Sodium (Fabric)</strong>, and <strong>Minecraft Launcher (Vanilla)</strong> are marked <strong>SAFE</strong>.</span>
-        <span class="unknown-pill">? FASTCLIENT UNVERIFIED</span>
+        <span>
+          <strong>? FastClient Not Verified — Sandbox &amp; Security Risk:</strong> FastClient is <strong>not verified</strong> for safety or source transparency (<strong>?</strong>). Unverified executables or custom client builds frequently trigger <strong>sandbox flags</strong>, SmartScreen/AV heuristic warnings, or execution blocks because their behavior and provenance are unconfirmed—treat unverified binaries with caution and never enter sensitive credentials into untrusted prompts.
+        </span>
+        <span class="unknown-pill">? FASTCLIENT UNVERIFIED • SANDBOX RISK</span>
       </div>
 
       <div class="sec-filter-bar">
@@ -3343,28 +3345,28 @@
     <section id="faq" class="faq-section reveal">
       <div class="section-title">
         <h2>Frequently Asked Questions</h2>
-        <p>Everything you need to know about security, browser authentication, open source code, and performance.</p>
+        <p>Accurate details on open source vs closed source clients, sandbox flags, and performance.</p>
       </div>
 
       <div class="faq-list">
         <details class="faq-item">
-          <summary>Are Silent Client, Lunar Client, NoRisk, Dawn, Feather, Badlion, Sodium, and Vanilla marked safe?</summary>
+          <summary>Why is FastClient marked with "?" and why are sandbox flags an issue?</summary>
           <div class="faq-answer">
-            Yes. All of those requested clients are marked as <strong>SAFE</strong> in the Security vs Other comparison, while <strong>FastClient</strong> remains marked with <strong>?</strong> due to closed-source unverified status.
+            <strong>FastClient</strong> is not verified for safety or public source transparency (<strong>?</strong>). When a client or binary lacks verified provenance or public auditability, operating systems and security tools can raise <strong>sandbox flags</strong> or heuristic alerts—meaning it is not safe to treat as verified.
           </div>
         </details>
 
         <details class="faq-item">
-          <summary>Why does FastClient have a "?" in the Security vs Other table?</summary>
+          <summary>What is the difference between Sodium, Dawn, Lunar, Feather, Badlion, NoRisk, Silent, and Glacier?</summary>
           <div class="faq-answer">
-            FastClient is closed source and lacks public source-code auditability, so its security and authentication implementation cannot be independently verified—which is why it is marked with <strong>?</strong>. Glacier Client is <strong>100% open source</strong> and opens your external browser directly to official Microsoft OAuth endpoints.
+            <strong>Sodium (Fabric)</strong> is an open-source rendering mod (not a standalone launcher), while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, and <strong>Tori</strong> are non-open-source / proprietary projects. <strong>Glacier Client</strong> is open source with external browser OAuth and zero password storage.
           </div>
         </details>
 
         <details class="faq-item">
           <summary>Why did a single scanner flag the URL as suspicious or phishing?</summary>
           <div class="faq-answer">
-            Automated heuristic scanners occasionally trigger false positives on newly published <code>*.github.io</code> pages or game-related landing pages that reference downloads or Discord links—even when 90+ security vendors report the URL as clean.
+            Automated heuristic scanners occasionally trigger false positives on newly published <code>*.github.io</code> pages or game-related landing pages that reference downloads or Discord links—even when most security vendors report the URL as clean.
           </div>
         </details>
 
@@ -3376,30 +3378,16 @@
         </details>
 
         <details class="faq-item">
-          <summary>Is Glacier Client open source?</summary>
-          <div class="faq-answer">
-            Yes! Unlike closed-source benchmark clients, Glacier Client is open source so anyone can inspect the code, verify there is no malware or data collection, and contribute improvements.
-          </div>
-        </details>
-
-        <details class="faq-item">
           <summary>Will I get banned on multiplayer servers?</summary>
           <div class="faq-answer">
-            Glacier Client is strictly a legitimate performance and HUD client—it contains zero cheats, macros, or unfair movement/combat modifications. We continuously test physics parity across 1.8.9, 26.2, and 26.3 against strict anti-cheats (such as GrimAC and Vulcan) to ensure vanilla-accurate packets.
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>Which Minecraft versions are supported?</summary>
-          <div class="faq-answer">
-            Glacier Client currently supports <strong>1.8.9</strong> (for competitive PvP), <strong>26.2</strong>, and <strong>26.3</strong>. You can switch between versions effortlessly inside the Glacier Launcher.
+            Glacier Client is strictly a legitimate performance and HUD client—it contains zero cheats, macros, or unfair movement/combat modifications. We continuously test physics parity across 1.8.9, 26.2, and 26.3 against anti-cheats (such as GrimAC and Vulcan) to ensure vanilla-accurate packets.
           </div>
         </details>
 
         <details class="faq-item">
           <summary>Why is Rust faster than standard Java clients?</summary>
           <div class="faq-answer">
-            Standard Minecraft runs on the Java Virtual Machine (JVM), which periodically pauses the game for Garbage Collection (causing sudden FPS drops and micro-stutters). Glacier compiles directly to native machine code using Rust and <code>wgpu</code>, eliminating GC pauses and utilizing all CPU cores efficiently.
+            Standard Minecraft runs on the Java Virtual Machine (JVM), which periodically pauses the game for Garbage Collection (causing sudden FPS drops and micro-stutters). Glacier compiles directly to native machine code using Rust and <code>wgpu</code>, eliminating GC pauses and utilizing CPU cores efficiently.
           </div>
         </details>
 
@@ -3452,7 +3440,7 @@
     }
     setTimeout(dismissSplash, prefersReducedMotion ? 50 : 650);
 
-    // Centralized Client Data (Benchmarks + Security)
+    // Accurate Client Data (Benchmarks + Security)
     const CLIENTS_DATA = [
       {
         id: 'glacier',
@@ -3476,7 +3464,7 @@
       {
         id: 'fastclient',
         name: 'FastClient',
-        rowClass: '',
+        rowClass: 'unknown-row',
         barClass: 'fast',
         fps: { laptop: 355, mid: 840, high: 1640 },
         security: {
@@ -3487,8 +3475,8 @@
           zeroPwdStore: 'unknown',
           auditable: 'unknown',
           antiCheat: 'unknown',
-          labelBadge: '<span class="unknown-pill" style="margin-left:6px;">?</span>',
-          telemetry: '<span class="telemetry-tag unknown">? Unverified</span>'
+          labelBadge: '<span class="unknown-pill" style="margin-left:6px;">? UNVERIFIED</span>',
+          telemetry: '<span class="telemetry-tag unknown">? Not Safe • Sandbox Flags</span>'
         }
       },
       {
@@ -3517,14 +3505,14 @@
         fps: { laptop: 390, mid: 915, high: 1780 },
         security: {
           mode: 'safe',
-          oss: 'yes',
+          oss: 'no',
           oauth: 'yes',
           noPwdModal: 'yes',
           zeroPwdStore: 'yes',
-          auditable: 'yes',
+          auditable: 'no',
           antiCheat: 'yes',
           labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
-          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
         }
       },
       {
@@ -3535,14 +3523,14 @@
         fps: { laptop: 295, mid: 690, high: 1380 },
         security: {
           mode: 'safe',
-          oss: 'yes',
+          oss: 'no',
           oauth: 'yes',
           noPwdModal: 'yes',
           zeroPwdStore: 'yes',
-          auditable: 'yes',
+          auditable: 'no',
           antiCheat: 'yes',
           labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
-          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
         }
       },
       {
@@ -3553,14 +3541,14 @@
         fps: { laptop: 270, mid: 630, high: 1265 },
         security: {
           mode: 'safe',
-          oss: 'yes',
+          oss: 'no',
           oauth: 'yes',
           noPwdModal: 'yes',
           zeroPwdStore: 'yes',
-          auditable: 'yes',
+          auditable: 'no',
           antiCheat: 'yes',
           labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
-          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
         }
       },
       {
@@ -3571,14 +3559,14 @@
         fps: { laptop: 245, mid: 575, high: 1150 },
         security: {
           mode: 'safe',
-          oss: 'yes',
+          oss: 'no',
           oauth: 'yes',
           noPwdModal: 'yes',
           zeroPwdStore: 'yes',
-          auditable: 'yes',
+          auditable: 'no',
           antiCheat: 'yes',
           labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
-          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
         }
       },
       {
@@ -3590,13 +3578,13 @@
         security: {
           mode: 'safe',
           oss: 'yes',
-          oauth: 'yes',
+          oauth: 'no',
           noPwdModal: 'yes',
           zeroPwdStore: 'yes',
           auditable: 'yes',
           antiCheat: 'yes',
           labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
-          telemetry: '<span class="telemetry-tag clean">Zero Tracking</span>'
+          telemetry: '<span class="telemetry-tag clean">Zero Tracking • Mod</span>'
         }
       },
       {
@@ -3607,14 +3595,14 @@
         fps: { laptop: 95, mid: 220, high: 440 },
         security: {
           mode: 'safe',
-          oss: 'yes',
+          oss: 'no',
           oauth: 'yes',
           noPwdModal: 'yes',
           zeroPwdStore: 'yes',
-          auditable: 'yes',
+          auditable: 'no',
           antiCheat: 'yes',
           labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
-          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+          telemetry: '<span class="telemetry-tag clean">Safe • Official</span>'
         }
       }
     ];
@@ -3631,14 +3619,14 @@
         name: 'Feather Client',
         security: {
           mode: 'safe',
-          oss: 'yes',
+          oss: 'no',
           oauth: 'yes',
           noPwdModal: 'yes',
           zeroPwdStore: 'yes',
-          auditable: 'yes',
+          auditable: 'no',
           antiCheat: 'yes',
           labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
-          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
         }
       },
       badlion: {
@@ -3646,14 +3634,14 @@
         name: 'Badlion Client',
         security: {
           mode: 'safe',
-          oss: 'yes',
+          oss: 'no',
           oauth: 'yes',
           noPwdModal: 'yes',
           zeroPwdStore: 'yes',
-          auditable: 'yes',
+          auditable: 'no',
           antiCheat: 'yes',
           labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
-          telemetry: '<span class="telemetry-tag clean">Safe</span>'
+          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
         }
       }
     };
@@ -3920,31 +3908,31 @@
       const q = rawText.trim().toLowerCase();
 
       if (/^(hello|hi|hey|yo|sup|good morning|good afternoon|good evening|hola|ciao|buongiorno|buonasera)\b/.test(q) || q === 'hello') {
-        return "Hey there! I'm Snowy, the mascot of Glacier Client. Ask me anything about FPS, open source code, or our security comparison.";
+        return "Hey there! I'm Snowy, the mascot of Glacier Client. Ask me anything about FPS, open source code, sandbox flags, or security.";
       }
 
-      if (/\b(silent|norisk|no risk|lunar|dawn|feather|badlion|sodium|vanilla)\b/.test(q)) {
-        return 'Those clients are all marked as SAFE in our security table, and they are included in the FPS benchmark list.';
+      if (/\b(fastclient|fast client|sandbox|flag|flags|unverified|unknown)\b/.test(q)) {
+        return 'FastClient is marked "?" (unverified) and not considered safe: unverified executables can trigger sandbox flags or heuristic warnings, and its source code is not publicly auditable.';
       }
 
-      if (/\b(fastclient|fast client|unverified|unknown)\b/.test(q)) {
-        return 'FastClient is marked with "?" in Our Security vs Other because it is closed source without public auditability, so its security practices are unverified. Glacier Client is 100% open source with external browser OAuth.';
+      if (/\b(sodium|dawn|lunar|norisk|no risk|silent|feather|badlion|tori|vanilla)\b/.test(q)) {
+        return 'Sodium is an open-source Fabric rendering mod (not a standalone launcher). Dawn, Lunar, NoRisk, Silent, Feather, Badlion, and Tori are closed/non-open-source clients, whereas Glacier is open source with external browser OAuth.';
       }
 
       if (/\b(thanks|thank you|thx|cool|nice|awesome|great|grazie)\b/.test(q)) {
-        return "Anytime! Let me know if you want to test presets, benchmarks, or security comparisons.";
+        return "Anytime! Let me know if you want to check benchmarks, security columns, or presets.";
       }
 
       if (/\b(security|open source|oss|safe|ban|banned|cheat|cheats|hack|anticheat|anti-cheat|other|telemetry)\b/.test(q)) {
-        return 'Glacier Client is 100% open source (6/6) with zero tracking, safe external browser OAuth, GrimAC & Vulcan parity testing, and never stores your password.';
+        return 'Glacier Client is open source (6/6) with zero tracking, external browser Microsoft OAuth, zero password storage, and anti-cheat parity testing.';
       }
 
       if (/\b(auth|login|browser|oauth|password|account|microsoft)\b/.test(q)) {
-        return 'Glacier opens your external browser for official Microsoft OAuth authentication so your login stays safe and we never handle your password.';
+        return 'Glacier opens your external browser for official Microsoft OAuth authentication and never stores your password.';
       }
 
       if (/\b(fps|rust|fast|speed|performance|gc|garbage|lag|stutter|wgpu)\b/.test(q)) {
-        return 'Glacier Client is built in native Rust with wgpu, giving 0 ms Garbage Collector pauses and leading the FPS benchmarks across every tier.';
+        return 'Glacier Client is built in native Rust with wgpu, giving 0 ms Garbage Collector pauses and high frame pacing across 1.8.9, 26.2, and 26.3.';
       }
 
       if (/\b(version|versions|1\.8\.9|1\.8|26\.2|26\.3|pvp)\b/.test(q)) {
@@ -3955,7 +3943,7 @@
         return 'Windows and Linux builds are shared via our Discord server, while native macOS support is planned on the roadmap.';
       }
 
-      return 'I can help with questions about Glacier Client — such as Rust performance, FPS, open-source security, or browser login.';
+      return 'I can help with questions about Glacier Client — such as Rust performance, FPS, open-source security, or sandbox risks on unverified builds.';
     }
 
     function sendUserQuestion(questionText) {
