@@ -1212,7 +1212,7 @@
       color: var(--text-muted);
     }
 
-    /* 3D Tilt Frosted Client UI Preview Window */
+    /* 3D Tilt Frosted Client UI Preview */
     .client-preview {
       position: relative;
       max-width: 1020px;
@@ -1669,7 +1669,7 @@
     }
 
     .benchmark-section {
-      max-width: 920px;
+      max-width: 940px;
       margin: 0 auto 104px;
     }
 
@@ -1702,21 +1702,21 @@
     }
 
     .benchmark-card {
-      padding: 36px;
+      padding: 34px 36px;
       border-radius: 26px;
-      background: linear-gradient(165deg, rgba(17, 34, 58, 0.88), rgba(7, 14, 25, 0.95));
-      border: 1px solid rgba(125, 211, 252, 0.34);
+      background: linear-gradient(165deg, rgba(17, 34, 58, 0.9), rgba(7, 14, 25, 0.96));
+      border: 1px solid rgba(125, 211, 252, 0.36);
       backdrop-filter: blur(18px);
-      box-shadow: 0 28px 74px rgba(0, 0, 0, 0.64), 0 0 64px rgba(56, 189, 248, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+      box-shadow: 0 28px 74px rgba(0, 0, 0, 0.64), 0 0 64px rgba(56, 189, 248, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16);
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 18px;
     }
 
     .bench-row {
       display: flex;
       flex-direction: column;
-      gap: 9px;
+      gap: 7px;
     }
 
     .bench-meta {
@@ -1731,19 +1731,24 @@
       align-items: center;
       gap: 10px;
       font-weight: 600;
-      font-size: 1rem;
+      font-size: 0.96rem;
       color: var(--text-muted);
     }
 
     .bench-row.glacier .bench-name {
       color: #ffffff;
-      font-weight: 700;
+      font-weight: 800;
       font-size: 1.08rem;
+    }
+
+    .bench-row.runner-up .bench-name {
+      color: #e2e8f0;
+      font-weight: 700;
     }
 
     .bench-tag {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       padding: 3px 9px;
       border-radius: 6px;
       background: rgba(125, 211, 252, 0.24);
@@ -1755,7 +1760,7 @@
     .bench-fps {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 700;
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: var(--text-muted);
     }
 
@@ -1767,9 +1772,9 @@
 
     .bench-track {
       width: 100%;
-      height: 16px;
+      height: 14px;
       border-radius: 999px;
-      background: rgba(5, 11, 20, 0.9);
+      background: rgba(5, 11, 20, 0.92);
       border: 1px solid rgba(186, 230, 253, 0.12);
       overflow: hidden;
       padding: 2px;
@@ -1779,19 +1784,22 @@
       height: 100%;
       width: 0%;
       border-radius: 999px;
-      background: rgba(148, 163, 184, 0.4);
-      transition: width 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+      background: rgba(148, 163, 184, 0.36);
+      transition: width 0.95s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .bench-fill.sodium { background: rgba(125, 211, 252, 0.42); }
-    .bench-fill.lunar { background: rgba(56, 189, 248, 0.54); }
+    .bench-fill.tori { background: rgba(186, 230, 253, 0.72); box-shadow: 0 0 14px rgba(186, 230, 253, 0.38); }
+    .bench-fill.fast { background: rgba(125, 211, 252, 0.62); }
+    .bench-fill.lunar { background: rgba(56, 189, 248, 0.52); }
+    .bench-fill.dawn { background: rgba(34, 211, 238, 0.44); }
+    .bench-fill.sodium { background: rgba(56, 189, 248, 0.34); }
     .bench-fill.glacier {
       background: linear-gradient(90deg, #0284c7, #38bdf8, #bae6fd, #ffffff);
       box-shadow: 0 0 28px rgba(125, 211, 252, 0.95);
     }
 
     .bench-footnote {
-      margin-top: 4px;
+      margin-top: 6px;
       padding-top: 16px;
       border-top: 1px solid rgba(186, 230, 253, 0.12);
       display: flex;
@@ -2597,7 +2605,7 @@
 
           <div class="live-hud-bar">
             <div class="hud-badges-wrap">
-              <span class="hud-chip" id="hud-chip-fps">550 FPS</span>
+              <span class="hud-chip" id="hud-chip-fps">2450 FPS</span>
               <span class="hud-chip" id="hud-chip-ping">14 ms</span>
               <span class="hud-chip" id="hud-chip-armor">ARMOR 100%</span>
               <span class="hud-chip" id="hud-chip-sprint">[SPRINT: ON]</span>
@@ -2695,8 +2703,8 @@
 
       <div class="hw-switcher">
         <button type="button" class="hw-btn" onclick="setHardwareTier('laptop', this)">Integrated / Laptop</button>
-        <button type="button" class="hw-btn active" onclick="setHardwareTier('mid', this)">Mid-Range Gaming PC</button>
-        <button type="button" class="hw-btn" onclick="setHardwareTier('high', this)">High-End RTX / Ryzen</button>
+        <button type="button" class="hw-btn" onclick="setHardwareTier('mid', this)">Mid-Range Gaming PC</button>
+        <button type="button" class="hw-btn active" onclick="setHardwareTier('high', this)">High-End RTX / Ryzen</button>
       </div>
 
       <div class="benchmark-card spotlight-card" id="benchmark-box">
@@ -2704,47 +2712,77 @@
           <div class="bench-meta">
             <div class="bench-name">
               Glacier Client
-              <span class="bench-tag">NATIVE RUST • 5.5x FASTER</span>
+              <span class="bench-tag" id="bench-glacier-badge">NATIVE RUST • #1 FPS</span>
             </div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-glacier" data-target="550">0</span> FPS</div>
+            <div class="bench-fps"><span class="fps-counter" id="fps-glacier" data-target="2450">2450</span> FPS</div>
           </div>
           <div class="bench-track">
-            <div class="bench-fill glacier" data-width="100%"></div>
+            <div class="bench-fill glacier" id="bar-glacier" data-width="100%"></div>
+          </div>
+        </div>
+
+        <div class="bench-row runner-up">
+          <div class="bench-meta">
+            <div class="bench-name">Tori Client</div>
+            <div class="bench-fps"><span class="fps-counter" id="fps-tori" data-target="1920">1920</span> FPS</div>
+          </div>
+          <div class="bench-track">
+            <div class="bench-fill tori" id="bar-tori" data-width="78.4%"></div>
+          </div>
+        </div>
+
+        <div class="bench-row">
+          <div class="bench-meta">
+            <div class="bench-name">FastClient</div>
+            <div class="bench-fps"><span class="fps-counter" id="fps-fast" data-target="1640">1640</span> FPS</div>
+          </div>
+          <div class="bench-track">
+            <div class="bench-fill fast" id="bar-fast" data-width="66.9%"></div>
           </div>
         </div>
 
         <div class="bench-row">
           <div class="bench-meta">
             <div class="bench-name">Lunar Client</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-lunar" data-target="250">0</span> FPS</div>
+            <div class="bench-fps"><span class="fps-counter" id="fps-lunar" data-target="1380">1380</span> FPS</div>
           </div>
           <div class="bench-track">
-            <div class="bench-fill lunar" data-width="45.4%"></div>
+            <div class="bench-fill lunar" id="bar-lunar" data-width="56.3%"></div>
+          </div>
+        </div>
+
+        <div class="bench-row">
+          <div class="bench-meta">
+            <div class="bench-name">Dawn Client</div>
+            <div class="bench-fps"><span class="fps-counter" id="fps-dawn" data-target="1150">1150</span> FPS</div>
+          </div>
+          <div class="bench-track">
+            <div class="bench-fill dawn" id="bar-dawn" data-width="46.9%"></div>
           </div>
         </div>
 
         <div class="bench-row">
           <div class="bench-meta">
             <div class="bench-name">Sodium (Fabric)</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-sodium" data-target="200">0</span> FPS</div>
+            <div class="bench-fps"><span class="fps-counter" id="fps-sodium" data-target="960">960</span> FPS</div>
           </div>
           <div class="bench-track">
-            <div class="bench-fill sodium" data-width="36.3%"></div>
+            <div class="bench-fill sodium" id="bar-sodium" data-width="39.2%"></div>
           </div>
         </div>
 
         <div class="bench-row">
           <div class="bench-meta">
             <div class="bench-name">Minecraft Launcher (Vanilla)</div>
-            <div class="bench-fps"><span class="fps-counter" id="fps-vanilla" data-target="100">0</span> FPS</div>
+            <div class="bench-fps"><span class="fps-counter" id="fps-vanilla" data-target="440">440</span> FPS</div>
           </div>
           <div class="bench-track">
-            <div class="bench-fill" data-width="18.2%"></div>
+            <div class="bench-fill" id="bar-vanilla" data-width="18.0%"></div>
           </div>
         </div>
 
         <div class="bench-footnote">
-          <span id="bench-setup-label">Test setup: 1080p • 16 Chunks Render Distance • Fancy Graphics</span>
+          <span id="bench-setup-label">Test setup: 1440p • High-End RTX / Ryzen • 24 Chunks Render Distance</span>
           <span>Higher is better</span>
         </div>
       </div>
@@ -2769,11 +2807,11 @@
           <div class="sim-metrics">
             <div class="sim-metric">
               <span>AVG FPS</span>
-              <strong id="sim-fps">550 FPS</strong>
+              <strong id="sim-fps">2450 FPS</strong>
             </div>
             <div class="sim-metric">
               <span>FRAME TIME</span>
-              <strong id="sim-ft">1.81 ms</strong>
+              <strong id="sim-ft">0.41 ms</strong>
             </div>
             <div class="sim-metric">
               <span>GC SPIKES</span>
@@ -2784,7 +2822,7 @@
 
         <div class="sim-screen">
           <div class="hud-overlay-row">
-            <div class="hud-pill" id="hud-sim-fps">[GLACIER] 550 FPS • 1.8ms</div>
+            <div class="hud-pill" id="hud-sim-fps">[GLACIER] 2450 FPS • 0.4ms</div>
             <div class="hud-pill" id="hud-sim-status">STABLE • ZERO GC</div>
           </div>
           <canvas id="frametime-canvas"></canvas>
@@ -3202,7 +3240,7 @@
       }
 
       if (/\b(fps|rust|fast|speed|performance|gc|garbage|lag|stutter|wgpu)\b/.test(q)) {
-        return 'Glacier Client is built in native Rust with wgpu, giving 0 ms Garbage Collector pauses and up to 5.5x higher FPS than vanilla.';
+        return 'Glacier Client is built in native Rust with wgpu, giving 0 ms Garbage Collector pauses and leading the FPS benchmarks across every tier.';
       }
 
       if (/\b(version|versions|1\.8\.9|1\.8|26\.2|26\.3|pvp)\b/.test(q)) {
@@ -3452,21 +3490,100 @@
       });
     }
 
+    // Order requested: Glacier > Tori > FastClient > Lunar > Dawn > Sodium > Vanilla
     const hwTiers = {
-      laptop: { glacier: 260, lunar: 110, sodium: 95, vanilla: 45, label: 'Test setup: 1080p • Integrated Graphics • 12 Chunks' },
-      mid: { glacier: 550, lunar: 250, sodium: 200, vanilla: 100, label: 'Test setup: 1080p • 16 Chunks Render Distance • Fancy Graphics' },
-      high: { glacier: 1180, lunar: 510, sodium: 430, vanilla: 210, label: 'Test setup: 1440p • RTX / Ryzen • 24 Chunks Render Distance' }
+      laptop: {
+        glacier: 540,
+        tori: 420,
+        fast: 355,
+        lunar: 295,
+        dawn: 245,
+        sodium: 205,
+        vanilla: 95,
+        badge: 'NATIVE RUST • #1 FPS',
+        label: 'Test setup: 1080p • Integrated Graphics • 12 Chunks'
+      },
+      mid: {
+        glacier: 1280,
+        tori: 990,
+        fast: 840,
+        lunar: 690,
+        dawn: 575,
+        sodium: 480,
+        vanilla: 220,
+        badge: 'NATIVE RUST • #1 FPS',
+        label: 'Test setup: 1080p • 16 Chunks Render Distance • Fancy Graphics'
+      },
+      high: {
+        glacier: 2450,
+        tori: 1920,
+        fast: 1640,
+        lunar: 1380,
+        dawn: 1150,
+        sodium: 960,
+        vanilla: 440,
+        badge: 'NATIVE RUST • EXTREME FPS',
+        label: 'Test setup: 1440p • High-End RTX / Ryzen • 24 Chunks Render Distance'
+      }
     };
+
+    function animateCountersTo(valuesMap) {
+      const duration = 650;
+      const start = performance.now();
+      const startVals = {};
+      Object.keys(valuesMap).forEach(id => {
+        const el = document.getElementById(id);
+        startVals[id] = el ? parseInt(el.textContent, 10) || 0 : 0;
+      });
+
+      function step(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        Object.keys(valuesMap).forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.textContent = Math.round(startVals[id] + (valuesMap[id] - startVals[id]) * eased);
+          }
+        });
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
 
     function setHardwareTier(tierKey, btn) {
       document.querySelectorAll('.hw-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const tier = hwTiers[tierKey] || hwTiers.mid;
+      if (btn) btn.classList.add('active');
+      const tier = hwTiers[tierKey] || hwTiers.high;
+
+      document.getElementById('bench-glacier-badge').textContent = tier.badge;
       document.getElementById('bench-setup-label').textContent = tier.label;
-      document.getElementById('fps-glacier').textContent = tier.glacier;
-      document.getElementById('fps-lunar').textContent = tier.lunar;
-      document.getElementById('fps-sodium').textContent = tier.sodium;
-      document.getElementById('fps-vanilla').textContent = tier.vanilla;
+
+      animateCountersTo({
+        'fps-glacier': tier.glacier,
+        'fps-tori': tier.tori,
+        'fps-fast': tier.fast,
+        'fps-lunar': tier.lunar,
+        'fps-dawn': tier.dawn,
+        'fps-sodium': tier.sodium,
+        'fps-vanilla': tier.vanilla
+      });
+
+      const maxFps = tier.glacier;
+      const bars = {
+        'bar-glacier': tier.glacier,
+        'bar-tori': tier.tori,
+        'bar-fast': tier.fast,
+        'bar-lunar': tier.lunar,
+        'bar-dawn': tier.dawn,
+        'bar-sodium': tier.sodium,
+        'bar-vanilla': tier.vanilla
+      };
+      Object.keys(bars).forEach(barId => {
+        const barEl = document.getElementById(barId);
+        if (barEl) {
+          barEl.style.width = `${Math.max(8, (bars[barId] / maxFps) * 100).toFixed(1)}%`;
+        }
+      });
     }
 
     let currentCategory = 'all';
@@ -3522,8 +3639,8 @@
     function selectPreviewVersion(pill, ver) {
       document.querySelectorAll('.v-pill').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-      const fpsMap = { '1.8.9': '620 FPS', '26.2': '550 FPS', '26.3': '540 FPS' };
-      document.getElementById('hud-chip-fps').textContent = fpsMap[ver] || '550 FPS';
+      const fpsMap = { '1.8.9': '2680 FPS', '26.2': '2450 FPS', '26.3': '2390 FPS' };
+      document.getElementById('hud-chip-fps').textContent = fpsMap[ver] || '2450 FPS';
     }
 
     function pulseKey(el) {
@@ -3579,7 +3696,7 @@
     let simMode = 'rust';
     const ftCanvas = document.getElementById('frametime-canvas');
     const ftCtx = ftCanvas.getContext('2d');
-    let ftHistory = Array(70).fill(1.8);
+    let ftHistory = Array(70).fill(0.45);
     let tickCounter = 0;
 
     function setSimMode(mode) {
@@ -3588,16 +3705,16 @@
       document.getElementById('btn-sim-jvm').classList.toggle('active', mode === 'jvm');
 
       if (mode === 'rust') {
-        document.getElementById('sim-fps').textContent = '550 FPS';
-        document.getElementById('sim-ft').textContent = '1.81 ms';
+        document.getElementById('sim-fps').textContent = '2450 FPS';
+        document.getElementById('sim-ft').textContent = '0.41 ms';
         document.getElementById('sim-gc').textContent = '0.0 ms';
-        document.getElementById('hud-sim-fps').textContent = '[GLACIER] 550 FPS • 1.8ms';
+        document.getElementById('hud-sim-fps').textContent = '[GLACIER] 2450 FPS • 0.4ms';
         document.getElementById('hud-sim-status').textContent = 'STABLE • ZERO GC';
       } else {
-        document.getElementById('sim-fps').textContent = '100 FPS';
-        document.getElementById('sim-ft').textContent = '10.0 ms';
-        document.getElementById('sim-gc').textContent = '48.5 ms';
-        document.getElementById('hud-sim-fps').textContent = '[VANILLA JVM] 100 FPS • GC LAG';
+        document.getElementById('sim-fps').textContent = '440 FPS';
+        document.getElementById('sim-ft').textContent = '2.27 ms';
+        document.getElementById('sim-gc').textContent = '34.0 ms';
+        document.getElementById('hud-sim-fps').textContent = '[VANILLA JVM] 440 FPS • GC LAG';
         document.getElementById('hud-sim-status').textContent = 'GC STUTTER DETECTED';
       }
     }
@@ -3613,7 +3730,7 @@
       if (tickCounter % 2 === 0) {
         let nextVal;
         if (simMode === 'rust') {
-          nextVal = 1.75 + (Math.random() - 0.5) * 0.25;
+          nextVal = 1.6 + (Math.random() - 0.5) * 0.2;
         } else {
           nextVal = Math.random() < 0.09 ? 36 + Math.random() * 16 : 9.5 + (Math.random() - 0.5) * 3.5;
         }
@@ -3736,24 +3853,7 @@
     function animateBenchmarks() {
       if (benchmarksAnimated) return;
       benchmarksAnimated = true;
-
-      document.querySelectorAll('.bench-fill').forEach((bar) => {
-        bar.style.width = bar.dataset.width;
-      });
-
-      document.querySelectorAll('.fps-counter').forEach((counter) => {
-        const target = parseInt(counter.dataset.target, 10);
-        const duration = 1250;
-        const start = performance.now();
-
-        function updateCount(now) {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          counter.textContent = Math.round(eased * target);
-          if (progress < 1) requestAnimationFrame(updateCount);
-        }
-        requestAnimationFrame(updateCount);
-      });
+      setHardwareTier('high', document.querySelectorAll('.hw-btn')[2]);
     }
 
     const observer = new IntersectionObserver((entries) => {
