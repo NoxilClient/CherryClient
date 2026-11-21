@@ -17,7 +17,7 @@
   <style>
     :root {
       --bg-deep: #02050c;
-      --bg-surface: rgba(10, 22, 40, 0.84);
+      --bg-surface: rgba(10, 22, 40, 0.86);
       --ice-primary: #38bdf8;
       --ice-sky: #7dd3fc;
       --ice-bright: #bae6fd;
@@ -60,7 +60,7 @@
       background: radial-gradient(circle at 50% 45%, #0f3356 0%, #02060f 74%);
       display: grid;
       place-items: center;
-      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s ease;
+      transition: opacity 0.36s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.36s ease;
     }
 
     #intro-splash.hide {
@@ -75,7 +75,7 @@
       align-items: center;
       gap: 16px;
       text-align: center;
-      animation: splashPulse 0.85s ease-out forwards;
+      animation: splashPulse 0.75s ease-out forwards;
     }
 
     @keyframes splashPulse {
@@ -116,7 +116,7 @@
       width: 0%;
       height: 100%;
       background: linear-gradient(90deg, #38bdf8, #bae6fd, #ffffff);
-      animation: loadBar 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: loadBar 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes loadBar {
@@ -126,8 +126,8 @@
 
     /* Custom Sky-Blue Ice Scrollbar */
     ::-webkit-scrollbar {
-      width: 12px;
-      height: 12px;
+      width: 11px;
+      height: 11px;
     }
 
     ::-webkit-scrollbar-track {
@@ -139,7 +139,7 @@
       background: linear-gradient(180deg, #f0f9ff 0%, #bae6fd 22%, #7dd3fc 52%, #38bdf8 80%, #0284c7 100%);
       border-radius: 999px;
       border: 2px solid rgba(5, 16, 31, 0.9);
-      box-shadow: 0 0 18px rgba(125, 211, 252, 0.82);
+      box-shadow: 0 0 16px rgba(125, 211, 252, 0.75);
     }
 
     #scroll-progress {
@@ -149,7 +149,7 @@
       height: 4px;
       width: 0%;
       background: linear-gradient(90deg, #0284c7, #38bdf8, #7dd3fc, #e0f2fe, #ffffff);
-      box-shadow: 0 0 20px rgba(125, 211, 252, 0.95);
+      box-shadow: 0 0 18px rgba(125, 211, 252, 0.9);
       z-index: 100;
       will-change: width;
     }
@@ -165,42 +165,42 @@
     .aurora-blob {
       position: absolute;
       border-radius: 50%;
-      filter: blur(112px);
-      opacity: 0.62;
+      filter: blur(110px);
+      opacity: 0.58;
       will-change: transform;
-      animation: floatAurora 20s ease-in-out infinite alternate;
+      animation: floatAurora 22s ease-in-out infinite alternate;
     }
 
     .aurora-1 {
-      width: 900px;
-      height: 540px;
+      width: 880px;
+      height: 520px;
       top: -170px;
       left: 10%;
-      background: radial-gradient(circle, rgba(125, 211, 252, 0.68), rgba(2, 132, 199, 0.1));
+      background: radial-gradient(circle, rgba(125, 211, 252, 0.65), rgba(2, 132, 199, 0.1));
     }
 
     .aurora-2 {
-      width: 700px;
-      height: 620px;
+      width: 680px;
+      height: 600px;
       top: 30%;
       right: -130px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.52), rgba(6, 182, 212, 0.08));
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.5), rgba(6, 182, 212, 0.08));
       animation-delay: -7s;
     }
 
     .aurora-3 {
-      width: 640px;
-      height: 560px;
+      width: 620px;
+      height: 540px;
       bottom: -115px;
       left: -115px;
-      background: radial-gradient(circle, rgba(186, 230, 253, 0.42), transparent);
+      background: radial-gradient(circle, rgba(186, 230, 253, 0.4), transparent);
       animation-delay: -12s;
     }
 
     @keyframes floatAurora {
       0% { transform: translate3d(0, 0, 0) scale(1); }
-      50% { transform: translate3d(52px, 34px, 0) scale(1.08); }
-      100% { transform: translate3d(-42px, 50px, 0) scale(0.96); }
+      50% { transform: translate3d(48px, 30px, 0) scale(1.07); }
+      100% { transform: translate3d(-38px, 44px, 0) scale(0.96); }
     }
 
     .ice-grid {
@@ -220,23 +220,23 @@
       position: fixed;
       top: 0;
       left: 0;
-      width: 580px;
-      height: 580px;
-      margin-left: -290px;
-      margin-top: -290px;
+      width: 560px;
+      height: 560px;
+      margin-left: -280px;
+      margin-top: -280px;
       border-radius: 50%;
       pointer-events: none;
       z-index: 2;
       background: radial-gradient(
         circle,
-        rgba(125, 211, 252, 0.32) 0%,
-        rgba(56, 189, 248, 0.14) 36%,
+        rgba(125, 211, 252, 0.3) 0%,
+        rgba(56, 189, 248, 0.13) 36%,
         rgba(56, 189, 248, 0.03) 58%,
         transparent 72%
       );
       mix-blend-mode: screen;
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.28s ease;
       will-change: transform;
     }
 
@@ -259,8 +259,8 @@
 
     .reveal {
       opacity: 0;
-      transform: translateY(28px) scale(0.988);
-      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(24px) scale(0.99);
+      transition: opacity 0.58s cubic-bezier(0.16, 1, 0.3, 1), transform 0.58s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .reveal.visible {
@@ -273,11 +273,11 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      backdrop-filter: blur(22px);
-      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       background: rgba(2, 6, 14, 0.88);
       border-bottom: 1px solid rgba(125, 211, 252, 0.26);
-      box-shadow: 0 12px 42px rgba(0, 0, 0, 0.56);
+      box-shadow: 0 12px 42px rgba(0, 0, 0, 0.55);
     }
 
     .nav-inner {
@@ -306,8 +306,8 @@
       border: 1px solid rgba(186, 230, 253, 0.72);
       display: grid;
       place-items: center;
-      box-shadow: 0 0 26px rgba(125, 211, 252, 0.56);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 24px rgba(125, 211, 252, 0.52);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .brand:hover .brand-logo {
@@ -326,7 +326,7 @@
       text-decoration: none;
       font-size: 0.88rem;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: color 0.18s;
     }
 
     .nav-links a:not(.btn-nav)::after {
@@ -338,7 +338,7 @@
       height: 2px;
       border-radius: 999px;
       background: linear-gradient(90deg, var(--ice-primary), var(--ice-bright));
-      transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .nav-links a:not(.btn-nav):hover::after {
@@ -362,7 +362,7 @@
       font-size: 0.72rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.18s;
     }
 
     .music-pill:hover, .music-pill.playing {
@@ -389,7 +389,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.74rem;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.18s;
     }
 
     .cmd-trigger:hover {
@@ -415,7 +415,7 @@
       border: 1px solid rgba(125, 211, 252, 0.72);
       color: #ffffff !important;
       font-weight: 600 !important;
-      transition: all 0.2s ease;
+      transition: all 0.18s ease;
     }
 
     .btn-nav:hover {
@@ -474,7 +474,7 @@
       display: grid;
       place-items: center;
       animation: snowyFloat 3.4s ease-in-out infinite;
-      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes snowyFloat {
@@ -495,12 +495,12 @@
 
     .snowy-chat-panel {
       width: min(392px, calc(100vw - 32px));
-      height: 478px;
+      height: 468px;
       border-radius: 18px;
       background: linear-gradient(165deg, rgba(16, 33, 58, 0.98), rgba(5, 11, 21, 0.99));
       border: 1px solid rgba(125, 211, 252, 0.68);
       box-shadow: 0 28px 80px rgba(0, 0, 0, 0.92), 0 0 54px rgba(56, 189, 248, 0.34);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(18px);
       display: none;
       flex-direction: column;
       overflow: hidden;
@@ -651,43 +651,6 @@
       40% { transform: translateY(-5px); opacity: 1; }
     }
 
-    .msg-footer {
-      margin-top: 8px;
-      padding-top: 6px;
-      border-top: 1px solid rgba(186, 230, 253, 0.12);
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-
-    .audio-reply-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      border-radius: 8px;
-      border: 1px solid rgba(253, 224, 71, 0.38);
-      background: rgba(251, 191, 36, 0.11);
-      color: #fde68a;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.69rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.18s ease;
-    }
-
-    .audio-reply-btn:hover {
-      background: rgba(251, 191, 36, 0.24);
-      border-color: #fde68a;
-      color: #ffffff;
-    }
-
-    .audio-reply-btn.speaking {
-      background: rgba(251, 191, 36, 0.32);
-      border-color: #fef08a;
-      color: #ffffff;
-    }
-
     .chat-quick-prompts {
       padding: 8px 12px;
       display: flex;
@@ -765,7 +728,7 @@
 
     #cmd-modal.open {
       display: grid;
-      animation: fadeOverlay 0.2s ease;
+      animation: fadeOverlay 0.18s ease;
     }
 
     .cmd-box {
@@ -775,7 +738,7 @@
       border: 1px solid rgba(125, 211, 252, 0.6);
       box-shadow: 0 28px 80px rgba(0, 0, 0, 0.9);
       overflow: hidden;
-      animation: popModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: popModal 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .cmd-input {
@@ -833,7 +796,7 @@
       inset: 0;
       z-index: 125;
       background: rgba(2, 5, 12, 0.88);
-      backdrop-filter: blur(20px);
+      backdrop-filter: blur(18px);
       display: none;
       place-items: center;
       padding: 20px;
@@ -865,7 +828,7 @@
       box-shadow: 0 32px 95px rgba(0, 0, 0, 0.95);
       padding: 30px 34px;
       color: var(--text-main);
-      animation: popModal 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: popModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .legal-switcher {
@@ -984,7 +947,7 @@
 
     /* Hero */
     .hero {
-      padding: 90px 0 70px;
+      padding: 88px 0 68px;
       text-align: center;
       perspective: 1200px;
     }
@@ -1043,7 +1006,7 @@
       flex-direction: column;
       align-items: center;
       gap: 14px;
-      margin-bottom: 70px;
+      margin-bottom: 66px;
     }
 
     .action-row {
@@ -1141,7 +1104,7 @@
       gap: 10px;
       transform: translateY(130%);
       opacity: 0;
-      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.32s ease;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
     }
 
     #toast-notice.show {
@@ -1174,20 +1137,20 @@
     /* 3D Tilt Client Preview */
     .client-preview {
       position: relative;
-      max-width: 1020px;
+      max-width: 1040px;
       margin: 0 auto;
       border-radius: 24px;
       background: linear-gradient(160deg, rgba(20, 40, 68, 0.95), rgba(6, 13, 24, 0.98));
       border: 1px solid rgba(125, 211, 252, 0.48);
       box-shadow: 0 38px 110px rgba(0, 0, 0, 0.9), 0 0 95px rgba(125, 211, 252, 0.32);
-      backdrop-filter: blur(22px);
+      backdrop-filter: blur(20px);
       overflow: hidden;
       display: grid;
-      grid-template-columns: 230px 1fr;
+      grid-template-columns: 235px 1fr;
       text-align: left;
       transform-style: preserve-3d;
       will-change: transform;
-      transition: transform 0.16s ease-out;
+      transition: transform 0.14s ease-out;
     }
 
     .preview-glare {
@@ -1197,7 +1160,7 @@
       background: radial-gradient(circle 460px at var(--glare-x, 50%) var(--glare-y, 50%), rgba(186, 230, 253, 0.25), transparent 70%);
       z-index: 4;
       opacity: 0;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.22s ease;
     }
 
     .client-preview:hover .preview-glare {
@@ -1219,7 +1182,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 0 8px 22px;
+      padding: 0 8px 20px;
       font-weight: 800;
       letter-spacing: 0.04em;
       font-size: 0.95rem;
@@ -1241,7 +1204,7 @@
       font-weight: 500;
       cursor: pointer;
       user-select: none;
-      transition: all 0.18s;
+      transition: all 0.16s;
     }
 
     .sidebar-item:hover {
@@ -1253,6 +1216,48 @@
       background: linear-gradient(90deg, rgba(125, 211, 252, 0.34), rgba(56, 189, 248, 0.08));
       color: #ffffff;
       border: 1px solid rgba(125, 211, 252, 0.56);
+    }
+
+    .preset-box {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(186, 230, 253, 0.12);
+    }
+
+    .preset-label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.66rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      padding-left: 6px;
+    }
+
+    .preset-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .preset-btn {
+      width: 100%;
+      text-align: left;
+      padding: 7px 10px;
+      border-radius: 8px;
+      background: rgba(15, 29, 48, 0.72);
+      border: 1px solid rgba(125, 211, 252, 0.22);
+      color: var(--ice-bright);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.16s;
+    }
+
+    .preset-btn:hover {
+      background: rgba(125, 211, 252, 0.24);
+      border-color: var(--ice-sky);
+      color: #ffffff;
     }
 
     .sidebar-footer {
@@ -1431,7 +1436,7 @@
       gap: 10px;
       cursor: pointer;
       user-select: none;
-      transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+      transition: border-color 0.16s ease, transform 0.16s ease, background 0.16s ease;
     }
 
     .mod-card.hidden-mod {
@@ -1482,7 +1487,7 @@
       background: #cbd5e1;
       top: 2px;
       left: 2px;
-      transition: left 0.2s ease, background 0.2s ease;
+      transition: left 0.18s ease, background 0.18s ease;
     }
 
     .mod-card.enabled .toggle {
@@ -1516,7 +1521,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
-      margin: 76px 0 100px;
+      margin: 76px 0 98px;
     }
 
     .stat-box {
@@ -1544,7 +1549,7 @@
 
     .section-title {
       text-align: center;
-      margin-bottom: 48px;
+      margin-bottom: 44px;
     }
 
     .section-title h2 {
@@ -1559,13 +1564,13 @@
 
     .section-title p {
       color: var(--text-muted);
-      max-width: 720px;
+      max-width: 740px;
       margin: 0 auto;
     }
 
     .benchmark-section {
       max-width: 940px;
-      margin: 0 auto 104px;
+      margin: 0 auto 100px;
     }
 
     .hw-switcher {
@@ -1674,7 +1679,7 @@
       width: 0%;
       border-radius: 999px;
       background: rgba(148, 163, 184, 0.36);
-      transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .bench-fill.tori { background: rgba(186, 230, 253, 0.72); }
@@ -1701,15 +1706,15 @@
 
     /* Our Security vs Other Section */
     .security-section {
-      max-width: 1120px;
-      margin: 0 auto 104px;
+      max-width: 1140px;
+      margin: 0 auto 100px;
     }
 
     .security-highlights {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     .sec-mini-card {
@@ -1731,6 +1736,39 @@
       line-height: 1.5;
     }
 
+    .sec-filter-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .sec-filter-btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sec-filter-btn {
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(15, 29, 48, 0.82);
+      border: 1px solid rgba(125, 211, 252, 0.25);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .sec-filter-btn.active, .sec-filter-btn:hover {
+      background: rgba(125, 211, 252, 0.28);
+      border-color: var(--ice-sky);
+      color: #ffffff;
+    }
+
     .security-table-wrap {
       border-radius: 24px;
       background: linear-gradient(165deg, rgba(16, 33, 57, 0.92), rgba(6, 13, 24, 0.97));
@@ -1742,13 +1780,17 @@
       width: 100%;
       border-collapse: collapse;
       text-align: left;
-      min-width: 880px;
+      min-width: 960px;
     }
 
     .security-table th, .security-table td {
-      padding: 15px 16px;
+      padding: 15px 15px;
       border-bottom: 1px solid rgba(186, 230, 253, 0.11);
-      font-size: 0.86rem;
+      font-size: 0.85rem;
+    }
+
+    .security-table tr.hidden-row {
+      display: none;
     }
 
     .security-table tr:last-child td {
@@ -1759,7 +1801,7 @@
       background: rgba(5, 11, 20, 0.82);
       font-weight: 700;
       color: var(--text-main);
-      font-size: 0.8rem;
+      font-size: 0.79rem;
     }
 
     .security-table tr.glacier-row {
@@ -1813,9 +1855,25 @@
       color: var(--ice-bright);
     }
 
+    .telemetry-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(15, 29, 48, 0.85);
+      border: 1px solid rgba(186, 230, 253, 0.2);
+      color: var(--text-muted);
+    }
+
+    .telemetry-tag.clean {
+      color: #6ee7b7;
+      border-color: rgba(52, 211, 153, 0.45);
+      background: rgba(52, 211, 153, 0.12);
+    }
+
     .simulator-section {
       max-width: 980px;
-      margin: 0 auto 104px;
+      margin: 0 auto 100px;
     }
 
     .sim-box {
@@ -1930,7 +1988,7 @@
     }
 
     .versions-section {
-      margin-bottom: 104px;
+      margin-bottom: 100px;
     }
 
     .versions-grid {
@@ -2007,7 +2065,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
-      margin-bottom: 104px;
+      margin-bottom: 100px;
     }
 
     .feature-card {
@@ -2041,7 +2099,7 @@
 
     .arch-section {
       max-width: 960px;
-      margin: 0 auto 104px;
+      margin: 0 auto 100px;
     }
 
     .arch-table-wrap {
@@ -2094,7 +2152,7 @@
     }
 
     .roadmap-section {
-      margin-bottom: 104px;
+      margin-bottom: 100px;
     }
 
     .roadmap-grid {
@@ -2134,9 +2192,86 @@
       color: var(--text-muted);
     }
 
+    /* Pre-Launch Checklist */
+    .checklist-section {
+      max-width: 940px;
+      margin: 0 auto 100px;
+    }
+
+    .checklist-box {
+      padding: 28px 32px;
+      border-radius: 24px;
+      background: linear-gradient(160deg, rgba(16, 33, 57, 0.92), rgba(6, 13, 24, 0.96));
+      border: 1px solid rgba(125, 211, 252, 0.36);
+    }
+
+    .checklist-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .checklist-items {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 16px;
+      border-radius: 14px;
+      background: rgba(15, 29, 48, 0.76);
+      border: 1px solid rgba(186, 230, 253, 0.16);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.16s;
+    }
+
+    .check-item.checked {
+      border-color: rgba(125, 211, 252, 0.68);
+      background: rgba(125, 211, 252, 0.16);
+    }
+
+    .check-box-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(125, 211, 252, 0.5);
+      display: grid;
+      place-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--ice-bright);
+      flex-shrink: 0;
+    }
+
+    .check-item.checked .check-box-icon {
+      background: var(--ice-sky);
+      color: #02060e;
+      border-color: #ffffff;
+    }
+
+    .check-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .check-sub {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
     .faq-section {
       max-width: 820px;
-      margin: 0 auto 104px;
+      margin: 0 auto 100px;
     }
 
     .faq-list {
@@ -2252,7 +2387,7 @@
     }
 
     @media (max-width: 960px) {
-      .client-preview, .sim-box, .security-highlights {
+      .client-preview, .sim-box, .security-highlights, .checklist-items {
         grid-template-columns: 1fr;
       }
       .preview-sidebar {
@@ -2312,7 +2447,7 @@
   <div id="cursor-glow"></div>
   <canvas id="snow-canvas"></canvas>
 
-  <!-- Snowy Mascot + Chat -->
+  <!-- Snowy Mascot + Chat (Pure text, zero speechSynthesis) -->
   <div id="snowy-widget">
     <div class="snowy-chat-panel" id="snowy-chat-panel" role="dialog" aria-label="Snowy chat">
       <div class="chat-header">
@@ -2397,6 +2532,7 @@
         <a href="#security-vs-other" class="cmd-item" onclick="closeCmdPalette()">Our Security vs Other Clients <span>#security</span></a>
         <a href="#simulator" class="cmd-item" onclick="closeCmdPalette()">Open Live Frame-Time Lab <span>#simulator</span></a>
         <a href="#versions" class="cmd-item" onclick="closeCmdPalette()">Supported Versions (1.8.9 / 26.2 / 26.3) <span>#versions</span></a>
+        <a href="#checklist" class="cmd-item" onclick="closeCmdPalette()">Pre-Launch Setup Checklist <span>#checklist</span></a>
         <a href="#faq" class="cmd-item" onclick="closeCmdPalette()">Read Safety, False Positives &amp; FAQ <span>#faq</span></a>
         <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('terms');">Terms of Service <span>LEGAL</span></button>
         <button type="button" class="cmd-item" onclick="closeCmdPalette(); openLegalModal('privacy');">Privacy Policy (Zero Data Sale) <span>LEGAL</span></button>
@@ -2514,7 +2650,17 @@
             <div class="sidebar-item" onclick="filterMods('hud', this)">HUD &amp; Overlay</div>
             <div class="sidebar-item" onclick="filterMods('pvp', this)">PvP Mechanics</div>
             <div class="sidebar-item" onclick="filterMods('visual', this)">Visual &amp; Shaders</div>
+
+            <div class="preset-box">
+              <span class="preset-label">QUICK PRESETS</span>
+              <div class="preset-list">
+                <button type="button" class="preset-btn" onclick="applyPreset('pvp')">⚔️ PvP Sweat</button>
+                <button type="button" class="preset-btn" onclick="applyPreset('maxfps')">⚡ Max FPS</button>
+                <button type="button" class="preset-btn" onclick="applyPreset('clean')">❄️ Clean HUD</button>
+              </div>
+            </div>
           </div>
+
           <div class="sidebar-footer">
             <span class="active-counter" id="active-mod-counter">Active: 5 / 7</span>
             <div class="mini-actions">
@@ -2728,27 +2874,36 @@
         <h2>Our Security vs Other</h2>
         <p>
           Glacier Client is <strong>open source</strong>, opens your <strong>external browser</strong> for official Microsoft OAuth login,
-          never asks for or stores passwords inside the app, and keeps every line of code auditable.
+          never touches or stores passwords inside the app, and keeps every line of code auditable.
         </p>
       </div>
 
       <div class="security-highlights">
         <div class="sec-mini-card spotlight-card">
           <h4>100% Open Source Code</h4>
-          <p>Unlike closed-source benchmark clients, Glacier's source code is public so anyone can read it and verify there is zero spyware.</p>
+          <p>Unlike closed-source benchmark clients, Glacier's codebase is open for inspection—zero hidden telemetry or mystery binaries.</p>
         </div>
         <div class="sec-mini-card spotlight-card">
           <h4>External Browser OAuth</h4>
-          <p>Sign-in opens your real system browser directly with official Microsoft OAuth—zero fake embedded password forms.</p>
+          <p>Logging in launches your real browser with official Microsoft endpoints—no fake embedded login modals inside the app.</p>
         </div>
         <div class="sec-mini-card spotlight-card">
           <h4>Zero Password Storage</h4>
-          <p>Your password never enters Glacier Client and is never stored locally or on external servers.</p>
+          <p>We never ask for, process, or store your password anywhere—on disk or on any server.</p>
         </div>
       </div>
 
+      <div class="sec-filter-bar">
+        <div class="sec-filter-btns">
+          <button type="button" class="sec-filter-btn active" onclick="filterSecurityTable('all', this)">All Clients</button>
+          <button type="button" class="sec-filter-btn" onclick="filterSecurityTable('oss', this)">Open Source Only</button>
+          <button type="button" class="sec-filter-btn" onclick="filterSecurityTable('oauth', this)">Browser OAuth Only</button>
+        </div>
+        <span style="font-size:0.78rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">GLACIER SCORE: 6/6</span>
+      </div>
+
       <div class="security-table-wrap spotlight-card">
-        <table class="security-table">
+        <table class="security-table" id="security-table">
           <thead>
             <tr>
               <th>Client</th>
@@ -2758,10 +2913,11 @@
               <th>Zero Password Storage</th>
               <th>Auditable Code</th>
               <th>Anti-Cheat Safe</th>
+              <th>Telemetry</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="glacier-row">
+            <tr class="glacier-row" data-oss="yes" data-oauth="yes">
               <td>Glacier Client <span class="auth-pill" style="margin-left:6px;">6/6</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -2769,8 +2925,9 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag clean">Zero Tracking</span></td>
             </tr>
-            <tr>
+            <tr data-oss="no" data-oauth="no">
               <td>Tori Client</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
@@ -2778,8 +2935,9 @@
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr>
+            <tr data-oss="no" data-oauth="no">
               <td>FastClient</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
@@ -2787,8 +2945,9 @@
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr>
+            <tr data-oss="no" data-oauth="yes">
               <td>Lunar Client</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -2796,8 +2955,9 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr>
+            <tr data-oss="no" data-oauth="no">
               <td>Dawn Client</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
@@ -2805,8 +2965,29 @@
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr>
+            <tr data-oss="no" data-oauth="yes">
+              <td>Feather Client</td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag">Closed</span></td>
+            </tr>
+            <tr data-oss="no" data-oauth="yes">
+              <td>Badlion Client</td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-no">✕</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag">Closed</span></td>
+            </tr>
+            <tr data-oss="yes" data-oauth="no">
               <td>Sodium (Fabric)</td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-no">✕</span></td>
@@ -2814,8 +2995,9 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag clean">Zero Tracking</span></td>
             </tr>
-            <tr>
+            <tr data-oss="no" data-oauth="yes">
               <td>Minecraft Launcher (Vanilla)</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -2823,6 +3005,7 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag">Official</span></td>
             </tr>
           </tbody>
         </table>
@@ -3044,6 +3227,51 @@
       </div>
     </section>
 
+    <!-- Pre-Launch Readiness Checklist -->
+    <section id="checklist" class="checklist-section reveal">
+      <div class="section-title">
+        <h2>Pre-Launch Checklist</h2>
+        <p>Check off your setup steps before jumping into your next match.</p>
+      </div>
+
+      <div class="checklist-box spotlight-card">
+        <div class="checklist-top">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--ice-bright);font-weight:700;" id="checklist-progress">READY: 2 / 4</span>
+          <span style="font-size:0.8rem;color:var(--text-muted);">Click any item to toggle</span>
+        </div>
+        <div class="checklist-items">
+          <div class="check-item checked" onclick="toggleChecklistItem(this)">
+            <div class="check-box-icon">✓</div>
+            <div>
+              <div class="check-title">Official Microsoft Account</div>
+              <div class="check-sub">Browser OAuth login without in-app passwords</div>
+            </div>
+          </div>
+          <div class="check-item checked" onclick="toggleChecklistItem(this)">
+            <div class="check-box-icon">✓</div>
+            <div>
+              <div class="check-title">Select Target Version</div>
+              <div class="check-sub">1.8.9 for PvP or 26.2 / 26.3 for modern worlds</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggleChecklistItem(this)">
+            <div class="check-box-icon"></div>
+            <div>
+              <div class="check-title">Enable Preferred HUD Mods</div>
+              <div class="check-sub">FPS Overlay, Ping, Armor HUD &amp; Toggle Sprint</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggleChecklistItem(this)">
+            <div class="check-box-icon"></div>
+            <div>
+              <div class="check-title">Join Discord for Updates</div>
+              <div class="check-sub">Grab latest builds, changelogs &amp; community help</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="faq" class="faq-section reveal">
       <div class="section-title">
         <h2>Frequently Asked Questions</h2>
@@ -3145,9 +3373,9 @@
       const splash = document.getElementById('intro-splash');
       if (splash) splash.classList.add('hide');
     }
-    setTimeout(dismissSplash, 800);
+    setTimeout(dismissSplash, 720);
 
-    // Gentle Holiday Carol Melody
+    // Optional Holiday Carol Melody (no speechSynthesis anywhere)
     let carolCtx = null;
     let carolMaster = null;
     let carolTimer = null;
@@ -3166,7 +3394,7 @@
     ];
 
     function playSoftBellNote(freq, durationSec) {
-      if (!carolCtx || !carolMaster || freq <= 0) return;
+      if (!carolCtx || !carolMaster || freq <= 0 || document.hidden) return;
       const now = carolCtx.currentTime;
 
       const osc1 = carolCtx.createOscillator();
@@ -3243,83 +3471,7 @@
       }
     }
 
-    // Real Spoken Voice (speaks actual words softly & naturally)
-    let activeAudioBtn = null;
-
-    function stopSpeakingReply() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-      }
-      if (activeAudioBtn) {
-        activeAudioBtn.classList.remove('speaking');
-        activeAudioBtn.innerHTML = '<span>🔊</span><span>Listen</span>';
-        activeAudioBtn = null;
-      }
-    }
-
-    function pickBestNaturalVoice(langPrefix) {
-      if (!('speechSynthesis' in window)) return null;
-      const voices = window.speechSynthesis.getVoices() || [];
-      if (!voices.length) return null;
-
-      const preferredNames = [
-        'natural', 'aria', 'clara', 'elisa', 'bianca', 'giulia',
-        'sara', 'sofia', 'emma', 'ava', 'serena', 'google'
-      ];
-      const filteredLang = voices.filter(v => (v.lang || '').toLowerCase().startsWith(langPrefix));
-      const pool = filteredLang.length ? filteredLang : voices;
-
-      for (const p of preferredNames) {
-        const hit = pool.find(v => v.name.toLowerCase().includes(p));
-        if (hit) return hit;
-      }
-      return pool[0];
-    }
-
-    function speakTextForReal(text, btnEl) {
-      if (!text || !('speechSynthesis' in window)) return;
-
-      if (activeAudioBtn === btnEl && btnEl.classList.contains('speaking')) {
-        stopSpeakingReply();
-        return;
-      }
-
-      stopSpeakingReply();
-      activeAudioBtn = btnEl;
-      btnEl.classList.add('speaking');
-      btnEl.innerHTML = '<span>⏹</span><span>Stop</span>';
-
-      // Split into short calm sentences so cadence is smooth and relaxed
-      const chunks = text
-        .replace(/([.!?])\s+/g, '$1|')
-        .split('|')
-        .map(s => s.trim())
-        .filter(Boolean);
-
-      const isItalian = /[àèéìòù]|ciao|glacier|versioni|sicuro|velocità/i.test(text);
-      const voice = pickBestNaturalVoice(isItalian ? 'it' : 'en');
-
-      chunks.forEach((chunk, index) => {
-        const utter = new SpeechSynthesisUtterance(chunk);
-        utter.lang = isItalian ? 'it-IT' : 'en-US';
-        utter.rate = 0.9;    // Calm, chill pace
-        utter.pitch = 0.95;  // Warm, non-shrill pitch
-        utter.volume = 0.9;
-        if (voice) utter.voice = voice;
-
-        if (index === chunks.length - 1) {
-          utter.onend = () => stopSpeakingReply();
-        }
-        utter.onerror = () => stopSpeakingReply();
-
-        window.speechSynthesis.speak(utter);
-      });
-    }
-
-    if ('speechSynthesis' in window && typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
-      window.speechSynthesis.onvoiceschanged = () => {};
-    }
-
+    // Snowy Mascot Chat
     function toggleSnowyChat(forceOpen) {
       const panel = document.getElementById('snowy-chat-panel');
       const speech = document.getElementById('snowy-speech');
@@ -3331,9 +3483,8 @@
           const inp = document.getElementById('chat-input');
           if (inp) inp.focus();
         }, 50);
-      } else {
-        stopSpeakingReply();
-        if (speech) speech.style.opacity = '1';
+      } else if (speech) {
+        speech.style.opacity = '1';
       }
     }
 
@@ -3364,39 +3515,12 @@
       `;
     }
 
-    function attachReplyWithVoiceButton(containerEl, replyText) {
-      containerEl.innerHTML = '';
-      const textDiv = document.createElement('div');
-      textDiv.textContent = replyText;
-      containerEl.appendChild(textDiv);
-
-      const footer = document.createElement('div');
-      footer.className = 'msg-footer';
-
-      const audioBtn = document.createElement('button');
-      audioBtn.type = 'button';
-      audioBtn.className = 'audio-reply-btn';
-      audioBtn.title = 'Read response out loud';
-      audioBtn.innerHTML = '<span>🔊</span><span>Listen</span>';
-      audioBtn.addEventListener('click', () => speakTextForReal(replyText, audioBtn));
-
-      footer.appendChild(audioBtn);
-      containerEl.appendChild(footer);
-    }
-
-    function appendChatMsg(plainOrHtmlText, sender, isRawHtml = false) {
+    function appendChatMsg(text, sender, isRawHtml = false) {
       const box = document.getElementById('chat-messages');
       const div = document.createElement('div');
       div.className = `msg ${sender}`;
-
-      if (sender === 'bot' && !isRawHtml) {
-        attachReplyWithVoiceButton(div, plainOrHtmlText);
-      } else if (isRawHtml) {
-        div.innerHTML = plainOrHtmlText;
-      } else {
-        div.textContent = plainOrHtmlText;
-      }
-
+      if (isRawHtml) div.innerHTML = text;
+      else div.textContent = text;
       box.appendChild(div);
       box.scrollTop = box.scrollHeight;
       return div;
@@ -3410,11 +3534,11 @@
       }
 
       if (/\b(thanks|thank you|thx|cool|nice|awesome|great|grazie)\b/.test(q)) {
-        return "Anytime, friend! Keep it chill and let me know if you want to explore anything else.";
+        return "Anytime! Let me know if you want to test presets, benchmarks, or security comparisons.";
       }
 
-      if (/\b(security|open source|oss|safe|ban|banned|cheat|cheats|hack|anticheat|anti-cheat|other)\b/.test(q)) {
-        return 'Glacier Client is open source, has zero cheats, is tested against anti-cheats like GrimAC and Vulcan, and never stores your password.';
+      if (/\b(security|open source|oss|safe|ban|banned|cheat|cheats|hack|anticheat|anti-cheat|other|telemetry)\b/.test(q)) {
+        return 'Glacier Client is open source with zero tracking, zero cheats, GrimAC & Vulcan parity testing, and never stores your password.';
       }
 
       if (/\b(auth|login|browser|oauth|password|account|microsoft)\b/.test(q)) {
@@ -3439,7 +3563,6 @@
     function sendUserQuestion(questionText) {
       const clean = questionText.trim();
       if (!clean) return;
-      stopSpeakingReply();
       toggleSnowyChat(true);
       appendChatMsg(clean, 'user');
 
@@ -3447,10 +3570,11 @@
       const replyText = getSnowyReply(clean);
 
       setTimeout(() => {
-        attachReplyWithVoiceButton(thinkingBubble, replyText);
+        thinkingBubble.innerHTML = '';
+        thinkingBubble.textContent = replyText;
         const box = document.getElementById('chat-messages');
         box.scrollTop = box.scrollHeight;
-      }, 900);
+      }, 750);
     }
 
     function askPreset(presetQuestion) {
@@ -3688,7 +3812,7 @@
     };
 
     function animateCountersTo(valuesMap) {
-      const duration = 620;
+      const duration = 560;
       const start = performance.now();
       const startVals = {};
       Object.keys(valuesMap).forEach(id => {
@@ -3746,6 +3870,33 @@
       });
     }
 
+    // Security Table Filter
+    function filterSecurityTable(mode, btn) {
+      document.querySelectorAll('.sec-filter-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      document.querySelectorAll('#security-table tbody tr').forEach(row => {
+        const isOss = row.dataset.oss === 'yes';
+        const isOauth = row.dataset.oauth === 'yes';
+        const show =
+          mode === 'all' ||
+          (mode === 'oss' && isOss) ||
+          (mode === 'oauth' && isOauth);
+        row.classList.toggle('hidden-row', !show);
+      });
+    }
+
+    // Pre-Launch Checklist
+    function toggleChecklistItem(el) {
+      el.classList.toggle('checked');
+      const icon = el.querySelector('.check-box-icon');
+      icon.textContent = el.classList.contains('checked') ? '✓' : '';
+
+      const total = document.querySelectorAll('.check-item').length;
+      const ready = document.querySelectorAll('.check-item.checked').length;
+      document.getElementById('checklist-progress').textContent = `READY: ${ready} / ${total}`;
+    }
+
     let currentCategory = 'all';
     let currentSearch = '';
     let clickTimestamps = [];
@@ -3795,6 +3946,20 @@
       updateActiveCounter();
     }
 
+    function applyPreset(presetName) {
+      const map = {
+        pvp: ['FPS Overlay', 'Armor HUD', 'Ping Display', 'Keystrokes', 'Toggle Sprint'],
+        maxfps: ['FPS Overlay'],
+        clean: ['FPS Overlay', 'Ping Display', 'Block Overlay']
+      };
+      const enabledSet = new Set(map[presetName] || []);
+      document.querySelectorAll('.mod-card').forEach(card => {
+        const title = card.querySelector('.mod-title').textContent.trim();
+        card.classList.toggle('enabled', enabledSet.has(title));
+      });
+      updateActiveCounter();
+    }
+
     function selectPreviewVersion(pill, ver) {
       document.querySelectorAll('.v-pill').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
@@ -3804,7 +3969,7 @@
 
     function pulseKey(el) {
       el.classList.add('pressed');
-      setTimeout(() => el.classList.remove('pressed'), 150);
+      setTimeout(() => el.classList.remove('pressed'), 140);
     }
 
     function registerClickCps() {
@@ -3817,11 +3982,12 @@
     }
 
     setInterval(() => {
+      if (document.hidden) return;
       const now = performance.now();
       clickTimestamps = clickTimestamps.filter(t => now - t <= 1000);
       const cpsEl = document.getElementById('cps-box');
       if (cpsEl) cpsEl.textContent = `${clickTimestamps.length} CPS`;
-    }, 250);
+    }, 260);
 
     document.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -3943,6 +4109,7 @@
     let sparkles = [];
     let ripples = [];
     let glowVisible = false;
+    let lastSpotUpdate = 0;
 
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
@@ -3952,35 +4119,39 @@
         glowVisible = true;
       }
 
-      if (sparkles.length < 36 && Math.random() < 0.42) {
+      if (sparkles.length < 28 && Math.random() < 0.36) {
         sparkles.push({
           x: mouseX + (Math.random() - 0.5) * 12,
           y: mouseY + (Math.random() - 0.5) * 12,
-          vx: (Math.random() - 0.5) * 0.7,
-          vy: Math.random() * 0.5 + 0.2,
-          size: Math.random() * 2.1 + 1,
+          vx: (Math.random() - 0.5) * 0.65,
+          vy: Math.random() * 0.48 + 0.2,
+          size: Math.random() * 2 + 1,
           life: 1
         });
       }
 
-      for (let i = 0; i < spotlightCards.length; i++) {
-        const card = spotlightCards[i];
-        const rect = card.getBoundingClientRect();
-        if (
-          mouseX >= rect.left - 240 &&
-          mouseX <= rect.right + 240 &&
-          mouseY >= rect.top - 240 &&
-          mouseY <= rect.bottom + 240
-        ) {
-          card.style.setProperty('--mouse-x', `${mouseX - rect.left}px`);
-          card.style.setProperty('--mouse-y', `${mouseY - rect.top}px`);
+      const now = performance.now();
+      if (now - lastSpotUpdate > 24) {
+        lastSpotUpdate = now;
+        for (let i = 0; i < spotlightCards.length; i++) {
+          const card = spotlightCards[i];
+          const rect = card.getBoundingClientRect();
+          if (
+            mouseX >= rect.left - 220 &&
+            mouseX <= rect.right + 220 &&
+            mouseY >= rect.top - 220 &&
+            mouseY <= rect.bottom + 220
+          ) {
+            card.style.setProperty('--mouse-x', `${mouseX - rect.left}px`);
+            card.style.setProperty('--mouse-y', `${mouseY - rect.top}px`);
+          }
         }
       }
     }, { passive: true });
 
     document.addEventListener('click', (e) => {
-      if (ripples.length < 10) {
-        ripples.push({ x: e.clientX, y: e.clientY, radius: 4, alpha: 0.6 });
+      if (ripples.length < 8) {
+        ripples.push({ x: e.clientX, y: e.clientY, radius: 4, alpha: 0.58 });
       }
     }, { passive: true });
 
@@ -3996,8 +4167,8 @@
       const rect = previewWindow.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      const rotateX = (((y - rect.height / 2) / (rect.height / 2)) * -3.5).toFixed(2);
-      const rotateY = (((x - rect.width / 2) / (rect.width / 2)) * 3.5).toFixed(2);
+      const rotateX = (((y - rect.height / 2) / (rect.height / 2)) * -3).toFixed(2);
+      const rotateY = (((x - rect.width / 2) / (rect.width / 2)) * 3).toFixed(2);
       previewWindow.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       previewGlare.style.setProperty('--glare-x', `${x}px`);
       previewGlare.style.setProperty('--glare-y', `${y}px`);
@@ -4022,7 +4193,7 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.14 });
+    }, { threshold: 0.12 });
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
@@ -4033,25 +4204,25 @@
     function initSnow() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
-      const count = Math.min(72, Math.floor(width / 18));
+      const count = Math.min(64, Math.floor(width / 20));
       flakes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
         r: Math.random() * 2 + 0.7,
-        speedY: Math.random() * 0.48 + 0.18,
-        speedX: (Math.random() - 0.5) * 0.25,
-        alpha: Math.random() * 0.55 + 0.18
+        speedY: Math.random() * 0.45 + 0.16,
+        speedX: (Math.random() - 0.5) * 0.24,
+        alpha: Math.random() * 0.52 + 0.16
       }));
 
-      const crystalCount = Math.min(12, Math.floor(width / 110));
+      const crystalCount = Math.min(10, Math.floor(width / 130));
       crystals = Array.from({ length: crystalCount }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
         size: Math.random() * 5 + 4,
-        speedY: Math.random() * 0.32 + 0.12,
+        speedY: Math.random() * 0.3 + 0.12,
         angle: Math.random() * Math.PI * 2,
         spin: (Math.random() - 0.5) * 0.01,
-        alpha: Math.random() * 0.2 + 0.06
+        alpha: Math.random() * 0.18 + 0.06
       }));
     }
 
@@ -4072,75 +4243,77 @@
     }
 
     function animate() {
-      glowX += (mouseX - glowX) * 0.18;
-      glowY += (mouseY - glowY) * 0.18;
-      cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0)`;
+      if (!document.hidden) {
+        glowX += (mouseX - glowX) * 0.18;
+        glowY += (mouseY - glowY) * 0.18;
+        cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0)`;
 
-      ctx.clearRect(0, 0, width, height);
+        ctx.clearRect(0, 0, width, height);
 
-      for (let i = 0; i < flakes.length; i++) {
-        const f = flakes[i];
-        ctx.beginPath();
-        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(186, 230, 253, ${f.alpha})`;
-        ctx.fill();
+        for (let i = 0; i < flakes.length; i++) {
+          const f = flakes[i];
+          ctx.beginPath();
+          ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(186, 230, 253, ${f.alpha})`;
+          ctx.fill();
 
-        if (glowVisible) {
-          const dx = f.x - glowX;
-          const dy = f.y - glowY;
-          const distSq = dx * dx + dy * dy;
-          if (distSq < 18225) {
-            const lineAlpha = (1 - Math.sqrt(distSq) / 135) * 0.34;
-            ctx.beginPath();
-            ctx.moveTo(f.x, f.y);
-            ctx.lineTo(glowX, glowY);
-            ctx.strokeStyle = `rgba(125, 211, 252, ${lineAlpha})`;
-            ctx.lineWidth = 0.9;
-            ctx.stroke();
+          if (glowVisible) {
+            const dx = f.x - glowX;
+            const dy = f.y - glowY;
+            const distSq = dx * dx + dy * dy;
+            if (distSq < 16900) {
+              const lineAlpha = (1 - Math.sqrt(distSq) / 130) * 0.32;
+              ctx.beginPath();
+              ctx.moveTo(f.x, f.y);
+              ctx.lineTo(glowX, glowY);
+              ctx.strokeStyle = `rgba(125, 211, 252, ${lineAlpha})`;
+              ctx.lineWidth = 0.85;
+              ctx.stroke();
+            }
           }
+
+          f.y += f.speedY;
+          f.x += f.speedX;
+
+          if (f.y > height) { f.y = -5; f.x = Math.random() * width; }
+          if (f.x > width) f.x = 0;
+          if (f.x < 0) f.x = width;
         }
 
-        f.y += f.speedY;
-        f.x += f.speedX;
+        for (let i = 0; i < crystals.length; i++) {
+          const c = crystals[i];
+          drawHexCrystal(c.x, c.y, c.size, c.angle, c.alpha);
+          c.y += c.speedY;
+          c.angle += c.spin;
+          if (c.y > height + 10) { c.y = -10; c.x = Math.random() * width; }
+        }
 
-        if (f.y > height) { f.y = -5; f.x = Math.random() * width; }
-        if (f.x > width) f.x = 0;
-        if (f.x < 0) f.x = width;
+        for (let i = sparkles.length - 1; i >= 0; i--) {
+          const s = sparkles[i];
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(186, 230, 253, ${s.life * 0.78})`;
+          ctx.fill();
+          s.x += s.vx;
+          s.y += s.vy;
+          s.life -= 0.04;
+          if (s.life <= 0) sparkles.splice(i, 1);
+        }
+
+        for (let i = ripples.length - 1; i >= 0; i--) {
+          const r = ripples[i];
+          ctx.beginPath();
+          ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(125, 211, 252, ${r.alpha})`;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          r.radius += 3.2;
+          r.alpha -= 0.025;
+          if (r.alpha <= 0) ripples.splice(i, 1);
+        }
+
+        drawFrameTimeGraph();
       }
-
-      for (let i = 0; i < crystals.length; i++) {
-        const c = crystals[i];
-        drawHexCrystal(c.x, c.y, c.size, c.angle, c.alpha);
-        c.y += c.speedY;
-        c.angle += c.spin;
-        if (c.y > height + 10) { c.y = -10; c.x = Math.random() * width; }
-      }
-
-      for (let i = sparkles.length - 1; i >= 0; i--) {
-        const s = sparkles[i];
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(186, 230, 253, ${s.life * 0.8})`;
-        ctx.fill();
-        s.x += s.vx;
-        s.y += s.vy;
-        s.life -= 0.036;
-        if (s.life <= 0) sparkles.splice(i, 1);
-      }
-
-      for (let i = ripples.length - 1; i >= 0; i--) {
-        const r = ripples[i];
-        ctx.beginPath();
-        ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(125, 211, 252, ${r.alpha})`;
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-        r.radius += 3.2;
-        r.alpha -= 0.022;
-        if (r.alpha <= 0) ripples.splice(i, 1);
-      }
-
-      drawFrameTimeGraph();
       requestAnimationFrame(animate);
     }
 
