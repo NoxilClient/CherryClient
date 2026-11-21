@@ -7,7 +7,7 @@
   <meta name="description" content="Glacier Client re-engineers Minecraft from the ground up in native Rust: zero Garbage Collector stutters, instant startup, and extreme FPS across 1.8.9, 26.2, and 26.3." />
   <meta name="theme-color" content="#02050c" />
 
-  <link id="favicon-svg" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23102c42'/%3E%3Cstop offset='100%25' stop-color='%23081a28'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='3' y='3' width='58' height='58' rx='16' fill='url(%23bg)' stroke='%23bae6fd' stroke-opacity='0.52' stroke-width='2.5'/%3E%3Cg stroke='%23bae6fd' stroke-width='3.6' stroke-linecap='round'%3E%3Cline x1='32' y1='15' x2='32' y2='49'/%3E%3Cline x1='15' y1='32' x2='49' y2='32'/%3E%3Cline x1='20' y1='20' x2='44' y2='44'/%3E%3Cline x1='44' y1='20' x2='20' y2='44'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='5.2' fill='%2338bdf8'/%3E%3C/svg%3E" />
+  <link id="favicon-svg" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23102c42'/%3E%3Cstop offset='100%25' stop-color='%23081a28'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='3' y='3' width='58' height='58' rx='16' fill='url(%23bg)' stroke='%23bae6fd' stroke-opacity='0.52' stroke-width='2.5'/%3E%3Cg stroke='%23bae6fd' stroke-width='3.6' stroke-linecap='round'%3E%3Cline x1='32' y1='15' x2='32' y2='49'/%3E%3Cline x1='15' y1='32' x2='49' y2='32'/%3E%3Cline x1='20' y1='20' x2='44' y2='44'/%3E%3Cline x1='44' y1='20' x2='20' y2='44'/%3E%3C/g%3E%3Ccircle cx='32' cy='32' r='5.2' fill='%2338bdf8'/%3E%3C/svg%3E" />
   <link id="favicon-png" rel="alternate icon" type="image/png" href="" />
   <link id="apple-icon" rel="apple-touch-icon" href="" />
 
@@ -26,8 +26,8 @@
       --border-ice-hover: rgba(125, 211, 252, 0.92);
       --text-main: #f0f9ff;
       --text-muted: #94a3b8;
-      --danger: #f87171;
-      --danger-bright: #fecaca;
+      --warn: #fbbf24;
+      --warn-bright: #fde68a;
     }
 
     * {
@@ -1754,8 +1754,10 @@
     }
 
     .bench-fill.tori { background: rgba(186, 230, 253, 0.72); }
+    .bench-fill.silent { background: rgba(147, 197, 253, 0.67); }
     .bench-fill.fast { background: rgba(125, 211, 252, 0.62); }
     .bench-fill.lunar { background: rgba(56, 189, 248, 0.52); }
+    .bench-fill.norisk { background: rgba(45, 212, 191, 0.48); }
     .bench-fill.dawn { background: rgba(34, 211, 238, 0.44); }
     .bench-fill.sodium { background: rgba(56, 189, 248, 0.34); }
     .bench-fill.glacier {
@@ -1811,15 +1813,15 @@
       margin-bottom: 18px;
       padding: 15px 20px;
       border-radius: 16px;
-      background: linear-gradient(90deg, rgba(239, 68, 68, 0.22), rgba(127, 29, 29, 0.16));
-      border: 1px solid rgba(248, 113, 113, 0.58);
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.18), rgba(146, 64, 14, 0.14));
+      border: 1px solid rgba(251, 191, 36, 0.52);
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
       font-size: 0.85rem;
-      color: #fee2e2;
+      color: #fef3c7;
     }
 
     .sec-warning-banner strong {
@@ -1860,10 +1862,10 @@
       color: #ffffff;
     }
 
-    .sec-filter-btn.danger-filter.active, .sec-filter-btn.danger-filter:hover {
-      background: rgba(248, 113, 113, 0.24);
-      border-color: rgba(248, 113, 113, 0.72);
-      color: #fecaca;
+    .sec-filter-btn.unknown-filter.active, .sec-filter-btn.unknown-filter:hover {
+      background: rgba(251, 191, 36, 0.22);
+      border-color: rgba(251, 191, 36, 0.72);
+      color: #fde68a;
     }
 
     .security-table-wrap {
@@ -1910,12 +1912,12 @@
       font-weight: 600;
     }
 
-    .security-table tr.unsafe-row {
-      background: linear-gradient(90deg, rgba(239, 68, 68, 0.24), rgba(127, 29, 29, 0.1));
+    .security-table tr.unknown-row {
+      background: linear-gradient(90deg, rgba(251, 191, 36, 0.16), rgba(146, 64, 14, 0.08));
     }
 
-    .security-table tr.unsafe-row td {
-      color: #fecaca;
+    .security-table tr.unknown-row td {
+      color: #fef3c7;
       font-weight: 600;
     }
 
@@ -1949,6 +1951,21 @@
       font-size: 0.82rem;
     }
 
+    .mark-unknown {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      background: rgba(251, 191, 36, 0.2);
+      border: 1px solid rgba(251, 191, 36, 0.65);
+      color: #fde68a;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
     .auth-pill {
       display: inline-block;
       padding: 4px 9px;
@@ -1961,16 +1978,28 @@
       color: var(--ice-bright);
     }
 
-    .unsafe-pill {
+    .safe-pill {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(52, 211, 153, 0.16);
+      border: 1px solid rgba(52, 211, 153, 0.55);
+      color: #6ee7b7;
+    }
+
+    .unknown-pill {
       display: inline-block;
       padding: 4px 9px;
       border-radius: 8px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.7rem;
       font-weight: 800;
-      background: rgba(239, 68, 68, 0.26);
-      border: 1px solid rgba(248, 113, 113, 0.75);
-      color: #fecaca;
+      background: rgba(251, 191, 36, 0.22);
+      border: 1px solid rgba(251, 191, 36, 0.72);
+      color: #fde68a;
     }
 
     .telemetry-tag {
@@ -1989,10 +2018,10 @@
       background: rgba(52, 211, 153, 0.12);
     }
 
-    .telemetry-tag.danger {
-      color: #fecaca;
-      border-color: rgba(248, 113, 113, 0.65);
-      background: rgba(239, 68, 68, 0.22);
+    .telemetry-tag.unknown {
+      color: #fde68a;
+      border-color: rgba(251, 191, 36, 0.6);
+      background: rgba(251, 191, 36, 0.18);
       font-weight: 700;
     }
 
@@ -2604,8 +2633,8 @@
 
       <div class="chat-quick-prompts">
         <button type="button" class="quick-chip" onclick="askPreset('hello')">Hello</button>
-        <button type="button" class="quick-chip" onclick="askPreset('Is FastClient safe?')">FastClient Safety</button>
-        <button type="button" class="quick-chip" onclick="askPreset('Our security vs other clients?')">Security vs Other</button>
+        <button type="button" class="quick-chip" onclick="askPreset('FastClient security?')">FastClient Security (?)</button>
+        <button type="button" class="quick-chip" onclick="askPreset('Silent and NoRisk safe?')">Silent &amp; NoRisk</button>
         <button type="button" class="quick-chip" onclick="askPreset('How fast is Glacier?')">FPS &amp; Rust</button>
       </div>
 
@@ -2656,7 +2685,7 @@
       <div class="cmd-list" id="cmd-list">
         <a href="#pipeline" class="cmd-item" onclick="closeCmdPalette()">Interactive Engine Pipeline <span>#pipeline</span></a>
         <a href="#benchmarks" class="cmd-item" onclick="closeCmdPalette()">View FPS Benchmarks <span>#benchmarks</span></a>
-        <a href="#security-vs-other" class="cmd-item" onclick="closeCmdPalette()">Our Security vs Other (FastClient Unsafe) <span>#security</span></a>
+        <a href="#security-vs-other" class="cmd-item" onclick="closeCmdPalette()">Our Security vs Other <span>#security</span></a>
         <a href="#simulator" class="cmd-item" onclick="closeCmdPalette()">Open Live Frame-Time Lab <span>#simulator</span></a>
         <a href="#versions" class="cmd-item" onclick="closeCmdPalette()">Supported Versions (1.8.9 / 26.2 / 26.3) <span>#versions</span></a>
         <a href="#checklist" class="cmd-item" onclick="closeCmdPalette()">Pre-Launch Setup Checklist <span>#checklist</span></a>
@@ -2963,6 +2992,16 @@
 
         <div class="bench-row">
           <div class="bench-meta">
+            <div class="bench-name">Silent Client</div>
+            <div class="bench-fps"><span class="fps-counter" id="fps-silent" data-target="1780">1780</span> FPS</div>
+          </div>
+          <div class="bench-track">
+            <div class="bench-fill silent" id="bar-silent" data-width="72.7%"></div>
+          </div>
+        </div>
+
+        <div class="bench-row">
+          <div class="bench-meta">
             <div class="bench-name">FastClient</div>
             <div class="bench-fps"><span class="fps-counter" id="fps-fast" data-target="1640">1640</span> FPS</div>
           </div>
@@ -2978,6 +3017,16 @@
           </div>
           <div class="bench-track">
             <div class="bench-fill lunar" id="bar-lunar" data-width="56.3%"></div>
+          </div>
+        </div>
+
+        <div class="bench-row">
+          <div class="bench-meta">
+            <div class="bench-name">NoRisk Client</div>
+            <div class="bench-fps"><span class="fps-counter" id="fps-norisk" data-target="1265">1265</span> FPS</div>
+          </div>
+          <div class="bench-track">
+            <div class="bench-fill norisk" id="bar-norisk" data-width="51.6%"></div>
           </div>
         </div>
 
@@ -3044,8 +3093,8 @@
       </div>
 
       <div class="sec-warning-banner">
-        <span><strong>⚠️ Security Advisory on FastClient:</strong> FastClient is <strong>closed source</strong>, does <strong>not</strong> use safe external browser OAuth isolation, and lacks public code auditability — marked <strong>UNSAFE (0/6)</strong> below.</span>
-        <span class="unsafe-pill">AVOID UNVERIFIED BINARIES</span>
+        <span><strong>? FastClient Security Status Unknown:</strong> Because FastClient is closed source without public auditability, its security practices cannot be independently verified (marked <strong>?</strong> below). <strong>Silent Client</strong> and <strong>NoRisk Client</strong> are marked <strong>SAFE</strong>.</span>
+        <span class="unknown-pill">? FASTCLIENT UNVERIFIED</span>
       </div>
 
       <div class="sec-filter-bar">
@@ -3053,9 +3102,9 @@
           <button type="button" class="sec-filter-btn active" onclick="filterSecurityTable('all', this)">All Clients</button>
           <button type="button" class="sec-filter-btn" onclick="filterSecurityTable('oss', this)">Open Source Only</button>
           <button type="button" class="sec-filter-btn" onclick="filterSecurityTable('oauth', this)">Browser OAuth Only</button>
-          <button type="button" class="sec-filter-btn danger-filter" onclick="filterSecurityTable('unsafe', this)">⚠️ Unsafe Clients</button>
+          <button type="button" class="sec-filter-btn unknown-filter" onclick="filterSecurityTable('unknown', this)">? Unverified Status</button>
         </div>
-        <span style="font-size:0.78rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">GLACIER SCORE: 6/6 • FASTCLIENT: 0/6</span>
+        <span style="font-size:0.78rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace;">GLACIER: 6/6 SAFE • SILENT &amp; NORISK: SAFE • FASTCLIENT: ?</span>
       </div>
 
       <div class="security-table-wrap spotlight-card">
@@ -3069,11 +3118,11 @@
               <th>Zero Password Storage</th>
               <th>Auditable Code</th>
               <th>Anti-Cheat Safe</th>
-              <th>Telemetry / Risk</th>
+              <th>Security / Telemetry</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="glacier-row" data-oss="yes" data-oauth="yes" data-unsafe="no">
+            <tr class="glacier-row" data-oss="yes" data-oauth="yes" data-unknown="no">
               <td>Glacier Client <span class="auth-pill" style="margin-left:6px;">6/6 SAFE</span></td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -3083,17 +3132,17 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag clean">Zero Tracking</span></td>
             </tr>
-            <tr class="unsafe-row" data-oss="no" data-oauth="no" data-unsafe="yes">
-              <td>FastClient <span class="unsafe-pill" style="margin-left:6px;">⚠️ UNSAFE 0/6</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="mark-no">✕</span></td>
-              <td><span class="telemetry-tag danger">Not Safe • Closed</span></td>
+            <tr class="unknown-row" data-oss="no" data-oauth="unknown" data-unknown="yes">
+              <td>FastClient <span class="unknown-pill" style="margin-left:6px;">?</span></td>
+              <td><span class="mark-unknown">?</span></td>
+              <td><span class="mark-unknown">?</span></td>
+              <td><span class="mark-unknown">?</span></td>
+              <td><span class="mark-unknown">?</span></td>
+              <td><span class="mark-unknown">?</span></td>
+              <td><span class="mark-unknown">?</span></td>
+              <td><span class="telemetry-tag unknown">? Unverified</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="no" data-unsafe="no">
+            <tr data-oss="no" data-oauth="no" data-unknown="no">
               <td>Tori Client</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
@@ -3103,7 +3152,17 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unsafe="no">
+            <tr data-oss="no" data-oauth="yes" data-unknown="no">
+              <td>Silent Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag clean">Safe</span></td>
+            </tr>
+            <tr data-oss="no" data-oauth="yes" data-unknown="no">
               <td>Lunar Client</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -3113,7 +3172,17 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="no" data-unsafe="no">
+            <tr data-oss="no" data-oauth="yes" data-unknown="no">
+              <td>NoRisk Client <span class="safe-pill" style="margin-left:6px;">SAFE</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="mark-yes">✓</span></td>
+              <td><span class="telemetry-tag clean">Safe</span></td>
+            </tr>
+            <tr data-oss="no" data-oauth="no" data-unknown="no">
               <td>Dawn Client</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-no">✕</span></td>
@@ -3123,7 +3192,7 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unsafe="no">
+            <tr data-oss="no" data-oauth="yes" data-unknown="no">
               <td>Feather Client</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -3133,7 +3202,7 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unsafe="no">
+            <tr data-oss="no" data-oauth="yes" data-unknown="no">
               <td>Badlion Client</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -3143,7 +3212,7 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag">Closed</span></td>
             </tr>
-            <tr data-oss="yes" data-oauth="no" data-unsafe="no">
+            <tr data-oss="yes" data-oauth="no" data-unknown="no">
               <td>Sodium (Fabric)</td>
               <td><span class="mark-yes">✓</span></td>
               <td><span class="mark-no">✕</span></td>
@@ -3153,7 +3222,7 @@
               <td><span class="mark-yes">✓</span></td>
               <td><span class="telemetry-tag clean">Zero Tracking</span></td>
             </tr>
-            <tr data-oss="no" data-oauth="yes" data-unsafe="no">
+            <tr data-oss="no" data-oauth="yes" data-unknown="no">
               <td>Minecraft Launcher (Vanilla)</td>
               <td><span class="mark-no">✕</span></td>
               <td><span class="mark-yes">✓</span></td>
@@ -3436,9 +3505,16 @@
 
       <div class="faq-list">
         <details class="faq-item">
-          <summary>Why is FastClient marked as NOT safe compared to Glacier Client?</summary>
+          <summary>Are Silent Client and NoRisk Client marked safe in the comparison?</summary>
           <div class="faq-answer">
-            FastClient is <strong>closed source</strong>, does not isolate sign-in through your external system browser with auditable OAuth handling, and offers no public source verification. Glacier Client is <strong>100% open source</strong> and opens your external browser directly to official Microsoft OAuth endpoints.
+            Yes. Both <strong>Silent Client</strong> and <strong>NoRisk Client</strong> are listed as <strong>SAFE</strong> in the Security vs Other comparison, while <strong>FastClient</strong> remains marked with <strong>?</strong> due to closed-source unverified status.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Why does FastClient have a "?" in the Security vs Other table?</summary>
+          <div class="faq-answer">
+            FastClient is closed source and lacks public source-code auditability, so its security and authentication implementation cannot be independently verified—which is why it is marked with <strong>?</strong>. Glacier Client is <strong>100% open source</strong> and opens your external browser directly to official Microsoft OAuth endpoints.
           </div>
         </details>
 
@@ -3728,11 +3804,15 @@
       const q = rawText.trim().toLowerCase();
 
       if (/^(hello|hi|hey|yo|sup|good morning|good afternoon|good evening|hola|ciao|buongiorno|buonasera)\b/.test(q) || q === 'hello') {
-        return "Hey there! I'm Snowy, the mascot of Glacier Client. Ask me anything about FPS, open source code, or why FastClient isn't safe.";
+        return "Hey there! I'm Snowy, the mascot of Glacier Client. Ask me anything about FPS, open source code, or our security comparison.";
       }
 
-      if (/\b(fastclient|fast client|unsafe)\b/.test(q)) {
-        return 'FastClient is marked UNSAFE (0/6) because it is closed source, does not isolate login in your external browser, and has zero public code auditability. Glacier Client is 100% open source with safe browser OAuth.';
+      if (/\b(silent|norisk|no risk)\b/.test(q)) {
+        return 'Both Silent Client and NoRisk Client are marked as SAFE in our security table, and both appear in the FPS benchmark list.';
+      }
+
+      if (/\b(fastclient|fast client|unverified|unknown)\b/.test(q)) {
+        return 'FastClient is marked with "?" in Our Security vs Other because it is closed source without public auditability, so its security practices are unverified. Glacier Client is 100% open source with external browser OAuth.';
       }
 
       if (/\b(thanks|thank you|thx|cool|nice|awesome|great|grazie)\b/.test(q)) {
@@ -3759,7 +3839,7 @@
         return 'Windows and Linux builds are shared via our Discord server, while native macOS support is planned on the roadmap.';
       }
 
-      return 'I can help with questions about Glacier Client — such as Rust performance, FPS, why FastClient is unsafe, open-source security, or browser login.';
+      return 'I can help with questions about Glacier Client — such as Rust performance, FPS, open-source security, or browser login.';
     }
 
     function sendUserQuestion(questionText) {
@@ -3997,17 +4077,17 @@
 
     const hwTiers = {
       laptop: {
-        glacier: 540, tori: 420, fast: 355, lunar: 295, dawn: 245, sodium: 205, vanilla: 95,
+        glacier: 540, tori: 420, silent: 390, fast: 355, lunar: 295, norisk: 270, dawn: 245, sodium: 205, vanilla: 95,
         badge: 'NATIVE RUST • #1 FPS',
         label: 'Test setup: 1080p • Integrated Graphics • 12 Chunks'
       },
       mid: {
-        glacier: 1280, tori: 990, fast: 840, lunar: 690, dawn: 575, sodium: 480, vanilla: 220,
+        glacier: 1280, tori: 990, silent: 915, fast: 840, lunar: 690, norisk: 630, dawn: 575, sodium: 480, vanilla: 220,
         badge: 'NATIVE RUST • #1 FPS',
         label: 'Test setup: 1080p • 16 Chunks Render Distance • Fancy Graphics'
       },
       high: {
-        glacier: 2450, tori: 1920, fast: 1640, lunar: 1380, dawn: 1150, sodium: 960, vanilla: 440,
+        glacier: 2450, tori: 1920, silent: 1780, fast: 1640, lunar: 1380, norisk: 1265, dawn: 1150, sodium: 960, vanilla: 440,
         badge: 'NATIVE RUST • EXTREME FPS',
         label: 'Test setup: 1440p • High-End RTX / Ryzen • 24 Chunks Render Distance'
       }
@@ -4047,8 +4127,10 @@
       animateCountersTo({
         'fps-glacier': tier.glacier,
         'fps-tori': tier.tori,
+        'fps-silent': tier.silent,
         'fps-fast': tier.fast,
         'fps-lunar': tier.lunar,
+        'fps-norisk': tier.norisk,
         'fps-dawn': tier.dawn,
         'fps-sodium': tier.sodium,
         'fps-vanilla': tier.vanilla
@@ -4058,8 +4140,10 @@
       const bars = {
         'bar-glacier': tier.glacier,
         'bar-tori': tier.tori,
+        'bar-silent': tier.silent,
         'bar-fast': tier.fast,
         'bar-lunar': tier.lunar,
+        'bar-norisk': tier.norisk,
         'bar-dawn': tier.dawn,
         'bar-sodium': tier.sodium,
         'bar-vanilla': tier.vanilla
@@ -4080,12 +4164,12 @@
       document.querySelectorAll('#security-table tbody tr').forEach(row => {
         const isOss = row.dataset.oss === 'yes';
         const isOauth = row.dataset.oauth === 'yes';
-        const isUnsafe = row.dataset.unsafe === 'yes';
+        const isUnknown = row.dataset.unknown === 'yes';
         const show =
           mode === 'all' ||
           (mode === 'oss' && isOss) ||
           (mode === 'oauth' && isOauth) ||
-          (mode === 'unsafe' && isUnsafe);
+          (mode === 'unknown' && isUnknown);
         row.classList.toggle('hidden-row', !show);
       });
     }
