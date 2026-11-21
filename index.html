@@ -540,8 +540,8 @@
     }
 
     .snowy-chat-panel {
-      width: min(380px, calc(100vw - 32px));
-      height: 460px;
+      width: min(388px, calc(100vw - 32px));
+      height: 472px;
       border-radius: 18px;
       background: linear-gradient(165deg, rgba(16, 33, 58, 0.98), rgba(5, 11, 21, 0.99));
       border: 1px solid rgba(125, 211, 252, 0.68);
@@ -623,7 +623,7 @@
     }
 
     .msg {
-      max-width: 86%;
+      max-width: 88%;
       padding: 10px 13px;
       border-radius: 13px;
       font-size: 0.84rem;
@@ -647,11 +647,45 @@
       border-bottom-right-radius: 3px;
     }
 
+    /* Thinking Puppet Action inside Chat */
+    .thinking-puppet-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .thinking-puppet-svg {
+      width: 28px;
+      height: 32px;
+      shape-rendering: crispEdges;
+      flex-shrink: 0;
+      animation: puppetThinkTilt 1.15s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+
+    @keyframes puppetThinkTilt {
+      0%, 100% { transform: rotate(-6deg) translateY(0px); }
+      50% { transform: rotate(7deg) translateY(-2.5px); }
+    }
+
+    .thinking-label-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .thinking-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--ice-bright);
+    }
+
     .typing-dots {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 2px 4px;
+      padding: 1px 2px;
     }
 
     .typing-dots span {
@@ -669,6 +703,45 @@
     @keyframes dotBounce {
       0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
       40% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* Warm Audio Button on Bot Replies */
+    .msg-footer {
+      margin-top: 8px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(186, 230, 253, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .audio-reply-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 9px;
+      border-radius: 8px;
+      border: 1px solid rgba(253, 224, 71, 0.36);
+      background: rgba(251, 191, 36, 0.1);
+      color: #fde68a;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.69rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .audio-reply-btn:hover {
+      background: rgba(251, 191, 36, 0.22);
+      border-color: #fde68a;
+      color: #ffffff;
+    }
+
+    .audio-reply-btn.speaking {
+      background: rgba(251, 191, 36, 0.3);
+      border-color: #fef08a;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(251, 191, 36, 0.35);
     }
 
     .chat-quick-prompts {
@@ -2402,9 +2475,7 @@
       </div>
 
       <div class="chat-messages" id="chat-messages">
-        <div class="msg bot">
-          Hi! I'm Snowy, the mascot of Glacier Client.
-        </div>
+        <!-- Initial welcome message injected cleanly via JS so audio button works seamlessly -->
       </div>
 
       <div class="chat-quick-prompts">
@@ -2712,7 +2783,7 @@
           <div class="bench-meta">
             <div class="bench-name">
               Glacier Client
-              <span class="bench-tag" id="bench-glacier-badge">NATIVE RUST • #1 FPS</span>
+              <span class="bench-tag" id="bench-glacier-badge">NATIVE RUST • EXTREME FPS</span>
             </div>
             <div class="bench-fps"><span class="fps-counter" id="fps-glacier" data-target="2450">2450</span> FPS</div>
           </div>
@@ -3201,7 +3272,72 @@
       }
     }
 
-    // Snowy Mascot Chat
+    // Snowy Mascot Chat + Thinking Puppet + Warm Voice Audio
+    let activeAudioBtn = null;
+
+    function stopSpeakingReply() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      if (activeAudioBtn) {
+        activeAudioBtn.classList.remove('speaking');
+        activeAudioBtn.innerHTML = '<span>🔊</span><span>Audio</span>';
+        activeAudioBtn = null;
+      }
+    }
+
+    function pickWarmVoice(langPrefix) {
+      if (!('speechSynthesis' in window)) return null;
+      const voices = window.speechSynthesis.getVoices() || [];
+      if (!voices.length) return null;
+
+      const warmKeywords = ['natural', 'aria', 'clara', 'elisa', 'bianca', 'giulia', 'sara', 'sofia', 'emma', 'ava', 'serena', 'google', 'microsoft'];
+      const langVoices = voices.filter(v => (v.lang || '').toLowerCase().startsWith(langPrefix));
+      const pool = langVoices.length ? langVoices : voices;
+
+      for (const kw of warmKeywords) {
+        const match = pool.find(v => v.name.toLowerCase().includes(kw));
+        if (match) return match;
+      }
+      return pool[0];
+    }
+
+    function speakWarmReply(text, btnEl) {
+      if (!text) return;
+
+      if (activeAudioBtn === btnEl && btnEl.classList.contains('speaking')) {
+        stopSpeakingReply();
+        return;
+      }
+
+      stopSpeakingReply();
+
+      if (!('speechSynthesis' in window)) return;
+
+      const isItalian = /[àèéìòù]|ciao|glacier|versioni|sicuro|velocità|fps/i.test(text);
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = isItalian ? 'it-IT' : 'en-US';
+      utter.rate = 0.92;   // Calm, unhurried pace
+      utter.pitch = 1.04;  // Warm, pleasant tone
+      utter.volume = 0.9;
+
+      const voice = pickWarmVoice(isItalian ? 'it' : 'en');
+      if (voice) utter.voice = voice;
+
+      activeAudioBtn = btnEl;
+      btnEl.classList.add('speaking');
+      btnEl.innerHTML = '<span>⏹</span><span>Stop</span>';
+
+      utter.onend = () => stopSpeakingReply();
+      utter.onerror = () => stopSpeakingReply();
+
+      window.speechSynthesis.speak(utter);
+    }
+
+    if ('speechSynthesis' in window && typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
+      window.speechSynthesis.onvoiceschanged = () => {};
+    }
+
     function toggleSnowyChat(forceOpen) {
       const panel = document.getElementById('snowy-chat-panel');
       const speech = document.getElementById('snowy-speech');
@@ -3213,16 +3349,67 @@
           const inp = document.getElementById('chat-input');
           if (inp) inp.focus();
         }, 60);
-      } else if (speech) {
-        speech.style.opacity = '1';
+      } else {
+        stopSpeakingReply();
+        if (speech) speech.style.opacity = '1';
       }
     }
 
-    function appendChatMsg(htmlContent, sender) {
+    function buildThinkingPuppetHtml() {
+      return `
+        <div class="thinking-puppet-row">
+          <svg class="thinking-puppet-svg" viewBox="0 0 24 28">
+            <rect x="8" y="1" width="8" height="3" fill="#1e293b"/>
+            <rect x="8" y="4" width="8" height="2" fill="#38bdf8"/>
+            <rect x="5" y="6" width="14" height="2" fill="#334155"/>
+            <rect x="7" y="8" width="10" height="2" fill="#ffffff"/>
+            <rect x="6" y="10" width="12" height="5" fill="#f0f9ff"/>
+            <rect x="8" y="11" width="2" height="2" fill="#0f172a"/>
+            <rect x="14" y="11" width="2" height="2" fill="#0f172a"/>
+            <rect x="11" y="12" width="2" height="2" fill="#fb923c"/>
+            <rect x="10" y="15" width="4" height="1" fill="#334155"/>
+            <rect x="6" y="16" width="12" height="2" fill="#38bdf8"/>
+            <rect x="5" y="18" width="14" height="7" fill="#e0f2fe"/>
+            <rect x="11" y="20" width="2" height="2" fill="#0f172a"/>
+            <rect x="19" y="15" width="2" height="4" fill="#94a3b8"/>
+            <rect x="18" y="14" width="2" height="2" fill="#bae6fd"/>
+          </svg>
+          <div class="thinking-label-wrap">
+            <span class="thinking-text">Snowy is thinking...</span>
+            <div class="typing-dots"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function appendChatMsg(plainOrHtmlText, sender, isRawHtml = false) {
       const box = document.getElementById('chat-messages');
       const div = document.createElement('div');
       div.className = `msg ${sender}`;
-      div.innerHTML = htmlContent;
+
+      if (sender === 'bot' && !isRawHtml) {
+        const textNode = document.createElement('div');
+        textNode.textContent = plainOrHtmlText;
+        div.appendChild(textNode);
+
+        const footer = document.createElement('div');
+        footer.className = 'msg-footer';
+
+        const audioBtn = document.createElement('button');
+        audioBtn.type = 'button';
+        audioBtn.className = 'audio-reply-btn';
+        audioBtn.title = 'Listen with a calm, warm voice';
+        audioBtn.innerHTML = '<span>🔊</span><span>Audio</span>';
+        audioBtn.addEventListener('click', () => speakWarmReply(plainOrHtmlText, audioBtn));
+
+        footer.appendChild(audioBtn);
+        div.appendChild(footer);
+      } else if (isRawHtml) {
+        div.innerHTML = plainOrHtmlText;
+      } else {
+        div.textContent = plainOrHtmlText;
+      }
+
       box.appendChild(div);
       box.scrollTop = box.scrollHeight;
       return div;
@@ -3231,11 +3418,11 @@
     function getSnowyReply(rawText) {
       const q = rawText.trim().toLowerCase();
 
-      if (/^(hello|hi|hey|yo|sup|good morning|good afternoon|good evening|hola|ciao)\b/.test(q) || q === 'hello') {
+      if (/^(hello|hi|hey|yo|sup|good morning|good afternoon|good evening|hola|ciao|buongiorno|buonasera)\b/.test(q) || q === 'hello') {
         return "Hi! I'm Snowy, the mascot of Glacier Client. Ask me anything about the client!";
       }
 
-      if (/\b(thanks|thank you|thx|cool|nice|awesome|great)\b/.test(q)) {
+      if (/\b(thanks|thank you|thx|cool|nice|awesome|great|grazie)\b/.test(q)) {
         return "You're welcome! Let me know if you want to know more about Glacier Client.";
       }
 
@@ -3261,19 +3448,35 @@
     function sendUserQuestion(questionText) {
       const clean = questionText.trim();
       if (!clean) return;
+      stopSpeakingReply();
       toggleSnowyChat(true);
-      appendChatMsg(clean.replace(/</g, '&lt;').replace(/>/g, '&gt;'), 'user');
+      appendChatMsg(clean, 'user');
 
-      const typingBubble = appendChatMsg(
-        '<div class="typing-dots"><span></span><span></span><span></span></div>',
-        'bot'
-      );
+      const thinkingBubble = appendChatMsg(buildThinkingPuppetHtml(), 'bot', true);
+      const replyText = getSnowyReply(clean);
 
       setTimeout(() => {
-        typingBubble.innerHTML = getSnowyReply(clean);
+        thinkingBubble.innerHTML = '';
+        const textNode = document.createElement('div');
+        textNode.textContent = replyText;
+        thinkingBubble.appendChild(textNode);
+
+        const footer = document.createElement('div');
+        footer.className = 'msg-footer';
+
+        const audioBtn = document.createElement('button');
+        audioBtn.type = 'button';
+        audioBtn.className = 'audio-reply-btn';
+        audioBtn.title = 'Listen with a calm, warm voice';
+        audioBtn.innerHTML = '<span>🔊</span><span>Audio</span>';
+        audioBtn.addEventListener('click', () => speakWarmReply(replyText, audioBtn));
+
+        footer.appendChild(audioBtn);
+        thinkingBubble.appendChild(footer);
+
         const box = document.getElementById('chat-messages');
         box.scrollTop = box.scrollHeight;
-      }, 500);
+      }, 950);
     }
 
     function askPreset(presetQuestion) {
@@ -3287,6 +3490,9 @@
       input.value = '';
       sendUserQuestion(val);
     }
+
+    // Seed initial Snowy greeting with warm audio button
+    appendChatMsg("Hi! I'm Snowy, the mascot of Glacier Client.", 'bot');
 
     // Generate 192x192 PNG Favicon
     (function generateExactPngFavicon() {
