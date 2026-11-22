@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Glacier Client</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2304101f'/%3E%3Cpath d='M16 5v22M5 16h22M8 8l16 16M24 8L8 24' stroke='%237dd3fc' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23071626'/%3E%3Cpath d='M16 5v22M5 16h22M8 8l16 16M24 8L8 24' stroke='%237dd3fc' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
@@ -15,153 +15,57 @@
       padding: 0;
     }
 
-    body {
+    html, body {
+      height: 100%;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: #030811;
       color: #f8fafc;
-      overflow-x: hidden;
-    }
-
-    /* Fullscreen Hero with 1000x Glacial Aurora + Horizon */
-    .hero-screen {
-      position: relative;
-      min-height: 100vh;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 48px 20px 210px;
-      background:
-        radial-gradient(ellipse 85% 55% at 50% 18%, rgba(56, 189, 248, 0.28), transparent 62%),
-        radial-gradient(ellipse 60% 45% at 20% 25%, rgba(34, 211, 238, 0.16), transparent 65%),
-        radial-gradient(ellipse 65% 50% at 82% 22%, rgba(125, 211, 252, 0.18), transparent 65%),
-        linear-gradient(180deg, #030914 0%, #071b33 48%, #092442 78%, #051324 100%);
       overflow: hidden;
     }
 
-    /* Animated Aurora Ribbons */
-    .aurora-layer {
-      position: absolute;
-      inset: -15% -10% 15% -10%;
-      pointer-events: none;
-      z-index: 1;
-      filter: blur(42px);
-      opacity: 0.72;
+    .stage {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
       background:
-        radial-gradient(ellipse 55% 26% at 30% 34%, rgba(56, 189, 248, 0.36), transparent 70%),
-        radial-gradient(ellipse 50% 22% at 68% 28%, rgba(34, 211, 238, 0.32), transparent 70%),
-        radial-gradient(ellipse 60% 30% at 50% 42%, rgba(186, 230, 253, 0.2), transparent 75%);
-      animation: auroraShift 12s ease-in-out infinite alternate;
+        radial-gradient(circle at 50% 35%, rgba(125, 211, 252, 0.22), transparent 52%),
+        radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.14), transparent 45%),
+        linear-gradient(160deg, #051120 0%, #0b243e 55%, #061527 100%);
     }
 
-    @keyframes auroraShift {
-      0% { transform: translate3d(-2%, -2%, 0) scale(1); }
-      50% { transform: translate3d(2.5%, 2%, 0) scale(1.05); }
-      100% { transform: translate3d(-1.5%, 3%, 0) scale(0.98); }
-    }
-
-    /* Distant Moon / Ice Glow behind Title */
-    .ice-sun {
-      position: absolute;
-      top: 17%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 440px;
-      height: 220px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(186, 230, 253, 0.22), rgba(56, 189, 248, 0.06) 55%, transparent 75%);
-      filter: blur(18px);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    #fx-canvas {
+    #snow {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 2;
     }
 
-    /* Multi-layer Glacial Ridge Horizon */
-    .horizon {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 230px;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .ridge-back {
-      position: absolute;
-      left: -4%;
-      right: -4%;
-      bottom: 72px;
-      height: 145px;
-      background: linear-gradient(180deg, #133b63 0%, #091d33 100%);
-      clip-path: polygon(
-        0% 100%, 0% 62%, 7% 44%, 14% 66%, 23% 34%, 32% 58%, 42% 24%,
-        52% 56%, 63% 28%, 73% 54%, 84% 22%, 94% 52%, 100% 42%, 100% 100%
-      );
-      opacity: 0.75;
-    }
-
-    .ridge-mid {
-      position: absolute;
-      left: -4%;
-      right: -4%;
-      bottom: 42px;
-      height: 118px;
-      background: linear-gradient(180deg, #0b243e 0%, #051221 100%);
-      clip-path: polygon(
-        0% 100%, 0% 54%, 9% 68%, 19% 38%, 29% 62%, 39% 32%, 50% 64%,
-        61% 36%, 72% 60%, 82% 29%, 92% 58%, 100% 46%, 100% 100%
-      );
-      border-top: 1px solid rgba(186, 230, 253, 0.25);
-    }
-
-    .ridge-front {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 76px;
-      background: linear-gradient(180deg, #061424 0%, #020810 100%);
-      border-top: 1px solid rgba(125, 211, 252, 0.28);
-      box-shadow: 0 -12px 40px rgba(56, 189, 248, 0.14);
-    }
-
-    .hero-content {
+    .content {
       position: relative;
-      z-index: 3;
-      max-width: 780px;
+      z-index: 2;
+      max-width: 720px;
     }
 
     h1 {
-      font-size: clamp(2.9rem, 6.8vw, 4.8rem);
+      font-size: clamp(2.8rem, 6.5vw, 4.5rem);
       font-weight: 800;
       letter-spacing: -0.03em;
-      background: linear-gradient(180deg, #ffffff 10%, #bae6fd 52%, #38bdf8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 8px 32px rgba(56, 189, 248, 0.36));
-      margin-bottom: 12px;
+      color: #7dd3fc;
+      margin-bottom: 10px;
     }
 
-    .subtitle {
-      font-size: clamp(1rem, 2vw, 1.24rem);
-      font-weight: 400;
+    p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
       color: #e2e8f0;
-      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
-      margin-bottom: 28px;
+      margin-bottom: 26px;
     }
 
-    .btn-group {
+    .actions {
       display: flex;
       gap: 12px;
       justify-content: center;
@@ -169,172 +73,48 @@
     }
 
     .btn {
-      position: relative;
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 11px 22px;
-      border-radius: 8px;
+      border-radius: 7px;
       font-size: 0.92rem;
       font-weight: 600;
       text-decoration: none;
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+      transition: transform 0.15s ease, filter 0.15s ease;
     }
 
     .btn:hover {
       transform: translateY(-2px);
-      filter: brightness(1.1);
+      filter: brightness(1.08);
     }
 
     .btn-download {
-      background: linear-gradient(180deg, #0ea5e9, #0284c7);
+      background: #0284c7;
       color: #ffffff;
-      border-color: rgba(186, 230, 253, 0.45);
-      box-shadow: 0 8px 26px rgba(2, 132, 199, 0.42);
     }
 
     .btn-discord {
-      background: linear-gradient(180deg, #6366f1, #4f46e5);
+      background: #4f46e5;
       color: #ffffff;
-      border-color: rgba(165, 180, 252, 0.45);
-      box-shadow: 0 8px 26px rgba(79, 70, 229, 0.36);
     }
 
     .btn-source {
-      background: linear-gradient(180deg, #1e3a8a, #172554);
+      background: #172554;
       color: #e0f2fe;
-      border-color: rgba(125, 211, 252, 0.38);
-      box-shadow: 0 8px 26px rgba(23, 37, 84, 0.45);
-    }
-
-    /* Clean Content Below Hero */
-    .info-wrap {
-      position: relative;
-      z-index: 3;
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 72px 24px 86px;
-      display: flex;
-      flex-direction: column;
-      gap: 52px;
-    }
-
-    h2 {
-      font-size: 1.55rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, #ffffff, #7dd3fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 16px;
-    }
-
-    .perf-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .perf-box {
-      padding: 18px 16px;
-      border-radius: 12px;
-      background: linear-gradient(165deg, rgba(11, 28, 49, 0.92), rgba(5, 13, 24, 0.96));
-      border: 1px solid rgba(125, 211, 252, 0.24);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-
-    .perf-box:hover {
-      transform: translateY(-3px);
-      border-color: rgba(186, 230, 253, 0.6);
-    }
-
-    .perf-box .tier {
-      font-size: 0.76rem;
-      color: #7dd3fc;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .perf-box .fps {
-      font-size: 1.08rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin-top: 6px;
-    }
-
-    .perf-box .sub {
-      font-size: 0.78rem;
-      color: #bae6fd;
-      margin-top: 3px;
-    }
-
-    details {
-      background: linear-gradient(165deg, rgba(11, 28, 49, 0.9), rgba(5, 13, 24, 0.95));
-      border: 1px solid rgba(125, 211, 252, 0.22);
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin-bottom: 12px;
-    }
-
-    summary {
-      font-weight: 600;
-      color: #f8fafc;
-      cursor: pointer;
-    }
-
-    details p {
-      margin-top: 10px;
-      font-size: 0.92rem;
-      color: #cbd5e1;
-      line-height: 1.68;
-    }
-
-    .tos-box {
-      background: linear-gradient(165deg, rgba(11, 28, 49, 0.9), rgba(5, 13, 24, 0.95));
-      border: 1px solid rgba(125, 211, 252, 0.22);
-      border-radius: 12px;
-      padding: 20px;
-      font-size: 0.9rem;
-      color: #cbd5e1;
-      line-height: 1.68;
-    }
-
-    footer {
-      position: relative;
-      z-index: 3;
-      border-top: 1px solid rgba(125, 211, 252, 0.16);
-      padding: 24px;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #94a3b8;
-    }
-
-    footer a {
-      color: #7dd3fc;
-      text-decoration: none;
-    }
-
-    @media (max-width: 720px) {
-      .perf-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      border: 1px solid rgba(125, 211, 252, 0.25);
     }
   </style>
 </head>
 <body>
-  <section class="hero-screen" id="download">
-    <div class="aurora-layer" aria-hidden="true"></div>
-    <div class="ice-sun" aria-hidden="true"></div>
-    <canvas id="fx-canvas" aria-hidden="true"></canvas>
+  <div class="stage">
+    <canvas id="snow"></canvas>
 
-    <div class="hero-content">
+    <div class="content">
       <h1>Glacier Client</h1>
-      <p class="subtitle">A native Rust client for Minecraft (1.8.9 / 26.2 / 26.3)</p>
+      <p>A native Rust client for Minecraft (1.8.9 / 26.2 / 26.3)</p>
 
-      <div class="btn-group">
+      <div class="actions">
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn btn-download">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -351,7 +131,7 @@
           Discord
         </a>
 
-        <a href="#faq" id="source-code" class="btn btn-source">
+        <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn btn-source">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
           </svg>
@@ -359,165 +139,39 @@
         </a>
       </div>
     </div>
-
-    <div class="horizon">
-      <div class="ridge-back"></div>
-      <div class="ridge-mid"></div>
-      <div class="ridge-front"></div>
-    </div>
-  </section>
-
-  <main class="info-wrap">
-    <section>
-      <h2>Glacier vs Tori (2x FPS)</h2>
-      <div class="perf-grid">
-        <div class="perf-box">
-          <div class="tier">Integrated</div>
-          <div class="fps">220 vs 110 FPS</div>
-          <div class="sub">Glacier = 2x Tori</div>
-        </div>
-        <div class="perf-box">
-          <div class="tier">Laptop</div>
-          <div class="fps">380 vs 190 FPS</div>
-          <div class="sub">Glacier = 2x Tori</div>
-        </div>
-        <div class="perf-box">
-          <div class="tier">Midrange</div>
-          <div class="fps">840 vs 420 FPS</div>
-          <div class="sub">Glacier = 2x Tori</div>
-        </div>
-        <div class="perf-box">
-          <div class="tier">High PC</div>
-          <div class="fps">1960 vs 980 FPS</div>
-          <div class="sub">Glacier = 2x Tori</div>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq">
-      <h2>FAQ</h2>
-      <details open>
-        <summary>Difference between Sodium, Dawn, Lunar, Feather, Badlion, NoRisk, Silent, FastClient, Tori, and Glacier?</summary>
-        <p>
-          <strong>Sodium</strong> optimizes chunk rendering on Java, while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> use optimization mods and patches on top of the JVM. <strong>Glacier Client</strong> rewrites Minecraft from scratch in native Rust with <code>wgpu</code>, giving 2x Tori's FPS across Integrated, Laptop, Midrange, and High PC with zero Garbage Collector pauses, open-source transparency, external browser OAuth, and zero password storage.
-        </p>
-      </details>
-      <details>
-        <summary>Is login safe?</summary>
-        <p>
-          Yes. Authentication uses external browser Microsoft OAuth and never stores your password.
-        </p>
-      </details>
-    </section>
-
-    <section id="tos">
-      <h2>Terms of Service</h2>
-      <div class="tos-box">
-        Use Glacier Client legitimately with a legal Minecraft account, follow server rules, and download builds only from official channels (<a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" style="color:#7dd3fc;">discord.gg/tbjp5JtMVu</a>). Not affiliated with Mojang Studios or Microsoft.
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <span>© 2026 Glacier Client</span> • <a href="#faq">FAQ</a> • <a href="#tos">Terms</a> • <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>
-  </footer>
+  </div>
 
   <script>
-    const canvas = document.getElementById('fx-canvas');
+    const canvas = document.getElementById('snow');
     const ctx = canvas.getContext('2d');
-    const hero = document.querySelector('.hero-screen');
-    let w, h, stars = [], flakes = [];
-    let mx = -999, my = -999;
+    let w, h, flakes = [];
 
     function resize() {
-      const rect = hero.getBoundingClientRect();
-      w = canvas.width = Math.floor(rect.width);
-      h = canvas.height = Math.floor(rect.height);
-
-      stars = Array.from({ length: 75 }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * (h * 0.72),
-        r: Math.random() * 1.4 + 0.4,
-        phase: Math.random() * Math.PI * 2,
-        speed: Math.random() * 0.03 + 0.01
-      }));
-
-      flakes = Array.from({ length: 95 }, () => ({
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      flakes = Array.from({ length: 55 }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
-        r: Math.random() * 2.4 + 0.7,
-        vy: Math.random() * 0.75 + 0.25,
-        vx: (Math.random() - 0.5) * 0.45,
-        a: Math.random() * 0.72 + 0.2
+        r: Math.random() * 1.9 + 0.6,
+        vy: Math.random() * 0.55 + 0.2,
+        vx: (Math.random() - 0.5) * 0.25,
+        a: Math.random() * 0.55 + 0.15
       }));
     }
 
-    hero.addEventListener('mousemove', (e) => {
-      const rect = hero.getBoundingClientRect();
-      mx = e.clientX - rect.left;
-      my = e.clientY - rect.top;
-    }, { passive: true });
-
-    hero.addEventListener('mouseleave', () => {
-      mx = -999;
-      my = -999;
-    });
-
     function draw() {
       ctx.clearRect(0, 0, w, h);
-
-      // Twinkling stars
-      for (const s of stars) {
-        s.phase += s.speed;
-        const alpha = 0.25 + (Math.sin(s.phase) * 0.5 + 0.5) * 0.65;
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(224, 242, 254, ${alpha})`;
-        ctx.fill();
-      }
-
-      // Soft cursor ice halo inside hero
-      if (mx > 0 && my > 0) {
-        const grad = ctx.createRadialGradient(mx, my, 4, mx, my, 170);
-        grad.addColorStop(0, 'rgba(186, 230, 253, 0.22)');
-        grad.addColorStop(0.5, 'rgba(56, 189, 248, 0.08)');
-        grad.addColorStop(1, 'rgba(56, 189, 248, 0)');
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(mx, my, 170, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Snowflakes + subtle interactive threads near cursor
       for (const f of flakes) {
-        const dx = f.x - mx;
-        const dy = f.y - my;
-        const dist = Math.hypot(dx, dy);
-
-        if (dist < 130 && dist > 1) {
-          f.x += (dx / dist) * 0.7;
-          f.y += (dy / dist) * 0.35;
-          ctx.beginPath();
-          ctx.moveTo(f.x, f.y);
-          ctx.lineTo(mx, my);
-          ctx.strokeStyle = `rgba(125, 211, 252, ${(1 - dist / 130) * 0.24})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
-        }
-
         ctx.beginPath();
         ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(224, 242, 254, ${f.a})`;
+        ctx.fillStyle = `rgba(186, 230, 253, ${f.a})`;
         ctx.fill();
-
         f.y += f.vy;
         f.x += f.vx;
-
-        if (f.y > h) { f.y = -5; f.x = Math.random() * w; }
+        if (f.y > h) { f.y = -4; f.x = Math.random() * w; }
         if (f.x > w) f.x = 0;
         if (f.x < 0) f.x = w;
       }
-
       requestAnimationFrame(draw);
     }
 
