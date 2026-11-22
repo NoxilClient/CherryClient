@@ -3274,7 +3274,7 @@
         <details class="faq-item">
           <summary>What is the difference between Sodium, Dawn, Lunar, Feather, Badlion, NoRisk, Silent, FastClient, Tori, and Glacier?</summary>
           <div class="faq-answer">
-            <strong>Sodium (Fabric)</strong> is an open-source rendering mod (not a standalone launcher), while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> are non-open-source / proprietary projects. <strong>Glacier Client</strong> is open source with external browser OAuth and zero password storage.
+            <strong>Sodium (Fabric)</strong> is an open-source rendering mod that optimizes Minecraft's chunk rendering pipeline, while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> are proprietary (non-open-source) clients that still run on top of the Java Virtual Machine and rely on bundled optimization mods (such as Sodium, OptiFine-style patches, and JVM tweaks) to boost performance—meaning they still inherit Java's memory overhead and Garbage Collector micro-stutters. <strong>Glacier Client</strong> takes a completely different, 10x better architectural approach: instead of patching Java with external mods, Glacier rewrites Minecraft's core engine from scratch in <strong>native Rust</strong> with a modern <code>wgpu</code> (Vulkan / DirectX 12) renderer, deterministic memory management, zero Garbage Collector pauses, and lock-free multi-core chunk meshing—while remaining open source with external browser OAuth and zero password storage.
           </div>
         </details>
 
@@ -3823,7 +3823,7 @@
       }
 
       if (/\b(sodium|dawn|lunar|norisk|no risk|silent|feather|badlion|tori|fastclient|fast client|vanilla)\b/.test(q)) {
-        return 'Sodium is an open-source Fabric rendering mod (not a standalone launcher). Dawn, Lunar, NoRisk, Silent, Feather, Badlion, FastClient, and Tori are non-open-source clients, whereas Glacier is open source with external browser OAuth.';
+        return 'Sodium optimizes chunk rendering on Java, and Dawn, Lunar, NoRisk, Silent, Feather, Badlion, FastClient, and Tori rely on bundled Java mods/patches. Glacier rewrites Minecraft from scratch in native Rust (10x better architecture) while staying open source with external browser OAuth.';
       }
 
       if (/\b(thanks|thank you|thx|cool|nice|awesome|great|grazie)\b/.test(q)) {
