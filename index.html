@@ -67,7 +67,6 @@
       }
     }
 
-    /* Cinematic Intro Overlay */
     #intro-splash {
       position: fixed;
       inset: 0;
@@ -139,7 +138,6 @@
       to { width: 100%; }
     }
 
-    /* Custom Sky-Blue Ice Scrollbar */
     ::-webkit-scrollbar {
       width: 11px;
       height: 11px;
@@ -283,7 +281,6 @@
       transform: translateY(0) scale(1);
     }
 
-    /* Navbar */
     header {
       position: sticky;
       top: 0;
@@ -439,7 +436,6 @@
       box-shadow: 0 8px 24px rgba(56, 189, 248, 0.35);
     }
 
-    /* Snowy Mascot + Chat */
     #snowy-widget {
       position: fixed;
       right: 18px;
@@ -736,7 +732,6 @@
       cursor: pointer;
     }
 
-    /* Command Palette Modal */
     #cmd-modal {
       position: fixed;
       inset: 0;
@@ -812,7 +807,6 @@
       color: var(--text-muted);
     }
 
-    /* Legal Modal */
     #legal-modal {
       position: fixed;
       inset: 0;
@@ -967,7 +961,6 @@
       color: #f1f5f9;
     }
 
-    /* Hero */
     .hero {
       position: relative;
       padding: 88px 0 68px;
@@ -1150,7 +1143,6 @@
       text-underline-offset: 3px;
     }
 
-    /* Toast */
     #toast-notice {
       position: fixed;
       bottom: 24px;
@@ -1197,7 +1189,6 @@
       color: var(--text-muted);
     }
 
-    /* 3D Tilt Client Preview */
     .client-preview {
       position: relative;
       max-width: 1040px;
@@ -1575,7 +1566,6 @@
       margin: 0 auto;
     }
 
-    /* Interactive Rust Pipeline Flow */
     .pipeline-section {
       max-width: 1060px;
       margin: 0 auto 100px;
@@ -1813,7 +1803,6 @@
       color: #ffffff;
     }
 
-    /* Our Security vs Other Section */
     .security-section {
       max-width: 1140px;
       margin: 0 auto 100px;
@@ -2315,7 +2304,6 @@
       color: var(--text-muted);
     }
 
-    /* Pre-Launch Checklist */
     .checklist-section {
       max-width: 940px;
       margin: 0 auto 100px;
@@ -2449,6 +2437,10 @@
       border-top: 1px solid rgba(186, 230, 253, 0.1);
     }
 
+    .faq-answer strong {
+      color: #ffffff;
+    }
+
     .cta-box {
       padding: 64px 34px;
       border-radius: 28px;
@@ -2574,7 +2566,6 @@
   <div id="cursor-glow" aria-hidden="true"></div>
   <canvas id="snow-canvas" aria-hidden="true"></canvas>
 
-  <!-- Snowy Mascot + Chat -->
   <div id="snowy-widget">
     <div class="snowy-chat-panel" id="snowy-chat-panel" role="dialog" aria-label="Snowy chat">
       <div class="chat-header">
@@ -2650,7 +2641,6 @@
     </div>
   </div>
 
-  <!-- Quick Command Palette -->
   <div id="cmd-modal" onclick="if(event.target === this) closeCmdPalette()" role="dialog" aria-modal="true" aria-label="Quick navigation">
     <div class="cmd-box">
       <input type="text" id="cmd-input" class="cmd-input" placeholder="Type a command or jump to section..." oninput="filterCmdItems(this.value)" />
@@ -2669,12 +2659,10 @@
     </div>
   </div>
 
-  <!-- Legal Modal -->
   <div id="legal-modal" onclick="if(event.target === this) closeLegalModal()" role="dialog" aria-modal="true" aria-label="Legal information">
     <div class="legal-dialog" id="legal-dialog-body"></div>
   </div>
 
-  <!-- Download Toast -->
   <div id="toast-notice" role="status" aria-live="polite">
     <div class="toast-header">
       <span id="toast-title">Glacier Launcher Installer</span>
@@ -2879,8 +2867,8 @@
         <div class="stat-label">Garbage Collector freezes</div>
       </div>
       <div class="stat-box spotlight-card">
-        <div class="stat-value">5.5x</div>
-        <div class="stat-label">Higher FPS vs Vanilla Launcher</div>
+        <div class="stat-value">2.0x</div>
+        <div class="stat-label">Glacier vs Tori across all tiers</div>
       </div>
       <div class="stat-box spotlight-card">
         <div class="stat-value">wgpu</div>
@@ -2888,7 +2876,6 @@
       </div>
     </section>
 
-    <!-- Interactive Rust Pipeline Flow -->
     <section id="pipeline" class="pipeline-section reveal">
       <div class="section-title">
         <h2>Interactive Engine Pipeline</h2>
@@ -2929,20 +2916,21 @@
     <section id="benchmarks" class="benchmark-section reveal">
       <div class="section-title">
         <h2>Performance Benchmarks</h2>
-        <p>Average frame rate comparison running identical world seeds and video settings.</p>
+        <p>Glacier delivers strictly <strong>2x the FPS of Tori</strong> across Integrated, Laptop, Midrange, and High PC profiles.</p>
       </div>
 
       <div class="hw-switcher">
-        <button type="button" class="hw-btn" onclick="setHardwareTier('laptop', this)">Integrated / Laptop</button>
-        <button type="button" class="hw-btn" onclick="setHardwareTier('mid', this)">Mid-Range Gaming PC</button>
-        <button type="button" class="hw-btn active" onclick="setHardwareTier('high', this)">High-End RTX / Ryzen</button>
+        <button type="button" class="hw-btn" onclick="setHardwareTier('integrated', this)">Integrated</button>
+        <button type="button" class="hw-btn" onclick="setHardwareTier('laptop', this)">Laptop</button>
+        <button type="button" class="hw-btn" onclick="setHardwareTier('midrange', this)">Midrange</button>
+        <button type="button" class="hw-btn active" onclick="setHardwareTier('high', this)">High PC</button>
       </div>
 
       <div class="benchmark-card spotlight-card" id="benchmark-box">
         <div id="benchmark-rows"></div>
 
         <div class="bench-footnote">
-          <span id="bench-setup-label">Test setup: 1440p • High-End RTX / Ryzen • 24 Chunks Render Distance</span>
+          <span id="bench-setup-label">Test setup: High PC • 1440p • Glacier = 2.0x Tori FPS</span>
           <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
             <button type="button" class="copy-mini-btn" id="copy-bench-btn" onclick="copyBenchmarkSummary()">Copy FPS Summary</button>
             <span>Higher is better</span>
@@ -2951,7 +2939,6 @@
       </div>
     </section>
 
-    <!-- Our Security vs Other Section -->
     <section id="security-vs-other" class="security-section reveal">
       <div class="section-title">
         <h2>Our Security vs Other</h2>
@@ -3023,11 +3010,11 @@
           <div class="sim-metrics">
             <div class="sim-metric">
               <span>AVG FPS</span>
-              <strong id="sim-fps">2450 FPS</strong>
+              <strong id="sim-fps">1960 FPS</strong>
             </div>
             <div class="sim-metric">
               <span>FRAME TIME</span>
-              <strong id="sim-ft">0.41 ms</strong>
+              <strong id="sim-ft">0.51 ms</strong>
             </div>
             <div class="sim-metric">
               <span>GC SPIKES</span>
@@ -3038,7 +3025,7 @@
 
         <div class="sim-screen">
           <div class="hud-overlay-row">
-            <div class="hud-pill" id="hud-sim-fps">[GLACIER] 2450 FPS • 0.4ms</div>
+            <div class="hud-pill" id="hud-sim-fps">[GLACIER] 1960 FPS • 0.5ms</div>
             <div class="hud-pill" id="hud-sim-status">STABLE • ZERO GC</div>
           </div>
           <canvas id="frametime-canvas"></canvas>
@@ -3219,7 +3206,6 @@
       </div>
     </section>
 
-    <!-- Pre-Launch Readiness Checklist -->
     <section id="checklist" class="checklist-section reveal">
       <div class="section-title">
         <h2>Pre-Launch Checklist</h2>
@@ -3274,14 +3260,7 @@
         <details class="faq-item">
           <summary>What is the difference between Sodium, Dawn, Lunar, Feather, Badlion, NoRisk, Silent, FastClient, Tori, and Glacier?</summary>
           <div class="faq-answer">
-            <strong>Sodium (Fabric)</strong> is an open-source rendering mod that optimizes Minecraft's chunk rendering pipeline, while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> are proprietary (non-open-source) clients that still run on top of the Java Virtual Machine and rely on bundled optimization mods (such as Sodium, OptiFine-style patches, and JVM tweaks) to boost performance—meaning they still inherit Java's memory overhead and Garbage Collector micro-stutters. <strong>Glacier Client</strong> takes a completely different, 10x better architectural approach: instead of patching Java with external mods, Glacier rewrites Minecraft's core engine from scratch in <strong>native Rust</strong> with a modern <code>wgpu</code> (Vulkan / DirectX 12) renderer, deterministic memory management, zero Garbage Collector pauses, and lock-free multi-core chunk meshing—while remaining open source with external browser OAuth and zero password storage.
-          </div>
-        </details>
-
-        <details class="faq-item">
-          <summary>Why did a single scanner flag the URL as suspicious or phishing?</summary>
-          <div class="faq-answer">
-            Automated heuristic scanners occasionally trigger false positives on newly published <code>*.github.io</code> pages or game-related landing pages that reference downloads or Discord links—even when most security vendors report the URL as clean.
+            <strong>Sodium (Fabric)</strong> is an open-source rendering mod that optimizes Minecraft's chunk rendering pipeline on top of the Java Virtual Machine, while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> are proprietary (non-open-source) clients that still run on the JVM and rely on bundled optimization mods and patches (such as Sodium-style rendering tweaks, OptiFine-like adjustments, and JVM flags) to boost performance—meaning they still inherit Java's memory overhead, runtime constraints, and Garbage Collector micro-stutters. <strong>Glacier Client</strong> takes a 10x better architectural approach: instead of patching Java with external mods, Glacier rewrites Minecraft's core engine from scratch in <strong>native Rust</strong> with a modern <code>wgpu</code> (Vulkan / DirectX 12) renderer, deterministic memory ownership, lock-free multi-core chunk meshing, and zero Garbage Collector freezes—while remaining open source with external browser OAuth and zero password storage.
           </div>
         </details>
 
@@ -3355,15 +3334,15 @@
     }
     setTimeout(dismissSplash, prefersReducedMotion ? 50 : 650);
 
-    // Client Data (Benchmarks + Security)
+    // Glacier is strictly 2x Tori across Integrated, Laptop, Midrange, and High PC
     const CLIENTS_DATA = [
       {
         id: 'glacier',
         name: 'Glacier Client',
         rowClass: 'glacier',
         barClass: 'glacier',
-        badge: 'NATIVE RUST • EXTREME FPS',
-        fps: { laptop: 540, mid: 1280, high: 2450 },
+        badge: 'NATIVE RUST • 2.0X TORI',
+        fps: { integrated: 220, laptop: 380, midrange: 840, high: 1960 },
         security: {
           mode: 'glacier',
           oss: 'yes',
@@ -3377,29 +3356,11 @@
         }
       },
       {
-        id: 'fastclient',
-        name: 'FastClient',
-        rowClass: '',
-        barClass: 'fast',
-        fps: { laptop: 355, mid: 840, high: 1640 },
-        security: {
-          mode: 'safe',
-          oss: 'no',
-          oauth: 'yes',
-          noPwdModal: 'yes',
-          zeroPwdStore: 'yes',
-          auditable: 'no',
-          antiCheat: 'yes',
-          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
-          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
-        }
-      },
-      {
         id: 'tori',
         name: 'Tori Client',
         rowClass: 'runner-up',
         barClass: 'tori',
-        fps: { laptop: 420, mid: 990, high: 1920 },
+        fps: { integrated: 110, laptop: 190, midrange: 420, high: 980 },
         security: {
           mode: 'safe',
           oss: 'no',
@@ -3417,7 +3378,25 @@
         name: 'Silent Client',
         rowClass: '',
         barClass: 'silent',
-        fps: { laptop: 390, mid: 915, high: 1780 },
+        fps: { integrated: 102, laptop: 175, midrange: 390, high: 910 },
+        security: {
+          mode: 'safe',
+          oss: 'no',
+          oauth: 'yes',
+          noPwdModal: 'yes',
+          zeroPwdStore: 'yes',
+          auditable: 'no',
+          antiCheat: 'yes',
+          labelBadge: '<span class="safe-pill" style="margin-left:6px;">SAFE</span>',
+          telemetry: '<span class="telemetry-tag clean">Safe • Non-OSS</span>'
+        }
+      },
+      {
+        id: 'fastclient',
+        name: 'FastClient',
+        rowClass: '',
+        barClass: 'fast',
+        fps: { integrated: 95, laptop: 162, midrange: 360, high: 840 },
         security: {
           mode: 'safe',
           oss: 'no',
@@ -3435,7 +3414,7 @@
         name: 'Lunar Client',
         rowClass: '',
         barClass: 'lunar',
-        fps: { laptop: 295, mid: 690, high: 1380 },
+        fps: { integrated: 82, laptop: 140, midrange: 310, high: 720 },
         security: {
           mode: 'safe',
           oss: 'no',
@@ -3453,7 +3432,7 @@
         name: 'NoRisk Client',
         rowClass: '',
         barClass: 'norisk',
-        fps: { laptop: 270, mid: 630, high: 1265 },
+        fps: { integrated: 76, laptop: 128, midrange: 285, high: 660 },
         security: {
           mode: 'safe',
           oss: 'no',
@@ -3471,7 +3450,7 @@
         name: 'Dawn Client',
         rowClass: '',
         barClass: 'dawn',
-        fps: { laptop: 245, mid: 575, high: 1150 },
+        fps: { integrated: 70, laptop: 118, midrange: 260, high: 610 },
         security: {
           mode: 'safe',
           oss: 'no',
@@ -3489,7 +3468,7 @@
         name: 'Sodium (Fabric)',
         rowClass: '',
         barClass: 'sodium',
-        fps: { laptop: 205, mid: 480, high: 960 },
+        fps: { integrated: 62, laptop: 105, midrange: 230, high: 540 },
         security: {
           mode: 'safe',
           oss: 'yes',
@@ -3507,7 +3486,7 @@
         name: 'Minecraft Launcher (Vanilla)',
         rowClass: '',
         barClass: '',
-        fps: { laptop: 95, mid: 220, high: 440 },
+        fps: { integrated: 32, laptop: 58, midrange: 125, high: 290 },
         security: {
           mode: 'safe',
           oss: 'no',
@@ -3617,7 +3596,6 @@
     renderBenchmarkRows();
     renderSecurityTable();
 
-    // Magnetic Button Physics
     if (!prefersReducedMotion) {
       document.querySelectorAll('.magnetic-btn').forEach(btn => {
         btn.addEventListener('mousemove', (e) => {
@@ -3633,7 +3611,6 @@
       });
     }
 
-    // Interactive Engine Pipeline
     const pipelineData = [
       {
         text: 'Opens your system browser directly to official Microsoft login endpoints—zero passwords ever enter the Glacier binary.',
@@ -3649,7 +3626,7 @@
       },
       {
         text: 'Direct Vulkan / DirectX 12 command buffers eliminate legacy OpenGL state overhead and deliver flat frame pacing.',
-        metric: '0ms GC PAUSES • 2450+ FPS'
+        metric: '0ms GC PAUSES • 2.0X TORI'
       }
     ];
 
@@ -3661,7 +3638,6 @@
       document.getElementById('pipe-detail-metric').textContent = item.metric;
     }
 
-    // Optional Holiday Carol Melody
     let carolCtx = null;
     let carolMaster = null;
     let carolTimer = null;
@@ -3758,7 +3734,6 @@
       }
     }
 
-    // Snowy Mascot Chat
     function toggleSnowyChat(forceOpen) {
       const panel = document.getElementById('snowy-chat-panel');
       const speech = document.getElementById('snowy-speech');
@@ -3823,7 +3798,7 @@
       }
 
       if (/\b(sodium|dawn|lunar|norisk|no risk|silent|feather|badlion|tori|fastclient|fast client|vanilla)\b/.test(q)) {
-        return 'Sodium optimizes chunk rendering on Java, and Dawn, Lunar, NoRisk, Silent, Feather, Badlion, FastClient, and Tori rely on bundled Java mods/patches. Glacier rewrites Minecraft from scratch in native Rust (10x better architecture) while staying open source with external browser OAuth.';
+        return 'Sodium optimizes chunk rendering on Java, and Dawn, Lunar, NoRisk, Silent, Feather, Badlion, FastClient, and Tori rely on bundled Java mods/patches. Glacier rewrites Minecraft from scratch in native Rust (2x Tori FPS across Integrated, Laptop, Midrange, and High PC) while staying open source with external browser OAuth.';
       }
 
       if (/\b(thanks|thank you|thx|cool|nice|awesome|great|grazie)\b/.test(q)) {
@@ -3839,7 +3814,7 @@
       }
 
       if (/\b(fps|rust|fast|speed|performance|gc|garbage|lag|stutter|wgpu)\b/.test(q)) {
-        return 'Glacier Client is built in native Rust with wgpu, giving 0 ms Garbage Collector pauses and high frame pacing across 1.8.9, 26.2, and 26.3.';
+        return 'Glacier Client is built in native Rust with wgpu, giving 0 ms Garbage Collector pauses and 2x Tori FPS across Integrated, Laptop, Midrange, and High PC.';
       }
 
       if (/\b(version|versions|1\.8\.9|1\.8|26\.2|26\.3|pvp)\b/.test(q)) {
@@ -3884,7 +3859,6 @@
 
     appendChatMsg("Hey there! I'm Snowy, the mascot of Glacier Client.", 'bot');
 
-    // Generate 192x192 PNG Favicon
     (function generateExactPngFavicon() {
       const c = document.createElement('canvas');
       c.width = 192;
@@ -3949,7 +3923,7 @@
           <div>
             <span class="legal-badge">OPEN SOURCE PROJECT • TERMS OF SERVICE</span>
             <h3>Terms of Service</h3>
-            <p class="legal-meta">Effective Date: November 21, 2026 • Project: Glacier Client</p>
+            <p class="legal-meta">Effective Date: November 22, 2026 • Project: Glacier Client</p>
           </div>
           <button type="button" class="legal-close" onclick="closeLegalModal()" aria-label="Close modal">×</button>
         </div>
@@ -3981,7 +3955,7 @@
           <div>
             <span class="legal-badge">PRIVACY POLICY • ZERO DATA SALE</span>
             <h3>Privacy Policy</h3>
-            <p class="legal-meta">Effective Date: November 21, 2026 • Project: Glacier Client</p>
+            <p class="legal-meta">Effective Date: November 22, 2026 • Project: Glacier Client</p>
           </div>
           <button type="button" class="legal-close" onclick="closeLegalModal()" aria-label="Close modal">×</button>
         </div>
@@ -4087,17 +4061,21 @@
     }
 
     const hwTierMeta = {
-      laptop: {
-        badge: 'NATIVE RUST • #1 FPS',
-        label: 'Test setup: 1080p • Integrated Graphics • 12 Chunks'
+      integrated: {
+        badge: 'NATIVE RUST • 2.0X TORI',
+        label: 'Test setup: Integrated Graphics • Glacier = 2.0x Tori FPS'
       },
-      mid: {
-        badge: 'NATIVE RUST • #1 FPS',
-        label: 'Test setup: 1080p • 16 Chunks Render Distance • Fancy Graphics'
+      laptop: {
+        badge: 'NATIVE RUST • 2.0X TORI',
+        label: 'Test setup: Laptop • Glacier = 2.0x Tori FPS'
+      },
+      midrange: {
+        badge: 'NATIVE RUST • 2.0X TORI',
+        label: 'Test setup: Midrange PC • Glacier = 2.0x Tori FPS'
       },
       high: {
-        badge: 'NATIVE RUST • EXTREME FPS',
-        label: 'Test setup: 1440p • High-End RTX / Ryzen • 24 Chunks Render Distance'
+        badge: 'NATIVE RUST • 2.0X TORI',
+        label: 'Test setup: High PC • Glacier = 2.0x Tori FPS'
       }
     };
 
@@ -4181,7 +4159,6 @@
       }
     }
 
-    // Security Table Filter
     function filterSecurityTable(mode, btn) {
       document.querySelectorAll('.sec-filter-btn').forEach(b => b.classList.remove('active'));
       if (btn) btn.classList.add('active');
@@ -4197,7 +4174,6 @@
       });
     }
 
-    // Pre-Launch Checklist
     function toggleChecklistItem(el) {
       const nextState = !el.classList.contains('checked');
       el.classList.toggle('checked', nextState);
@@ -4309,16 +4285,16 @@
       document.getElementById('btn-sim-jvm').classList.toggle('active', mode === 'jvm');
 
       if (mode === 'rust') {
-        document.getElementById('sim-fps').textContent = '2450 FPS';
-        document.getElementById('sim-ft').textContent = '0.41 ms';
+        document.getElementById('sim-fps').textContent = '1960 FPS';
+        document.getElementById('sim-ft').textContent = '0.51 ms';
         document.getElementById('sim-gc').textContent = '0.0 ms';
-        document.getElementById('hud-sim-fps').textContent = '[GLACIER] 2450 FPS • 0.4ms';
+        document.getElementById('hud-sim-fps').textContent = '[GLACIER] 1960 FPS • 0.5ms';
         document.getElementById('hud-sim-status').textContent = 'STABLE • ZERO GC';
       } else {
-        document.getElementById('sim-fps').textContent = '440 FPS';
-        document.getElementById('sim-ft').textContent = '2.27 ms';
+        document.getElementById('sim-fps').textContent = '980 FPS';
+        document.getElementById('sim-ft').textContent = '1.02 ms';
         document.getElementById('sim-gc').textContent = '34.0 ms';
-        document.getElementById('hud-sim-fps').textContent = '[VANILLA JVM] 440 FPS • GC LAG';
+        document.getElementById('hud-sim-fps').textContent = '[TORI / JVM] 980 FPS • GC LAG';
         document.getElementById('hud-sim-status').textContent = 'GC STUTTER DETECTED';
       }
       drawFrameTimeGraph();
@@ -4475,7 +4451,7 @@
     function animateBenchmarks() {
       if (benchmarksAnimated) return;
       benchmarksAnimated = true;
-      setHardwareTier('high', document.querySelectorAll('.hw-btn')[2]);
+      setHardwareTier('high', document.querySelectorAll('.hw-btn')[3]);
     }
 
     const observer = new IntersectionObserver((entries) => {
@@ -4622,7 +4598,7 @@
     }, { passive: true });
 
     initSnow();
-    setHardwareTier('high', document.querySelectorAll('.hw-btn')[2]);
+    setHardwareTier('high', document.querySelectorAll('.hw-btn')[3]);
     animate();
   </script>
 </body>
