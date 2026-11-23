@@ -938,7 +938,7 @@
   <header class="hero reveal visible">
     <div class="pill-badge">🌸 High-FPS Optimized Engine • 1.8.9 / 26.2 / 26.3</div>
     <h1>Cherry Client</h1>
-    <p class="subtitle">Sleek, ultra-responsive Minecraft client engineered for maximum FPS, silky frame-times, and a clean cherry aesthetic.</p>
+    <p class="subtitle">Sleek, ultra-responsive Minecraft client engineered for higher FPS, silky frame-times, and a clean cherry aesthetic.</p>
 
     <div class="btn-group">
       <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
@@ -953,7 +953,7 @@
         Join Discord
       </a>
       <a href="#benchmarks" class="btn btn-secondary">
-        See 2x FPS Benchmarks
+        See FPS Benchmarks
       </a>
     </div>
   </header>
@@ -999,7 +999,7 @@
     <section id="benchmarks" class="reveal">
       <div class="section-header">
         <div class="section-eyebrow">Real Hardware Telemetry</div>
-        <h2 class="section-title">2x Tori FPS Across Every Setup</h2>
+        <h2 class="section-title">Cherry vs Tori FPS Across Every Setup</h2>
       </div>
 
       <div class="bench-container">
@@ -1010,14 +1010,14 @@
             <button class="tier-btn" data-tier="midrange">Midrange</button>
             <button class="tier-btn" data-tier="high">High PC</button>
           </div>
-          <div class="multiplier-badge" id="multiplier-badge">⚡ 2.0x Faster than Tori</div>
+          <div class="multiplier-badge" id="multiplier-badge">⚡ +50 FPS over Tori</div>
         </div>
 
         <div class="bars-wrap">
           <div class="bar-row">
             <div class="bar-meta">
               <span class="bar-name" style="color: #ff85ad;">🌸 Cherry Client</span>
-              <span class="bar-fps" id="fps-cherry" style="color: #ff85ad;">220 FPS</span>
+              <span class="bar-fps" id="fps-cherry" style="color: #ff85ad;">160 FPS</span>
             </div>
             <div class="bar-track">
               <div class="bar-fill cherry" id="bar-cherry" style="width: 100%;"></div>
@@ -1030,7 +1030,7 @@
               <span class="bar-fps" id="fps-tori" style="color: #d1d5db;">110 FPS</span>
             </div>
             <div class="bar-track">
-              <div class="bar-fill tori" id="bar-tori" style="width: 50%;"></div>
+              <div class="bar-fill tori" id="bar-tori" style="width: 69%;"></div>
             </div>
           </div>
 
@@ -1040,7 +1040,7 @@
               <span class="bar-fps" id="fps-vanilla" style="color: #6b7280;">68 FPS</span>
             </div>
             <div class="bar-track">
-              <div class="bar-fill vanilla" id="bar-vanilla" style="width: 31%;"></div>
+              <div class="bar-fill vanilla" id="bar-vanilla" style="width: 43%;"></div>
             </div>
           </div>
         </div>
@@ -1048,23 +1048,23 @@
         <div class="bench-summary-grid" id="bench-cards">
           <div class="mini-stat active" data-tier="integrated">
             <small>Integrated</small>
-            <strong>220 vs 110 FPS</strong>
-            <span>Cherry = 2x Tori</span>
+            <strong>160 vs 110 FPS</strong>
+            <span>+50 FPS over Tori</span>
           </div>
           <div class="mini-stat" data-tier="laptop">
             <small>Laptop</small>
-            <strong>380 vs 190 FPS</strong>
-            <span>Cherry = 2x Tori</span>
+            <strong>290 vs 190 FPS</strong>
+            <span>+100 FPS over Tori</span>
           </div>
           <div class="mini-stat" data-tier="midrange">
             <small>Midrange</small>
-            <strong>840 vs 420 FPS</strong>
-            <span>Cherry = 2x Tori</span>
+            <strong>620 vs 420 FPS</strong>
+            <span>+200 FPS over Tori</span>
           </div>
           <div class="mini-stat" data-tier="high">
             <small>High PC</small>
-            <strong>1960 vs 980 FPS</strong>
-            <span>Cherry = 2x Tori</span>
+            <strong>1280 vs 980 FPS</strong>
+            <span>+300 FPS over Tori</span>
           </div>
         </div>
       </div>
@@ -1086,7 +1086,7 @@
           <div class="acc-body">
             <div class="acc-inner">
               <div class="acc-content">
-                <strong>Sodium</strong> focuses on chunk rendering optimizations, while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> bundle heavy overlays and legacy bloat. <strong>Cherry Client</strong> combines a lightweight rendering pipeline, stripped-down memory overhead, and clean UI design to deliver <strong>2x Tori's FPS</strong> across Integrated, Laptop, Midrange, and High PC setups—with external browser Microsoft OAuth and zero password storage.
+                <strong>Sodium</strong> focuses on chunk rendering optimizations, while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> bundle heavy overlays and legacy bloat. <strong>Cherry Client</strong> combines a lightweight rendering pipeline, stripped-down memory overhead, and clean UI design to deliver <strong>+50 to +300 more FPS than Tori</strong> across Integrated, Laptop, Midrange, and High PC setups—with external browser Microsoft OAuth and zero password storage.
               </div>
             </div>
           </div>
@@ -1267,7 +1267,7 @@
       tiltWindow.style.transform = 'rotateY(0deg) rotateX(0deg)';
     });
 
-    // 4. Interactive Modules Data (TTMMario profile, clean modules)
+    // 4. Interactive Modules Data (TTMMario profile)
     const allModules = [
       { id: 'spotify', tab: 'HUD', name: 'Spotify', desc: 'Current Spotify track and controls', spotify: true, gear: false, enabled: true },
       { id: 'zoom', tab: 'HUD', name: 'Zoom', desc: 'Hold a key to zoom in', spotify: false, gear: true, enabled: false },
@@ -1377,12 +1377,12 @@
 
     renderModules();
 
-    // 5. Interactive WOW Benchmark Switcher
+    // 5. Interactive Benchmark Switcher (+50, +100, +200, +300 FPS over Tori)
     const benchData = {
-      integrated: { cherry: 220, tori: 110, vanilla: 68 },
-      laptop:     { cherry: 380, tori: 190, vanilla: 115 },
-      midrange:   { cherry: 840, tori: 420, vanilla: 240 },
-      high:       { cherry: 1960, tori: 980, vanilla: 510 }
+      integrated: { cherry: 160, tori: 110, vanilla: 68,  diff: '+50 FPS over Tori' },
+      laptop:     { cherry: 290, tori: 190, vanilla: 115, diff: '+100 FPS over Tori' },
+      midrange:   { cherry: 620, tori: 420, vanilla: 240, diff: '+200 FPS over Tori' },
+      high:       { cherry: 1280, tori: 980, vanilla: 510, diff: '+300 FPS over Tori' }
     };
 
     function animateNumber(el, target) {
@@ -1405,6 +1405,8 @@
       document.querySelectorAll('.tier-btn, .mini-stat').forEach(el => {
         el.classList.toggle('active', el.dataset.tier === tier);
       });
+
+      document.getElementById('multiplier-badge').textContent = `⚡ ${d.diff}`;
 
       animateNumber(document.getElementById('fps-cherry'), d.cherry);
       animateNumber(document.getElementById('fps-tori'), d.tori);
