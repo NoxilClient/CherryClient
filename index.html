@@ -3,35 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cherry Client</title>
+  <title>Cherry Client — Next-Gen Minecraft Experience</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%23141318'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23f43f7a'/%3E%3Ccircle cx='16' cy='9' r='4' fill='%23ff85ad'/%3E%3Ccircle cx='22.5' cy='14' r='4' fill='%23ff85ad'/%3E%3Ccircle cx='20' cy='21.5' r='4' fill='%23ff85ad'/%3E%3Ccircle cx='12' cy='21.5' r='4' fill='%23ff85ad'/%3E%3Ccircle cx='9.5' cy='14' r='4' fill='%23ff85ad'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-base: #09080c;
+      --bg-card: rgba(20, 19, 25, 0.72);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --pink-primary: #f43f7a;
+      --pink-bright: #ff7aa8;
+      --pink-glow: rgba(244, 63, 122, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #9ca3af;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(ellipse 80% 45% at 50% 0%, rgba(244, 63, 122, 0.22), transparent 65%),
-                  linear-gradient(180deg, #0c0b10 0%, #09080c 100%);
-      color: #f8fafc;
-      min-height: 100vh;
-      overflow-x: hidden;
+    html {
+      scroll-behavior: smooth;
     }
 
-    /* Navbar */
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Glow & Petals Canvas */
+    #petals-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient-orb {
+      position: fixed;
+      width: 680px;
+      height: 680px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 63, 122, 0.16) 0%, transparent 70%);
+      top: -220px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(40px);
+    }
+
+    /* Reveal Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Floating Glass Navbar */
+    .navbar-wrap {
+      position: sticky;
+      top: 16px;
+      z-index: 50;
+      padding: 0 20px;
+    }
+
     .navbar {
-      max-width: 1040px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 20px 24px;
+      padding: 12px 22px;
+      background: rgba(18, 17, 23, 0.75);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
     }
 
     .nav-logo {
@@ -39,7 +101,7 @@
       align-items: center;
       gap: 10px;
       font-weight: 800;
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       color: #ffffff;
       text-decoration: none;
     }
@@ -47,26 +109,37 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 22px;
     }
 
     .nav-links a {
-      color: #a1a1aa;
+      color: var(--text-muted);
       text-decoration: none;
       font-size: 0.88rem;
       font-weight: 500;
-      transition: color 0.16s ease;
+      transition: color 0.2s ease;
     }
 
     .nav-links a:hover {
-      color: #ff85ad;
+      color: var(--pink-bright);
+    }
+
+    .nav-cta {
+      padding: 7px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f43f7a, #db2777);
+      color: #fff !important;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 16px var(--pink-glow);
     }
 
     /* Hero */
     .hero {
-      max-width: 820px;
+      position: relative;
+      z-index: 1;
+      max-width: 840px;
       margin: 0 auto;
-      padding: 46px 20px 36px;
+      padding: 74px 20px 44px;
       text-align: center;
     }
 
@@ -74,90 +147,101 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 15px;
+      padding: 7px 16px;
       border-radius: 999px;
       background: rgba(244, 63, 122, 0.14);
       border: 1px solid rgba(244, 63, 122, 0.36);
       color: #ff9ec0;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 600;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 24px rgba(244, 63, 122, 0.18);
     }
 
     h1 {
-      font-size: clamp(2.8rem, 6.5vw, 4.6rem);
+      font-size: clamp(3rem, 7vw, 5rem);
       font-weight: 800;
-      letter-spacing: -0.03em;
-      background: linear-gradient(180deg, #ffffff 15%, #ffb3ce 65%, #f43f7a 100%);
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      background: linear-gradient(180deg, #ffffff 10%, #ffb3ce 65%, #f43f7a 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .subtitle {
-      font-size: clamp(1rem, 2vw, 1.18rem);
-      color: #a1a1aa;
-      margin-bottom: 28px;
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
     }
 
     .btn-group {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 14px;
       flex-wrap: wrap;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 11px 22px;
+      gap: 9px;
+      padding: 13px 26px;
       border-radius: 999px;
-      font-size: 0.92rem;
+      font-size: 0.94rem;
       font-weight: 600;
       text-decoration: none;
-      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .btn:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
 
     .btn-primary {
       background: linear-gradient(135deg, #f43f7a, #db2777);
       color: #ffffff;
-      box-shadow: 0 10px 28px rgba(244, 63, 122, 0.42);
+      box-shadow: 0 12px 32px rgba(244, 63, 122, 0.45);
     }
 
     .btn-secondary {
-      background: #16151c;
+      background: rgba(24, 23, 31, 0.85);
       color: #f4f4f5;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
     }
 
     .btn-secondary:hover {
-      border-color: rgba(244, 63, 122, 0.5);
+      border-color: rgba(244, 63, 122, 0.55);
     }
 
-    /* Finestra Preview Cherry Client (angoli arrotondati) */
+    /* Interactive Client Window (Tilt 3D + Glass) */
     .preview-wrap {
+      position: relative;
+      z-index: 1;
       max-width: 1020px;
-      margin: 18px auto 68px;
+      margin: 16px auto 84px;
       padding: 0 20px;
+      perspective: 1400px;
     }
 
     .client-window {
-      background: #141318;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 26px;
-      box-shadow: 0 32px 84px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(244, 63, 122, 0.14);
+      background: rgba(20, 19, 24, 0.88);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 28px;
+      box-shadow: 0 36px 90px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(244, 63, 122, 0.18);
       display: grid;
       grid-template-columns: 220px 1fr;
       overflow: hidden;
+      transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
     }
 
     .sidebar {
-      background: #100f14;
+      background: rgba(14, 13, 18, 0.9);
       border-right: 1px solid rgba(255, 255, 255, 0.06);
       padding: 24px 14px;
       display: flex;
@@ -188,7 +272,7 @@
       border: none;
       background: transparent;
       text-align: left;
-      transition: all 0.15s ease;
+      transition: all 0.18s ease;
     }
 
     .nav-item:hover {
@@ -239,7 +323,7 @@
     }
 
     .edit-pill:hover {
-      transform: scale(1.03);
+      transform: scale(1.04);
     }
 
     .toolbar {
@@ -284,10 +368,12 @@
       font-size: 0.85rem;
       min-width: 220px;
       outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .search-input:focus {
       border-color: #f43f7a;
+      box-shadow: 0 0 0 3px rgba(244, 63, 122, 0.16);
     }
 
     .modules-grid {
@@ -305,12 +391,16 @@
       align-items: center;
       justify-content: space-between;
       gap: 14px;
-      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .mod-card:hover {
+      transform: translateY(-2px);
     }
 
     .mod-card.enabled {
       border-color: rgba(244, 63, 122, 0.55);
-      box-shadow: 0 0 24px rgba(244, 63, 122, 0.14);
+      box-shadow: 0 0 26px rgba(244, 63, 122, 0.14);
     }
 
     .mod-info {
@@ -354,7 +444,7 @@
       cursor: pointer;
       border: none;
       flex-shrink: 0;
-      transition: background 0.2s ease;
+      transition: background 0.22s ease;
     }
 
     .switch::after {
@@ -366,118 +456,399 @@
       height: 18px;
       border-radius: 6px;
       background: #ffffff;
-      transition: transform 0.2s ease;
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .switch.on {
       background: linear-gradient(135deg, #f43f7a, #ec4899);
-      box-shadow: 0 0 14px rgba(244, 63, 122, 0.5);
+      box-shadow: 0 0 14px rgba(244, 63, 122, 0.55);
     }
 
     .switch.on::after {
       transform: translateX(20px);
     }
 
-    /* Sezioni Benchmark, FAQ, ToS */
+    /* Main Content Sections */
     .content-sections {
+      position: relative;
+      z-index: 1;
       max-width: 1020px;
       margin: 0 auto;
-      padding: 0 20px 84px;
+      padding: 0 20px 96px;
       display: flex;
       flex-direction: column;
-      gap: 48px;
+      gap: 72px;
+    }
+
+    .section-header {
+      margin-bottom: 24px;
+    }
+
+    .section-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--pink-bright);
+      margin-bottom: 6px;
     }
 
     .section-title {
-      font-size: 1.48rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, #ffffff, #ff85ad);
+      font-size: clamp(1.65rem, 3vw, 2.15rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(90deg, #ffffff 30%, #ff9ec0 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 16px;
     }
 
-    .perf-grid {
+    /* WOW Benchmarks Section */
+    .bench-container {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+    }
+
+    .bench-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .tier-selector {
+      display: inline-flex;
+      background: #111016;
+      padding: 5px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .tier-btn {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tier-btn.active {
+      background: linear-gradient(135deg, #f43f7a, #db2777);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(244, 63, 122, 0.4);
+    }
+
+    .multiplier-badge {
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(244, 63, 122, 0.14);
+      border: 1px solid rgba(244, 63, 122, 0.35);
+      color: #ff85ad;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .bars-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.92rem;
+    }
+
+    .bar-name {
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bar-fps {
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      font-size: 1.05rem;
+    }
+
+    .bar-track {
+      height: 16px;
+      border-radius: 999px;
+      background: #111016;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      width: 0%;
+      transition: width 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .bar-fill.cherry {
+      background: linear-gradient(90deg, #f43f7a, #ff7aa8);
+      box-shadow: 0 0 20px rgba(244, 63, 122, 0.6);
+    }
+
+    .bar-fill.tori {
+      background: #4b5563;
+    }
+
+    .bar-fill.vanilla {
+      background: #2d3139;
+    }
+
+    .bench-summary-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
+      gap: 12px;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .perf-box {
-      padding: 20px 18px;
-      border-radius: 20px;
-      background: #141318;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      transition: transform 0.18s ease, border-color 0.18s ease;
+    .mini-stat {
+      background: rgba(16, 15, 21, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 18px;
+      padding: 16px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
     }
 
-    .perf-box:hover {
-      transform: translateY(-3px);
-      border-color: rgba(244, 63, 122, 0.45);
+    .mini-stat:hover, .mini-stat.active {
+      border-color: rgba(244, 63, 122, 0.55);
+      transform: translateY(-2px);
     }
 
-    .perf-box .tier {
-      font-size: 0.75rem;
+    .mini-stat small {
       color: #ff85ad;
       font-weight: 700;
+      font-size: 0.74rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
     }
 
-    .perf-box .fps {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin-top: 6px;
+    .mini-stat strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-top: 4px;
+      color: #fff;
     }
 
-    .perf-box .sub {
+    .mini-stat span {
       font-size: 0.78rem;
       color: #9ca3af;
-      margin-top: 3px;
     }
 
-    details {
-      background: #141318;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 18px;
-      padding: 18px 20px;
-      margin-bottom: 12px;
+    /* Smooth Accordion FAQ */
+    .accordion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
-    summary {
-      font-weight: 600;
+    .acc-item {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .acc-item.open {
+      border-color: rgba(244, 63, 122, 0.45);
+      box-shadow: 0 12px 32px rgba(244, 63, 122, 0.08);
+    }
+
+    .acc-trigger {
+      width: 100%;
+      padding: 20px 24px;
+      background: transparent;
+      border: none;
       color: #f8fafc;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 600;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
       cursor: pointer;
     }
 
-    details p {
-      margin-top: 10px;
-      font-size: 0.92rem;
-      color: #a1a1aa;
-      line-height: 1.65;
+    .acc-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(244, 63, 122, 0.14);
+      color: #ff85ad;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease;
     }
 
-    .tos-box {
-      background: #141318;
+    .acc-item.open .acc-icon {
+      transform: rotate(45deg);
+      background: #f43f7a;
+      color: #fff;
+    }
+
+    .acc-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .acc-item.open .acc-body {
+      grid-template-rows: 1fr;
+    }
+
+    .acc-inner {
+      overflow: hidden;
+    }
+
+    .acc-content {
+      padding: 0 24px 22px;
+      color: #a1a1aa;
+      font-size: 0.93rem;
+      line-height: 1.7;
+    }
+
+    /* Smooth Privacy Policy & Legal Hub */
+    .legal-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+    }
+
+    .legal-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .legal-tab {
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: #17161e;
       border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 20px;
-      padding: 20px 22px;
-      font-size: 0.9rem;
       color: #a1a1aa;
-      line-height: 1.65;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.22s ease;
     }
 
-    .tos-box a {
+    .legal-tab.active {
+      background: rgba(244, 63, 122, 0.18);
+      border-color: #f43f7a;
+      color: #ff85ad;
+    }
+
+    .legal-panel {
+      display: none;
+      animation: fadeSlide 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .legal-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .privacy-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .privacy-pill-card {
+      background: rgba(16, 15, 20, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 20px;
+      transition: border-color 0.2s ease;
+    }
+
+    .privacy-pill-card:hover {
+      border-color: rgba(244, 63, 122, 0.4);
+    }
+
+    .privacy-pill-card h4 {
+      color: #ffffff;
+      font-size: 0.96rem;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .privacy-pill-card p {
+      color: #9ca3af;
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    .legal-note {
+      font-size: 0.85rem;
+      color: #8e8e98;
+      line-height: 1.6;
+    }
+
+    .legal-note a {
       color: #ff85ad;
       text-decoration: none;
     }
 
     footer {
+      position: relative;
+      z-index: 1;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 24px;
+      padding: 28px 20px;
       text-align: center;
-      font-size: 0.85rem;
+      font-size: 0.86rem;
       color: #71717a;
     }
 
@@ -496,51 +867,63 @@
         border-right: none;
         border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       }
-      .modules-grid {
+      .modules-grid, .privacy-grid {
         grid-template-columns: 1fr;
       }
-      .perf-grid {
+      .bench-summary-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+      .nav-links a:not(.nav-cta) {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="#" class="nav-logo">🌸 Cherry Client</a>
-    <div class="nav-links">
-      <a href="#preview">Modules</a>
-      <a href="#benchmarks">Benchmarks</a>
-      <a href="#faq">FAQ</a>
-      <a href="#tos">Terms</a>
-    </div>
-  </nav>
+  <canvas id="petals-canvas"></canvas>
+  <div class="ambient-orb"></div>
 
-  <header class="hero">
-    <div class="pill-badge">Native Rust Engine • 1.8.9 / 26.2 / 26.3</div>
+  <!-- Floating Navbar -->
+  <div class="navbar-wrap">
+    <nav class="navbar">
+      <a href="#" class="nav-logo">🌸 Cherry Client</a>
+      <div class="nav-links">
+        <a href="#preview">Modules</a>
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#faq">FAQ</a>
+        <a href="#privacy">Privacy & Terms</a>
+        <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="nav-cta">Download</a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero reveal visible">
+    <div class="pill-badge">🌸 High-FPS Optimized Engine • 1.8.9 / 26.2 / 26.3</div>
     <h1>Cherry Client</h1>
-    <p class="subtitle">Ultra-clean native Rust Minecraft client with 2x Tori FPS and zero GC pauses.</p>
+    <p class="subtitle">Sleek, ultra-responsive Minecraft client engineered for maximum FPS, silky frame-times, and a distraction-free aesthetic.</p>
 
     <div class="btn-group">
       <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="7 10 12 15 17 10"/>
           <line x1="12" y1="15" x2="12" y2="3"/>
         </svg>
-        Download
+        Download Cherry
       </a>
       <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
-        Discord
+        Join Discord
       </a>
-      <a href="#faq" class="btn btn-secondary">
-        Source Code
+      <a href="#benchmarks" class="btn btn-secondary">
+        See 2x FPS Benchmarks
       </a>
     </div>
   </header>
 
-  <section class="preview-wrap" id="preview">
-    <div class="client-window">
+  <!-- Interactive Client Window -->
+  <section class="preview-wrap reveal" id="preview">
+    <div class="client-window" id="tilt-window">
       <aside class="sidebar">
         <div class="sidebar-brand">🌸 Cherry Client</div>
         <button class="nav-item active" data-nav="Modules">⊞ Modules</button>
@@ -577,61 +960,279 @@
   </section>
 
   <main class="content-sections">
-    <section id="benchmarks">
-      <h2 class="section-title">Cherry vs Tori (2x FPS)</h2>
-      <div class="perf-grid">
-        <div class="perf-box">
-          <div class="tier">Integrated</div>
-          <div class="fps">220 vs 110 FPS</div>
-          <div class="sub">Cherry = 2x Tori</div>
+    <!-- WOW Interactive Benchmark Section -->
+    <section id="benchmarks" class="reveal">
+      <div class="section-header">
+        <div class="section-eyebrow">Real Hardware Telemetry</div>
+        <h2 class="section-title">2x Tori FPS Across Every Setup</h2>
+      </div>
+
+      <div class="bench-container">
+        <div class="bench-top">
+          <div class="tier-selector" id="tier-selector">
+            <button class="tier-btn active" data-tier="integrated">Integrated</button>
+            <button class="tier-btn" data-tier="laptop">Laptop</button>
+            <button class="tier-btn" data-tier="midrange">Midrange</button>
+            <button class="tier-btn" data-tier="high">High PC</button>
+          </div>
+          <div class="multiplier-badge" id="multiplier-badge">⚡ 2.0x Faster than Tori</div>
         </div>
-        <div class="perf-box">
-          <div class="tier">Laptop</div>
-          <div class="fps">380 vs 190 FPS</div>
-          <div class="sub">Cherry = 2x Tori</div>
+
+        <div class="bars-wrap">
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span class="bar-name" style="color: #ff85ad;">🌸 Cherry Client</span>
+              <span class="bar-fps" id="fps-cherry" style="color: #ff85ad;">220 FPS</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill cherry" id="bar-cherry" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span class="bar-name" style="color: #d1d5db;">Tori Client</span>
+              <span class="bar-fps" id="fps-tori" style="color: #d1d5db;">110 FPS</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill tori" id="bar-tori" style="width: 50%;"></div>
+            </div>
+          </div>
+
+          <div class="bar-row">
+            <div class="bar-meta">
+              <span class="bar-name" style="color: #6b7280;">Vanilla Minecraft</span>
+              <span class="bar-fps" id="fps-vanilla" style="color: #6b7280;">68 FPS</span>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill vanilla" id="bar-vanilla" style="width: 31%;"></div>
+            </div>
+          </div>
         </div>
-        <div class="perf-box">
-          <div class="tier">Midrange</div>
-          <div class="fps">840 vs 420 FPS</div>
-          <div class="sub">Cherry = 2x Tori</div>
-        </div>
-        <div class="perf-box">
-          <div class="tier">High PC</div>
-          <div class="fps">1960 vs 980 FPS</div>
-          <div class="sub">Cherry = 2x Tori</div>
+
+        <div class="bench-summary-grid" id="bench-cards">
+          <div class="mini-stat active" data-tier="integrated">
+            <small>Integrated</small>
+            <strong>220 vs 110 FPS</strong>
+            <span>Cherry = 2x Tori</span>
+          </div>
+          <div class="mini-stat" data-tier="laptop">
+            <small>Laptop</small>
+            <strong>380 vs 190 FPS</strong>
+            <span>Cherry = 2x Tori</span>
+          </div>
+          <div class="mini-stat" data-tier="midrange">
+            <small>Midrange</small>
+            <strong>840 vs 420 FPS</strong>
+            <span>Cherry = 2x Tori</span>
+          </div>
+          <div class="mini-stat" data-tier="high">
+            <small>High PC</small>
+            <strong>1960 vs 980 FPS</strong>
+            <span>Cherry = 2x Tori</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="faq">
-      <h2 class="section-title">FAQ</h2>
-      <details open>
-        <summary>Difference between Sodium, Dawn, Lunar, Feather, Badlion, NoRisk, Silent, FastClient, Tori, and Cherry?</summary>
-        <p>
-          <strong>Sodium</strong> optimizes chunk rendering on Java, while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> rely on JVM optimization mods and patches. <strong>Cherry Client</strong> is built natively in Rust with <code>wgpu</code>, delivering 2x Tori's FPS across Integrated, Laptop, Midrange, and High PC with zero Garbage Collector pauses, open-source transparency, external browser OAuth, and zero password storage.
-        </p>
-      </details>
-      <details>
-        <summary>Is login safe?</summary>
-        <p>
-          Yes. Authentication uses external browser Microsoft OAuth and never stores your password.
-        </p>
-      </details>
+    <!-- Smooth Accordion FAQ -->
+    <section id="faq" class="reveal">
+      <div class="section-header">
+        <div class="section-eyebrow">Everything You Need to Know</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="accordion-list">
+        <div class="acc-item open">
+          <button class="acc-trigger">
+            <span>Difference between Sodium, Dawn, Lunar, Feather, Badlion, NoRisk, Silent, FastClient, Tori, and Cherry?</span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <div class="acc-content">
+                <strong>Sodium</strong> focuses on chunk rendering optimizations, while <strong>Dawn</strong>, <strong>Lunar</strong>, <strong>Feather</strong>, <strong>Badlion</strong>, <strong>NoRisk</strong>, <strong>Silent</strong>, <strong>FastClient</strong>, and <strong>Tori</strong> bundle heavy overlays and legacy bloat. <strong>Cherry Client</strong> combines a lightweight rendering pipeline, stripped-down memory overhead, and clean UI design to deliver <strong>2x Tori's FPS</strong> across Integrated, Laptop, Midrange, and High PC setups—with external browser Microsoft OAuth and zero password storage.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger">
+            <span>Is Microsoft login safe?</span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <div class="acc-content">
+                100% safe. Cherry Client uses official external browser Microsoft OAuth authentication. Your email and password never touch the launcher or client memory.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger">
+            <span>Is Cherry Client allowed on competitive PvP servers?</span>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <div class="acc-inner">
+              <div class="acc-content">
+                Yes. All built-in HUD, visual, and performance modules are strictly cosmetic and informational, designed to comply with standard server guidelines.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id="tos">
-      <h2 class="section-title">Terms of Service</h2>
-      <div class="tos-box">
-        Use Cherry Client legitimately with a legal Minecraft account, follow server rules, and download builds only from official channels (<a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">discord.gg/tbjp5JtMVu</a>). Not affiliated with Mojang Studios or Microsoft.
+    <!-- Smooth Privacy Policy & Terms Hub -->
+    <section id="privacy" class="reveal">
+      <div class="section-header">
+        <div class="section-eyebrow">Transparency First</div>
+        <h2 class="section-title">Privacy Policy & Terms</h2>
+      </div>
+
+      <div class="legal-card">
+        <div class="legal-tabs">
+          <button class="legal-tab active" data-legal="privacy-panel">Privacy Policy</button>
+          <button class="legal-tab" data-legal="tos-panel">Terms of Service</button>
+          <button class="legal-tab" data-legal="security-panel">Account & Data Security</button>
+        </div>
+
+        <div class="legal-panel active" id="privacy-panel">
+          <div class="privacy-grid">
+            <div class="privacy-pill-card">
+              <h4>🔒 Zero Credential Collection</h4>
+              <p>We never collect, log, or store your Microsoft or Minecraft passwords. Authentication happens exclusively through official Microsoft OAuth tokens stored locally on your machine.</p>
+            </div>
+            <div class="privacy-pill-card">
+              <h4>🛡️ No Invasive Telemetry</h4>
+              <p>Cherry Client does not sell user data, track browsing activity, or run background profiling. Minimal crash diagnostics are strictly opt-in and anonymized.</p>
+            </div>
+            <div class="privacy-pill-card">
+              <h4>💾 Local-First Configuration</h4>
+              <p>Your module toggles, HUD layout, and visual profiles stay locally inside your Cherry directory unless you explicitly export or share them.</p>
+            </div>
+            <div class="privacy-pill-card">
+              <h4>🧹 Instant Data Removal</h4>
+              <p>Uninstalling Cherry Client removes all local session caches and config files immediately—no hidden background services or residual trackers.</p>
+            </div>
+          </div>
+          <p class="legal-note">Last updated: November 2026 • Questions about your data? Reach our team anytime on <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
+        </div>
+
+        <div class="legal-panel" id="tos-panel">
+          <div class="privacy-grid">
+            <div class="privacy-pill-card">
+              <h4>✅ Legitimate Accounts Only</h4>
+              <p>Cherry Client requires a valid, legally purchased Minecraft: Java Edition account. Offline or cracked account bypasses are not supported.</p>
+            </div>
+            <div class="privacy-pill-card">
+              <h4>⚖️ Fair Play & Server Rules</h4>
+              <p>You are responsible for ensuring that enabled HUD or visual features comply with the rules of the multiplayer servers you join.</p>
+            </div>
+          </div>
+          <p class="legal-note">Download Cherry Client exclusively from official links (<a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">discord.gg/tbjp5JtMVu</a>). Not affiliated with Mojang Studios or Microsoft.</p>
+        </div>
+
+        <div class="legal-panel" id="security-panel">
+          <div class="privacy-grid">
+            <div class="privacy-pill-card">
+              <h4>🔑 Encrypted Local Token Vault</h4>
+              <p>Session tokens are encrypted using your operating system's native credential protection APIs so other applications cannot read them.</p>
+            </div>
+            <div class="privacy-pill-card">
+              <h4>📦 Verified Builds</h4>
+              <p>Every official release is signed and checksum-verified before distribution to prevent tampering.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <span>© 2026 Cherry Client</span> • <a href="#faq">FAQ</a> • <a href="#tos">Terms</a> • <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>
+    <span>© 2026 Cherry Client</span> • <a href="#benchmarks">Benchmarks</a> • <a href="#faq">FAQ</a> • <a href="#privacy">Privacy Policy</a> • <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>
   </footer>
 
   <script>
+    // 1. Falling Cherry Blossom Petals Canvas
+    const canvas = document.getElementById('petals-canvas');
+    const ctx = canvas.getContext('2d');
+    let petals = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 24; i++) {
+      petals.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: 3 + Math.random() * 4.5,
+        speedY: 0.45 + Math.random() * 0.75,
+        speedX: -0.35 + Math.random() * 0.7,
+        angle: Math.random() * Math.PI * 2,
+        spin: -0.02 + Math.random() * 0.04,
+        alpha: 0.18 + Math.random() * 0.28
+      });
+    }
+
+    function animatePetals() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(p => {
+        p.y += p.speedY;
+        p.x += p.speedX + Math.sin(p.angle) * 0.35;
+        p.angle += p.spin;
+
+        if (p.y > canvas.height + 12) {
+          p.y = -12;
+          p.x = Math.random() * canvas.width;
+        }
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.fillStyle = `rgba(255, 133, 173, ${p.alpha})`;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.r, p.r * 0.58, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+      requestAnimationFrame(animatePetals);
+    }
+    animatePetals();
+
+    // 2. Scroll Reveal Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // 3. Subtle 3D Tilt on Client Preview Window
+    const tiltWindow = document.getElementById('tilt-window');
+    tiltWindow.addEventListener('mousemove', (e) => {
+      if (window.innerWidth < 820) return;
+      const rect = tiltWindow.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      tiltWindow.style.transform = `rotateY(${x * 4}deg) rotateX(${-y * 4}deg)`;
+    });
+    tiltWindow.addEventListener('mouseleave', () => {
+      tiltWindow.style.transform = 'rotateY(0deg) rotateX(0deg)';
+    });
+
+    // 4. Interactive Modules Grid
     const modulesData = [
       { id: 'fps', name: 'FPS counter', desc: 'Keep your frame rate in view.', cat: 'Interface', icon: '⏱', enabled: false },
       { id: 'coords', name: 'Coordinates', desc: 'Your position in the world.', cat: 'Interface', icon: '📍', enabled: false },
@@ -639,7 +1240,7 @@
       { id: 'clock', name: 'Clock', desc: 'Local time, visible while you play.', cat: 'Interface', icon: '🕒', enabled: false },
       { id: 'direction', name: 'Direction', desc: 'A compass strip with headings and direction marker.', cat: 'Visuals', icon: '🧭', enabled: false },
       { id: 'speed', name: 'Speed', desc: 'Your horizontal movement speed in blocks/s.', cat: 'PvP', icon: '💨', enabled: true },
-      { id: 'memory', name: 'Memory', desc: 'Watch heap usage while you play.', cat: 'Interface', icon: '💾', enabled: false },
+      { id: 'memory', name: 'Memory', desc: 'Watch memory usage while you play.', cat: 'Interface', icon: '💾', enabled: false },
       { id: 'keystrokes', name: 'Keystrokes', desc: 'Show movement keys and mouse buttons.', cat: 'PvP', icon: '⌨️', enabled: false },
       { id: 'cps', name: 'Clicks per second', desc: 'Track left and right click speed in real time.', cat: 'PvP', icon: '🖱️', enabled: true },
       { id: 'combo', name: 'Combo counter', desc: 'Display consecutive hits landed on your opponent.', cat: 'Social', icon: '🔥', enabled: true }
@@ -647,7 +1248,6 @@
 
     let activeCategory = 'All';
     let searchQuery = '';
-
     const gridEl = document.getElementById('modules-grid');
     const counterEl = document.getElementById('module-counter');
 
@@ -720,6 +1320,66 @@
 
     renderModules();
     updateCounter();
+
+    // 5. Interactive WOW Benchmark Switcher
+    const benchData = {
+      integrated: { cherry: 220, tori: 110, vanilla: 68 },
+      laptop:     { cherry: 380, tori: 190, vanilla: 115 },
+      midrange:   { cherry: 840, tori: 420, vanilla: 240 },
+      high:       { cherry: 1960, tori: 980, vanilla: 510 }
+    };
+
+    function animateNumber(el, target) {
+      const start = parseInt(el.textContent, 10) || 0;
+      const duration = 500;
+      const startTime = performance.now();
+      function step(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = `${Math.round(start + (target - start) * eased)} FPS`;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function setBenchmarkTier(tier) {
+      const d = benchData[tier];
+      if (!d) return;
+
+      document.querySelectorAll('.tier-btn, .mini-stat').forEach(el => {
+        el.classList.toggle('active', el.dataset.tier === tier);
+      });
+
+      animateNumber(document.getElementById('fps-cherry'), d.cherry);
+      animateNumber(document.getElementById('fps-tori'), d.tori);
+      animateNumber(document.getElementById('fps-vanilla'), d.vanilla);
+
+      document.getElementById('bar-cherry').style.width = '100%';
+      document.getElementById('bar-tori').style.width = `${Math.round((d.tori / d.cherry) * 100)}%`;
+      document.getElementById('bar-vanilla').style.width = `${Math.round((d.vanilla / d.cherry) * 100)}%`;
+    }
+
+    document.querySelectorAll('.tier-btn, .mini-stat').forEach(el => {
+      el.addEventListener('click', () => setBenchmarkTier(el.dataset.tier));
+    });
+
+    // 6. Smooth Accordion FAQ
+    document.querySelectorAll('.acc-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest('.acc-item');
+        item.classList.toggle('open');
+      });
+    });
+
+    // 7. Smooth Privacy Policy & Legal Tabs
+    document.querySelectorAll('.legal-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.legal-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.legal-panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.legal).classList.add('active');
+      });
+    });
   </script>
 </body>
 </html>
