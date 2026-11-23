@@ -11,10 +11,11 @@
   <style>
     :root {
       --bg-base: #09080c;
-      --bg-card: rgba(20, 19, 25, 0.78);
+      --bg-card: rgba(20, 19, 25, 0.8);
       --border-subtle: rgba(255, 255, 255, 0.08);
       --pink-primary: #f43f7a;
       --pink-bright: #ff7aa8;
+      --pink-soft: rgba(244, 63, 122, 0.14);
       --pink-border: rgba(244, 63, 122, 0.42);
       --text-main: #f8fafc;
       --text-muted: #9ca3af;
@@ -49,22 +50,22 @@
 
     .ambient-orb {
       position: fixed;
-      width: 680px;
-      height: 680px;
+      width: 720px;
+      height: 720px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(244, 63, 122, 0.14) 0%, transparent 70%);
-      top: -220px;
+      top: -240px;
       left: 50%;
       transform: translateX(-50%);
       pointer-events: none;
       z-index: 0;
-      filter: blur(40px);
+      filter: blur(42px);
     }
 
     /* Reveal Animations */
     .reveal {
       opacity: 0;
-      transform: translateY(26px);
+      transform: translateY(24px);
       transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -82,7 +83,7 @@
     }
 
     .navbar {
-      max-width: 980px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 12px 22px;
       background: rgba(18, 17, 23, 0.78);
@@ -214,7 +215,7 @@
       border-color: rgba(244, 63, 122, 0.55);
     }
 
-    /* Interactive Client Window (Exact layout from facbab73.jpeg, crisp & matte) */
+    /* Interactive Client Window (Crisp, balanced, no bloom) */
     .preview-wrap {
       position: relative;
       z-index: 1;
@@ -233,7 +234,7 @@
       transition: transform 0.25s ease-out;
     }
 
-    /* Top Bar inside Window (HUD / Visuals | Search | User Pill) */
+    /* Top Bar inside Window */
     .win-topbar {
       display: flex;
       align-items: center;
@@ -299,7 +300,7 @@
       align-items: center;
       gap: 9px;
       background: #18171e;
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 999px;
       padding: 8px 16px;
       min-width: 220px;
@@ -307,7 +308,7 @@
     }
 
     .win-search:focus-within {
-      border-color: rgba(244, 63, 122, 0.6);
+      border-color: rgba(244, 63, 122, 0.65);
     }
 
     .win-search svg {
@@ -330,11 +331,11 @@
       align-items: center;
       gap: 10px;
       background: #1a1820;
-      border: 1px solid rgba(244, 63, 122, 0.42);
+      border: 1px solid rgba(244, 63, 122, 0.45);
       border-radius: 999px;
       padding: 5px 16px 5px 6px;
       font-size: 0.86rem;
-      font-weight: 600;
+      font-weight: 700;
       color: #f8fafc;
     }
 
@@ -342,15 +343,25 @@
       width: 26px;
       height: 26px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #2e4a2b, #4c7c44);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: linear-gradient(135deg, #f43f7a, #9d174d);
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.72rem;
+      letter-spacing: -0.02em;
     }
 
-    /* Section Label inside Window (❖ HUD) */
+    /* Section Header inside Window + Active Count */
+    .win-subbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
     .win-section-label {
       display: inline-flex;
       align-items: center;
@@ -359,7 +370,16 @@
       font-size: 0.86rem;
       font-weight: 700;
       letter-spacing: 0.03em;
-      margin-bottom: 14px;
+    }
+
+    .win-active-badge {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #ff9ec0;
+      background: rgba(244, 63, 122, 0.12);
+      border: 1px solid rgba(244, 63, 122, 0.3);
+      padding: 4px 12px;
+      border-radius: 999px;
     }
 
     /* 2-Column Module Grid */
@@ -389,7 +409,7 @@
 
     .mod-card.enabled {
       border-color: #f43f7a;
-      background: #1d1a23;
+      background: #1f1a24;
     }
 
     .mod-left {
@@ -441,14 +461,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4px;
+      padding: 5px;
       border-radius: 8px;
-      transition: transform 0.25s ease, color 0.18s ease;
+      transition: transform 0.25s ease, color 0.18s ease, background 0.18s ease;
     }
 
     .gear-btn:hover {
       color: #ff9ec0;
+      background: rgba(244, 63, 122, 0.12);
       transform: rotate(45deg);
+    }
+
+    .mod-toast {
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: #ff9ec0;
+      min-height: 20px;
+      transition: opacity 0.2s ease;
     }
 
     /* Pill Toggle Switch */
@@ -929,7 +958,7 @@
     </div>
   </header>
 
-  <!-- Interactive Client Preview Window (New HUD / Visuals Design) -->
+  <!-- Interactive Client Preview Window -->
   <section class="preview-wrap reveal" id="preview">
     <div class="client-window" id="tilt-window">
       <div class="win-topbar">
@@ -949,15 +978,19 @@
           </div>
 
           <div class="user-pill">
-            <div class="user-avatar">🌿</div>
-            <span>ConfusedMC</span>
+            <div class="user-avatar">TM</div>
+            <span>TTMMario</span>
           </div>
         </div>
       </div>
 
-      <div class="win-section-label" id="section-label">❖ HUD</div>
+      <div class="win-subbar">
+        <div class="win-section-label" id="section-label">❖ HUD</div>
+        <div class="win-active-badge" id="active-modules-count">1 enabled</div>
+      </div>
 
       <div class="modules-grid" id="modules-grid"></div>
+      <div class="mod-toast" id="mod-toast"></div>
     </div>
   </section>
 
@@ -1234,16 +1267,15 @@
       tiltWindow.style.transform = 'rotateY(0deg) rotateX(0deg)';
     });
 
-    // 4. Interactive Modules Data matching facbab73.jpeg (HUD & Visuals tabs)
+    // 4. Interactive Modules Data (TTMMario profile, clean modules)
     const allModules = [
-      // HUD Tab (exact 14 modules from your reference)
       { id: 'spotify', tab: 'HUD', name: 'Spotify', desc: 'Current Spotify track and controls', spotify: true, gear: false, enabled: true },
       { id: 'zoom', tab: 'HUD', name: 'Zoom', desc: 'Hold a key to zoom in', spotify: false, gear: true, enabled: false },
       { id: 'targetinfo', tab: 'HUD', name: 'Target Info', desc: 'Face, name and health of your target', spotify: false, gear: true, enabled: false },
       { id: 'damagefeed', tab: 'HUD', name: 'Damage Feed', desc: 'Damage you deal and take, as it happens', spotify: false, gear: false, enabled: false },
       { id: 'arrow', tab: 'HUD', name: 'Arrow', desc: 'Arrow pointing to your target', spotify: false, gear: true, enabled: false },
       { id: 'attackind', tab: 'HUD', name: 'Attack Indicator', desc: 'Shows when your attack is fully charged', spotify: false, gear: true, enabled: false },
-      { id: 'bossbar', tab: 'HUD', name: 'Custom Boss Bar', desc: 'Server boss bars in Nova style', spotify: false, gear: false, enabled: false },
+      { id: 'bossbar', tab: 'HUD', name: 'Custom Boss Bar', desc: 'Server boss bars in clean style', spotify: false, gear: false, enabled: false },
       { id: 'combatnot', tab: 'HUD', name: 'Combat Notifier', desc: 'Alerts for kills, broken armor and totems', spotify: false, gear: true, enabled: false },
       { id: 'eventnot', tab: 'HUD', name: 'Event Notifier', desc: 'Announces server events as they start', spotify: false, gear: false, enabled: false },
       { id: 'itemcount', tab: 'HUD', name: 'Item Counter', desc: 'Item count from your inventory', spotify: false, gear: false, enabled: false },
@@ -1252,7 +1284,6 @@
       { id: 'scoreboard', tab: 'HUD', name: 'Custom Scoreboard', desc: 'Rounded translucent scoreboard', spotify: false, gear: true, enabled: false },
       { id: 'tablist', tab: 'HUD', name: 'Custom Tab List', desc: 'Rounded translucent player list on TAB', spotify: false, gear: true, enabled: false },
 
-      // Visuals Tab
       { id: 'fullbright', tab: 'Visuals', name: 'Fullbright', desc: 'Maximum visibility in caves and night time', spotify: false, gear: false, enabled: true },
       { id: 'motionblur', tab: 'Visuals', name: 'Motion Blur', desc: 'Smooth directional camera blur at high FPS', spotify: false, gear: true, enabled: false },
       { id: 'blockoverlay', tab: 'Visuals', name: 'Block Overlay', desc: 'Clean cherry-tinted outline on targeted blocks', spotify: false, gear: true, enabled: true },
@@ -1265,10 +1296,25 @@
     let searchQuery = '';
     const gridEl = document.getElementById('modules-grid');
     const sectionLabelEl = document.getElementById('section-label');
+    const activeCountEl = document.getElementById('active-modules-count');
+    const toastEl = document.getElementById('mod-toast');
 
     const gearSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>`;
 
     const spotifySvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>`;
+
+    function showToast(msg) {
+      toastEl.textContent = msg;
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => {
+        toastEl.textContent = '';
+      }, 2200);
+    }
+
+    function updateActiveBadge(list) {
+      const count = list.filter(m => m.enabled).length;
+      activeCountEl.textContent = `${count} enabled`;
+    }
 
     function renderModules() {
       const filtered = allModules.filter(m => {
@@ -1278,6 +1324,7 @@
       });
 
       sectionLabelEl.textContent = searchQuery.length > 0 ? `❖ SEARCH RESULTS (${filtered.length})` : `❖ ${activeTab.toUpperCase()}`;
+      updateActiveBadge(filtered);
 
       gridEl.innerHTML = filtered.map(m => `
         <div class="mod-card ${m.enabled ? 'enabled' : ''}" data-id="${m.id}">
@@ -1289,7 +1336,7 @@
             </div>
           </div>
           <div class="mod-controls">
-            ${m.gear ? `<button class="gear-btn" aria-label="${m.name} settings">${gearSvg}</button>` : ''}
+            ${m.gear ? `<button class="gear-btn" data-gear="${m.name}" aria-label="${m.name} settings">${gearSvg}</button>` : ''}
             <button class="switch ${m.enabled ? 'on' : ''}" aria-label="Toggle ${m.name}"></button>
           </div>
         </div>
@@ -1302,7 +1349,14 @@
           if (mod) {
             mod.enabled = !mod.enabled;
             renderModules();
+            showToast(`${mod.name} ${mod.enabled ? 'enabled' : 'disabled'} for TTMMario`);
           }
+        });
+      });
+
+      gridEl.querySelectorAll('.gear-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          showToast(`Opened quick settings for ${btn.dataset.gear}`);
         });
       });
     }
