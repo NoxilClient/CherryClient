@@ -6,7 +6,7 @@
     <title>OCEAN CLIENT // Minecraft Rewritten in Rust</title>
     <!-- Pixel Font -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%2300f2fe' d='M2 2h12v2H2zm0 4h8v2H2zm0 4h10v2H2zm0 4h12v2H2z'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%2338bdf8' d='M2 2h12v2H2zm0 4h8v2H2zm0 4h10v2H2zm0 4h12v2H2z'/%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -21,14 +21,13 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #fff;
-            background-color: #0d1b2a;
+            background-color: #020617;
+            /* Crisp pixelated grid pattern background inspired by high-detail pixel art */
+            background-image: 
+                linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+            background-size: 16px 16px;
             overflow-x: hidden;
-        }
-
-        /* Pixel Art Rendering Effect for retro crispness */
-        .pixelated {
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
         }
 
         /* Sticky Nav */
@@ -38,9 +37,8 @@
             left: 0;
             width: 100%;
             z-index: 100;
-            background: rgba(10, 15, 30, 0.9);
-            border-bottom: 4px solid #00f2fe;
-            backdrop-filter: blur(5px);
+            background: rgba(2, 6, 23, 0.95);
+            border-bottom: 4px solid #38bdf8;
         }
 
         .nav-container {
@@ -54,8 +52,8 @@
 
         .logo {
             font-family: 'Press Start 2P', monospace;
-            font-size: 0.9rem;
-            color: #00f2fe;
+            font-size: 0.85rem;
+            color: #38bdf8;
             text-decoration: none;
             text-shadow: 2px 2px #000;
         }
@@ -67,7 +65,7 @@
         }
 
         .nav-links a {
-            color: #cbd5e1;
+            color: #94a3b8;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 700;
@@ -75,171 +73,101 @@
         }
 
         .nav-links a:hover {
-            color: #00f2fe;
+            color: #38bdf8;
         }
 
+        /* Authentic Pixel Button */
         .btn-pixel {
             font-family: 'Press Start 2P', monospace;
-            font-size: 0.65rem;
-            background: #f97316;
+            font-size: 0.6rem;
+            background: #2563eb;
             color: #fff;
             padding: 0.8rem 1.2rem;
             text-decoration: none;
             border: 3px solid #000;
-            box-shadow: inset -3px -3px 0px rgba(0,0,0,0.4), inset 3px 3px 0px rgba(255,255,255,0.4);
-            transition: transform 0.1s;
+            box-shadow: inset -3px -3px 0px rgba(0,0,0,0.5), inset 3px 3px 0px rgba(255,255,255,0.3);
+            transition: transform 0.1s, background 0.1s;
+        }
+
+        .btn-pixel:hover {
+            background: #1d4ed8;
         }
 
         .btn-pixel:active {
             transform: translateY(2px);
         }
 
-        /* SCROLLING OCEAN ENVIRONMENT BACKGROUND */
-        .ocean-world {
-            position: relative;
-            width: 100%;
-            /* Creates the vertical depth as you scroll down */
-            background: linear-gradient(
-                180deg, 
-                #87ceeb 0%,   /* Beach Sky */
-                #4facfe 15%,  /* Shallow Water / Beach Line */
-                #0284c7 35%,  /* Deep Blue Sea */
-                #0369a1 60%,  /* Deep Trench */
-                #011627 85%,  /* Abyss */
-                #000814 100%  /* Ocean Floor */
-            );
-            background-size: 100% 3500px; /* Long gradient height for scrolling depth */
-        }
-
-        /* Pixelated Beach / Sun Sky Section */
-        .hero-section {
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 2rem;
+            padding: 8rem 2rem 4rem;
             position: relative;
-            z-index: 2;
         }
 
         .rust-badge {
             font-family: 'Press Start 2P', monospace;
-            font-size: 0.6rem;
-            background: #111;
-            color: #f97316;
-            border: 3px solid #f97316;
+            font-size: 0.55rem;
+            background: #0f172a;
+            color: #38bdf8;
+            border: 3px solid #38bdf8;
             padding: 0.6rem 1rem;
             margin-bottom: 2rem;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
         }
 
         h1 {
             font-family: 'Press Start 2P', monospace;
-            font-size: clamp(1.5rem, 4vw, 3rem);
-            line-height: 1.4;
+            font-size: clamp(1.4rem, 3.5vw, 2.6rem);
+            line-height: 1.5;
             color: #fff;
             text-shadow: 4px 4px #000;
             margin-bottom: 1.5rem;
         }
 
         h1 span {
-            color: #f97316;
+            color: #38bdf8;
         }
 
         .hero-desc {
             font-size: 1.1rem;
-            color: #e2e8f0;
+            color: #94a3b8;
             max-width: 600px;
             margin-bottom: 2.5rem;
-            text-shadow: 2px 2px #000;
             font-weight: 600;
         }
 
-        /* Underwater Dive Section */
-        .underwater-section {
-            min-height: 150vh;
-            position: relative;
-            z-index: 2;
-            padding: 10rem 2rem;
+        /* Features Section */
+        .features-section {
             max-width: 1100px;
             margin: 0 auto;
+            padding: 4rem 2rem 8rem;
         }
 
-        /* Pixelated Fish / Elements container */
-        .pixel-fish-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        /* Pure CSS Pixel Art Fish */
-        .pixel-fish {
-            position: absolute;
-            width: 32px;
-            height: 16px;
-            background: #facc15; /* Goldfish */
-            box-shadow: 
-                -8px -4px 0 #facc15,
-                8px 0 0 #ef4444, /* tail */
-                12px -4px 0 #ef4444,
-                12px 4px 0 #ef4444,
-                -4px -4px 0 #000; /* eye */
-            animation: swimHorizontal 15s linear infinite;
-        }
-
-        .fish2 {
-            top: 40%;
-            background: #38bdf8;
-            box-shadow: 
-                -8px -4px 0 #38bdf8,
-                8px 0 0 #0284c7,
-                12px -4px 0 #0284c7,
-                12px 4px 0 #0284c7,
-                -4px -4px 0 #000;
-            animation: swimHorizontalReverse 20s linear infinite;
-            animation-delay: -5s;
-        }
-
-        @keyframes swimHorizontal {
-            0% { left: -50px; transform: scaleX(1); }
-            50% { transform: translateY(20px) scaleX(1); }
-            100% { left: 105vw; transform: scaleX(1); }
-        }
-
-        @keyframes swimHorizontalReverse {
-            0% { right: -50px; left: auto; transform: scaleX(-1); }
-            50% { transform: translateY(-30px) scaleX(-1); }
-            100% { right: 105vw; left: auto; transform: scaleX(-1); }
-        }
-
-        /* Content Cards with Pixel Border style */
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2.5rem;
-            position: relative;
-            z-index: 3;
         }
 
+        /* Pixel Card matching high-detail aesthetic */
         .pixel-card {
-            background: rgba(2, 6, 23, 0.85);
-            border: 4px solid #00f2fe;
+            background: #0f172a;
+            border: 4px solid #38bdf8;
             padding: 2.5rem;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.8);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.9);
             position: relative;
         }
 
         .pixel-card h3 {
             font-family: 'Press Start 2P', monospace;
-            font-size: 1rem;
-            color: #00f2fe;
-            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #38bdf8;
+            margin-bottom: 1.2rem;
             line-height: 1.4;
         }
 
@@ -251,14 +179,12 @@
 
         /* Footer */
         footer {
-            background: #000408;
-            border-top: 4px solid #00f2fe;
+            background: #010409;
+            border-top: 4px solid #38bdf8;
             padding: 3rem 2rem;
             text-align: center;
             font-size: 0.8rem;
             color: #64748b;
-            position: relative;
-            z-index: 3;
         }
     </style>
 </head>
@@ -267,7 +193,7 @@
     <!-- Header -->
     <header>
         <div class="nav-container">
-            <a href="#" class="logo">🌊 OCEAN CLIENT</a>
+            <a href="#" class="logo">OCEAN CLIENT</a>
             <nav class="nav-links">
                 <a href="#features">Features</a>
                 <a href="https://github.com" target="_blank">GitHub</a>
@@ -276,51 +202,39 @@
         </div>
     </header>
 
-    <!-- Scrolling Ocean Background World -->
-    <div class="ocean-world">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="rust-badge">
+            [ CORE: 100% REWRITTEN IN RUST ]
+        </div>
+        <h1>
+            MINECRAFT <br><span>REIMAGINED IN RUST</span>
+        </h1>
+        <p class="hero-desc">
+            Zero lag. Pure high-density pixel aesthetics. Built completely from the ground up for elite performance and frame rates.
+        </p>
+        <div id="download">
+            <a href="#" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT (.EXE)</a>
+        </div>
+    </section>
 
-        <!-- Hero Section (The Beach / Surface) -->
-        <section class="hero-section">
-            <div class="rust-badge">
-                [ 🦀 ENGINE: REWRITTEN IN RUST ]
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="grid">
+            <div class="pixel-card">
+                <h3>🦀 Pure Rust Core</h3>
+                <p>Entirely stripped of heavy Java legacy overhead. Built from scratch with Rust for maximum CPU efficiency and zero lag spikes.</p>
             </div>
-            <h1>
-                MINECRAFT <br><span>REIMAGINED IN RUST</span>
-            </h1>
-            <p class="hero-desc">
-                Scroll down to dive into the deep sea abyss. Zero lag, ultra-crisp pixel styling, and extreme FPS performance.
-            </p>
-            <div id="download">
-                <a href="#" class="btn-pixel" style="font-size: 0.8rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT (.EXE)</a>
+            <div class="pixel-card">
+                <h3>⚡ Instant Chunks</h3>
+                <p>Multi-threaded async chunk loading streams massive render distances seamlessly without stuttering your gameplay.</p>
             </div>
-        </section>
-
-        <!-- Underwater Section (Fish & Ocean Deep) -->
-        <section class="underwater-section" id="features">
-            <!-- Swimming Pixel Fish -->
-            <div class="pixel-fish-container">
-                <div class="pixel-fish" style="top: 15%;"></div>
-                <div class="pixel-fish fish2" style="top: 45%;"></div>
-                <div class="pixel-fish" style="top: 75%; animation-duration: 12s;"></div>
+            <div class="pixel-card">
+                <h3>🛡️ Memory Safe</h3>
+                <p>Enjoy stable frame rates without garbage collection pauses or sudden memory leaks during intensive PvP sessions.</p>
             </div>
-
-            <div class="grid">
-                <div class="pixel-card">
-                    <h3>🦀 Pure Rust Core</h3>
-                    <p>Entirely stripped of heavy Java legacy code. Built from scratch with Rust for maximum CPU efficiency and zero lag spikes.</p>
-                </div>
-                <div class="pixel-card">
-                    <h3>⚡ Instant Chunks</h3>
-                    <p>Multi-threaded async chunk loading streams massive render distances seamlessly as you explore the world.</p>
-                </div>
-                <div class="pixel-card">
-                    <h3>🛡️ Memory Safe</h3>
-                    <p>Enjoy stable frame rates without garbage collection pauses or sudden memory leaks during heavy gameplay sessions.</p>
-                </div>
-            </div>
-        </section>
-
-    </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
