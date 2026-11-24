@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OCEAN CLIENT // Minecraft Rewritten in Rust</title>
-    <!-- Pixel Font -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%2338bdf8' d='M2 2h12v2H2zm0 4h8v2H2zm0 4h10v2H2zm0 4h12v2H2z'/%3E%3C/svg%3E">
     <style>
         * {
             margin: 0;
@@ -21,32 +19,22 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #fff;
-            background-color: #020617;
+            background-color: #020813;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* High-Detail Pixel Art Ocean Background Pattern */
-        .pixel-ocean-bg {
-            position: fixed;
+        /* Crisp Pixel Art Canvas Background */
+        #pixel-world {
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             z-index: -1;
-            background: linear-gradient(180deg, #03152b 0%, #020b18 50%, #01060f 100%);
-        }
-
-        /* Gorgeous pixelated waves/shading effect using multi-layer pixel gradients */
-        .pixel-ocean-bg::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image: 
-                radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
-                linear-gradient(90deg, rgba(2, 132, 199, 0.05) 50%, transparent 50%),
-                linear-gradient(0deg, rgba(0, 242, 254, 0.04) 50%, transparent 50%);
-            background-size: 100% 100%, 32px 32px, 32px 32px;
             image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            pointer-events: none;
         }
 
         /* Sticky Nav */
@@ -56,7 +44,7 @@
             left: 0;
             width: 100%;
             z-index: 100;
-            background: rgba(2, 11, 24, 0.9);
+            background: rgba(2, 11, 24, 0.85);
             border-bottom: 4px solid #38bdf8;
             backdrop-filter: blur(4px);
         }
@@ -85,18 +73,16 @@
         }
 
         .nav-links a {
-            color: #94a3b8;
+            color: #e0f2fe;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 700;
-            transition: color 0.2s;
         }
 
         .nav-links a:hover {
             color: #38bdf8;
         }
 
-        /* Authentic Pixel Button */
         .btn-pixel {
             font-family: 'Press Start 2P', monospace;
             font-size: 0.6rem;
@@ -106,7 +92,7 @@
             text-decoration: none;
             border: 3px solid #000;
             box-shadow: inset -3px -3px 0px rgba(0,0,0,0.5), inset 3px 3px 0px rgba(255,255,255,0.4);
-            transition: transform 0.1s, background 0.1s;
+            display: inline-block;
         }
 
         .btn-pixel:hover {
@@ -117,15 +103,15 @@
             transform: translateY(2px);
         }
 
-        /* Hero Section */
+        /* Hero Section (Sits on the Beach & Sky) */
         .hero {
-            min-height: 100vh;
+            min-height: 105vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 8rem 2rem 4rem;
+            padding: 6rem 2rem 10rem;
             position: relative;
         }
 
@@ -136,7 +122,7 @@
             color: #38bdf8;
             border: 3px solid #38bdf8;
             padding: 0.6rem 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1.8rem;
             box-shadow: 4px 4px 0px rgba(0,0,0,0.9);
         }
 
@@ -151,23 +137,26 @@
 
         h1 span {
             color: #38bdf8;
-            text-shadow: 4px 4px #0284c7;
+            text-shadow: 4px 4px #0369a1;
         }
 
         .hero-desc {
             font-size: 1.1rem;
-            color: #94a3b8;
+            color: #fff;
             max-width: 600px;
             margin-bottom: 2.5rem;
-            font-weight: 600;
+            font-weight: 700;
+            background: rgba(2, 11, 24, 0.7);
+            padding: 1rem 1.5rem;
+            border: 3px solid #000;
             text-shadow: 2px 2px #000;
         }
 
-        /* Features Section */
-        .features-section {
+        /* Underwater Features Section */
+        .underwater-section {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 4rem 2rem 8rem;
+            padding: 12rem 2rem 10rem;
             position: relative;
         }
 
@@ -177,13 +166,11 @@
             gap: 2.5rem;
         }
 
-        /* Pixel Card matching high-detail aesthetic */
         .pixel-card {
-            background: rgba(3, 21, 43, 0.9);
+            background: rgba(2, 12, 27, 0.88);
             border: 4px solid #38bdf8;
             padding: 2.5rem;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.95);
-            position: relative;
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.9);
         }
 
         .pixel-card h3 {
@@ -195,16 +182,15 @@
         }
 
         .pixel-card p {
-            color: #94a3b8;
+            color: #cbd5e1;
             line-height: 1.6;
             font-size: 0.95rem;
         }
 
-        /* Footer */
         footer {
             background: #010408;
             border-top: 4px solid #38bdf8;
-            padding: 3rem 2rem;
+            padding: 2.5rem 2rem;
             text-align: center;
             font-size: 0.8rem;
             color: #64748b;
@@ -213,59 +199,194 @@
 </head>
 <body>
 
-    <!-- Stunning Pixelated Deep Sea Background -->
-    <div class="pixel-ocean-bg"></div>
+    <!-- High-Detail Static Pixel Art World Canvas (Zero Lag) -->
+    <canvas id="pixel-world"></canvas>
 
     <!-- Header -->
     <header>
         <div class="nav-container">
             <a href="#" class="logo">🌊 OCEAN CLIENT</a>
             <nav class="nav-links">
-                <a href="#features">Features</a>
+                <a href="#features">Underwater</a>
                 <a href="https://github.com" target="_blank">GitHub</a>
                 <a href="#download" class="btn-pixel">DOWNLOAD</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero Section on the Beach -->
     <section class="hero">
         <div class="rust-badge">
             [ CORE: 100% REWRITTEN IN RUST ]
         </div>
         <h1>
-            MINECRAFT <br><span>REIMAGINED IN RUST</span>
+            MINECRAFT <br><span>REWRITTEN IN RUST</span>
         </h1>
         <p class="hero-desc">
-            Zero lag. Pure high-density pixel sea aesthetics. Built completely from the ground up for elite performance and frame rates.
+            Start on the shore, scroll down to dive into the deep pixel sea. Built from the ground up in Rust for insane FPS.
         </p>
         <div id="download">
-            <a href="#" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT (.EXE)</a>
+            <a href="#" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT</a>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features-section" id="features">
+    <!-- Deep Sea Section -->
+    <section class="underwater-section" id="features">
         <div class="grid">
             <div class="pixel-card">
                 <h3>🌊 Pure Rust Core</h3>
-                <p>Entirely stripped of heavy Java legacy overhead. Built from scratch with Rust for maximum CPU efficiency and zero lag spikes.</p>
+                <p>Zero Java overhead. Rebuilt completely in Rust for maximum CPU efficiency and smooth gameplay.</p>
             </div>
             <div class="pixel-card">
                 <h3>⚡ Instant Chunks</h3>
-                <p>Multi-threaded async chunk loading streams massive render distances seamlessly without stuttering your gameplay.</p>
+                <p>Multi-threaded async chunk loading renders huge distances without lag spikes.</p>
             </div>
             <div class="pixel-card">
                 <h3>🛡️ Memory Safe</h3>
-                <p>Enjoy stable frame rates without garbage collection pauses or sudden memory leaks during intensive PvP sessions.</p>
+                <p>Stable frame rates with zero garbage collection freezes during intense PvP fights.</p>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <p>© 2026 Ocean Client. Not an official Minecraft product. Not approved by or associated with Mojang.</p>
     </footer>
 
+    <!-- Draws the Pixel Art Beach & Ocean ONCE on load (Zero FPS drop) -->
+    <script>
+        const canvas = document.getElementById('pixel-world');
+        const ctx = canvas.getContext('2d');
+
+        function drawPixelWorld() {
+            // Low internal resolution stretched up = crisp pixel art!
+            const scale = 6;
+            const w = Math.ceil(document.body.scrollWidth / scale);
+            const h = Math.ceil(document.body.scrollHeight / scale);
+            canvas.width = w;
+            canvas.height = h;
+
+            const skyEnd = Math.floor(h * 0.34);
+            const sandEnd = Math.floor(h * 0.43);
+            const shoreEnd = Math.floor(h * 0.46);
+
+            // 1. Pixel Sky
+            for (let y = 0; y < skyEnd; y++) {
+                ctx.fillStyle = y < skyEnd * 0.5 ? '#38bdf8' : '#7dd3fc';
+                ctx.fillRect(0, y, w, 1);
+            }
+
+            // Pixel Sun
+            ctx.fillStyle = '#fef08a';
+            ctx.fillRect(Math.floor(w * 0.8), Math.floor(skyEnd * 0.2), 18, 18);
+            ctx.fillStyle = '#fde047';
+            ctx.fillRect(Math.floor(w * 0.8) + 2, Math.floor(skyEnd * 0.2) + 2, 14, 14);
+
+            // Pixel Clouds
+            function drawCloud(cx, cy) {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(cx, cy, 24, 6);
+                ctx.fillRect(cx + 4, cy - 4, 16, 4);
+                ctx.fillStyle = '#e0f2fe';
+                ctx.fillRect(cx, cy + 5, 24, 2);
+            }
+            drawCloud(Math.floor(w * 0.15), Math.floor(skyEnd * 0.25));
+            drawCloud(Math.floor(w * 0.55), Math.floor(skyEnd * 0.18));
+
+            // 2. Pixel Beach Sand (with dithering/texture pixels)
+            for (let y = skyEnd; y < sandEnd; y++) {
+                for (let x = 0; x < w; x++) {
+                    const rand = (x * 17 + y * 31) % 10;
+                    if (rand === 0) ctx.fillStyle = '#eab308';
+                    else if (rand === 1) ctx.fillStyle = '#fef08a';
+                    else ctx.fillStyle = '#fde047';
+                    ctx.fillRect(x, y, 1, 1);
+                }
+            }
+
+            // Pixel Palm Tree on Left Beach
+            const treeX = Math.floor(w * 0.12);
+            const treeBaseY = sandEnd - 4;
+            for (let i = 0; i < 22; i++) {
+                ctx.fillStyle = i % 2 === 0 ? '#78350f' : '#92400e';
+                ctx.fillRect(treeX + Math.floor(i * 0.2), treeBaseY - i, 4, 1);
+            }
+            // Palm Leaves
+            const topX = treeX + 4;
+            const topY = treeBaseY - 22;
+            ctx.fillStyle = '#16a34a';
+            ctx.fillRect(topX - 12, topY, 28, 3);
+            ctx.fillRect(topX - 8, topY - 3, 20, 3);
+            ctx.fillStyle = '#22c55e';
+            ctx.fillRect(topX - 14, topY + 2, 8, 3);
+            ctx.fillRect(topX + 10, topY + 2, 8, 3);
+
+            // 3. Shoreline Foam
+            for (let y = sandEnd; y < shoreEnd; y++) {
+                for (let x = 0; x < w; x++) {
+                    const wave = Math.sin(x * 0.2) * 2;
+                    ctx.fillStyle = (y + wave < sandEnd + 2) ? '#ffffff' : '#67e8f9';
+                    ctx.fillRect(x, y, 1, 1);
+                }
+            }
+
+            // 4. Deep Pixel Ocean (from shore down to bottom)
+            for (let y = shoreEnd; y < h; y++) {
+                const depth = (y - shoreEnd) / (h - shoreEnd);
+                if (depth < 0.25) ctx.fillStyle = '#0284c7';
+                else if (depth < 0.55) ctx.fillStyle = '#0369a1';
+                else if (depth < 0.85) ctx.fillStyle = '#075985';
+                else ctx.fillStyle = '#082f49';
+                ctx.fillRect(0, y, w, 1);
+
+                // Pixel Water Shimmer Lines
+                if (y % 8 === 0) {
+                    for (let x = 0; x < w; x += 14) {
+                        if ((x + y) % 28 === 0) {
+                            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+                            ctx.fillRect(x, y, 6, 1);
+                        }
+                    }
+                }
+            }
+
+            // 5. Pixel Fish Underwater
+            function drawFish(fx, fy, bodyColor, finColor, flip) {
+                const dir = flip ? -1 : 1;
+                ctx.fillStyle = bodyColor;
+                ctx.fillRect(fx, fy, 8 * dir, 5);
+                ctx.fillRect(fx + 2 * dir, fy - 1, 4 * dir, 7);
+                // Tail
+                ctx.fillStyle = finColor;
+                ctx.fillRect(fx - 3 * dir, fy, 3 * dir, 5);
+                ctx.fillRect(fx - 4 * dir, fy - 1, 2 * dir, 7);
+                // Eye
+                ctx.fillStyle = '#000';
+                ctx.fillRect(fx + 6 * dir, fy + 1, 1, 1);
+            }
+
+            drawFish(Math.floor(w * 0.2), Math.floor(h * 0.55), '#38bdf8', '#0284c7', false);
+            drawFish(Math.floor(w * 0.75), Math.floor(h * 0.62), '#fde047', '#eab308', true);
+            drawFish(Math.floor(w * 0.35), Math.floor(h * 0.72), '#f43f5e', '#be123c', false);
+            drawFish(Math.floor(w * 0.65), Math.floor(h * 0.80), '#34d399', '#059669', true);
+            drawFish(Math.floor(w * 0.15), Math.floor(h * 0.88), '#c084fc', '#7e22ce', false);
+
+            // 6. Seaweed & Ocean Floor at the very bottom
+            for (let x = 0; x < w; x++) {
+                ctx.fillStyle = '#020617';
+                ctx.fillRect(x, h - 6, 1, 6);
+                if (x % 9 === 0) {
+                    const weedH = 8 + (x % 12);
+                    for (let wy = 0; wy < weedH; wy++) {
+                        ctx.fillStyle = wy % 2 === 0 ? '#15803d' : '#16a34a';
+                        const sway = Math.sin(wy * 0.5) > 0 ? 1 : 0;
+                        ctx.fillRect(x + sway, h - 6 - wy, 2, 1);
+                    }
+                }
+            }
+        }
+
+        window.addEventListener('load', drawPixelWorld);
+        window.addEventListener('resize', drawPixelWorld);
+    </script>
 </body>
 </html>
