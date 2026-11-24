@@ -19,7 +19,7 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #fff;
-            background-color: #010409;
+            background-color: #010204;
             overflow-x: hidden;
         }
 
@@ -251,31 +251,44 @@
 
         let fishList = [];
         let bubbles = [];
+        let particles = [];
 
         function initWorld() {
-            const scale = 5;
+            const scale = 4; // Risoluzione più alta per pixel più definiti e fluidi
             const w = Math.ceil(window.innerWidth / scale);
             const h = Math.ceil(document.body.scrollHeight / scale);
             canvas.width = w;
             canvas.height = h;
 
-            // Pesci pixelati nell'abisso
+            // Creazione di pesci dettagliati in stile pixel art con animazione fluida
             fishList = [
-                { x: w * 0.1, y: h * 0.2, speed: 0.35, color: '#38bdf8', fin: '#0284c7', dir: 1 },
-                { x: w * 0.8, y: h * 0.35, speed: 0.25, color: '#fde047', fin: '#eab308', dir: -1 },
-                { x: w * 0.3, y: h * 0.55, speed: 0.45, color: '#f43f5e', fin: '#be123c', dir: 1 },
-                { x: w * 0.7, y: h * 0.75, speed: 0.3, color: '#34d399', fin: '#059669', dir: -1 },
-                { x: w * 0.2, y: h * 0.88, speed: 0.4, color: '#c084fc', fin: '#7e22ce', dir: 1 }
+                { x: w * 0.1, y: h * 0.2, speed: 0.6, color: '#38bdf8', accent: '#7dd3fc', eye: '#000', dir: 1, tailAnim: 0 },
+                { x: w * 0.8, y: h * 0.35, speed: 0.45, color: '#facc15', accent: '#fde047', eye: '#000', dir: -1, tailAnim: 1 },
+                { x: w * 0.3, y: h * 0.55, speed: 0.7, color: '#f43f5e', accent: '#fb7185', eye: '#000', dir: 1, tailAnim: 2 },
+                { x: w * 0.7, y: h * 0.75, speed: 0.5, color: '#34d399', accent: '#6ee7b7', eye: '#000', dir: -1, tailAnim: 0 },
+                { x: w * 0.2, y: h * 0.88, speed: 0.65, color: '#c084fc', accent: '#d8b4fe', eye: '#000', dir: 1, tailAnim: 1 }
             ];
 
-            // Bolle d'aria che salgono
+            // Bolle d'aria
             bubbles = [];
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 25; i++) {
                 bubbles.push({
                     x: Math.random() * w,
                     y: Math.random() * h,
-                    speed: 0.2 + Math.random() * 0.4,
-                    size: 1 + Math.random() * 2
+                    speed: 0.3 + Math.random() * 0.5,
+                    size: 1 + Math.random() * 2,
+                    wobble: Math.random() * Math.PI
+                });
+            }
+
+            // Particelle di luce/plancton fluttuanti
+            particles = [];
+            for (let i = 0; i < 40; i++) {
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    speedY: 0.1 + Math.random() * 0.2,
+                    size: 1
                 });
             }
         }
@@ -284,37 +297,37 @@
             const w = canvas.width;
             const h = canvas.height;
 
-            // Sfumatura abissale profonda (blu scuro/nero elegante)
+            // Sfumatura abissale ultra definita e profonda
             for (let y = 0; y < h; y++) {
                 const depth = y / h;
-                let r = Math.floor(2 + depth * 5);
-                let g = Math.floor(12 + depth * 15);
-                let b = Math.floor(35 + depth * 25);
+                let r = Math.floor(1 + depth * 4);
+                let g = Math.floor(8 + depth * 12);
+                let b = Math.floor(25 + depth * 30);
                 ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
                 ctx.fillRect(0, y, w, 1);
             }
 
-            // Raggi di luce dall'alto (effetto superficie dell'oceano)
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
-            for (let rx = 0; rx < w; rx += 40) {
+            // Raggi di luce dinamici ed eleganti
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.05)';
+            for (let rx = 0; rx < w; rx += 50) {
                 ctx.beginPath();
                 ctx.moveTo(rx, 0);
-                ctx.lineTo(rx + 100, h * 0.6);
-                ctx.lineTo(rx + 50, h * 0.6);
-                ctx.lineTo(rx - 50, 0);
+                ctx.lineTo(rx + 120, h * 0.7);
+                ctx.lineTo(rx + 60, h * 0.7);
+                ctx.lineTo(rx - 60, 0);
                 ctx.fill();
             }
 
-            // Fondo marino con alghe pixelate
+            // Fondo marino dettagliato con alghe multistrato
             for (let x = 0; x < w; x++) {
-                ctx.fillStyle = '#010409';
-                ctx.fillRect(x, h - 8, 1, 8);
-                if (x % 12 === 0) {
-                    const weedH = 10 + (x % 15);
+                ctx.fillStyle = '#010204';
+                ctx.fillRect(x, h - 10, 1, 10);
+                if (x % 10 === 0) {
+                    const weedH = 12 + (x % 18);
                     for (let wy = 0; wy < weedH; wy++) {
-                        ctx.fillStyle = wy % 2 === 0 ? '#0369a1' : '#0284c7';
-                        const sway = Math.sin((Date.now() * 0.003) + wy) > 0 ? 1 : 0;
-                        ctx.fillRect(x + sway, h - 8 - wy, 2, 1);
+                        ctx.fillStyle = wy % 2 === 0 ? '#0284c7' : '#0369a1';
+                        const sway = Math.sin((Date.now() * 0.002) + (x * 0.1) + wy) > 0 ? 1 : 0;
+                        ctx.fillRect(x + sway, h - 10 - wy, 2, 1);
                     }
                 }
             }
@@ -327,31 +340,63 @@
             const w = canvas.width;
             const h = canvas.height;
 
-            // Anima le bolle
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
-            bubbles.forEach(b => {
-                b.y -= b.speed;
-                if (b.y < 0) b.y = h;
-                ctx.fillRect(Math.floor(b.x), Math.floor(b.y), Math.floor(b.size), Math.floor(b.size));
+            // Disegna e muovi il plancton (particelle)
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+            particles.forEach(p => {
+                p.y -= p.speedY;
+                if (p.y < 0) p.y = h;
+                ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
             });
 
-            // Anima i pesci pixelati
+            // Disegna e muovi le bolle con effetto oscillante fluido
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+            bubbles.forEach(b => {
+                b.y -= b.speed;
+                b.wobble += 0.05;
+                let currentX = b.x + Math.sin(b.wobble) * 1.5;
+                if (b.y < 0) b.y = h;
+                ctx.fillRect(Math.floor(currentX), Math.floor(b.y), Math.floor(b.size), Math.floor(b.size));
+            });
+
+            // Anima i pesci con sprite pixel art dettagliati e movimento fluido (sub-pixel)
             fishList.forEach(fish => {
                 fish.x += fish.speed * fish.dir;
-                if (fish.x > w + 20) fish.x = -20;
-                if (fish.x < -20) fish.x = w + 20;
+                if (fish.x > w + 30) fish.x = -30;
+                if (fish.x < -30) fish.x = w + 30;
+
+                fish.tailAnim += 0.15;
+                const tailOffset = Math.sin(fish.tailAnim) > 0 ? 1 : 0;
 
                 const fx = Math.floor(fish.x);
                 const fy = Math.floor(fish.y);
                 const d = fish.dir;
 
+                // Corpo principale del pesce
                 ctx.fillStyle = fish.color;
-                ctx.fillRect(fx, fy, 8 * d, 5);
-                ctx.fillRect(fx + 2 * d, fy - 1, 4 * d, 7);
-                ctx.fillStyle = fish.fin;
-                ctx.fillRect(fx - 3 * d, fy, 3 * d, 5);
-                ctx.fillStyle = '#000';
-                ctx.fillRect(fx + 6 * d, fy + 1, 1, 1);
+                ctx.fillRect(fx - 4 * d, fy - 1, 10 * d, 4);
+                ctx.fillRect(fx - 2 * d, fy - 2, 6 * d, 6);
+
+                // Sfumatura / accento sul dorso
+                ctx.fillStyle = fish.accent;
+                ctx.fillRect(fx - 2 * d, fy - 2, 4 * d, 2);
+
+                // Pinna dorsale e ventrale
+                ctx.fillRect(fx, fy - 3, 2 * d, 1);
+                ctx.fillRect(fx, fy + 4, 2 * d, 1);
+
+                // Coda animata fluida
+                ctx.fillStyle = fish.accent;
+                if (tailOffset === 0) {
+                    ctx.fillRect(fx - (6 + tailOffset) * d, fy - 2, 2 * d, 6);
+                } else {
+                    ctx.fillRect(fx - (6 + tailOffset) * d, fy - 3, 2 * d, 8);
+                }
+
+                // Occhio del pesce
+                ctx.fillStyle = fish.eye;
+                ctx.fillRect(fx + 3 * d, fy, 1, 1);
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(fx + 3 * d, fy, 1, 1); // Riflesso
             });
 
             requestAnimationFrame(animate);
