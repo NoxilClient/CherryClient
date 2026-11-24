@@ -22,12 +22,31 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #fff;
             background-color: #020617;
-            /* Crisp pixelated grid pattern background inspired by high-detail pixel art */
-            background-image: 
-                linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
-                linear-gradient(0deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
-            background-size: 16px 16px;
             overflow-x: hidden;
+        }
+
+        /* High-Detail Pixel Art Ocean Background Pattern */
+        .pixel-ocean-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: linear-gradient(180deg, #03152b 0%, #020b18 50%, #01060f 100%);
+        }
+
+        /* Gorgeous pixelated waves/shading effect using multi-layer pixel gradients */
+        .pixel-ocean-bg::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
+                linear-gradient(90deg, rgba(2, 132, 199, 0.05) 50%, transparent 50%),
+                linear-gradient(0deg, rgba(0, 242, 254, 0.04) 50%, transparent 50%);
+            background-size: 100% 100%, 32px 32px, 32px 32px;
+            image-rendering: pixelated;
         }
 
         /* Sticky Nav */
@@ -37,8 +56,9 @@
             left: 0;
             width: 100%;
             z-index: 100;
-            background: rgba(2, 6, 23, 0.95);
+            background: rgba(2, 11, 24, 0.9);
             border-bottom: 4px solid #38bdf8;
+            backdrop-filter: blur(4px);
         }
 
         .nav-container {
@@ -80,17 +100,17 @@
         .btn-pixel {
             font-family: 'Press Start 2P', monospace;
             font-size: 0.6rem;
-            background: #2563eb;
+            background: #0284c7;
             color: #fff;
             padding: 0.8rem 1.2rem;
             text-decoration: none;
             border: 3px solid #000;
-            box-shadow: inset -3px -3px 0px rgba(0,0,0,0.5), inset 3px 3px 0px rgba(255,255,255,0.3);
+            box-shadow: inset -3px -3px 0px rgba(0,0,0,0.5), inset 3px 3px 0px rgba(255,255,255,0.4);
             transition: transform 0.1s, background 0.1s;
         }
 
         .btn-pixel:hover {
-            background: #1d4ed8;
+            background: #0369a1;
         }
 
         .btn-pixel:active {
@@ -112,12 +132,12 @@
         .rust-badge {
             font-family: 'Press Start 2P', monospace;
             font-size: 0.55rem;
-            background: #0f172a;
+            background: #020c1b;
             color: #38bdf8;
             border: 3px solid #38bdf8;
             padding: 0.6rem 1rem;
             margin-bottom: 2rem;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.9);
         }
 
         h1 {
@@ -131,6 +151,7 @@
 
         h1 span {
             color: #38bdf8;
+            text-shadow: 4px 4px #0284c7;
         }
 
         .hero-desc {
@@ -139,6 +160,7 @@
             max-width: 600px;
             margin-bottom: 2.5rem;
             font-weight: 600;
+            text-shadow: 2px 2px #000;
         }
 
         /* Features Section */
@@ -146,6 +168,7 @@
             max-width: 1100px;
             margin: 0 auto;
             padding: 4rem 2rem 8rem;
+            position: relative;
         }
 
         .grid {
@@ -156,10 +179,10 @@
 
         /* Pixel Card matching high-detail aesthetic */
         .pixel-card {
-            background: #0f172a;
+            background: rgba(3, 21, 43, 0.9);
             border: 4px solid #38bdf8;
             padding: 2.5rem;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.9);
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.95);
             position: relative;
         }
 
@@ -179,7 +202,7 @@
 
         /* Footer */
         footer {
-            background: #010409;
+            background: #010408;
             border-top: 4px solid #38bdf8;
             padding: 3rem 2rem;
             text-align: center;
@@ -190,10 +213,13 @@
 </head>
 <body>
 
+    <!-- Stunning Pixelated Deep Sea Background -->
+    <div class="pixel-ocean-bg"></div>
+
     <!-- Header -->
     <header>
         <div class="nav-container">
-            <a href="#" class="logo">OCEAN CLIENT</a>
+            <a href="#" class="logo">🌊 OCEAN CLIENT</a>
             <nav class="nav-links">
                 <a href="#features">Features</a>
                 <a href="https://github.com" target="_blank">GitHub</a>
@@ -211,7 +237,7 @@
             MINECRAFT <br><span>REIMAGINED IN RUST</span>
         </h1>
         <p class="hero-desc">
-            Zero lag. Pure high-density pixel aesthetics. Built completely from the ground up for elite performance and frame rates.
+            Zero lag. Pure high-density pixel sea aesthetics. Built completely from the ground up for elite performance and frame rates.
         </p>
         <div id="download">
             <a href="#" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT (.EXE)</a>
@@ -222,7 +248,7 @@
     <section class="features-section" id="features">
         <div class="grid">
             <div class="pixel-card">
-                <h3>🦀 Pure Rust Core</h3>
+                <h3>🌊 Pure Rust Core</h3>
                 <p>Entirely stripped of heavy Java legacy overhead. Built from scratch with Rust for maximum CPU efficiency and zero lag spikes.</p>
             </div>
             <div class="pixel-card">
