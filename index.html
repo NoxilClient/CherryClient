@@ -19,12 +19,12 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: #fff;
-            background-color: #020813;
+            background-color: #010409;
             overflow-x: hidden;
         }
 
         #pixel-world {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -41,9 +41,9 @@
             left: 0;
             width: 100%;
             z-index: 100;
-            background: rgba(2, 11, 24, 0.85);
+            background: rgba(1, 4, 9, 0.85);
             border-bottom: 4px solid #38bdf8;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(6px);
         }
 
         .nav-container {
@@ -70,10 +70,11 @@
         }
 
         .nav-links a {
-            color: #e0f2fe;
+            color: #94a3b8;
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 700;
+            transition: color 0.2s;
         }
 
         .nav-links a:hover {
@@ -90,7 +91,11 @@
             border: 3px solid #000;
             box-shadow: inset -3px -3px 0px rgba(0,0,0,0.5), inset 3px 3px 0px rgba(255,255,255,0.4);
             display: inline-block;
-            transition: transform 0.1s;
+            transition: transform 0.1s, background 0.2s;
+        }
+
+        .btn-pixel:hover {
+            background: #0369a1;
         }
 
         .btn-pixel:active {
@@ -98,20 +103,20 @@
         }
 
         .hero {
-            min-height: 105vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 6rem 2rem 10rem;
+            padding: 8rem 2rem 4rem;
             position: relative;
         }
 
         .rust-badge {
             font-family: 'Press Start 2P', monospace;
             font-size: 0.55rem;
-            background: #020c1b;
+            background: #020813;
             color: #38bdf8;
             border: 3px solid #38bdf8;
             padding: 0.6rem 1rem;
@@ -130,25 +135,25 @@
 
         h1 span {
             color: #38bdf8;
-            text-shadow: 4px 4px #0369a1;
+            text-shadow: 4px 4px #0284c7;
         }
 
         .hero-desc {
             font-size: 1.1rem;
-            color: #fff;
+            color: #cbd5e1;
             max-width: 600px;
             margin-bottom: 2.5rem;
-            font-weight: 700;
-            background: rgba(2, 11, 24, 0.75);
+            font-weight: 600;
+            background: rgba(2, 12, 27, 0.75);
             padding: 1rem 1.5rem;
-            border: 3px solid #000;
+            border: 3px solid #0369a1;
             text-shadow: 2px 2px #000;
         }
 
-        .underwater-section {
+        .features-section {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 12rem 2rem 10rem;
+            padding: 6rem 2rem 10rem;
             position: relative;
         }
 
@@ -174,13 +179,13 @@
         }
 
         .pixel-card p {
-            color: #cbd5e1;
+            color: #94a3b8;
             line-height: 1.6;
             font-size: 0.95rem;
         }
 
         footer {
-            background: #010408;
+            background: #000205;
             border-top: 4px solid #38bdf8;
             padding: 2.5rem 2rem;
             text-align: center;
@@ -197,7 +202,7 @@
         <div class="nav-container">
             <a href="#" class="logo">🌊 OCEAN CLIENT</a>
             <nav class="nav-links">
-                <a href="#features">Abyss</a>
+                <a href="#features">Features</a>
                 <a href="https://github.com" target="_blank">GitHub</a>
                 <a href="#download" class="btn-pixel">DOWNLOAD</a>
             </nav>
@@ -212,26 +217,26 @@
             MINECRAFT <br><span>REWRITTEN IN RUST</span>
         </h1>
         <p class="hero-desc">
-            Parti dalla spiaggia e scorri verso il basso per immergerti nell'abisso pixelato. Prestazioni estreme e zero lag.
+            Il client definitivo per Minecraft. Prestazioni estreme, zero lag, zero blocchi e grafica pixel art profonda nell'abisso.
         </p>
         <div id="download">
-            <a href="#" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT</a>
+            <a href="#" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT (.EXE)</a>
         </div>
     </section>
 
-    <section class="underwater-section" id="features">
+    <section class="features-section" id="features">
         <div class="grid">
             <div class="pixel-card">
                 <h3>🌊 Pure Rust Core</h3>
-                <p>Niente pesantezza Java. Ricostruito da zero in Rust per un'efficienza della CPU pazzesca.</p>
+                <p>Niente pesantezza Java. Ricostruito interamente in Rust per un'efficienza della CPU devastante e zero cali di frame.</p>
             </div>
             <div class="pixel-card">
                 <h3>⚡ Instant Chunks</h3>
-                <p>Caricamento dei chunk multi-thread asynced per esplorare mondi enormi senza blocchi.</p>
+                <p>Caricamento dei chunk asincrono in multi-thread per esplorare mondi enormi alla massima velocità senza scatti.</p>
             </div>
             <div class="pixel-card">
                 <h3>🛡️ Memory Safe</h3>
-                <p>FPS ultra stabili senza cali improvvisi o lag di garbage collection durante i combattimenti PvP.</p>
+                <p>FPS ultra stabili senza lag di garbage collection o memory leak durante le sessioni PvP più intense.</p>
             </div>
         </div>
     </section>
@@ -245,87 +250,92 @@
         const ctx = canvas.getContext('2d');
 
         let fishList = [];
+        let bubbles = [];
 
         function initWorld() {
-            const scale = 6;
-            const w = Math.ceil(document.body.scrollWidth / scale);
+            const scale = 5;
+            const w = Math.ceil(window.innerWidth / scale);
             const h = Math.ceil(document.body.scrollHeight / scale);
             canvas.width = w;
             canvas.height = h;
 
-            // Inizializza pesci animati nell'area marina
+            // Pesci pixelati nell'abisso
             fishList = [
-                { x: w * 0.2, y: h * 0.55, speed: 0.4, color: '#38bdf8', fin: '#0284c7', dir: 1 },
-                { x: w * 0.75, y: h * 0.65, speed: 0.3, color: '#fde047', fin: '#eab308', dir: -1 },
-                { x: w * 0.4, y: h * 0.75, speed: 0.5, color: '#f43f5e', fin: '#be123c', dir: 1 },
-                { x: w * 0.6, y: h * 0.85, speed: 0.35, color: '#34d399', fin: '#059669', dir: -1 }
+                { x: w * 0.1, y: h * 0.2, speed: 0.35, color: '#38bdf8', fin: '#0284c7', dir: 1 },
+                { x: w * 0.8, y: h * 0.35, speed: 0.25, color: '#fde047', fin: '#eab308', dir: -1 },
+                { x: w * 0.3, y: h * 0.55, speed: 0.45, color: '#f43f5e', fin: '#be123c', dir: 1 },
+                { x: w * 0.7, y: h * 0.75, speed: 0.3, color: '#34d399', fin: '#059669', dir: -1 },
+                { x: w * 0.2, y: h * 0.88, speed: 0.4, color: '#c084fc', fin: '#7e22ce', dir: 1 }
             ];
+
+            // Bolle d'aria che salgono
+            bubbles = [];
+            for (let i = 0; i < 20; i++) {
+                bubbles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    speed: 0.2 + Math.random() * 0.4,
+                    size: 1 + Math.random() * 2
+                });
+            }
         }
 
-        function drawStaticWorld() {
-            const scale = 6;
+        function drawAbyssBackground() {
             const w = canvas.width;
             const h = canvas.height;
 
-            const skyEnd = Math.floor(h * 0.34);
-            const sandEnd = Math.floor(h * 0.43);
-            const shoreEnd = Math.floor(h * 0.46);
-
-            // Cielo
-            for (let y = 0; y < skyEnd; y++) {
-                ctx.fillStyle = y < skyEnd * 0.5 ? '#38bdf8' : '#7dd3fc';
+            // Sfumatura abissale profonda (blu scuro/nero elegante)
+            for (let y = 0; y < h; y++) {
+                const depth = y / h;
+                let r = Math.floor(2 + depth * 5);
+                let g = Math.floor(12 + depth * 15);
+                let b = Math.floor(35 + depth * 25);
+                ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
                 ctx.fillRect(0, y, w, 1);
             }
 
-            // Sole
-            ctx.fillStyle = '#fef08a';
-            ctx.fillRect(Math.floor(w * 0.8), Math.floor(skyEnd * 0.2), 18, 18);
+            // Raggi di luce dall'alto (effetto superficie dell'oceano)
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
+            for (let rx = 0; rx < w; rx += 40) {
+                ctx.beginPath();
+                ctx.moveTo(rx, 0);
+                ctx.lineTo(rx + 100, h * 0.6);
+                ctx.lineTo(rx + 50, h * 0.6);
+                ctx.lineTo(rx - 50, 0);
+                ctx.fill();
+            }
 
-            // Sabbia Spiaggia
-            for (let y = skyEnd; y < sandEnd; y++) {
-                for (let x = 0; x < w; x++) {
-                    const rand = (x * 17 + y * 31) % 10;
-                    ctx.fillStyle = rand === 0 ? '#eab308' : (rand === 1 ? '#fef08a' : '#fde047');
-                    ctx.fillRect(x, y, 1, 1);
+            // Fondo marino con alghe pixelate
+            for (let x = 0; x < w; x++) {
+                ctx.fillStyle = '#010409';
+                ctx.fillRect(x, h - 8, 1, 8);
+                if (x % 12 === 0) {
+                    const weedH = 10 + (x % 15);
+                    for (let wy = 0; wy < weedH; wy++) {
+                        ctx.fillStyle = wy % 2 === 0 ? '#0369a1' : '#0284c7';
+                        const sway = Math.sin((Date.now() * 0.003) + wy) > 0 ? 1 : 0;
+                        ctx.fillRect(x + sway, h - 8 - wy, 2, 1);
+                    }
                 }
-            }
-
-            // Palma
-            const treeX = Math.floor(w * 0.12);
-            const treeBaseY = sandEnd - 4;
-            for (let i = 0; i < 22; i++) {
-                ctx.fillStyle = i % 2 === 0 ? '#78350f' : '#92400e';
-                ctx.fillRect(treeX + Math.floor(i * 0.2), treeBaseY - i, 4, 1);
-            }
-            const topX = treeX + 4;
-            const topY = treeBaseY - 22;
-            ctx.fillStyle = '#16a34a';
-            ctx.fillRect(topX - 12, topY, 28, 3);
-            ctx.fillRect(topX - 8, topY - 3, 20, 3);
-
-            // Battigia
-            for (let y = sandEnd; y < shoreEnd; y++) {
-                for (let x = 0; x < w; x++) {
-                    ctx.fillStyle = '#67e8f9';
-                    ctx.fillRect(x, y, 1, 1);
-                }
-            }
-
-            // Oceano profondo
-            for (let y = shoreEnd; y < h; y++) {
-                const depth = (y - shoreEnd) / (h - shoreEnd);
-                ctx.fillStyle = depth < 0.3 ? '#0284c7' : (depth < 0.6 ? '#0369a1' : '#020c1b');
-                ctx.fillRect(0, y, w, 1);
             }
         }
 
         function animate() {
-            // Pulisci e ridisegna lo sfondo base
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawStaticWorld();
+            drawAbyssBackground();
 
-            // Anima i pesci fluidamente senza lag
             const w = canvas.width;
+            const h = canvas.height;
+
+            // Anima le bolle
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
+            bubbles.forEach(b => {
+                b.y -= b.speed;
+                if (b.y < 0) b.y = h;
+                ctx.fillRect(Math.floor(b.x), Math.floor(b.y), Math.floor(b.size), Math.floor(b.size));
+            });
+
+            // Anima i pesci pixelati
             fishList.forEach(fish => {
                 fish.x += fish.speed * fish.dir;
                 if (fish.x > w + 20) fish.x = -20;
