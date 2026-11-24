@@ -21,10 +21,8 @@
             color: #fff;
             background-color: #020813;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Crisp Pixel Art Canvas Background */
         #pixel-world {
             position: absolute;
             top: 0;
@@ -37,7 +35,6 @@
             pointer-events: none;
         }
 
-        /* Sticky Nav */
         header {
             position: fixed;
             top: 0;
@@ -93,17 +90,13 @@
             border: 3px solid #000;
             box-shadow: inset -3px -3px 0px rgba(0,0,0,0.5), inset 3px 3px 0px rgba(255,255,255,0.4);
             display: inline-block;
-        }
-
-        .btn-pixel:hover {
-            background: #0369a1;
+            transition: transform 0.1s;
         }
 
         .btn-pixel:active {
             transform: translateY(2px);
         }
 
-        /* Hero Section (Sits on the Beach & Sky) */
         .hero {
             min-height: 105vh;
             display: flex;
@@ -146,13 +139,12 @@
             max-width: 600px;
             margin-bottom: 2.5rem;
             font-weight: 700;
-            background: rgba(2, 11, 24, 0.7);
+            background: rgba(2, 11, 24, 0.75);
             padding: 1rem 1.5rem;
             border: 3px solid #000;
             text-shadow: 2px 2px #000;
         }
 
-        /* Underwater Features Section */
         .underwater-section {
             max-width: 1100px;
             margin: 0 auto;
@@ -167,7 +159,7 @@
         }
 
         .pixel-card {
-            background: rgba(2, 12, 27, 0.88);
+            background: rgba(2, 12, 27, 0.9);
             border: 4px solid #38bdf8;
             padding: 2.5rem;
             box-shadow: 8px 8px 0px rgba(0,0,0,0.9);
@@ -199,22 +191,19 @@
 </head>
 <body>
 
-    <!-- High-Detail Static Pixel Art World Canvas (Zero Lag) -->
     <canvas id="pixel-world"></canvas>
 
-    <!-- Header -->
     <header>
         <div class="nav-container">
             <a href="#" class="logo">🌊 OCEAN CLIENT</a>
             <nav class="nav-links">
-                <a href="#features">Underwater</a>
+                <a href="#features">Abyss</a>
                 <a href="https://github.com" target="_blank">GitHub</a>
                 <a href="#download" class="btn-pixel">DOWNLOAD</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section on the Beach -->
     <section class="hero">
         <div class="rust-badge">
             [ CORE: 100% REWRITTEN IN RUST ]
@@ -223,27 +212,26 @@
             MINECRAFT <br><span>REWRITTEN IN RUST</span>
         </h1>
         <p class="hero-desc">
-            Start on the shore, scroll down to dive into the deep pixel sea. Built from the ground up in Rust for insane FPS.
+            Parti dalla spiaggia e scorri verso il basso per immergerti nell'abisso pixelato. Prestazioni estreme e zero lag.
         </p>
         <div id="download">
             <a href="#" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT</a>
         </div>
     </section>
 
-    <!-- Deep Sea Section -->
     <section class="underwater-section" id="features">
         <div class="grid">
             <div class="pixel-card">
                 <h3>🌊 Pure Rust Core</h3>
-                <p>Zero Java overhead. Rebuilt completely in Rust for maximum CPU efficiency and smooth gameplay.</p>
+                <p>Niente pesantezza Java. Ricostruito da zero in Rust per un'efficienza della CPU pazzesca.</p>
             </div>
             <div class="pixel-card">
                 <h3>⚡ Instant Chunks</h3>
-                <p>Multi-threaded async chunk loading renders huge distances without lag spikes.</p>
+                <p>Caricamento dei chunk multi-thread asynced per esplorare mondi enormi senza blocchi.</p>
             </div>
             <div class="pixel-card">
                 <h3>🛡️ Memory Safe</h3>
-                <p>Stable frame rates with zero garbage collection freezes during intense PvP fights.</p>
+                <p>FPS ultra stabili senza cali improvvisi o lag di garbage collection durante i combattimenti PvP.</p>
             </div>
         </div>
     </section>
@@ -252,141 +240,118 @@
         <p>© 2026 Ocean Client. Not an official Minecraft product. Not approved by or associated with Mojang.</p>
     </footer>
 
-    <!-- Draws the Pixel Art Beach & Ocean ONCE on load (Zero FPS drop) -->
     <script>
         const canvas = document.getElementById('pixel-world');
         const ctx = canvas.getContext('2d');
 
-        function drawPixelWorld() {
-            // Low internal resolution stretched up = crisp pixel art!
+        let fishList = [];
+
+        function initWorld() {
             const scale = 6;
             const w = Math.ceil(document.body.scrollWidth / scale);
             const h = Math.ceil(document.body.scrollHeight / scale);
             canvas.width = w;
             canvas.height = h;
 
+            // Inizializza pesci animati nell'area marina
+            fishList = [
+                { x: w * 0.2, y: h * 0.55, speed: 0.4, color: '#38bdf8', fin: '#0284c7', dir: 1 },
+                { x: w * 0.75, y: h * 0.65, speed: 0.3, color: '#fde047', fin: '#eab308', dir: -1 },
+                { x: w * 0.4, y: h * 0.75, speed: 0.5, color: '#f43f5e', fin: '#be123c', dir: 1 },
+                { x: w * 0.6, y: h * 0.85, speed: 0.35, color: '#34d399', fin: '#059669', dir: -1 }
+            ];
+        }
+
+        function drawStaticWorld() {
+            const scale = 6;
+            const w = canvas.width;
+            const h = canvas.height;
+
             const skyEnd = Math.floor(h * 0.34);
             const sandEnd = Math.floor(h * 0.43);
             const shoreEnd = Math.floor(h * 0.46);
 
-            // 1. Pixel Sky
+            // Cielo
             for (let y = 0; y < skyEnd; y++) {
                 ctx.fillStyle = y < skyEnd * 0.5 ? '#38bdf8' : '#7dd3fc';
                 ctx.fillRect(0, y, w, 1);
             }
 
-            // Pixel Sun
+            // Sole
             ctx.fillStyle = '#fef08a';
             ctx.fillRect(Math.floor(w * 0.8), Math.floor(skyEnd * 0.2), 18, 18);
-            ctx.fillStyle = '#fde047';
-            ctx.fillRect(Math.floor(w * 0.8) + 2, Math.floor(skyEnd * 0.2) + 2, 14, 14);
 
-            // Pixel Clouds
-            function drawCloud(cx, cy) {
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(cx, cy, 24, 6);
-                ctx.fillRect(cx + 4, cy - 4, 16, 4);
-                ctx.fillStyle = '#e0f2fe';
-                ctx.fillRect(cx, cy + 5, 24, 2);
-            }
-            drawCloud(Math.floor(w * 0.15), Math.floor(skyEnd * 0.25));
-            drawCloud(Math.floor(w * 0.55), Math.floor(skyEnd * 0.18));
-
-            // 2. Pixel Beach Sand (with dithering/texture pixels)
+            // Sabbia Spiaggia
             for (let y = skyEnd; y < sandEnd; y++) {
                 for (let x = 0; x < w; x++) {
                     const rand = (x * 17 + y * 31) % 10;
-                    if (rand === 0) ctx.fillStyle = '#eab308';
-                    else if (rand === 1) ctx.fillStyle = '#fef08a';
-                    else ctx.fillStyle = '#fde047';
+                    ctx.fillStyle = rand === 0 ? '#eab308' : (rand === 1 ? '#fef08a' : '#fde047');
                     ctx.fillRect(x, y, 1, 1);
                 }
             }
 
-            // Pixel Palm Tree on Left Beach
+            // Palma
             const treeX = Math.floor(w * 0.12);
             const treeBaseY = sandEnd - 4;
             for (let i = 0; i < 22; i++) {
                 ctx.fillStyle = i % 2 === 0 ? '#78350f' : '#92400e';
                 ctx.fillRect(treeX + Math.floor(i * 0.2), treeBaseY - i, 4, 1);
             }
-            // Palm Leaves
             const topX = treeX + 4;
             const topY = treeBaseY - 22;
             ctx.fillStyle = '#16a34a';
             ctx.fillRect(topX - 12, topY, 28, 3);
             ctx.fillRect(topX - 8, topY - 3, 20, 3);
-            ctx.fillStyle = '#22c55e';
-            ctx.fillRect(topX - 14, topY + 2, 8, 3);
-            ctx.fillRect(topX + 10, topY + 2, 8, 3);
 
-            // 3. Shoreline Foam
+            // Battigia
             for (let y = sandEnd; y < shoreEnd; y++) {
                 for (let x = 0; x < w; x++) {
-                    const wave = Math.sin(x * 0.2) * 2;
-                    ctx.fillStyle = (y + wave < sandEnd + 2) ? '#ffffff' : '#67e8f9';
+                    ctx.fillStyle = '#67e8f9';
                     ctx.fillRect(x, y, 1, 1);
                 }
             }
 
-            // 4. Deep Pixel Ocean (from shore down to bottom)
+            // Oceano profondo
             for (let y = shoreEnd; y < h; y++) {
                 const depth = (y - shoreEnd) / (h - shoreEnd);
-                if (depth < 0.25) ctx.fillStyle = '#0284c7';
-                else if (depth < 0.55) ctx.fillStyle = '#0369a1';
-                else if (depth < 0.85) ctx.fillStyle = '#075985';
-                else ctx.fillStyle = '#082f49';
+                ctx.fillStyle = depth < 0.3 ? '#0284c7' : (depth < 0.6 ? '#0369a1' : '#020c1b');
                 ctx.fillRect(0, y, w, 1);
-
-                // Pixel Water Shimmer Lines
-                if (y % 8 === 0) {
-                    for (let x = 0; x < w; x += 14) {
-                        if ((x + y) % 28 === 0) {
-                            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
-                            ctx.fillRect(x, y, 6, 1);
-                        }
-                    }
-                }
-            }
-
-            // 5. Pixel Fish Underwater
-            function drawFish(fx, fy, bodyColor, finColor, flip) {
-                const dir = flip ? -1 : 1;
-                ctx.fillStyle = bodyColor;
-                ctx.fillRect(fx, fy, 8 * dir, 5);
-                ctx.fillRect(fx + 2 * dir, fy - 1, 4 * dir, 7);
-                // Tail
-                ctx.fillStyle = finColor;
-                ctx.fillRect(fx - 3 * dir, fy, 3 * dir, 5);
-                ctx.fillRect(fx - 4 * dir, fy - 1, 2 * dir, 7);
-                // Eye
-                ctx.fillStyle = '#000';
-                ctx.fillRect(fx + 6 * dir, fy + 1, 1, 1);
-            }
-
-            drawFish(Math.floor(w * 0.2), Math.floor(h * 0.55), '#38bdf8', '#0284c7', false);
-            drawFish(Math.floor(w * 0.75), Math.floor(h * 0.62), '#fde047', '#eab308', true);
-            drawFish(Math.floor(w * 0.35), Math.floor(h * 0.72), '#f43f5e', '#be123c', false);
-            drawFish(Math.floor(w * 0.65), Math.floor(h * 0.80), '#34d399', '#059669', true);
-            drawFish(Math.floor(w * 0.15), Math.floor(h * 0.88), '#c084fc', '#7e22ce', false);
-
-            // 6. Seaweed & Ocean Floor at the very bottom
-            for (let x = 0; x < w; x++) {
-                ctx.fillStyle = '#020617';
-                ctx.fillRect(x, h - 6, 1, 6);
-                if (x % 9 === 0) {
-                    const weedH = 8 + (x % 12);
-                    for (let wy = 0; wy < weedH; wy++) {
-                        ctx.fillStyle = wy % 2 === 0 ? '#15803d' : '#16a34a';
-                        const sway = Math.sin(wy * 0.5) > 0 ? 1 : 0;
-                        ctx.fillRect(x + sway, h - 6 - wy, 2, 1);
-                    }
-                }
             }
         }
 
-        window.addEventListener('load', drawPixelWorld);
-        window.addEventListener('resize', drawPixelWorld);
+        function animate() {
+            // Pulisci e ridisegna lo sfondo base
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawStaticWorld();
+
+            // Anima i pesci fluidamente senza lag
+            const w = canvas.width;
+            fishList.forEach(fish => {
+                fish.x += fish.speed * fish.dir;
+                if (fish.x > w + 20) fish.x = -20;
+                if (fish.x < -20) fish.x = w + 20;
+
+                const fx = Math.floor(fish.x);
+                const fy = Math.floor(fish.y);
+                const d = fish.dir;
+
+                ctx.fillStyle = fish.color;
+                ctx.fillRect(fx, fy, 8 * d, 5);
+                ctx.fillRect(fx + 2 * d, fy - 1, 4 * d, 7);
+                ctx.fillStyle = fish.fin;
+                ctx.fillRect(fx - 3 * d, fy, 3 * d, 5);
+                ctx.fillStyle = '#000';
+                ctx.fillRect(fx + 6 * d, fy + 1, 1, 1);
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('load', () => {
+            initWorld();
+            animate();
+        });
+        window.addEventListener('resize', initWorld);
     </script>
 </body>
 </html>
