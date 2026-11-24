@@ -1,121 +1,634 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ocean Client - Minecraft Reimagined in Rust</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        ocean: {
-                            50: '#e0f2fe',
-                            500: '#0ea5e9',
-                            900: '#0369a1',
-                            950: '#082f49',
-                        }
-                    }
-                }
+    <title>OCEAN CLIENT // Minecraft Rewritten in Rust</title>
+    <!-- Cool Custom Ocean Wave SVG Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2300f2fe'/%3E%3Cstop offset='100%25' stop-color='%230284c7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%23020c1b'/%3E%3Cpath d='M12 36c6-8 14-8 20 0s14 8 20 0v12c-6 8-14 8-20 0s-14-8-20 0V36z' fill='url(%23g)'/%3E%3Cpath d='M12 22c6-8 14-8 20 0s14 8 20 0v8c-6 8-14 8-20 0s-14-8-20 0v-8z' fill='%2338bdf8' opacity='0.7'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --abyss: #010813;
+            --deep: #03152b;
+            --ocean: #062c54;
+            --cyan: #00f2fe;
+            --blue: #0ea5e9;
+            --rust: #f97316;
+            --rust-glow: rgba(249, 115, 22, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: radial-gradient(circle at 50% 0%, #072d54 0%, #031326 45%, #010711 100%);
+            color: #f0f9ff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Light Rays from Ocean Surface */
+        .light-rays {
+            position: fixed;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140vw;
+            height: 80vh;
+            background: conic-gradient(from 160deg at 50% 0%, transparent 0deg, rgba(0, 242, 254, 0.08) 15deg, transparent 30deg, rgba(14, 165, 233, 0.07) 50deg, transparent 70deg);
+            pointer-events: none;
+            z-index: 0;
+            animation: swayRays 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes swayRays {
+            0% { transform: translateX(-52%) rotate(-2deg); }
+            100% { transform: translateX(-48%) rotate(2deg); }
+        }
+
+        /* Floating Bubbles Container */
+        .bubbles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -60px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(0, 242, 254, 0.2) 60%, transparent 100%);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 50%;
+            animation: rise linear infinite;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) translateX(0) scale(0.8);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(-50vh) translateX(20px) scale(1);
+            }
+            80% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-110vh) translateX(-20px) scale(1.1);
+                opacity: 0;
             }
         }
-    </script>
-</head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-ocean-500 selection:text-white">
 
-    <!-- Header / Nav -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-ocean-500 to-blue-400 flex items-center justify-center font-bold text-white shadow-lg shadow-ocean-500/20">O</div>
-                <span class="font-bold text-lg tracking-wider">OCEAN CLIENT</span>
-            </div>
-            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-400">
-                <a href="#features" class="hover:text-ocean-400 transition">Features</a>
-                <a href="#performance" class="hover:text-ocean-400 transition">Performance</a>
-                <a href="#download" class="hover:text-ocean-400 transition">Download</a>
+        /* Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 50;
+            background: rgba(1, 10, 24, 0.65);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(0, 242, 254, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.35rem;
+            letter-spacing: 1px;
+        }
+
+        .brand svg {
+            width: 38px;
+            height: 38px;
+            filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.6));
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #bae6fd;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .btn-nav {
+            background: linear-gradient(135deg, var(--cyan), var(--blue));
+            color: #010813 !important;
+            font-weight: 700 !important;
+            padding: 0.6rem 1.3rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s !important;
+        }
+
+        .btn-nav:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.7);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 2;
+            padding: 11rem 2rem 12rem;
+            text-align: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .rust-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(249, 115, 22, 0.15);
+            border: 1px solid rgba(249, 115, 22, 0.6);
+            color: #fdba74;
+            padding: 0.5rem 1.2rem;
+            border-radius: 999px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.25);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        .text-ocean {
+            background: linear-gradient(to right, #ffffff, #38bdf8, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-rust {
+            display: inline-block;
+            background: linear-gradient(to right, #fb923c, #f97316, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 25px rgba(249, 115, 22, 0.45));
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #bae6fd;
+            max-width: 680px;
+            margin: 0 auto 2.8rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00f2fe 0%, #0284c7 100%);
+            color: #010813;
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 1rem 2.4rem;
+            border-radius: 14px;
+            text-decoration: none;
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.45);
+            transition: all 0.25s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 50px rgba(0, 242, 254, 0.8);
+        }
+
+        .btn-secondary {
+            background: rgba(6, 44, 84, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #e0f2fe;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 1rem 2.4rem;
+            border-radius: 14px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(14, 165, 233, 0.25);
+            border-color: var(--cyan);
+            transform: translateY(-3px);
+        }
+
+        /* Animated CSS Water Waves */
+        .waves-wrapper {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            margin-top: -120px;
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        .waves {
+            width: 100%;
+            height: 100%;
+        }
+
+        .parallax > use {
+            animation: moveForever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+        }
+        .parallax > use:nth-child(1) {
+            animation-delay: -2s;
+            animation-duration: 7s;
+        }
+        .parallax > use:nth-child(2) {
+            animation-delay: -3s;
+            animation-duration: 10s;
+        }
+        .parallax > use:nth-child(3) {
+            animation-delay: -4s;
+            animation-duration: 13s;
+        }
+        .parallax > use:nth-child(4) {
+            animation-delay: -5s;
+            animation-duration: 20s;
+        }
+
+        @keyframes moveForever {
+            0% { transform: translate3d(-90px,0,0); }
+            100% { transform: translate3d(85px,0,0); }
+        }
+
+        /* Deep Sea Section */
+        .deep-sea {
+            position: relative;
+            z-index: 3;
+            background: linear-gradient(180deg, #020e21 0%, #010610 100%);
+            padding: 5rem 2rem 7rem;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: 0 auto;
+        }
+
+        /* Terminal / Code Showcase */
+        .rust-showcase {
+            background: rgba(3, 18, 38, 0.85);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), inset 0 0 30px rgba(0, 242, 254, 0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 850px) {
+            .rust-showcase {
+                grid-template-columns: 1fr;
+            }
+            .nav-links a:not(.btn-nav) {
+                display: none;
+            }
+        }
+
+        .showcase-text h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .showcase-text p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat h4 {
+            font-size: 2rem;
+            color: var(--cyan);
+            font-weight: 800;
+        }
+
+        .stat span {
+            font-size: 0.85rem;
+            color: #7dd3fc;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .code-window {
+            background: #010812;
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            overflow: hidden;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem;
+        }
+
+        .code-header {
+            background: #07152b;
+            padding: 0.7rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #1e293b;
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .dot { width: 11px; height: 11px; border-radius: 50%; }
+        .dot.r { background: #ef4444; }
+        .dot.y { background: #eab308; }
+        .dot.g { background: #22c55e; }
+
+        .code-body {
+            padding: 1.3rem;
+            color: #e2e8f0;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .kw { color: #f97316; font-weight: bold; }
+        .fn { color: #38bdf8; }
+        .str { color: #4ade80; }
+        .cm { color: #475569; }
+
+        /* Feature Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(6, 36, 70, 0.45), rgba(2, 13, 28, 0.8));
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 20px;
+            padding: 2.2rem;
+            backdrop-filter: blur(12px);
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--cyan);
+            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.15);
+        }
+
+        .card-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.7rem;
+            color: #fff;
+        }
+
+        .card p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 3;
+            background: #01050c;
+            border-top: 1px solid rgba(0, 242, 254, 0.1);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Deep Sea Light Rays -->
+    <div class="light-rays"></div>
+
+    <!-- Floating CSS Bubbles -->
+    <div class="bubbles" id="bubbles"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="brand">
+                <!-- Custom Ocean Trident & Wave Logo -->
+                <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#00F2FE"/>
+                            <stop offset="100%" stop-color="#0284C7"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="2" y="2" width="60" height="60" rx="16" fill="#03152B" stroke="url(#logoGrad)" stroke-width="3"/>
+                    <!-- Trident Prongs -->
+                    <path d="M32 12V46M20 18V28C20 33 25 36 32 36C39 36 44 33 44 28V18" stroke="url(#logoGrad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M32 10L28 16H36L32 10Z" fill="#00F2FE"/>
+                    <!-- Ocean Wave Base -->
+                    <path d="M12 46C18 40 24 52 32 46C40 40 46 52 52 46" stroke="#38BDF8" stroke-width="4" stroke-linecap="round"/>
+                </svg>
+                <span>OCEAN CLIENT</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#rust-engine">Rust Engine</a>
+                <a href="#features">Features</a>
+                <a href="https://github.com" target="_blank">GitHub</a>
+                <a href="#download" class="btn-nav">Download</a>
             </nav>
-            <div>
-                <a href="#download" class="bg-ocean-500 hover:bg-ocean-400 text-white text-sm font-semibold px-4 py-2 rounded-lg transition shadow-lg shadow-ocean-500/25">Get Started</a>
-            </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-        <!-- Glow effect -->
-        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-ocean-500/15 blur-[120px] rounded-full pointer-events-none"></div>
-
-        <div class="max-w-7xl mx-auto px-6 text-center relative z-10">
-            <div class="inline-flex items-center space-x-2 bg-slate-900 border border-slate-800 px-3 py-1 rounded-full text-xs text-ocean-400 mb-6">
-                <span class="w-2 h-2 rounded-full bg-ocean-500 animate-pulse"></span>
-                <span>Next-Gen Minecraft Experience</span>
-            </div>
-            <h1 class="text-4xl md:text-7xl font-extrabold tracking-tight max-w-4xl mx-auto leading-tight mb-6">
-                Minecraft, <span class="bg-gradient-to-r from-ocean-400 to-blue-500 bg-clip-text text-transparent">Rewritten in Rust</span>.
-            </h1>
-            <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10">
-                Experience unprecedented frame rates, memory safety, and lightning-fast chunk loading built completely from the ground up in Rust.
-            </p>
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="#download" class="w-full sm:w-auto bg-ocean-500 hover:bg-ocean-400 text-white font-semibold px-8 py-3.5 rounded-xl transition shadow-xl shadow-ocean-500/20 text-center">Download Client</a>
-                <a href="https://github.com" target="_blank" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-semibold px-8 py-3.5 rounded-xl transition text-center">View on GitHub</a>
-            </div>
+    <section class="hero">
+        <div class="rust-pill">
+            <span>🦀 100% REWRITTEN IN RUST // ZERO JAVA BLOAT</span>
+        </div>
+        <h1>
+            <span class="text-ocean">MINECRAFT,</span><br>
+            <span class="text-rust">REWRITTEN IN RUST.</span>
+        </h1>
+        <p>
+            Dive into the next generation of block gaming. Ocean Client rebuilds Minecraft from scratch using Rust for unmatched FPS, zero garbage-collection lag spikes, and instant chunk loading.
+        </p>
+        <div class="hero-buttons" id="download">
+            <a href="#" class="btn-primary">⬇ Download Ocean Client</a>
+            <a href="https://github.com" target="_blank" class="btn-secondary">★ Star on GitHub</a>
         </div>
     </section>
 
-    <!-- Features Grid -->
-    <section id="features" class="py-20 bg-slate-900/40 border-t border-slate-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center max-w-2xl mx-auto mb-16">
-                <h2 class="text-3xl font-bold tracking-tight mb-4">Engineered for Maximum Speed</h2>
-                <p class="text-slate-400">Leveraging low-level systems programming to push Minecraft further than ever before.</p>
-            </div>
+    <!-- Animated CSS SVG Ocean Waves -->
+    <div class="waves-wrapper">
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+            <defs>
+                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+            </defs>
+            <g class="parallax">
+                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(0, 242, 254, 0.18)" />
+                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(14, 165, 233, 0.25)" />
+                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(3, 21, 43, 0.65)" />
+                <use xlink:href="#gentle-wave" x="48" y="7" fill="#020e21" />
+            </g>
+        </svg>
+    </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="bg-slate-900/80 border border-slate-800/80 p-8 rounded-2xl hover:border-ocean-500/50 transition">
-                    <div class="w-12 h-12 rounded-xl bg-ocean-500/10 text-ocean-400 flex items-center justify-center mb-6 font-bold text-xl">🦀</div>
-                    <h3 class="text-xl font-semibold mb-3">Written in Rust</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">By discarding legacy overhead and rebuilding core systems in Rust, Ocean Client eliminates stuttering and garbage collection pauses.</p>
-                </div>
-                <!-- Feature 2 -->
-                <div class="bg-slate-900/80 border border-slate-800/80 p-8 rounded-2xl hover:border-ocean-500/50 transition">
-                    <div class="w-12 h-12 rounded-xl bg-ocean-500/10 text-ocean-400 flex items-center justify-center mb-6 font-bold text-xl">⚡</div>
-                    <h3 class="text-xl font-semibold mb-3">Extreme FPS Boost</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">Optimized rendering pipelines and parallelized multi-threaded chunk rendering let even lower-spec machines run smoothly.</p>
-                </div>
-                <!-- Feature 3 -->
-                <div class="bg-slate-900/80 border border-slate-800/80 p-8 rounded-2xl hover:border-ocean-500/50 transition">
-                    <div class="w-12 h-12 rounded-xl bg-ocean-500/10 text-ocean-400 flex items-center justify-center mb-6 font-bold text-xl">🛡️</div>
-                    <h3 class="text-xl font-semibold mb-3">Memory Safety</h3>
-                    <p class="text-slate-400 text-sm leading-relaxed">Enjoy zero memory leaks and rock-solid stability thanks to Rust's rigorous compile-time memory guarantees.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Download Section -->
-    <section id="download" class="py-20">
-        <div class="max-w-4xl mx-auto px-6 text-center bg-gradient-to-b from-slate-900 to-slate-900/60 border border-slate-800 p-12 rounded-3xl relative overflow-hidden">
-            <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-ocean-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <!-- Deep Sea Content -->
+    <section class="deep-sea" id="rust-engine">
+        <div class="container">
             
-            <h2 class="text-3xl font-bold mb-4">Ready to dive in?</h2>
-            <p class="text-slate-400 mb-8 max-w-md mx-auto">Get started with Ocean Client today and experience Minecraft the way it was meant to be run.</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#" class="bg-ocean-500 hover:bg-ocean-400 text-white font-semibold px-8 py-3 rounded-xl transition shadow-lg shadow-ocean-500/20">Download for Windows</a>
-                <a href="#" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-8 py-3 rounded-xl transition">Source Code (GitHub)</a>
+            <!-- Rust Rewrite Showcase -->
+            <div class="rust-showcase">
+                <div class="showcase-text">
+                    <h2>Why Rewrite Minecraft in <span class="text-rust">Rust</span>?</h2>
+                    <p>
+                        Legacy Java Minecraft suffers from heavy RAM usage and sudden frame drops. Ocean Client replaces the entire client engine with native, memory-safe Rust code and modern GPU rendering.
+                    </p>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <h4>4.5x</h4>
+                            <span>Higher FPS</span>
+                        </div>
+                        <div class="stat">
+                            <h4>-70%</h4>
+                            <span>RAM Usage</span>
+                        </div>
+                        <div class="stat">
+                            <h4>0ms</h4>
+                            <span>GC Stutters</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-window">
+                    <div class="code-header">
+                        <span class="dot r"></span>
+                        <span class="dot y"></span>
+                        <span class="dot g"></span>
+                        <span>ocean_engine/src/main.rs</span>
+                    </div>
+                    <div class="code-body">
+<pre><span class="cm">// Ocean Client Native Rust Core</span>
+<span class="kw">use</span> ocean_render::VulkanPipeline;
+<span class="kw">use</span> ocean_world::AsyncChunkLoader;
+
+<span class="kw">fn</span> <span class="fn">main</span>() {
+    <span class="kw">let</span> engine = OceanClient::<span class="fn">init</span>()
+        .<span class="fn">rewrite_engine</span>(<span class="str">"Rust 2026"</span>)
+        .<span class="fn">zero_gc_overhead</span>(<span class="kw">true</span>)
+        .<span class="fn">build</span>();
+
+    engine.<span class="fn">launch_at_max_fps</span>();
+}</pre>
+                    </div>
+                </div>
             </div>
+
+            <!-- Feature Cards -->
+            <div class="grid" id="features">
+                <div class="card">
+                    <div class="card-icon">🦀</div>
+                    <h3>Pure Rust Architecture</h3>
+                    <p>Built from the ground up in Rust. Enjoy bare-metal speed, fearless multithreading, and rock-solid crash protection.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌊</div>
+                    <h3>Fluid Chunk Streaming</h3>
+                    <p>Async multi-core chunk meshing loads massive render distances smoothly without freezing your screen.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚔️</div>
+                    <h3>Built-in PvP & HUD Mods</h3>
+                    <p>Includes Keystrokes, CPS counter, ToggleSprint, Zoom, and customizable deep-sea HUD overlays out of the box.</p>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-900 py-8 text-center text-sm text-slate-500">
-        <p>&copy; 2026 Ocean Client. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
+    <footer>
+        <p>© 2026 Ocean Client — Minecraft Rewritten in Rust. Not affiliated with Mojang or Microsoft.</p>
     </footer>
 
+    <!-- Script to Generate Random Floating Bubbles -->
+    <script>
+        const bubbleContainer = document.getElementById('bubbles');
+        for (let i = 0; i < 28; i++) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            const size = Math.random() * 18 + 6 + 'px';
+            bubble.style.width = size;
+            bubble.style.height = size;
+            bubble.style.left = Math.random() * 100 + 'vw';
+            bubble.style.animationDuration = (Math.random() * 10 + 7) + 's';
+            bubble.style.animationDelay = (Math.random() * 8) + 's';
+            bubbleContainer.appendChild(bubble);
+        }
+    </script>
 </body>
 </html>
