@@ -21,6 +21,14 @@
             color: #fff;
             background-color: #010204;
             overflow-x: hidden;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        /* Effetto di discesa nello zoom quando si clicca download */
+        body.diving {
+            transform: scale(2.5) translateY(-30vh);
+            filter: brightness(0.4);
+            pointer-events: none;
         }
 
         #pixel-world {
@@ -91,6 +99,7 @@
             border: 3px solid #000;
             box-shadow: inset -3px -3px 0px rgba(0,0,0,0.5), inset 3px 3px 0px rgba(255,255,255,0.4);
             display: inline-block;
+            cursor: pointer;
             transition: transform 0.1s, background 0.2s;
         }
 
@@ -192,6 +201,74 @@
             font-size: 0.8rem;
             color: #64748b;
         }
+
+        /* Schermata di Download Sbalorditiva negli Abissi */
+        #download-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #0284c7 0%, #010409 80%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease;
+        }
+
+        #download-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .download-box {
+            background: rgba(1, 10, 24, 0.95);
+            border: 4px solid #38bdf8;
+            padding: 3rem 4rem;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(56, 189, 248, 0.4), inset 0 0 20px rgba(56, 189, 248, 0.2);
+            transform: scale(0.5);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #download-overlay.active .download-box {
+            transform: scale(1);
+        }
+
+        .download-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem;
+            color: #38bdf8;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px #000;
+        }
+
+        /* Puntini che rimbalzano e ballano sotto forma di bolle */
+        .bubble-dots {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 1rem;
+        }
+
+        .bubble-dot {
+            width: 16px;
+            height: 16px;
+            background: radial-gradient(circle at 30% 30%, #fff, #38bdf8);
+            border: 2px solid #0284c7;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #38bdf8;
+            animation: bounceBubble 0.8s infinite alternate ease-in-out;
+        }
+
+        .bubble-dot:nth-child(2) { animation-delay: 0.2s; }
+        .bubble-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes bounceBubble {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-20px) scale(1.15); box-shadow: 0 10px 15px rgba(56, 189, 248, 0.6); }
+        }
     </style>
 </head>
 <body>
@@ -204,7 +281,7 @@
             <nav class="nav-links">
                 <a href="#features">Features</a>
                 <a href="https://github.com" target="_blank">GitHub</a>
-                <a href="#download" class="btn-pixel">DOWNLOAD</a>
+                <a href="#download-btn" class="btn-pixel">DOWNLOAD</a>
             </nav>
         </div>
     </header>
@@ -219,8 +296,8 @@
         <p class="hero-desc">
             Il client definitivo per Minecraft. Prestazioni estreme, zero lag, zero blocchi e grafica pixel art profonda nell'abisso.
         </p>
-        <div id="download">
-            <a href="#" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT (.EXE)</a>
+        <div>
+            <button id="download-btn" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT (.EXE)</button>
         </div>
     </section>
 
@@ -245,6 +322,18 @@
         <p>© 2026 Ocean Client. Not an official Minecraft product. Not approved by or associated with Mojang.</p>
     </footer>
 
+    <!-- Overlay della schermata di download negli abissi -->
+    <div id="download-overlay">
+        <div class="download-box">
+            <div class="download-title">DOWNLOADING</div>
+            <div class="bubble-dots">
+                <div class="bubble-dot"></div>
+                <div class="bubble-dot"></div>
+                <div class="bubble-dot"></div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const canvas = document.getElementById('pixel-world');
         const ctx = canvas.getContext('2d');
@@ -254,13 +343,12 @@
         let particles = [];
 
         function initWorld() {
-            const scale = 4; // Risoluzione più alta per pixel più definiti e fluidi
+            const scale = 4;
             const w = Math.ceil(window.innerWidth / scale);
             const h = Math.ceil(document.body.scrollHeight / scale);
             canvas.width = w;
             canvas.height = h;
 
-            // Creazione di pesci dettagliati in stile pixel art con animazione fluida
             fishList = [
                 { x: w * 0.1, y: h * 0.2, speed: 0.6, color: '#38bdf8', accent: '#7dd3fc', eye: '#000', dir: 1, tailAnim: 0 },
                 { x: w * 0.8, y: h * 0.35, speed: 0.45, color: '#facc15', accent: '#fde047', eye: '#000', dir: -1, tailAnim: 1 },
@@ -269,25 +357,23 @@
                 { x: w * 0.2, y: h * 0.88, speed: 0.65, color: '#c084fc', accent: '#d8b4fe', eye: '#000', dir: 1, tailAnim: 1 }
             ];
 
-            // Bolle d'aria
             bubbles = [];
-            for (let i = 0; i < 25; i++) {
+            for (let i = 0; i < 30; i++) {
                 bubbles.push({
                     x: Math.random() * w,
                     y: Math.random() * h,
-                    speed: 0.3 + Math.random() * 0.5,
-                    size: 1 + Math.random() * 2,
+                    speed: 0.4 + Math.random() * 0.6,
+                    size: 1.5 + Math.random() * 2.5,
                     wobble: Math.random() * Math.PI
                 });
             }
 
-            // Particelle di luce/plancton fluttuanti
             particles = [];
             for (let i = 0; i < 40; i++) {
                 particles.push({
                     x: Math.random() * w,
                     y: Math.random() * h,
-                    speedY: 0.1 + Math.random() * 0.2,
+                    speedY: 0.15 + Math.random() * 0.25,
                     size: 1
                 });
             }
@@ -297,30 +383,27 @@
             const w = canvas.width;
             const h = canvas.height;
 
-            // Sfumatura abissale ultra definita e profonda
             for (let y = 0; y < h; y++) {
                 const depth = y / h;
-                let r = Math.floor(1 + depth * 4);
-                let g = Math.floor(8 + depth * 12);
-                let b = Math.floor(25 + depth * 30);
+                let r = Math.floor(1 + depth * 3);
+                let g = Math.floor(6 + depth * 10);
+                let b = Math.floor(20 + depth * 25);
                 ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
                 ctx.fillRect(0, y, w, 1);
             }
 
-            // Raggi di luce dinamici ed eleganti
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.05)';
-            for (let rx = 0; rx < w; rx += 50) {
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.06)';
+            for (let rx = 0; rx < w; rx += 45) {
                 ctx.beginPath();
                 ctx.moveTo(rx, 0);
-                ctx.lineTo(rx + 120, h * 0.7);
-                ctx.lineTo(rx + 60, h * 0.7);
-                ctx.lineTo(rx - 60, 0);
+                ctx.lineTo(rx + 130, h * 0.75);
+                ctx.lineTo(rx + 65, h * 0.75);
+                ctx.lineTo(rx - 65, 0);
                 ctx.fill();
             }
 
-            // Fondo marino dettagliato con alghe multistrato
             for (let x = 0; x < w; x++) {
-                ctx.fillStyle = '#010204';
+                ctx.fillStyle = '#000103';
                 ctx.fillRect(x, h - 10, 1, 10);
                 if (x % 10 === 0) {
                     const weedH = 12 + (x % 18);
@@ -340,25 +423,22 @@
             const w = canvas.width;
             const h = canvas.height;
 
-            // Disegna e muovi il plancton (particelle)
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)';
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
             particles.forEach(p => {
                 p.y -= p.speedY;
                 if (p.y < 0) p.y = h;
                 ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
             });
 
-            // Disegna e muovi le bolle con effetto oscillante fluido
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.5)';
             bubbles.forEach(b => {
                 b.y -= b.speed;
                 b.wobble += 0.05;
-                let currentX = b.x + Math.sin(b.wobble) * 1.5;
+                let currentX = b.x + Math.sin(b.wobble) * 2;
                 if (b.y < 0) b.y = h;
                 ctx.fillRect(Math.floor(currentX), Math.floor(b.y), Math.floor(b.size), Math.floor(b.size));
             });
 
-            // Anima i pesci con sprite pixel art dettagliati e movimento fluido (sub-pixel)
             fishList.forEach(fish => {
                 fish.x += fish.speed * fish.dir;
                 if (fish.x > w + 30) fish.x = -30;
@@ -371,20 +451,15 @@
                 const fy = Math.floor(fish.y);
                 const d = fish.dir;
 
-                // Corpo principale del pesce
                 ctx.fillStyle = fish.color;
                 ctx.fillRect(fx - 4 * d, fy - 1, 10 * d, 4);
                 ctx.fillRect(fx - 2 * d, fy - 2, 6 * d, 6);
 
-                // Sfumatura / accento sul dorso
                 ctx.fillStyle = fish.accent;
                 ctx.fillRect(fx - 2 * d, fy - 2, 4 * d, 2);
-
-                // Pinna dorsale e ventrale
                 ctx.fillRect(fx, fy - 3, 2 * d, 1);
                 ctx.fillRect(fx, fy + 4, 2 * d, 1);
 
-                // Coda animata fluida
                 ctx.fillStyle = fish.accent;
                 if (tailOffset === 0) {
                     ctx.fillRect(fx - (6 + tailOffset) * d, fy - 2, 2 * d, 6);
@@ -392,11 +467,10 @@
                     ctx.fillRect(fx - (6 + tailOffset) * d, fy - 3, 2 * d, 8);
                 }
 
-                // Occhio del pesce
                 ctx.fillStyle = fish.eye;
                 ctx.fillRect(fx + 3 * d, fy, 1, 1);
                 ctx.fillStyle = '#fff';
-                ctx.fillRect(fx + 3 * d, fy, 1, 1); // Riflesso
+                ctx.fillRect(fx + 3 * d, fy, 1, 1);
             });
 
             requestAnimationFrame(animate);
@@ -407,6 +481,18 @@
             animate();
         });
         window.addEventListener('resize', initWorld);
+
+        // Gestione dell'animazione di discesa e apertura degli abissi al click su Download
+        const downloadBtn = document.getElementById('download-btn');
+        const overlay = document.getElementById('download-overlay');
+
+        downloadBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.classList.add('diving');
+            setTimeout(() => {
+                overlay.classList.add('active');
+            }, 500);
+        });
     </script>
 </body>
 </html>
