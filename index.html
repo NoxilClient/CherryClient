@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ocean Client</title>
+    <title>Ocean Client // Next-Gen Rust Minecraft Client</title>
     
-    <!-- Nuovo Favicon SVG Minimal e Moderno -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23121216'/%3E%3Cpath fill='none' stroke='%233b82f6' stroke-width='48' stroke-linecap='round' d='M116 280c40-60 80-80 140-80s100 40 140 100c30 45 60 60 100 20'/><path fill='none' stroke='%23ffffff' stroke-width='48' stroke-linecap='round' d='M56 220c50-70 100-90 170-90s120 50 170 120'/></svg>">
+    <!-- Favicon SVG con il Nuovo Logo Minimal & Futurist -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%230f172a'/%3E%3Cpath fill='none' stroke='%2338bdf8' stroke-width='48' stroke-linecap='round' d='M116 280c40-60 80-80 140-80s100 40 140 100c30 45 60 60 100 20'/><path fill='none' stroke='%23ffffff' stroke-width='48' stroke-linecap='round' d='M56 220c50-70 100-90 170-90s120 50 170 120'/></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -18,186 +18,464 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     },
+                    colors: {
+                        abyss: {
+                            950: '#020617',
+                            900: '#050b18',
+                            800: '#0a1630',
+                            700: '#112248',
+                        }
+                    },
+                    boxShadow: {
+                        'neon': '0 0 30px -5px rgba(56, 189, 248, 0.4)',
+                        'neon-strong': '0 0 50px 0px rgba(56, 189, 248, 0.6)',
+                    }
                 }
             }
         }
     </script>
     <style>
         body {
-            background-color: #0b0b0e;
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
         .glass-panel {
-            background: rgba(18, 18, 22, 0.75);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.2s ease;
+            background: rgba(10, 22, 48, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            transition: all 0.3s ease;
         }
         .glass-panel:hover {
-            border-color: rgba(59, 130, 246, 0.35);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 30px -5px rgba(56, 189, 248, 0.3);
         }
+        .grid-bg {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+        }
+        .mc-font {
+            font-family: 'JetBrains Mono', monospace;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9);
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #112248; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+<body class="grid-bg relative min-h-screen flex flex-col justify-between selection:bg-sky-400 selection:text-slate-950">
 
-    <!-- Header / Navbar -->
-    <header class="w-full px-6 py-6 flex items-center justify-between max-w-7xl mx-auto">
+    <!-- Canvas Particelle Interattive -->
+    <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- Navbar Superiore -->
+    <nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 glass-panel rounded-2xl px-6 py-3.5 flex items-center justify-between shadow-2xl">
         <a href="#" class="flex items-center gap-3 group">
             <!-- Nuovo Logo SVG in Navbar -->
-            <div class="w-10 h-10 rounded-xl bg-[#121216] border border-white/10 flex items-center justify-center p-2 group-hover:border-blue-500/50 transition shadow-lg">
+            <div class="w-10 h-10 rounded-xl bg-abyss-900 border border-sky-500/30 flex items-center justify-center p-2 shadow-neon group-hover:scale-105 transition">
                 <svg viewBox="0 0 512 512" class="w-full h-full">
-                    <path fill="none" stroke="#3b82f6" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
+                    <path fill="none" stroke="#38bdf8" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
                     <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" d="M50 210c50-70 100-90 180-90s130 50 185 125"/>
                 </svg>
             </div>
-            <span class="font-bold text-lg tracking-tight text-white">Ocean</span>
+            <div class="flex flex-col">
+                <span class="font-black tracking-wider text-base leading-none">OCEAN</span>
+                <span class="font-mono text-[10px] text-sky-400 tracking-widest">RUST ENGINE</span>
+            </div>
         </a>
 
-        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-            <a href="#features" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-compass text-xs text-blue-500"></i> Features</a>
-            <a href="#modules" class="hover:text-white transition flex items-center gap-2"><i class="fa-solid fa-cubes text-xs text-blue-500"></i> Modules</a>
-            <a href="https://discord.com" target="_blank" class="hover:text-white transition flex items-center gap-2"><i class="fa-brands fa-discord text-xs text-blue-500"></i> Discord</a>
-        </nav>
+        <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+            <a href="#hud-preview" class="hover:text-sky-400 transition">HUD Playground</a>
+            <a href="#benchmarks" class="hover:text-sky-400 transition">Performance</a>
+            <a href="#modules" class="hover:text-sky-400 transition">Modules</a>
+            <a href="https://discord.com" target="_blank" class="hover:text-sky-400 transition flex items-center gap-1.5"><i class="fa-brands fa-discord"></i> Discord</a>
+        </div>
 
         <div class="flex items-center gap-3">
-            <button onclick="openDownloadModal()" class="px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition shadow-lg shadow-blue-600/25 flex items-center gap-2">
-                <i class="fa-solid fa-cloud-arrow-down text-xs"></i>
+            <button onclick="openDownloadModal()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-sky-400 to-blue-600 text-slate-950 font-extrabold text-sm hover:brightness-110 transition shadow-neon flex items-center gap-2">
+                <i class="fa-solid fa-cloud-arrow-down"></i>
                 <span>Download</span>
             </button>
         </div>
-    </header>
+    </nav>
 
-    <!-- Main Hero Section -->
-    <main class="flex-grow flex flex-col items-center justify-center text-center px-4 py-12">
-        
-        <!-- Nuovo Logo Centrale Grande -->
-        <div class="w-28 h-28 mb-8 rounded-3xl bg-[#121216] border border-white/10 flex items-center justify-center p-6 shadow-2xl shadow-blue-600/15">
-            <svg viewBox="0 0 512 512" class="w-full h-full">
-                <path fill="none" stroke="#3b82f6" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
-                <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" d="M50 210c50-70 100-90 180-90s130 50 185 125"/>
-            </svg>
-        </div>
-
-        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-2 text-white">
-            Play <span class="text-blue-500">better.</span>
-        </h1>
-        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-white">
-            Play Ocean.
-        </h1>
-
-        <p class="text-zinc-400 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
-            The ultimate Minecraft client rewritten entirely in Rust. Extreme performance, zero lag, and a modern design.
-        </p>
-
-        <!-- CTA Buttons -->
-        <div class="flex flex-col sm:flex-row items-center gap-4 w-full justify-center max-w-md mb-20">
-            <button onclick="openDownloadModal()" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold transition shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2">
-                <i class="fa-solid fa-download text-xs"></i> Download Ocean
-            </button>
-            <a href="#modules" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#121216] hover:bg-zinc-800 text-zinc-300 border border-white/10 font-semibold transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-layer-group text-xs text-blue-500"></i> See modules
-            </a>
-        </div>
-
-        <!-- Features Grid -->
-        <div id="features" class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl w-full mx-auto text-left">
-            <div class="glass-panel p-6 rounded-2xl">
-                <div class="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-bolt text-sm"></i>
-                </div>
-                <h3 class="font-bold text-white mb-1">Ultra Fast</h3>
-                <p class="text-zinc-400 text-xs leading-relaxed">Written in pure native Rust for exceptionally high frame rates without stutters.</p>
+    <!-- Hero & Interactive HUD Simulator -->
+    <main class="relative z-10 pt-44 pb-20 px-4 max-w-7xl mx-auto flex-grow w-full">
+        <div class="text-center max-w-4xl mx-auto mb-16">
+            
+            <!-- Nuovo Logo Centrale Grande -->
+            <div class="w-28 h-28 mx-auto mb-8 rounded-3xl bg-abyss-900 border border-sky-500/30 flex items-center justify-center p-6 shadow-neon-strong">
+                <svg viewBox="0 0 512 512" class="w-full h-full">
+                    <path fill="none" stroke="#38bdf8" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
+                    <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" d="M50 210c50-70 100-90 180-90s130 50 185 125"/>
+                </svg>
             </div>
 
-            <div class="glass-panel p-6 rounded-2xl">
-                <div class="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-shield-halved text-sm"></i>
-                </div>
-                <h3 class="font-bold text-white mb-1">Anti-Cheat Safe</h3>
-                <p class="text-zinc-400 text-xs leading-relaxed">Designed to comply fully with modern multiplayer server security protocols.</p>
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-xs font-mono text-sky-400 mb-6 shadow-neon">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>v2.4.1 Stable • 0ms GC Pauses • 1.8.9 – 1.21.4</span>
             </div>
 
-            <div class="glass-panel p-6 rounded-2xl">
-                <div class="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-500 flex items-center justify-center mb-4">
-                    <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
-                </div>
-                <h3 class="font-bold text-white mb-1">Custom HUD</h3>
-                <p class="text-zinc-400 text-xs leading-relaxed">Built-in modules for keystrokes, FPS counters, armor status, and more.</p>
+            <h1 class="text-5xl md:text-7xl font-black tracking-tight mb-3">
+                Play <span class="bg-gradient-to-r from-sky-300 via-sky-400 to-blue-500 bg-clip-text text-transparent">better.</span>
+            </h1>
+            <h1 class="text-5xl md:text-7xl font-black tracking-tight mb-6">
+                Play Ocean.
+            </h1>
+
+            <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                Re-engineered from bare metal in <span class="text-slate-200 font-mono">Rust</span> with <span class="text-slate-200 font-mono">wgpu</span> backend. Lock in ultra-high frame rates with zero stutter.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="openDownloadModal()" class="px-8 py-4 rounded-full bg-sky-400 text-slate-950 font-extrabold text-base hover:bg-sky-300 transition shadow-neon-strong flex items-center gap-3">
+                    <i class="fa-brands fa-windows text-lg"></i>
+                    <span>Download Launcher</span>
+                </button>
+                <a href="#modules" class="px-8 py-4 rounded-full glass-panel hover:bg-abyss-800 font-semibold text-base transition flex items-center gap-2">
+                    <i class="fa-solid fa-cube text-sky-400"></i>
+                    <span>Explore Modules</span>
+                </a>
             </div>
         </div>
 
+        <!-- HUD Playground Simulator -->
+        <div id="hud-preview" class="max-w-5xl mx-auto">
+            <div class="glass-panel rounded-2xl p-2 shadow-2xl border border-sky-500/30">
+                <div class="flex items-center justify-between px-4 py-3 bg-abyss-950/90 rounded-t-xl border-b border-slate-800">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                        <span class="ml-2 font-mono text-xs text-slate-400">Ocean Client 1.21.4 (x86_64-pc-windows-msvc)</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-xs font-mono">
+                        <span class="px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">LIVE HUD SIMULATOR</span>
+                    </div>
+                </div>
+
+                <div class="relative h-[430px] rounded-b-xl overflow-hidden bg-gradient-to-b from-[#0b1f3a] via-[#102c54] to-[#081226] select-none">
+                    <div class="absolute inset-0 opacity-40" style="background-image: radial-gradient(circle at 70% 25%, rgba(56, 189, 248, 0.4), transparent 50%);"></div>
+                    <div class="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-abyss-950 via-abyss-900/80 to-transparent"></div>
+                    
+                    <!-- Crosshair -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <div class="w-5 h-0.5 bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.8)]"></div>
+                        <div class="h-5 w-0.5 bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.8)] -ml-[11px]"></div>
+                    </div>
+
+                    <!-- HUD FPS -->
+                    <div id="hud-fps" class="absolute top-4 left-4 glass-panel px-3.5 py-2 rounded-lg mc-font text-xs space-y-1 transition-all duration-300">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sky-400 font-bold">[FPS]</span>
+                            <span id="live-fps-counter" class="text-white font-bold">1,482 FPS</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-slate-300">
+                            <span class="text-sky-400 font-bold">[XYZ]</span>
+                            <span>-248.4 / 72.0 / 1,094.2</span>
+                        </div>
+                    </div>
+
+                    <!-- HUD Keystrokes -->
+                    <div id="hud-keystrokes" class="absolute top-4 right-4 mc-font text-xs transition-all duration-300">
+                        <div class="grid grid-cols-3 gap-1 w-32 text-center">
+                            <div></div>
+                            <div id="key-w" class="py-2 rounded bg-abyss-950/80 border border-sky-500/30 font-bold text-white shadow-sm">W</div>
+                            <div></div>
+                            <div id="key-a" class="py-2 rounded bg-abyss-950/80 border border-sky-500/30 font-bold text-white shadow-sm">A</div>
+                            <div id="key-s" class="py-2 rounded bg-abyss-950/80 border border-sky-500/30 font-bold text-white shadow-sm">S</div>
+                            <div id="key-d" class="py-2 rounded bg-abyss-950/80 border border-sky-500/30 font-bold text-white shadow-sm">D</div>
+                        </div>
+                    </div>
+
+                    <!-- HUD Armor -->
+                    <div id="hud-armor" class="absolute bottom-16 left-4 glass-panel px-3 py-2 rounded-lg mc-font text-xs space-y-1.5 transition-all duration-300">
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-helmet-safety text-sky-400"></i>
+                            <div class="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="w-[92%] h-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-shirt text-sky-400"></i>
+                            <div class="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                                <div class="w-[85%] h-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- HUD Toggles -->
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 glass-panel px-4 py-2 rounded-xl flex flex-wrap items-center justify-center gap-2 text-xs z-20 shadow-neon">
+                        <span class="text-slate-400 font-mono mr-1">Toggle HUD:</span>
+                        <button onclick="toggleHud('hud-fps', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/40 font-medium transition">FPS/XYZ</button>
+                        <button onclick="toggleHud('hud-keystrokes', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/40 font-medium transition">Keystrokes</button>
+                        <button onclick="toggleHud('hud-armor', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/40 font-medium transition">ArmorHUD</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!-- Modules Section -->
-    <section id="modules" class="py-16 px-4 max-w-4xl mx-auto w-full">
-        <div class="text-center mb-10">
-            <h2 class="text-2xl font-bold mb-2">Core Modules</h2>
-            <p class="text-zinc-400 text-sm">Everything you need built straight into the launcher.</p>
+    <!-- Benchmarks Section -->
+    <section id="benchmarks" class="relative z-10 py-24 px-4 max-w-6xl mx-auto w-full">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+                <span class="font-mono text-xs text-sky-400 uppercase tracking-widest">// Telemetry & Frame Pacing</span>
+                <h2 class="text-3xl md:text-5xl font-black mt-2">Engineered to Crush Latency</h2>
+            </div>
+            <div class="inline-flex p-1 rounded-xl glass-panel shadow-lg">
+                <button onclick="setBenchmark('pvp')" id="btn-pvp" class="bench-tab px-4 py-2 rounded-lg text-xs font-bold bg-sky-400 text-slate-950 transition shadow-neon">Ranked Skywars</button>
+                <button onclick="setBenchmark('chunks')" id="btn-chunks" class="bench-tab px-4 py-2 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition">32-Chunk Flight</button>
+            </div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="glass-panel p-5 rounded-xl flex items-start gap-4">
-                <div class="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-500 flex items-center justify-center shrink-0 mt-0.5">
-                    <i class="fa-solid fa-crosshairs text-xs"></i>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 glass-panel rounded-2xl p-8 space-y-6 shadow-2xl">
+                <h3 class="font-bold text-lg">Average Frame Rate Comparison</h3>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm font-bold">
+                        <span class="text-sky-400 flex items-center gap-2"><i class="fa-solid fa-water"></i> Ocean Client (Rust)</span>
+                        <span id="ocean-fps-label" class="font-mono text-sky-300">1,480 FPS</span>
+                    </div>
+                    <div class="w-full h-4 bg-abyss-950 rounded-full overflow-hidden p-0.5 border border-sky-500/30">
+                        <div id="ocean-bar" class="h-full bg-gradient-to-r from-sky-400 to-blue-600 rounded-full transition-all duration-700 shadow-neon" style="width: 96%"></div>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="font-semibold text-sm text-white mb-1">Hitreg Fix</h4>
-                    <p class="text-zinc-400 text-xs">Improves hit registration precision and reduces network packet delay.</p>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm font-medium text-slate-300">
+                        <span>Fabric + Sodium (Java)</span>
+                        <span id="fabric-fps-label" class="font-mono text-slate-400">890 FPS</span>
+                    </div>
+                    <div class="w-full h-4 bg-abyss-950 rounded-full overflow-hidden p-0.5">
+                        <div id="fabric-bar" class="h-full bg-slate-600 rounded-full transition-all duration-700" style="width: 58%"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <div class="flex justify-between text-sm font-medium text-slate-400">
+                        <span>Vanilla Minecraft</span>
+                        <span id="vanilla-fps-label" class="font-mono text-slate-500">310 FPS</span>
+                    </div>
+                    <div class="w-full h-4 bg-abyss-950 rounded-full overflow-hidden p-0.5">
+                        <div id="vanilla-bar" class="h-full bg-slate-800 rounded-full transition-all duration-700" style="width: 21%"></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="glass-panel p-5 rounded-xl flex items-start gap-4">
-                <div class="w-9 h-9 rounded-lg bg-blue-600/10 text-blue-500 flex items-center justify-center shrink-0 mt-0.5">
-                    <i class="fa-solid fa-video text-xs"></i>
-                </div>
+            <div class="glass-panel rounded-2xl p-8 flex flex-col justify-between shadow-2xl">
                 <div>
-                    <h4 class="font-semibold text-sm text-white mb-1">Replay Mod</h4>
-                    <p class="text-zinc-400 text-xs">Record and review your gameplay smoothly with minimal CPU overhead.</p>
+                    <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-mono text-xs border border-emerald-500/20">ZERO GC STUTTER</span>
+                    <h3 class="text-2xl font-black mt-4 mb-2">412 MB Footprint</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Deterministic memory management in Rust eliminates JVM heap bloat and stop-the-world garbage collection freezes.
+                    </p>
+                </div>
+                <div class="mt-8 pt-6 border-t border-slate-800 grid grid-cols-2 gap-4 font-mono">
+                    <div>
+                        <div class="text-xs text-slate-500">COLD BOOT</div>
+                        <div class="text-xl font-bold text-white">1.4s</div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-500">INPUT LAG</div>
+                        <div class="text-xl font-bold text-sky-400">-42%</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Modules Section -->
+    <section id="modules" class="relative z-10 py-24 px-4 max-w-6xl mx-auto w-full">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="font-mono text-xs text-sky-400 uppercase tracking-widest">// Built-in Addons</span>
+            <h2 class="text-3xl md:text-5xl font-black mt-2 mb-4">65+ Zero-Overhead Mods</h2>
+            <p class="text-slate-400">Compiled directly into the native binary. No external mod folders or version conflicts.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+            <div class="flex flex-wrap gap-2">
+                <button onclick="filterModules('all', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold bg-sky-400 text-slate-950 transition shadow-neon">All</button>
+                <button onclick="filterModules('pvp', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold glass-panel text-slate-300 hover:text-white transition">PvP</button>
+                <button onclick="filterModules('render', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold glass-panel text-slate-300 hover:text-white transition">Render</button>
+                <button onclick="filterModules('utility', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold glass-panel text-slate-300 hover:text-white transition">Utility</button>
+            </div>
+            <div class="relative w-full sm:w-64">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+                <input type="text" id="module-search" oninput="searchModules()" placeholder="Search modules..." class="w-full pl-9 pr-4 py-2 rounded-xl glass-panel text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-400 shadow-inner">
+            </div>
+        </div>
+
+        <div id="modules-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </section>
+
     <!-- Footer -->
-    <footer class="w-full py-6 text-center text-xs text-zinc-500 font-medium border-t border-white/5">
-        Free • Minecraft Client • Windows / Linux / macOS
+    <footer class="relative z-10 border-t border-slate-800 py-10 px-4 mt-16 bg-abyss-950/90">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-abyss-900 border border-sky-500/30 p-1 flex items-center justify-center">
+                    <svg viewBox="0 0 512 512" class="w-full h-full">
+                        <path fill="none" stroke="#38bdf8" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
+                        <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" d="M50 210c50-70 100-90 180-90s130 50 185 125"/>
+                    </svg>
+                </div>
+                <span class="font-bold tracking-wider text-sm">OCEAN CLIENT</span>
+            </div>
+            <p class="text-slate-500 text-xs text-center">
+                &copy; 2026 Ocean Client. Built in Rust. Not affiliated with Mojang Studios or Microsoft.
+            </p>
+            <div class="flex gap-5 text-slate-400">
+                <a href="#" class="hover:text-sky-400 transition"><i class="fa-brands fa-discord text-lg"></i></a>
+                <a href="#" class="hover:text-sky-400 transition"><i class="fa-brands fa-github text-lg"></i></a>
+            </div>
+        </div>
     </footer>
 
     <!-- Download Modal -->
-    <div id="download-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
-        <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-white/10 shadow-2xl relative">
-            <button onclick="closeDownloadModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white">
-                <i class="fa-solid fa-xmark"></i>
+    <div id="download-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-abyss-950/80 backdrop-blur-md p-4">
+        <div class="glass-panel max-w-lg w-full rounded-2xl p-6 md:p-8 border border-sky-400/40 shadow-2xl relative">
+            <button onclick="closeDownloadModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
             </button>
 
             <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center">
+                <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center shadow-neon">
                     <i class="fa-solid fa-download"></i>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold">Download Ocean</h3>
-                    <p class="text-xs text-blue-400">Stable Release v2.4.1</p>
+                    <h3 class="text-xl font-black">Download Ocean Launcher</h3>
+                    <p class="font-mono text-xs text-sky-400">Release v2.4.1-stable • MC 1.8.9 - 1.21.4</p>
                 </div>
             </div>
 
-            <div class="space-y-3 mb-4">
-                <button onclick="triggerDownload('Windows')" class="w-full p-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center justify-between transition">
-                    <span class="flex items-center gap-2.5"><i class="fa-brands fa-windows"></i> Windows Installer</span>
-                    <span class="text-xs opacity-75">.MSI</span>
+            <div class="space-y-3 mb-6">
+                <button onclick="triggerDownload('Windows')" class="w-full p-4 rounded-xl bg-sky-400 hover:bg-sky-300 text-slate-950 font-bold flex items-center justify-between transition shadow-neon">
+                    <span class="flex items-center gap-3"><i class="fa-brands fa-windows text-xl"></i> Windows Installer</span>
+                    <span class="font-mono text-xs bg-slate-950/10 px-2.5 py-1 rounded">.MSI</span>
                 </button>
-                <button onclick="triggerDownload('Linux')" class="w-full p-3.5 rounded-xl bg-[#121216] hover:bg-zinc-800 text-zinc-300 border border-white/10 font-semibold text-sm flex items-center justify-between transition">
-                    <span class="flex items-center gap-2.5"><i class="fa-brands fa-linux text-blue-400"></i> Linux AppImage</span>
-                    <span class="text-xs opacity-50">.AppImage</span>
+                <button onclick="triggerDownload('Linux')" class="w-full p-4 rounded-xl glass-panel hover:bg-abyss-800 text-white font-bold flex items-center justify-between transition">
+                    <span class="flex items-center gap-3"><i class="fa-brands fa-linux text-xl text-sky-400"></i> Linux AppImage</span>
+                    <span class="font-mono text-xs text-slate-400">.AppImage</span>
+                </button>
+                <button onclick="triggerDownload('macOS')" class="w-full p-4 rounded-xl glass-panel hover:bg-abyss-800 text-white font-bold flex items-center justify-between transition">
+                    <span class="flex items-center gap-3"><i class="fa-brands fa-apple text-xl text-sky-400"></i> macOS Apple Silicon</span>
+                    <span class="font-mono text-xs text-slate-400">.DMG</span>
                 </button>
             </div>
 
-            <div id="download-status" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs text-center font-medium"></div>
+            <div id="download-status" class="hidden p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-xs text-center"></div>
         </div>
     </div>
 
-    <!-- Script -->
+    <!-- Script JavaScript -->
     <script>
+        function toggleHud(elementId, btn) {
+            const el = document.getElementById(elementId);
+            el.classList.toggle('opacity-0');
+            el.classList.toggle('scale-95');
+            btn.classList.toggle('bg-sky-500/20');
+            btn.classList.toggle('text-sky-300');
+            btn.classList.toggle('border-sky-500/40');
+            btn.classList.toggle('bg-abyss-900/60');
+            btn.classList.toggle('text-slate-500');
+        }
+
+        setInterval(() => {
+            const fpsEl = document.getElementById('live-fps-counter');
+            if (fpsEl) {
+                const fps = Math.floor(1465 + Math.random() * 45);
+                fpsEl.textContent = `${fps.toLocaleString()} FPS`;
+            }
+            const keys = ['key-w', 'key-a', 'key-d'];
+            const randomKey = document.getElementById(keys[Math.floor(Math.random() * keys.length)]);
+            if (randomKey) {
+                randomKey.classList.add('bg-sky-400', 'text-slate-950', 'shadow-neon');
+                setTimeout(() => randomKey.classList.remove('bg-sky-400', 'text-slate-950', 'shadow-neon'), 220);
+            }
+        }, 650);
+
+        const benchData = {
+            pvp: { ocean: '1,480 FPS', fabric: '890 FPS', vanilla: '310 FPS', width: '96%' },
+            chunks: { ocean: '1,120 FPS', fabric: '580 FPS', vanilla: '165 FPS', width: '92%' }
+        };
+
+        function setBenchmark(mode) {
+            document.querySelectorAll('.bench-tab').forEach(btn => {
+                btn.classList.remove('bg-sky-400', 'text-slate-950', 'shadow-neon');
+                btn.classList.add('text-slate-300');
+            });
+            const activeBtn = document.getElementById(`btn-${mode}`);
+            activeBtn.classList.add('bg-sky-400', 'text-slate-950', 'shadow-neon');
+            activeBtn.classList.remove('text-slate-300');
+
+            const data = benchData[mode];
+            document.getElementById('ocean-fps-label').textContent = data.ocean;
+            document.getElementById('fabric-fps-label').textContent = data.fabric;
+            document.getElementById('vanilla-fps-label').textContent = data.vanilla;
+            document.getElementById('ocean-bar').style.width = data.width;
+        }
+
+        const modulesList = [
+            { name: 'Raw Input & Hitreg Fix', cat: 'pvp', icon: 'fa-crosshairs', desc: 'Bypasses OS mouse acceleration and fixes hit delay inconsistencies.' },
+            { name: 'WGPU Async Chunk Mesher', cat: 'render', icon: 'fa-cubes', desc: 'Multi-threaded greedy meshing for zero chunk-load stutter.' },
+            { name: 'Motion Blur Shader', cat: 'render', icon: 'fa-eye', desc: 'Per-pixel velocity buffer shaders written in WGSL.' },
+            { name: 'Keystrokes & CPS Overlay', cat: 'pvp', icon: 'fa-keyboard', desc: 'Sub-millisecond input polling display with customizable gradients.' },
+            { name: 'Waypoints & Minimap', cat: 'utility', icon: 'fa-compass', desc: 'GPU-rendered circular minimap with death markers.' },
+            { name: 'Native Replay Mod', cat: 'utility', icon: 'fa-video', desc: 'Record world packets with <1% CPU overhead.' }
+        ];
+
+        let currentCategory = 'all';
+
+        function renderModules() {
+            const query = document.getElementById('module-search').value.toLowerCase();
+            const grid = document.getElementById('modules-grid');
+            grid.innerHTML = '';
+
+            const filtered = modulesList.filter(m => {
+                const matchesCat = currentCategory === 'all' || m.cat === currentCategory;
+                const matchesSearch = m.name.toLowerCase().includes(query) || m.desc.toLowerCase().includes(query);
+                return matchesCat && matchesSearch;
+            });
+
+            filtered.forEach(mod => {
+                grid.innerHTML += `
+                    <div class="glass-panel rounded-2xl p-6 transition duration-300 flex flex-col justify-between shadow-lg">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center shadow-sm">
+                                    <i class="fa-solid ${mod.icon}"></i>
+                                </div>
+                                <span class="font-mono text-[10px] uppercase px-2.5 py-1 rounded-md bg-abyss-950 text-sky-300 border border-sky-500/20">${mod.cat}</span>
+                            </div>
+                            <h3 class="font-bold text-base mb-2">${mod.name}</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">${mod.desc}</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterModules(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('.mod-filter').forEach(b => {
+                b.classList.remove('bg-sky-400', 'text-slate-950', 'shadow-neon');
+                b.classList.add('glass-panel', 'text-slate-300');
+            });
+            btn.classList.add('bg-sky-400', 'text-slate-950', 'shadow-neon');
+            btn.classList.remove('glass-panel', 'text-slate-300');
+            renderModules();
+        }
+
+        function searchModules() { renderModules(); }
+        renderModules();
+
         function openDownloadModal() {
             const modal = document.getElementById('download-modal');
             modal.classList.remove('hidden');
@@ -213,6 +491,73 @@
             status.classList.remove('hidden');
             status.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Download started for <strong>${platform}</strong>!`;
         }
+
+        // Particle Canvas Background Animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2.2 + 0.6,
+                dx: (Math.random() - 0.5) * 0.4,
+                dy: -Math.random() * 0.5 - 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach((p) => {
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.45)';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (mouse.x !== null && mouse.y !== null) {
+                    let distX = p.x - mouse.x;
+                    let distY = p.y - mouse.y;
+                    let distance = Math.sqrt(distX * distX + distY * distY);
+                    if (distance < mouse.radius) {
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${1 - distance / mouse.radius})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+
+                p.x += p.dx;
+                p.y += p.dy;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
     </script>
 </body>
 </html>
