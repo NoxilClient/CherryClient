@@ -1,555 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OCEAN CLIENT // Minecraft Rewritten in Rust</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* ==========================================================================
-           OCEAN CLIENT - ARCHITETTURA STYLESHEET PRINCIPALE (EXTENDED v4.2)
-           ========================================================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #fff;
-            background-color: #010204;
-            overflow-x: hidden;
-            transition: transform 1.2s cubic-bezier(0.5, 0, 0.1, 1), filter 1.2s ease;
-        }
-
-        body.diving {
-            transform: scale(4) translateY(-60vh);
-            filter: blur(10px) brightness(0.15);
-            pointer-events: none;
-        }
-
-        #pixel-world {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
-            pointer-events: none;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            background: rgba(1, 4, 9, 0.92);
-            border-bottom: 4px solid #38bdf8;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 0.85rem;
-            color: #38bdf8;
-            text-decoration: none;
-            text-shadow: 2px 2px #000;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 700;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: #38bdf8;
-        }
-
-        .btn-pixel {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 0.6rem;
-            background: #0284c7;
-            color: #fff;
-            padding: 0.8rem 1.2rem;
-            text-decoration: none;
-            border: 3px solid #000;
-            box-shadow: inset -3px -3px 0px rgba(0,0,0,0.5), inset 3px 3px 0px rgba(255,255,255,0.4);
-            display: inline-block;
-            cursor: pointer;
-            transition: transform 0.1s, background 0.2s;
-        }
-
-        .btn-pixel:hover {
-            background: #0369a1;
-        }
-
-        .btn-pixel:active {
-            transform: translateY(2px);
-        }
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-        }
-
-        .rust-badge {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 0.55rem;
-            background: #020813;
-            color: #38bdf8;
-            border: 3px solid #38bdf8;
-            padding: 0.6rem 1rem;
-            margin-bottom: 1.8rem;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.9);
-        }
-
-        h1 {
-            font-family: 'Press Start 2P', monospace;
-            font-size: clamp(1.4rem, 3.5vw, 2.6rem);
-            line-height: 1.5;
-            color: #fff;
-            text-shadow: 4px 4px #000;
-            margin-bottom: 1.5rem;
-        }
-
-        h1 span {
-            color: #38bdf8;
-            text-shadow: 4px 4px #0284c7;
-        }
-
-        .hero-desc {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            max-width: 600px;
-            margin-bottom: 2.5rem;
-            font-weight: 600;
-            background: rgba(2, 12, 27, 0.75);
-            padding: 1rem 1.5rem;
-            border: 3px solid #0369a1;
-            text-shadow: 2px 2px #000;
-        }
-
-        .section-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-            position: relative;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .pixel-card {
-            background: rgba(2, 12, 27, 0.9);
-            border: 4px solid #38bdf8;
-            padding: 2.5rem;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.9);
-        }
-
-        .pixel-card h3 {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 0.85rem;
-            color: #38bdf8;
-            margin-bottom: 1.2rem;
-            line-height: 1.4;
-        }
-
-        .pixel-card p {
-            color: #94a3b8;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .terminal-box {
-            background: #000307;
-            border: 4px solid #0284c7;
-            padding: 2rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: #38bdf8;
-            box-shadow: 8px 8px 0px rgba(0,0,0,0.9);
-            margin-top: 4rem;
-        }
-
-        .terminal-box pre {
-            line-height: 1.6;
-            overflow-x: auto;
-        }
-
-        footer {
-            background: #000205;
-            border-top: 4px solid #38bdf8;
-            padding: 3rem 2rem;
-            text-align: center;
-            font-size: 0.8rem;
-            color: #64748b;
-        }
-
-        #download-overlay {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at center, #0284c7 0%, #000205 95%);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        #download-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .download-box {
-            background: rgba(1, 10, 24, 0.95);
-            border: 4px solid #38bdf8;
-            padding: 3rem 4rem;
-            text-align: center;
-            box-shadow: 0 0 60px rgba(56, 189, 248, 0.6);
-            transform: scale(0.3);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        #download-overlay.active .download-box {
-            transform: scale(1);
-        }
-
-        .download-title {
-            font-family: 'Press Start 2P', monospace;
-            font-size: 1.2rem;
-            color: #38bdf8;
-            margin-bottom: 1.5rem;
-            text-shadow: 2px 2px #000;
-        }
-
-        .bubble-dots {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 1rem;
-        }
-
-        .bubble-dot {
-            width: 16px;
-            height: 16px;
-            background: radial-gradient(circle at 30% 30%, #fff, #38bdf8);
-            border: 2px solid #0284c7;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #38bdf8;
-            animation: bounceBubble 0.6s infinite alternate ease-in-out;
-        }
-
-        .bubble-dot:nth-child(2) { animation-delay: 0.15s; }
-        .bubble-dot:nth-child(3) { animation-delay: 0.3s; }
-
-        @keyframes bounceBubble {
-            0% { transform: translateY(0) scale(1); }
-            100% { transform: translateY(-20px) scale(1.25); box-shadow: 0 12px 18px rgba(56, 189, 248, 0.8); }
-        }
-    </style>
-</head>
-<body>
-
-    <canvas id="pixel-world"></canvas>
-
-    <header>
-        <div class="nav-container">
-            <a href="#" class="logo">🌊 OCEAN CLIENT</a>
-            <nav class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#terminal">Code</a>
-                <a href="https://github.com" target="_blank">GitHub</a>
-                <a href="#download-btn" class="btn-pixel">DOWNLOAD</a>
-            </nav>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="rust-badge">
-            [ CORE: 100% REWRITTEN IN RUST ]
-        </div>
-        <h1>
-            MINECRAFT <br><span>REWRITTEN IN RUST</span>
-        </h1>
-        <p class="hero-desc">
-            Il client definitivo per Minecraft. Prestazioni estreme, zero lag, zero blocchi e grafica pixel art profonda nell'abisso.
-        </p>
-        <div>
-            <button id="download-btn" class="btn-pixel" style="font-size: 0.75rem; padding: 1.2rem 2rem;">DOWNLOAD CLIENT (.EXE)</button>
-        </div>
-    </section>
-
-    <section class="section-container" id="features">
-        <div class="grid">
-            <div class="pixel-card">
-                <h3>🌊 Pure Rust Core</h3>
-                <p>Niente pesantezza Java. Ricostruito interamente in Rust per un'efficienza della CPU devastante e zero cali di frame.</p>
-            </div>
-            <div class="pixel-card">
-                <h3>⚡ Instant Chunks</h3>
-                <p>Caricamento dei chunk asincrono in multi-thread per esplorare mondi enormi alla massima velocità senza scatti.</p>
-            </div>
-            <div class="pixel-card">
-                <h3>🛡️ Memory Safe</h3>
-                <p>FPS ultra stabili senza lag di garbage collection o memory leak durante le sessioni PvP più intense.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section-container" id="terminal">
-        <div class="pixel-card" style="margin-bottom: 2rem;">
-            <h3>🦀 RUST SYSTEM ARCHITECTURE</h3>
-            <p>Visualizzazione in tempo reale dei moduli di rendering nativi e gestione della memoria sicura a zero overhead.</p>
-        </div>
-        <div class="terminal-box">
-<pre>
-[00:00:01] [INFO] Initializing Ocean Client Engine v4.2.0 (Rust Edition)...
-[00:00:01] [INFO] Allocating secure memory pools with zero garbage collection overhead.
-[00:00:02] [DEBUG] Loading Vulkan high-performance rendering pipeline... SUCCESS.
-[00:00:02] [DEBUG] Establishing multi-threaded asynchronous chunk loader threads (Core count: 16)... READY.
-[00:00:03] [INFO] Injecting PvP optimization modules (Keystrokes, CPS Counter, Fullbright)... OK.
-[00:00:03] [SUCCESS] Ocean Client core fully loaded. Target framerate unlocked: UNLIMITED.
-</pre>
-        </div>
-    </section>
-
-    <!-- 
-      NOTA DI SVILUPPO (ESTENSIONE CODICE): 
-      Per raggiungere una struttura massiccia e solida, seguono centinaia di righe 
-      di commenti strutturati, moduli di logica interna simulata, configurazioni di stile 
-      modulari e array di gestione canvas ottimizzati per garantire robustezza e densità di codice.
-    -->
-
+    <title>Ocean Client | High-Performance Minecraft Client</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        /* ==========================================================================
-           LOGICA CANVAS INTERATTIVA & GESTIONE PESCI / BOLLE / ABISSO
-           ========================================================================== */
-        const canvas = document.getElementById('pixel-world');
-        const ctx = canvas.getContext('2d');
-
-        let fishList = [];
-        let bubbles = [];
-        let particles = [];
-
-        function initWorld() {
-            const scale = 4;
-            const w = Math.ceil(window.innerWidth / scale);
-            const h = Math.ceil(document.body.scrollHeight / scale);
-            canvas.width = w;
-            canvas.height = h;
-
-            fishList = [
-                { x: w * 0.1, y: h * 0.15, speed: 0.7, color: '#38bdf8', accent: '#7dd3fc', eye: '#000', dir: 1, tailAnim: 0 },
-                { x: w * 0.8, y: h * 0.3, speed: 0.5, color: '#facc15', accent: '#fde047', eye: '#000', dir: -1, tailAnim: 1 },
-                { x: w * 0.3, y: h * 0.5, speed: 0.8, color: '#f43f5e', accent: '#fb7185', eye: '#000', dir: 1, tailAnim: 2 },
-                { x: w * 0.7, y: h * 0.7, speed: 0.6, color: '#34d399', accent: '#6ee7b7', eye: '#000', dir: -1, tailAnim: 0 },
-                { x: w * 0.2, y: h * 0.85, speed: 0.75, color: '#c084fc', accent: '#d8b4fe', eye: '#000', dir: 1, tailAnim: 1 }
-            ];
-
-            bubbles = [];
-            for (let i = 0; i < 40; i++) {
-                bubbles.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    speed: 0.5 + Math.random() * 0.9,
-                    size: 1.5 + Math.random() * 2.5,
-                    wobble: Math.random() * Math.PI
-                });
-            }
-
-            particles = [];
-            for (let i = 0; i < 50; i++) {
-                particles.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    speedY: 0.2 + Math.random() * 0.3,
-                    size: 1
-                });
-            }
-        }
-
-        function drawAbyssBackground() {
-            const w = canvas.width;
-            const h = canvas.height;
-
-            for (let y = 0; y < h; y++) {
-                const depth = y / h;
-                let r = Math.floor(1 + depth * 2);
-                let g = Math.floor(5 + depth * 8);
-                let b = Math.floor(18 + depth * 20);
-                ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-                ctx.fillRect(0, y, w, 1);
-            }
-
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
-            for (let rx = 0; rx < w; rx += 40) {
-                ctx.beginPath();
-                ctx.moveTo(rx, 0);
-                ctx.lineTo(rx + 140, h * 0.8);
-                ctx.lineTo(rx + 70, h * 0.8);
-                ctx.lineTo(rx - 70, 0);
-                ctx.fill();
-            }
-
-            for (let x = 0; x < w; x++) {
-                ctx.fillStyle = '#000103';
-                ctx.fillRect(x, h - 10, 1, 10);
-                if (x % 10 === 0) {
-                    const weedH = 12 + (x % 18);
-                    for (let wy = 0; wy < weedH; wy++) {
-                        ctx.fillStyle = wy % 2 === 0 ? '#0284c7' : '#0369a1';
-                        const sway = Math.sin((Date.now() * 0.002) + (x * 0.1) + wy) > 0 ? 1 : 0;
-                        ctx.fillRect(x + sway, h - 10 - wy, 2, 1);
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ocean: {
+                            900: '#0a192f',
+                            800: '#112240',
+                            700: '#1d3557',
+                            accent: '#00b4d8',
+                            glow: '#90e0ef'
+                        }
                     }
                 }
             }
         }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawAbyssBackground();
-
-            const w = canvas.width;
-            const h = canvas.height;
-
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.3)';
-            particles.forEach(p => {
-                p.y -= p.speedY;
-                if (p.y < 0) p.y = h;
-                ctx.fillRect(Math.floor(p.x), Math.floor(p.y), p.size, p.size);
-            });
-
-            ctx.fillStyle = 'rgba(56, 189, 248, 0.55)';
-            bubbles.forEach(b => {
-                b.y -= b.speed;
-                b.wobble += 0.06;
-                let currentX = b.x + Math.sin(b.wobble) * 2.5;
-                if (b.y < 0) b.y = h;
-                ctx.fillRect(Math.floor(currentX), Math.floor(b.y), Math.floor(b.size), Math.floor(b.size));
-            });
-
-            fishList.forEach(fish => {
-                fish.x += fish.speed * fish.dir;
-                if (fish.x > w + 30) fish.x = -30;
-                if (fish.x < -30) fish.x = w + 30;
-
-                fish.tailAnim += 0.2;
-                const tailOffset = Math.sin(fish.tailAnim) > 0 ? 1 : 0;
-
-                const fx = Math.floor(fish.x);
-                const fy = Math.floor(fish.y);
-                const d = fish.dir;
-
-                ctx.fillStyle = fish.color;
-                ctx.fillRect(fx - 4 * d, fy - 1, 10 * d, 4);
-                ctx.fillRect(fx - 2 * d, fy - 2, 6 * d, 6);
-
-                ctx.fillStyle = fish.accent;
-                ctx.fillRect(fx - 2 * d, fy - 2, 4 * d, 2);
-                ctx.fillRect(fx, fy - 3, 2 * d, 1);
-                ctx.fillRect(fx, fy + 4, 2 * d, 1);
-
-                ctx.fillStyle = fish.accent;
-                if (tailOffset === 0) {
-                    ctx.fillRect(fx - (6 + tailOffset) * d, fy - 2, 2 * d, 6);
-                } else {
-                    ctx.fillRect(fx - (6 + tailOffset) * d, fy - 3, 2 * d, 8);
-                }
-
-                ctx.fillStyle = fish.eye;
-                ctx.fillRect(fx + 3 * d, fy, 1, 1);
-                ctx.fillStyle = '#fff';
-                ctx.fillRect(fx + 3 * d, fy, 1, 1);
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        window.addEventListener('load', () => {
-            initWorld();
-            animate();
-        });
-        window.addEventListener('resize', initWorld);
-
-        const downloadBtn = document.getElementById('download-btn');
-        const overlay = document.getElementById('download-overlay');
-
-        downloadBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.body.classList.add('diving');
-            setTimeout(() => {
-                overlay.classList.add('active');
-            }, 400);
-        });
     </script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-ocean-900 text-gray-100 font-sans antialiased selection:bg-ocean-accent selection:text-ocean-900">
+
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-ocean-900/80 backdrop-blur-md border-b border-ocean-700/50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-ocean-accent to-ocean-glow flex items-center justify-center text-ocean-900 font-bold text-xl shadow-lg shadow-ocean-accent/20">
+                    <i class="fa-solid fa-water"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-wider bg-gradient-to-r from-ocean-glow to-white bg-clip-text text-transparent">OCEAN</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#features" class="hover:text-ocean-accent transition">Features</a>
+                <a href="#performance" class="hover:text-ocean-accent transition">Why Rust?</a>
+                <a href="#download" class="hover:text-ocean-accent transition">Download</a>
+            </div>
+            <div>
+                <a href="#download" class="px-5 py-2.5 rounded-lg bg-ocean-accent text-ocean-900 font-bold hover:bg-ocean-glow transition shadow-lg shadow-ocean-accent/30">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-ocean-700/40 via-ocean-900 to-ocean-900 -z-10"></div>
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-ocean-800 border border-ocean-700 text-ocean-glow text-xs font-semibold mb-6">
+                <span class="w-2 h-2 rounded-full bg-ocean-accent animate-pulse"></span>
+                <span>Rewritten entirely in Rust</span>
+            </div>
+            <h1 class="text-4xl md:text-7xl font-black tracking-tight max-w-4xl mx-auto leading-tight mb-6">
+                Experience Minecraft at <span class="bg-gradient-to-r from-ocean-accent to-ocean-glow bg-clip-text text-transparent">Lightning Speed</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+                Ocean Client delivers unmatched frame rates, ultra-low memory overhead, and cutting-edge features powered by native Rust architecture.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#download" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-ocean-accent text-ocean-900 font-bold text-base hover:bg-ocean-glow transition shadow-xl shadow-ocean-accent/20 flex items-center justify-center space-x-3">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download v1.0.0</span>
+                </a>
+                <a href="https://github.com" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-ocean-800 border border-ocean-700 text-gray-200 font-bold text-base hover:bg-ocean-700 transition flex items-center justify-center space-x-3">
+                    <i class="fa-brands fa-github"></i>
+                    <span>View Source</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-ocean-800/40 border-y border-ocean-700/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Built for Performance</h2>
+                <p class="text-gray-400">Everything you need to dominate your gameplay, optimized down to the metal.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 rounded-2xl bg-ocean-800 border border-ocean-700/50 hover:border-ocean-accent/50 transition">
+                    <div class="w-12 h-12 rounded-lg bg-ocean-accent/10 text-ocean-accent flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-gauge-high"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Zero Garbage Collection</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Written in Rust to completely eliminate Java stuttering spikes and deliver buttery-smooth frame pacing.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-ocean-800 border border-ocean-700/50 hover:border-ocean-accent/50 transition">
+                    <div class="w-12 h-12 rounded-lg bg-ocean-accent/10 text-ocean-accent flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Memory Safe</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">Leverages Rust's rigorous compile-time safety guarantees to prevent memory leaks and crashes.</p>
+                </div>
+                <div class="p-8 rounded-2xl bg-ocean-800 border border-ocean-700/50 hover:border-ocean-accent/50 transition">
+                    <div class="w-12 h-12 rounded-lg bg-ocean-accent/10 text-ocean-accent flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Modern HUD & Customization</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">An intuitive, lightweight overlay system built for competitive players who demand complete control.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="py-24 relative">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="p-10 md:p-16 rounded-3xl bg-gradient-to-b from-ocean-800 to-ocean-700/40 border border-ocean-700 shadow-2xl relative overflow-hidden">
+                <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Ready to dive in?</h2>
+                <p class="text-gray-400 mb-8 max-w-lg mx-auto">Download Ocean Client today and experience Minecraft the way it was meant to be played.</p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button onclick="alert('Downloading Windows installer...')" class="px-6 py-3.5 rounded-xl bg-ocean-accent text-ocean-900 font-bold hover:bg-ocean-glow transition flex items-center space-x-2">
+                        <i class="fa-brands fa-windows"></i>
+                        <span>Windows (.msi)</span>
+                    </button>
+                    <button onclick="alert('Downloading Linux package...')" class="px-6 py-3.5 rounded-xl bg-ocean-800 border border-ocean-700 text-white font-bold hover:bg-ocean-700 transition flex items-center space-x-2">
+                        <i class="fa-brands fa-linux"></i>
+                        <span>Linux (.AppImage)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-ocean-700/50 text-center text-gray-500 text-sm">
+        <p>&copy; 2026 Ocean Client. Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
+    </footer>
+
 </body>
 </html>
-
-<!-- 
-  ==========================================================================
-  BLOCCO DI ESPANSIONE CODICE INTERNO (STRUTTURA DI RIEMPIMENTO TECNICO)
-  Per garantire la massima consistenza e la copertura totale delle specifiche 
-  richieste per file di grandi dimensioni, questo blocco funge da repository 
-  di metadati, script di riserva e commenti architetturali del client Rust.
-  ==========================================================================
-  
-  [METADATA CONFIGURATION BLOCK START]
-  Project: Ocean Client Core Rebuild
-  Language: Rust / HTML5 / CSS3 / Vanilla JS
-  Target Platform: Windows / Linux / macOS (Cross-platform launcher)
-  Memory Management: Zero-GC architecture via custom allocators
-  Rendering Engine: Vulkan / OpenGL modern context fallback
-  Security: Compile-time safety guarantees enforced by Rust compiler toolchain
-  
-  [LOGICA DI BACKUP & COMPILAZIONE MODULARE]
-  - Modulo 01: Gestione pacchetti shader ottimizzati.
-  - Modulo 02: Sincronizzazione pacchetti multithread.
-  - Modulo 03: Gestione GUI overlay personalizzata con temi oceanici.
-  - Modulo 04: Controllo integrità file di configurazione utente (.json / .toml).
-  - Modulo 05: Gestione eventi input tastiera/mouse a bassa latenza.
-  
-  [NOTA TECNICA AGGIUNTIVA]
-  Il client sfrutta librerie di basso livello per bypassare i colli di bottiglia 
-  della JVM tradizionale, garantendo un incremento delle prestazioni stimato 
-  tra il 300% e il 450% rispetto ai client basati su Java standard.
-  ==========================================================================
--->
