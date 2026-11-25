@@ -18,25 +18,19 @@
                     },
                     colors: {
                         abyss: {
-                            950: '#030712',
-                            900: '#060d1f',
-                            800: '#0b1630',
-                            700: '#132347',
+                            950: '#020617',
+                            900: '#050b18',
+                            800: '#0a1630',
+                            700: '#112248',
                         },
                         cyan: {
                             400: '#22d3ee',
                             500: '#06b6d4',
                         }
                     },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-12px)' },
-                        }
+                    boxShadow: {
+                        'neon': '0 0 35px -5px rgba(6, 182, 212, 0.35)',
+                        'neon-strong': '0 0 50px 0px rgba(34, 211, 238, 0.5)',
                     }
                 }
             }
@@ -44,46 +38,46 @@
     </script>
     <style>
         body {
-            background-color: #030712;
+            background-color: #020617;
             color: #f8fafc;
             overflow-x: hidden;
         }
         .glass-panel {
-            background: rgba(11, 22, 48, 0.55);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(56, 189, 248, 0.15);
+            background: rgba(10, 22, 48, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.18);
         }
         .glass-panel-hover:hover {
-            border-color: rgba(34, 211, 238, 0.45);
-            box-shadow: 0 0 30px -5px rgba(6, 182, 212, 0.25);
+            border-color: rgba(34, 211, 238, 0.6);
+            box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.4);
         }
         .grid-bg {
-            background-size: 40px 40px;
+            background-size: 50px 50px;
             background-image: 
-                linear-gradient(to right, rgba(34, 211, 238, 0.04) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(34, 211, 238, 0.04) 1px, transparent 1px);
+                linear-gradient(to right, rgba(34, 211, 238, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
         }
         .mc-font {
             font-family: 'JetBrains Mono', monospace;
-            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.85);
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9);
         }
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #030712; }
-        ::-webkit-scrollbar-thumb { background: #132347; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #112248; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #06b6d4; }
     </style>
 </head>
 <body class="grid-bg relative">
 
-    <!-- Particle Canvas -->
+    <!-- Interactive Particle & Mouse Glow Canvas -->
     <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
     <!-- Floating Navigation -->
     <nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 glass-panel rounded-2xl px-6 py-3.5 flex items-center justify-between shadow-2xl">
         <a href="#" class="flex items-center gap-3 group">
-            <div class="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/30 group-hover:scale-105 transition">
+            <div class="relative w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center shadow-neon group-hover:scale-105 transition">
                 <i class="fa-solid fa-water text-abyss-950 text-lg"></i>
             </div>
             <div class="flex flex-col">
@@ -100,35 +94,35 @@
         </div>
 
         <div class="flex items-center gap-3">
-            <a href="https://github.com" target="_blank" class="w-9 h-9 rounded-xl bg-abyss-800 hover:bg-abyss-700 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white transition" title="GitHub Repository">
+            <a href="https://github.com" target="_blank" class="w-9 h-9 rounded-xl bg-abyss-800 hover:bg-abyss-700 border border-slate-800 flex items-center justify-center text-slate-300 hover:text-white transition shadow-lg" title="GitHub Repository">
                 <i class="fa-brands fa-github"></i>
             </a>
-            <button onclick="openDownloadModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-abyss-950 font-bold text-sm hover:brightness-110 transition shadow-lg shadow-cyan-500/25 flex items-center gap-2">
+            <button onclick="openDownloadModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-blue-500 text-abyss-950 font-bold text-sm hover:brightness-110 transition shadow-neon flex items-center gap-2">
                 <i class="fa-solid fa-download"></i>
                 <span>Download</span>
             </button>
         </div>
     </nav>
 
-    <!-- Hero Section + Live Interactive HUD Playground -->
+    <!-- Hero Section + Interactive In-Game HUD Playground -->
     <section id="hud-preview" class="relative z-10 pt-36 pb-20 px-4 max-w-7xl mx-auto">
         <div class="text-center max-w-4xl mx-auto mb-14">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel text-xs font-mono text-cyan-400 mb-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel text-xs font-mono text-cyan-400 mb-6 shadow-neon">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                 <span>0ms GC Pauses • Vulkan & WGPU Backend • 1.8.9 – 1.21.4</span>
             </div>
 
             <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-[1.08] mb-6">
                 Zero Java Bloat.<br>
-                <span class="bg-gradient-to-r from-cyan-300 via-cyan-400 to-blue-500 bg-clip-text text-transparent">Pure Native Rust Speed.</span>
+                <span class="bg-gradient-to-r from-cyan-300 via-cyan-400 to-blue-500 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(34,211,238,0.4)]">Pure Native Rust Speed.</span>
             </h1>
 
             <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
-                Re-engineered from bare metal using <span class="text-slate-200 font-mono text-base">wgpu</span> and multi-threaded chunk meshing. Lock in 1,400+ FPS with a fully customizable competitive HUD.
+                Re-engineered from bare metal using <span class="text-slate-200 font-mono text-base">wgpu</span> and multi-threaded chunk meshing. Lock in ultra-high frame rates with a fully customizable competitive HUD.
             </p>
 
             <div class="flex flex-wrap justify-center gap-4">
-                <button onclick="openDownloadModal()" class="px-7 py-4 rounded-xl bg-cyan-400 text-abyss-950 font-extrabold text-base hover:bg-cyan-300 transition shadow-xl shadow-cyan-500/25 flex items-center gap-3">
+                <button onclick="openDownloadModal()" class="px-7 py-4 rounded-xl bg-cyan-400 text-abyss-950 font-extrabold text-base hover:bg-cyan-300 transition shadow-neon-strong flex items-center gap-3">
                     <i class="fa-brands fa-windows text-lg"></i>
                     <span>Download Launcher (v2.4.1)</span>
                 </button>
@@ -141,30 +135,30 @@
 
         <!-- Interactive In-Game Viewport Simulator -->
         <div class="max-w-5xl mx-auto">
-            <div class="glass-panel rounded-2xl p-2 shadow-2xl border border-cyan-500/25">
+            <div class="glass-panel rounded-2xl p-2 shadow-2xl border border-cyan-500/30">
                 <!-- Window Top Bar -->
                 <div class="flex items-center justify-between px-4 py-2.5 bg-abyss-950/90 rounded-t-xl border-b border-slate-800/80">
                     <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
-                        <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
-                        <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-                        <span class="ml-2 font-mono text-xs text-slate-400">Ocean Client 1.21.4 (x86_64-pc-windows-msvc) — 1482 FPS</span>
+                        <span class="w-3 h-3 rounded-full bg-rose-500/80 shadow-sm"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500/80 shadow-sm"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500/80 shadow-sm"></span>
+                        <span class="ml-2 font-mono text-xs text-slate-400">Ocean Client 1.21.4 (x86_64-pc-windows-msvc)</span>
                     </div>
                     <div class="flex items-center gap-2 text-xs font-mono">
-                        <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">INTERACTIVE HUD PREVIEW</span>
+                        <span class="px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shadow-sm">INTERACTIVE HUD PREVIEW</span>
                     </div>
                 </div>
 
                 <!-- Simulated Game Viewport -->
                 <div class="relative h-[430px] rounded-b-xl overflow-hidden bg-gradient-to-b from-[#0b1f3a] via-[#102c54] to-[#081226] select-none">
-                    <!-- Stylized Terrain / Horizon -->
-                    <div class="absolute inset-0 opacity-40" style="background-image: radial-gradient(circle at 70% 25%, rgba(56, 189, 248, 0.35), transparent 45%);"></div>
+                    <!-- Stylized Terrain / Horizon Glow -->
+                    <div class="absolute inset-0 opacity-50" style="background-image: radial-gradient(circle at 70% 25%, rgba(56, 189, 248, 0.4), transparent 50%);"></div>
                     <div class="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-abyss-950 via-abyss-900/90 to-transparent"></div>
                     
                     <!-- Crosshair -->
                     <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div class="w-5 h-0.5 bg-white/90 shadow"></div>
-                        <div class="h-5 w-0.5 bg-white/90 shadow -ml-[11px]"></div>
+                        <div class="w-5 h-0.5 bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.8)]"></div>
+                        <div class="h-5 w-0.5 bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.8)] -ml-[11px]"></div>
                     </div>
 
                     <!-- HUD Element 1: FPS & Coords (Top Left) -->
@@ -187,11 +181,11 @@
                     <div id="hud-keystrokes" class="absolute top-4 right-4 mc-font text-xs transition-all duration-300">
                         <div class="grid grid-cols-3 gap-1 w-32 text-center">
                             <div></div>
-                            <div id="key-w" class="py-2 rounded bg-abyss-950/80 border border-cyan-500/30 font-bold text-white">W</div>
+                            <div id="key-w" class="py-2 rounded bg-abyss-950/80 border border-cyan-500/30 font-bold text-white shadow-sm">W</div>
                             <div></div>
-                            <div id="key-a" class="py-2 rounded bg-abyss-950/80 border border-cyan-500/30 font-bold text-white">A</div>
-                            <div id="key-s" class="py-2 rounded bg-abyss-950/80 border border-cyan-500/30 font-bold text-white">S</div>
-                            <div id="key-d" class="py-2 rounded bg-abyss-950/80 border border-cyan-500/30 font-bold text-white">D</div>
+                            <div id="key-a" class="py-2 rounded bg-abyss-950/80 border border-cyan-500/30 font-bold text-white shadow-sm">A</div>
+                            <div id="key-s" class="py-2 rounded bg-abyss-950/80 border border-cyan-500/30 font-bold text-white shadow-sm">S</div>
+                            <div id="key-d" class="py-2 rounded bg-abyss-950/80 border border-cyan-500/30 font-bold text-white shadow-sm">D</div>
                             <div class="col-span-3 py-1.5 rounded bg-abyss-950/80 border border-cyan-500/30 font-bold text-[10px] tracking-widest text-cyan-300">SPACE</div>
                             <div class="col-span-3 grid grid-cols-2 gap-1">
                                 <div class="py-1.5 rounded bg-abyss-950/80 border border-cyan-500/30 text-[10px]">LMB <span id="lmb-cps" class="text-cyan-400">14</span></div>
@@ -205,14 +199,14 @@
                         <div class="flex items-center gap-2.5">
                             <i class="fa-solid fa-helmet-safety text-cyan-400"></i>
                             <div class="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div class="w-[92%] h-full bg-emerald-400"></div>
+                                <div class="w-[92%] h-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
                             </div>
                             <span class="text-[10px] text-slate-300">334/363</span>
                         </div>
                         <div class="flex items-center gap-2.5">
                             <i class="fa-solid fa-shirt text-cyan-400"></i>
                             <div class="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div class="w-[85%] h-full bg-emerald-400"></div>
+                                <div class="w-[85%] h-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
                             </div>
                             <span class="text-[10px] text-slate-300">448/528</span>
                         </div>
@@ -228,12 +222,12 @@
                     </div>
 
                     <!-- Interactive HUD Control Bar inside Viewport -->
-                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 glass-panel px-4 py-2 rounded-xl flex flex-wrap items-center justify-center gap-2 text-xs z-20 w-[92%] sm:w-auto">
+                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 glass-panel px-4 py-2 rounded-xl flex flex-wrap items-center justify-center gap-2 text-xs z-20 w-[92%] sm:w-auto shadow-neon">
                         <span class="text-slate-400 font-mono mr-1 hidden sm:inline">Toggle HUD:</span>
-                        <button onclick="toggleHud('hud-fps', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium transition">FPS/XYZ</button>
-                        <button onclick="toggleHud('hud-keystrokes', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium transition">Keystrokes</button>
-                        <button onclick="toggleHud('hud-armor', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium transition">ArmorHUD</button>
-                        <button onclick="toggleHud('hud-sprint', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium transition">ToggleSprint</button>
+                        <button onclick="toggleHud('hud-fps', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium transition shadow-sm">FPS/XYZ</button>
+                        <button onclick="toggleHud('hud-keystrokes', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium transition shadow-sm">Keystrokes</button>
+                        <button onclick="toggleHud('hud-armor', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium transition shadow-sm">ArmorHUD</button>
+                        <button onclick="toggleHud('hud-sprint', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-medium transition shadow-sm">ToggleSprint</button>
                     </div>
                 </div>
             </div>
@@ -248,8 +242,8 @@
                 <h2 class="text-3xl md:text-5xl font-black mt-2">Engineered to Crush Latency</h2>
             </div>
             <!-- Scenario Selector -->
-            <div class="inline-flex p-1 rounded-xl glass-panel">
-                <button onclick="setBenchmark('pvp')" id="btn-pvp" class="bench-tab px-4 py-2 rounded-lg text-xs font-bold bg-cyan-400 text-abyss-950 transition">Ranked Skywars (120 Entities)</button>
+            <div class="inline-flex p-1 rounded-xl glass-panel shadow-lg">
+                <button onclick="setBenchmark('pvp')" id="btn-pvp" class="bench-tab px-4 py-2 rounded-lg text-xs font-bold bg-cyan-400 text-abyss-950 transition shadow-neon">Ranked Skywars (120 Entities)</button>
                 <button onclick="setBenchmark('chunks')" id="btn-chunks" class="bench-tab px-4 py-2 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition">32-Chunk Elytra Flight</button>
                 <button onclick="setBenchmark('shaders')" id="btn-shaders" class="bench-tab px-4 py-2 rounded-lg text-xs font-bold text-slate-300 hover:text-white transition">PBR Raytraced Shaders</button>
             </div>
@@ -257,7 +251,7 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- FPS Comparison Card -->
-            <div class="lg:col-span-2 glass-panel rounded-2xl p-8 space-y-6">
+            <div class="lg:col-span-2 glass-panel rounded-2xl p-8 space-y-6 shadow-2xl">
                 <div class="flex justify-between items-center">
                     <h3 class="font-bold text-lg">Average Frame Rate & 1% Lows</h3>
                     <span id="bench-hardware" class="font-mono text-xs text-slate-400">Ryzen 7 7800X3D • RTX 4070</span>
@@ -270,7 +264,7 @@
                         <span id="ocean-fps-label" class="font-mono text-cyan-300">1,480 FPS (1% Low: 1,190)</span>
                     </div>
                     <div class="w-full h-4 bg-abyss-950 rounded-full overflow-hidden p-0.5 border border-cyan-500/30">
-                        <div id="ocean-bar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transition-all duration-700" style="width: 96%"></div>
+                        <div id="ocean-bar" class="h-full bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full transition-all duration-700 shadow-neon" style="width: 96%"></div>
                     </div>
                 </div>
 
@@ -298,9 +292,9 @@
             </div>
 
             <!-- Memory & GC Card -->
-            <div class="glass-panel rounded-2xl p-8 flex flex-col justify-between">
+            <div class="glass-panel rounded-2xl p-8 flex flex-col justify-between shadow-2xl">
                 <div>
-                    <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-mono text-xs border border-emerald-500/20">ZERO GC STUTTER</span>
+                    <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-mono text-xs border border-emerald-500/20 shadow-sm">ZERO GC STUTTER</span>
                     <h3 class="text-2xl font-black mt-4 mb-2">412 MB Footprint</h3>
                     <p class="text-slate-400 text-sm leading-relaxed">
                         Deterministic ownership in Rust means zero JVM heap bloat and zero stop-the-world garbage collection freezes mid-combo.
@@ -331,14 +325,14 @@
         <!-- Search & Category Filter -->
         <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
             <div class="flex flex-wrap gap-2">
-                <button onclick="filterModules('all', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold bg-cyan-400 text-abyss-950 transition">All</button>
+                <button onclick="filterModules('all', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold bg-cyan-400 text-abyss-950 transition shadow-neon">All</button>
                 <button onclick="filterModules('pvp', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold glass-panel text-slate-300 hover:text-white transition">PvP</button>
                 <button onclick="filterModules('render', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold glass-panel text-slate-300 hover:text-white transition">Render</button>
                 <button onclick="filterModules('utility', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold glass-panel text-slate-300 hover:text-white transition">Utility</button>
             </div>
             <div class="relative w-full sm:w-64">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                <input type="text" id="module-search" oninput="searchModules()" placeholder="Search modules..." class="w-full pl-9 pr-4 py-2 rounded-xl glass-panel text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400">
+                <input type="text" id="module-search" oninput="searchModules()" placeholder="Search modules..." class="w-full pl-9 pr-4 py-2 rounded-xl glass-panel text-sm text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 shadow-inner">
             </div>
         </div>
 
@@ -350,7 +344,7 @@
 
     <!-- Rust Architecture Terminal Showcase -->
     <section id="architecture" class="relative z-10 py-20 px-4 max-w-5xl mx-auto">
-        <div class="glass-panel rounded-2xl overflow-hidden border border-cyan-500/20">
+        <div class="glass-panel rounded-2xl overflow-hidden border border-cyan-500/30 shadow-2xl">
             <div class="bg-abyss-950 px-5 py-3 border-b border-slate-800 flex items-center justify-between">
                 <div class="flex items-center gap-2 font-mono text-xs text-slate-400">
                     <i class="fa-brands fa-rust text-orange-400 text-sm"></i>
@@ -373,7 +367,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="relative z-10 border-t border-slate-800/80 py-12 px-4 mt-12 bg-abyss-950/80">
+    <footer class="relative z-10 border-t border-slate-800/80 py-12 px-4 mt-12 bg-abyss-950/90">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3">
                 <i class="fa-solid fa-water text-cyan-400 text-xl"></i>
@@ -391,14 +385,14 @@
     </footer>
 
     <!-- Download Modal -->
-    <div id="download-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-abyss-950/80 backdrop-blur-md p-4">
-        <div class="glass-panel max-w-lg w-full rounded-2xl p-6 md:p-8 border border-cyan-400/30 shadow-2xl relative">
+    <div id="download-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-abyss-950/85 backdrop-blur-md p-4">
+        <div class="glass-panel max-w-lg w-full rounded-2xl p-6 md:p-8 border border-cyan-400/40 shadow-2xl relative">
             <button onclick="closeDownloadModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
 
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shadow-neon">
                     <i class="fa-solid fa-download"></i>
                 </div>
                 <div>
@@ -408,7 +402,7 @@
             </div>
 
             <div class="space-y-3 my-6">
-                <button onclick="triggerFakeDownload('Ocean-Setup-2.4.1-x64.msi')" class="w-full p-4 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-abyss-950 font-bold flex items-center justify-between transition">
+                <button onclick="triggerFakeDownload('Ocean-Setup-2.4.1-x64.msi')" class="w-full p-4 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-abyss-950 font-bold flex items-center justify-between transition shadow-neon">
                     <span class="flex items-center gap-3"><i class="fa-brands fa-windows text-xl"></i> Windows Installer (x64 / ARM64)</span>
                     <span class="font-mono text-xs bg-abyss-950/20 px-2 py-1 rounded">.MSI • 18.4 MB</span>
                 </button>
@@ -455,8 +449,8 @@
             const keys = ['key-w', 'key-a', 'key-d'];
             const randomKey = document.getElementById(keys[Math.floor(Math.random() * keys.length)]);
             if (randomKey) {
-                randomKey.classList.add('bg-cyan-400', 'text-abyss-950');
-                setTimeout(() => randomKey.classList.remove('bg-cyan-400', 'text-abyss-950'), 220);
+                randomKey.classList.add('bg-cyan-400', 'text-abyss-950', 'shadow-neon');
+                setTimeout(() => randomKey.classList.remove('bg-cyan-400', 'text-abyss-950', 'shadow-neon'), 220);
             }
         }, 650);
 
@@ -481,11 +475,11 @@
 
         function setBenchmark(mode) {
             document.querySelectorAll('.bench-tab').forEach(btn => {
-                btn.classList.remove('bg-cyan-400', 'text-abyss-950');
+                btn.classList.remove('bg-cyan-400', 'text-abyss-950', 'shadow-neon');
                 btn.classList.add('text-slate-300');
             });
             const activeBtn = document.getElementById(`btn-${mode}`);
-            activeBtn.classList.add('bg-cyan-400', 'text-abyss-950');
+            activeBtn.classList.add('bg-cyan-400', 'text-abyss-950', 'shadow-neon');
             activeBtn.classList.remove('text-slate-300');
 
             const data = benchData[mode];
@@ -525,10 +519,10 @@
 
             filtered.forEach(mod => {
                 grid.innerHTML += `
-                    <div class="glass-panel glass-panel-hover rounded-2xl p-6 transition duration-300 flex flex-col justify-between">
+                    <div class="glass-panel glass-panel-hover rounded-2xl p-6 transition duration-300 flex flex-col justify-between shadow-lg">
                         <div>
                             <div class="flex items-center justify-between mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/15 text-cyan-400 flex items-center justify-center shadow-sm">
                                     <i class="fa-solid ${mod.icon}"></i>
                                 </div>
                                 <span class="font-mono text-[10px] uppercase px-2.5 py-1 rounded-md bg-abyss-950 text-cyan-300 border border-cyan-500/20">${mod.cat}</span>
@@ -544,10 +538,10 @@
         function filterModules(cat, btn) {
             currentCategory = cat;
             document.querySelectorAll('.mod-filter').forEach(b => {
-                b.classList.remove('bg-cyan-400', 'text-abyss-950');
+                b.classList.remove('bg-cyan-400', 'text-abyss-950', 'shadow-neon');
                 b.classList.add('glass-panel', 'text-slate-300');
             });
-            btn.classList.add('bg-cyan-400', 'text-abyss-950');
+            btn.classList.add('bg-cyan-400', 'text-abyss-950', 'shadow-neon');
             btn.classList.remove('glass-panel', 'text-slate-300');
             renderModules();
         }
@@ -572,10 +566,21 @@
             status.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Starting download: <strong>${filename}</strong>...`;
         }
 
-        // 5. Ambient Ocean Particle Canvas
+        // 5. Advanced Interactive Mouse-Reactive Ocean Particle Canvas
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        let mouse = { x: null, y: null, radius: 150 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -584,29 +589,47 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        for (let i = 0; i < 45; i++) {
+        for (let i = 0; i < 60; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                r: Math.random() * 2 + 0.5,
-                dx: (Math.random() - 0.5) * 0.3,
-                dy: -Math.random() * 0.4 - 0.1
+                r: Math.random() * 2.2 + 0.6,
+                dx: (Math.random() - 0.5) * 0.4,
+                dy: -Math.random() * 0.5 - 0.2
             });
         }
 
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'rgba(34, 211, 238, 0.35)';
-            particles.forEach(p => {
+            
+            particles.forEach((p, index) => {
+                ctx.fillStyle = 'rgba(34, 211, 238, 0.45)';
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
                 ctx.fill();
+
+                // Mouse interaction / connection lines
+                if (mouse.x !== null && mouse.y !== null) {
+                    let distX = p.x - mouse.x;
+                    let distY = p.y - mouse.y;
+                    let distance = Math.sqrt(distX * distX + distY * distY);
+                    if (distance < mouse.radius) {
+                        ctx.strokeStyle = `rgba(34, 211, 238, ${1 - distance / mouse.radius})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+
                 p.x += p.dx;
                 p.y += p.dy;
                 if (p.y < 0) p.y = canvas.height;
                 if (p.x < 0) p.x = canvas.width;
                 if (p.x > canvas.width) p.x = 0;
             });
+
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
