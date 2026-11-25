@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="it" class="dark scroll-smooth">
+<html lang="en" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ocean Client</title>
     
-    <!-- Favicon SVG con l'onda esatta -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%23141418'/%3E%3Cpath fill='%23ffffff' d='M140 372c-2.7 0-5.3-1-7.3-3-4.1-4.1-4.1-10.7 0-14.8l74.3-74.3c4.1-4.1 10.7-4.1 14.8 0s4.1 10.7 0 14.8l-74.3 74.3c-2 2-4.6 3-7.5 3z'/><path fill='%23ffffff' d='M372 320c-13.8 0-26.6-4.5-37-12.2-25.7 18.2-57.8 29.2-93 29.2-88.4 0-160-71.6-160-160 0-35.2 11-67.3 29.2-93-7.7 10.4-12.2 23.2-12.2 37 0 35.3 28.7 64 64 64s64-28.7 64-64-28.7-64-64-64c-13.8 0-26.6 4.5-37 12.2C175.7 58 207.8 47 243 47c88.4 0 160 71.6 160 160 0 35.2-11 67.3-29.2 93 7.7-10.4 12.2-23.2 12.2-37 0-35.3-28.7-64-64-64s-64 28.7-64 64 28.7 64 64 64c13.8 0 26.6-4.5 37-12.2 10.4 7.7 23.2 12.2 37 12.2 35.3 0 64-28.7 64-64s-28.7-64-64-64z'/><path fill='%23ffffff' d='M368 372c-2.7 0-5.3-1-7.3-3-4.1-4.1-4.1-10.7 0-14.8l21.3-21.3c4.1-4.1 10.7-4.1 14.8 0s4.1 10.7 0 14.8l-21.3 21.3c-2 2-4.6 3-7.5 3z'/></svg>">
+    <!-- Nuovo Favicon SVG Minimal e Moderno -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23121216'/%3E%3Cpath fill='none' stroke='%233b82f6' stroke-width='48' stroke-linecap='round' d='M116 280c40-60 80-80 140-80s100 40 140 100c30 45 60 60 100 20'/><path fill='none' stroke='%23ffffff' stroke-width='48' stroke-linecap='round' d='M56 220c50-70 100-90 170-90s120 50 170 120'/></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,42 +19,37 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
-                    colors: {
-                        darkbg: '#0a0a0c',
-                        cardbg: '#141418',
-                        oceanblue: '#3b82f6',
-                        oceanhover: '#2563eb'
-                    }
                 }
             }
         }
     </script>
     <style>
         body {
-            background-color: #0a0a0c;
+            background-color: #0b0b0e;
             color: #ffffff;
             font-family: 'Inter', sans-serif;
         }
         .glass-panel {
-            background: rgba(20, 20, 24, 0.75);
+            background: rgba(18, 18, 22, 0.75);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s ease;
         }
         .glass-panel:hover {
-            border-color: rgba(59, 130, 246, 0.3);
+            border-color: rgba(59, 130, 246, 0.35);
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
 
-    <!-- Header / Navbar Semplice e Pulita -->
+    <!-- Header / Navbar -->
     <header class="w-full px-6 py-6 flex items-center justify-between max-w-7xl mx-auto">
         <a href="#" class="flex items-center gap-3 group">
-            <div class="w-9 h-9 rounded-xl bg-[#141418] border border-white/10 flex items-center justify-center p-1.5 group-hover:border-blue-500/50 transition shadow-md">
-                <svg viewBox="0 0 512 512" class="w-full h-full fill-white">
-                    <path d="M140 372c-2.7 0-5.3-1-7.3-3-4.1-4.1-4.1-10.7 0-14.8l74.3-74.3c4.1-4.1 10.7-4.1 14.8 0s4.1 10.7 0 14.8l-74.3 74.3c-2 2-4.6 3-7.5 3z"/>
-                    <path d="M372 320c-13.8 0-26.6-4.5-37-12.2-25.7 18.2-57.8 29.2-93 29.2-88.4 0-160-71.6-160-160 0-35.2 11-67.3 29.2-93-7.7 10.4-12.2 23.2-12.2 37 0 35.3 28.7 64 64 64s64-28.7 64-64-28.7-64-64-64c-13.8 0-26.6 4.5-37 12.2C175.7 58 207.8 47 243 47c88.4 0 160 71.6 160 160 0 35.2-11 67.3-29.2 93 7.7-10.4 12.2-23.2 12.2-37 0-35.3-28.7-64-64-64s-64 28.7-64 64 28.7 64 64 64c13.8 0 26.6-4.5 37-12.2 10.4 7.7 23.2 12.2 37 12.2 35.3 0 64-28.7 64-64s-28.7-64-64-64z"/>
-                    <path d="M368 372c-2.7 0-5.3-1-7.3-3-4.1-4.1-4.1-10.7 0-14.8l21.3-21.3c4.1-4.1 10.7-4.1 14.8 0s4.1 10.7 0 14.8l-21.3 21.3c-2 2-4.6 3-7.5 3z"/>
+            <!-- Nuovo Logo SVG in Navbar -->
+            <div class="w-10 h-10 rounded-xl bg-[#121216] border border-white/10 flex items-center justify-center p-2 group-hover:border-blue-500/50 transition shadow-lg">
+                <svg viewBox="0 0 512 512" class="w-full h-full">
+                    <path fill="none" stroke="#3b82f6" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
+                    <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" d="M50 210c50-70 100-90 180-90s130 50 185 125"/>
                 </svg>
             </div>
             <span class="font-bold text-lg tracking-tight text-white">Ocean</span>
@@ -67,22 +62,21 @@
         </nav>
 
         <div class="flex items-center gap-3">
-            <button onclick="openDownloadModal()" class="px-5 py-2 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition shadow-lg shadow-blue-600/20 flex items-center gap-2">
+            <button onclick="openDownloadModal()" class="px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold transition shadow-lg shadow-blue-600/25 flex items-center gap-2">
                 <i class="fa-solid fa-cloud-arrow-down text-xs"></i>
                 <span>Download</span>
             </button>
         </div>
     </header>
 
-    <!-- Main Hero Section Semplice e Moderna -->
+    <!-- Main Hero Section -->
     <main class="flex-grow flex flex-col items-center justify-center text-center px-4 py-12">
         
-        <!-- Logo Centrale -->
-        <div class="w-24 h-24 mb-8 rounded-3xl bg-[#141418] border border-white/10 flex items-center justify-center p-5 shadow-2xl shadow-blue-600/15">
-            <svg viewBox="0 0 512 512" class="w-full h-full fill-white">
-                <path d="M140 372c-2.7 0-5.3-1-7.3-3-4.1-4.1-4.1-10.7 0-14.8l74.3-74.3c4.1-4.1 10.7-4.1 14.8 0s4.1 10.7 0 14.8l-74.3 74.3c-2 2-4.6 3-7.5 3z"/>
-                <path d="M372 320c-13.8 0-26.6-4.5-37-12.2-25.7 18.2-57.8 29.2-93 29.2-88.4 0-160-71.6-160-160 0-35.2 11-67.3 29.2-93-7.7 10.4-12.2 23.2-12.2 37 0 35.3 28.7 64 64 64s64-28.7 64-64-28.7-64-64-64c-13.8 0-26.6 4.5-37 12.2C175.7 58 207.8 47 243 47c88.4 0 160 71.6 160 160 0 35.2-11 67.3-29.2 93 7.7-10.4 12.2-23.2 12.2-37 0-35.3-28.7-64-64-64s-64 28.7-64 64 28.7 64 64 64c13.8 0 26.6-4.5 37-12.2 10.4 7.7 23.2 12.2 37 12.2 35.3 0 64-28.7 64-64s-28.7-64-64-64z"/>
-                <path d="M368 372c-2.7 0-5.3-1-7.3-3-4.1-4.1-4.1-10.7 0-14.8l21.3-21.3c4.1-4.1 10.7-4.1 14.8 0s4.1 10.7 0 14.8l-21.3 21.3c-2 2-4.6 3-7.5 3z"/>
+        <!-- Nuovo Logo Centrale Grande -->
+        <div class="w-28 h-28 mb-8 rounded-3xl bg-[#121216] border border-white/10 flex items-center justify-center p-6 shadow-2xl shadow-blue-600/15">
+            <svg viewBox="0 0 512 512" class="w-full h-full">
+                <path fill="none" stroke="#3b82f6" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
+                <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" d="M50 210c50-70 100-90 180-90s130 50 185 125"/>
             </svg>
         </div>
 
@@ -93,28 +87,28 @@
             Play Ocean.
         </h1>
 
-        <p class="text-zinc-400 text-base md:text-lg max-w-xl mx-auto mb-10">
-            Il client Minecraft definitivo scritto interamente in Rust. Prestazioni estreme, zero lag e grafica moderna.
+        <p class="text-zinc-400 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+            The ultimate Minecraft client rewritten entirely in Rust. Extreme performance, zero lag, and a modern design.
         </p>
 
-        <!-- Pulsanti Principali -->
-        <div class="flex flex-col sm:flex-row items-center gap-4 w-full justify-center max-w-md mb-16">
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center gap-4 w-full justify-center max-w-md mb-20">
             <button onclick="openDownloadModal()" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold transition shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2">
                 <i class="fa-solid fa-download text-xs"></i> Download Ocean
             </button>
-            <a href="#modules" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#141418] hover:bg-zinc-800 text-zinc-300 border border-white/10 font-semibold transition flex items-center justify-center gap-2">
+            <a href="#modules" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-[#121216] hover:bg-zinc-800 text-zinc-300 border border-white/10 font-semibold transition flex items-center justify-center gap-2">
                 <i class="fa-solid fa-layer-group text-xs text-blue-500"></i> See modules
             </a>
         </div>
 
-        <!-- Sotto-sezione delle Features minimali con icone curate -->
+        <!-- Features Grid -->
         <div id="features" class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl w-full mx-auto text-left">
             <div class="glass-panel p-6 rounded-2xl">
                 <div class="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-500 flex items-center justify-center mb-4">
                     <i class="fa-solid fa-bolt text-sm"></i>
                 </div>
                 <h3 class="font-bold text-white mb-1">Ultra Fast</h3>
-                <p class="text-zinc-400 text-xs leading-relaxed">Scritto in puro Rust nativo per frame rate elevatissimi senza cali.</p>
+                <p class="text-zinc-400 text-xs leading-relaxed">Written in pure native Rust for exceptionally high frame rates without stutters.</p>
             </div>
 
             <div class="glass-panel p-6 rounded-2xl">
@@ -122,7 +116,7 @@
                     <i class="fa-solid fa-shield-halved text-sm"></i>
                 </div>
                 <h3 class="font-bold text-white mb-1">Anti-Cheat Safe</h3>
-                <p class="text-zinc-400 text-xs leading-relaxed">Progettato per rispettare i server network senza problemi di sicurezza.</p>
+                <p class="text-zinc-400 text-xs leading-relaxed">Designed to comply fully with modern multiplayer server security protocols.</p>
             </div>
 
             <div class="glass-panel p-6 rounded-2xl">
@@ -130,17 +124,17 @@
                     <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
                 </div>
                 <h3 class="font-bold text-white mb-1">Custom HUD</h3>
-                <p class="text-zinc-400 text-xs leading-relaxed">Moduli integrati per keystrokes, FPS, armor status e molto altro.</p>
+                <p class="text-zinc-400 text-xs leading-relaxed">Built-in modules for keystrokes, FPS counters, armor status, and more.</p>
             </div>
         </div>
 
     </main>
 
-    <!-- Sezione Moduli Semplice -->
+    <!-- Modules Section -->
     <section id="modules" class="py-16 px-4 max-w-4xl mx-auto w-full">
         <div class="text-center mb-10">
-            <h2 class="text-2xl font-bold mb-2">Moduli Principali</h2>
-            <p class="text-zinc-400 text-sm">Tutto ciò di cui hai bisogno integrato nel launcher.</p>
+            <h2 class="text-2xl font-bold mb-2">Core Modules</h2>
+            <p class="text-zinc-400 text-sm">Everything you need built straight into the launcher.</p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="glass-panel p-5 rounded-xl flex items-start gap-4">
@@ -149,7 +143,7 @@
                 </div>
                 <div>
                     <h4 class="font-semibold text-sm text-white mb-1">Hitreg Fix</h4>
-                    <p class="text-zinc-400 text-xs">Migliora la precisione dei colpi e riduce la latenza di rete.</p>
+                    <p class="text-zinc-400 text-xs">Improves hit registration precision and reduces network packet delay.</p>
                 </div>
             </div>
 
@@ -159,7 +153,7 @@
                 </div>
                 <div>
                     <h4 class="font-semibold text-sm text-white mb-1">Replay Mod</h4>
-                    <p class="text-zinc-400 text-xs">Registra e rivedi le tue partite con zero impatto sulle prestazioni.</p>
+                    <p class="text-zinc-400 text-xs">Record and review your gameplay smoothly with minimal CPU overhead.</p>
                 </div>
             </div>
         </div>
@@ -170,7 +164,7 @@
         Free • Minecraft Client • Windows / Linux / macOS
     </footer>
 
-    <!-- Modale Download -->
+    <!-- Download Modal -->
     <div id="download-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
         <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-white/10 shadow-2xl relative">
             <button onclick="closeDownloadModal()" class="absolute top-4 right-4 text-zinc-400 hover:text-white">
@@ -183,7 +177,7 @@
                 </div>
                 <div>
                     <h3 class="text-lg font-bold">Download Ocean</h3>
-                    <p class="text-xs text-blue-400">Versione stabile v2.4.1</p>
+                    <p class="text-xs text-blue-400">Stable Release v2.4.1</p>
                 </div>
             </div>
 
@@ -192,7 +186,7 @@
                     <span class="flex items-center gap-2.5"><i class="fa-brands fa-windows"></i> Windows Installer</span>
                     <span class="text-xs opacity-75">.MSI</span>
                 </button>
-                <button onclick="triggerDownload('Linux')" class="w-full p-3.5 rounded-xl bg-[#141418] hover:bg-zinc-800 text-zinc-300 border border-white/10 font-semibold text-sm flex items-center justify-between transition">
+                <button onclick="triggerDownload('Linux')" class="w-full p-3.5 rounded-xl bg-[#121216] hover:bg-zinc-800 text-zinc-300 border border-white/10 font-semibold text-sm flex items-center justify-between transition">
                     <span class="flex items-center gap-2.5"><i class="fa-brands fa-linux text-blue-400"></i> Linux AppImage</span>
                     <span class="text-xs opacity-50">.AppImage</span>
                 </button>
@@ -217,7 +211,7 @@
         function triggerDownload(platform) {
             const status = document.getElementById('download-status');
             status.classList.remove('hidden');
-            status.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Download avviato per <strong>${platform}</strong>!`;
+            status.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Download started for <strong>${platform}</strong>!`;
         }
     </script>
 </body>
