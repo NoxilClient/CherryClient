@@ -6,7 +6,7 @@
     <title>Ocean Client // Next-Gen Rust Minecraft Client</title>
     
     <!-- Favicon SVG con il Nuovo Logo Minimal & Futurist -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%230f172a'/%3E%3Cpath fill='none' stroke='%2338bdf8' stroke-width='48' stroke-linecap='round' d='M116 280c40-60 80-80 140-80s100 40 140 100c30 45 60 60 100 20'/><path fill='none' stroke='%23ffffff' stroke-width='48' stroke-linecap='round' d='M56 220c50-70 100-90 170-90s120 50 170 120'/></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='120' fill='%23020617'/%3E%3Cpath fill='none' stroke='%2338bdf8' stroke-width='48' stroke-linecap='round' stroke-linejoin='round' d='M96 280c45-70 90-90 160-90s115 50 160 120c25 40 50 55 90 20'/><path fill='none' stroke='%23ffffff' stroke-width='48' stroke-linecap='round' stroke-linejoin='round' d='M48 200c55-85 110-105 192-105s137 60 204 145'/></svg>">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -59,10 +59,6 @@
                 linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
         }
-        .mc-font {
-            font-family: 'JetBrains Mono', monospace;
-            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9);
-        }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #020617; }
         ::-webkit-scrollbar-thumb { background: #112248; border-radius: 4px; }
@@ -80,8 +76,8 @@
             <!-- Nuovo Logo SVG in Navbar -->
             <div class="w-10 h-10 rounded-xl bg-abyss-900 border border-sky-500/30 flex items-center justify-center p-2 shadow-neon group-hover:scale-105 transition">
                 <svg viewBox="0 0 512 512" class="w-full h-full">
-                    <path fill="none" stroke="#38bdf8" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
-                    <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" d="M50 210c50-70 100-90 180-90s130 50 185 125"/>
+                    <path fill="none" stroke="#38bdf8" stroke-width="56" stroke-linecap="round" stroke-linejoin="round" d="M96 280c45-70 90-90 160-90s115 50 160 120c25 40 50 55 90 20"/>
+                    <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" stroke-linejoin="round" d="M48 200c55-85 110-105 192-105s137 60 204 145"/>
                 </svg>
             </div>
             <div class="flex flex-col">
@@ -91,9 +87,8 @@
         </a>
 
         <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-            <a href="#hud-preview" class="hover:text-sky-400 transition">HUD Playground</a>
             <a href="#benchmarks" class="hover:text-sky-400 transition">Performance</a>
-            <a href="#modules" class="hover:text-sky-400 transition">Modules</a>
+            <a href="#features" class="hover:text-sky-400 transition">Features</a>
             <a href="https://discord.com" target="_blank" class="hover:text-sky-400 transition flex items-center gap-1.5"><i class="fa-brands fa-discord"></i> Discord</a>
         </div>
 
@@ -105,120 +100,42 @@
         </div>
     </nav>
 
-    <!-- Hero & Interactive HUD Simulator -->
-    <main class="relative z-10 pt-44 pb-20 px-4 max-w-7xl mx-auto flex-grow w-full">
-        <div class="text-center max-w-4xl mx-auto mb-16">
-            
-            <!-- Nuovo Logo Centrale Grande -->
-            <div class="w-28 h-28 mx-auto mb-8 rounded-3xl bg-abyss-900 border border-sky-500/30 flex items-center justify-center p-6 shadow-neon-strong">
-                <svg viewBox="0 0 512 512" class="w-full h-full">
-                    <path fill="none" stroke="#38bdf8" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
-                    <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" d="M50 210c50-70 100-90 180-90s130 50 185 125"/>
-                </svg>
-            </div>
-
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-xs font-mono text-sky-400 mb-6 shadow-neon">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>v2.4.1 Stable • 0ms GC Pauses • 1.8.9 – 1.21.4</span>
-            </div>
-
-            <h1 class="text-5xl md:text-7xl font-black tracking-tight mb-3">
-                Play <span class="bg-gradient-to-r from-sky-300 via-sky-400 to-blue-500 bg-clip-text text-transparent">better.</span>
-            </h1>
-            <h1 class="text-5xl md:text-7xl font-black tracking-tight mb-6">
-                Play Ocean.
-            </h1>
-
-            <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                Re-engineered from bare metal in <span class="text-slate-200 font-mono">Rust</span> with <span class="text-slate-200 font-mono">wgpu</span> backend. Lock in ultra-high frame rates with zero stutter.
-            </p>
-
-            <div class="flex flex-wrap justify-center gap-4">
-                <button onclick="openDownloadModal()" class="px-8 py-4 rounded-full bg-sky-400 text-slate-950 font-extrabold text-base hover:bg-sky-300 transition shadow-neon-strong flex items-center gap-3">
-                    <i class="fa-brands fa-windows text-lg"></i>
-                    <span>Download Launcher</span>
-                </button>
-                <a href="#modules" class="px-8 py-4 rounded-full glass-panel hover:bg-abyss-800 font-semibold text-base transition flex items-center gap-2">
-                    <i class="fa-solid fa-cube text-sky-400"></i>
-                    <span>Explore Modules</span>
-                </a>
-            </div>
+    <!-- Hero Section -->
+    <main class="relative z-10 pt-48 pb-20 px-4 max-w-5xl mx-auto flex-grow w-full text-center">
+        
+        <!-- Nuovo Logo Centrale Grande -->
+        <div class="w-32 h-32 mx-auto mb-8 rounded-3xl bg-abyss-900 border border-sky-500/30 flex items-center justify-center p-7 shadow-neon-strong">
+            <svg viewBox="0 0 512 512" class="w-full h-full">
+                <path fill="none" stroke="#38bdf8" stroke-width="56" stroke-linecap="round" stroke-linejoin="round" d="M96 280c45-70 90-90 160-90s115 50 160 120c25 40 50 55 90 20"/>
+                <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" stroke-linejoin="round" d="M48 200c55-85 110-105 192-105s137 60 204 145"/>
+            </svg>
         </div>
 
-        <!-- HUD Playground Simulator -->
-        <div id="hud-preview" class="max-w-5xl mx-auto">
-            <div class="glass-panel rounded-2xl p-2 shadow-2xl border border-sky-500/30">
-                <div class="flex items-center justify-between px-4 py-3 bg-abyss-950/90 rounded-t-xl border-b border-slate-800">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
-                        <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
-                        <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-                        <span class="ml-2 font-mono text-xs text-slate-400">Ocean Client 1.21.4 (x86_64-pc-windows-msvc)</span>
-                    </div>
-                    <div class="flex items-center gap-2 text-xs font-mono">
-                        <span class="px-2.5 py-0.5 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20">LIVE HUD SIMULATOR</span>
-                    </div>
-                </div>
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-xs font-mono text-sky-400 mb-6 shadow-neon">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>v2.4.1 Stable • 0ms GC Pauses • 1.8.9 – 1.21.4</span>
+        </div>
 
-                <div class="relative h-[430px] rounded-b-xl overflow-hidden bg-gradient-to-b from-[#0b1f3a] via-[#102c54] to-[#081226] select-none">
-                    <div class="absolute inset-0 opacity-40" style="background-image: radial-gradient(circle at 70% 25%, rgba(56, 189, 248, 0.4), transparent 50%);"></div>
-                    <div class="absolute bottom-0 inset-x-0 h-36 bg-gradient-to-t from-abyss-950 via-abyss-900/80 to-transparent"></div>
-                    
-                    <!-- Crosshair -->
-                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div class="w-5 h-0.5 bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.8)]"></div>
-                        <div class="h-5 w-0.5 bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.8)] -ml-[11px]"></div>
-                    </div>
+        <h1 class="text-5xl md:text-7xl font-black tracking-tight mb-3">
+            Play <span class="bg-gradient-to-r from-sky-300 via-sky-400 to-blue-500 bg-clip-text text-transparent">better.</span>
+        </h1>
+        <h1 class="text-5xl md:text-7xl font-black tracking-tight mb-6">
+            Play Ocean.
+        </h1>
 
-                    <!-- HUD FPS -->
-                    <div id="hud-fps" class="absolute top-4 left-4 glass-panel px-3.5 py-2 rounded-lg mc-font text-xs space-y-1 transition-all duration-300">
-                        <div class="flex items-center gap-2">
-                            <span class="text-sky-400 font-bold">[FPS]</span>
-                            <span id="live-fps-counter" class="text-white font-bold">1,482 FPS</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-slate-300">
-                            <span class="text-sky-400 font-bold">[XYZ]</span>
-                            <span>-248.4 / 72.0 / 1,094.2</span>
-                        </div>
-                    </div>
+        <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+            Re-engineered from bare metal in <span class="text-slate-200 font-mono">Rust</span> with <span class="text-slate-200 font-mono">wgpu</span> backend. Ultra-high frame rates and zero lag.
+        </p>
 
-                    <!-- HUD Keystrokes -->
-                    <div id="hud-keystrokes" class="absolute top-4 right-4 mc-font text-xs transition-all duration-300">
-                        <div class="grid grid-cols-3 gap-1 w-32 text-center">
-                            <div></div>
-                            <div id="key-w" class="py-2 rounded bg-abyss-950/80 border border-sky-500/30 font-bold text-white shadow-sm">W</div>
-                            <div></div>
-                            <div id="key-a" class="py-2 rounded bg-abyss-950/80 border border-sky-500/30 font-bold text-white shadow-sm">A</div>
-                            <div id="key-s" class="py-2 rounded bg-abyss-950/80 border border-sky-500/30 font-bold text-white shadow-sm">S</div>
-                            <div id="key-d" class="py-2 rounded bg-abyss-950/80 border border-sky-500/30 font-bold text-white shadow-sm">D</div>
-                        </div>
-                    </div>
-
-                    <!-- HUD Armor -->
-                    <div id="hud-armor" class="absolute bottom-16 left-4 glass-panel px-3 py-2 rounded-lg mc-font text-xs space-y-1.5 transition-all duration-300">
-                        <div class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-helmet-safety text-sky-400"></i>
-                            <div class="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div class="w-[92%] h-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2.5">
-                            <i class="fa-solid fa-shirt text-sky-400"></i>
-                            <div class="w-20 h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                                <div class="w-[85%] h-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- HUD Toggles -->
-                    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 glass-panel px-4 py-2 rounded-xl flex flex-wrap items-center justify-center gap-2 text-xs z-20 shadow-neon">
-                        <span class="text-slate-400 font-mono mr-1">Toggle HUD:</span>
-                        <button onclick="toggleHud('hud-fps', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/40 font-medium transition">FPS/XYZ</button>
-                        <button onclick="toggleHud('hud-keystrokes', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/40 font-medium transition">Keystrokes</button>
-                        <button onclick="toggleHud('hud-armor', this)" class="hud-btn active px-2.5 py-1 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/40 font-medium transition">ArmorHUD</button>
-                    </div>
-                </div>
-            </div>
+        <div class="flex flex-wrap justify-center gap-4">
+            <button onclick="openDownloadModal()" class="px-8 py-4 rounded-full bg-sky-400 text-slate-950 font-extrabold text-base hover:bg-sky-300 transition shadow-neon-strong flex items-center gap-3">
+                <i class="fa-brands fa-windows text-lg"></i>
+                <span>Download Launcher</span>
+            </button>
+            <a href="#benchmarks" class="px-8 py-4 rounded-full glass-panel hover:bg-abyss-800 font-semibold text-base transition flex items-center gap-2">
+                <i class="fa-solid fa-chart-line text-sky-400"></i>
+                <span>View Performance</span>
+            </a>
         </div>
     </main>
 
@@ -275,7 +192,7 @@
                     <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-mono text-xs border border-emerald-500/20">ZERO GC STUTTER</span>
                     <h3 class="text-2xl font-black mt-4 mb-2">412 MB Footprint</h3>
                     <p class="text-slate-400 text-sm leading-relaxed">
-                        Deterministic memory management in Rust eliminates JVM heap bloat and stop-the-world garbage collection freezes.
+                        Deterministic memory management in Rust eliminates JVM heap bloat and garbage collection freezes.
                     </p>
                 </div>
                 <div class="mt-8 pt-6 border-t border-slate-800 grid grid-cols-2 gap-4 font-mono">
@@ -292,28 +209,39 @@
         </div>
     </section>
 
-    <!-- Modules Section -->
-    <section id="modules" class="relative z-10 py-24 px-4 max-w-6xl mx-auto w-full">
+    <!-- Features Grid Section -->
+    <section id="features" class="relative z-10 py-24 px-4 max-w-6xl mx-auto w-full">
         <div class="text-center max-w-2xl mx-auto mb-12">
-            <span class="font-mono text-xs text-sky-400 uppercase tracking-widest">// Built-in Addons</span>
-            <h2 class="text-3xl md:text-5xl font-black mt-2 mb-4">65+ Zero-Overhead Mods</h2>
-            <p class="text-slate-400">Compiled directly into the native binary. No external mod folders or version conflicts.</p>
+            <span class="font-mono text-xs text-sky-400 uppercase tracking-widest">// Core Highlights</span>
+            <h2 class="text-3xl md:text-5xl font-black mt-2 mb-4">Built for Maximum Performance</h2>
+            <p class="text-slate-400">Every component has been redesigned from scratch to provide the smoothest gameplay experience possible.</p>
         </div>
 
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
-            <div class="flex flex-wrap gap-2">
-                <button onclick="filterModules('all', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold bg-sky-400 text-slate-950 transition shadow-neon">All</button>
-                <button onclick="filterModules('pvp', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold glass-panel text-slate-300 hover:text-white transition">PvP</button>
-                <button onclick="filterModules('render', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold glass-panel text-slate-300 hover:text-white transition">Render</button>
-                <button onclick="filterModules('utility', this)" class="mod-filter px-4 py-2 rounded-xl text-xs font-bold glass-panel text-slate-300 hover:text-white transition">Utility</button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass-panel rounded-2xl p-8">
+                <div class="w-12 h-12 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center mb-6 shadow-sm text-lg">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Native Execution</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Compiled directly to machine code via Rust with multi-threaded chunk meshing and GPU acceleration.</p>
             </div>
-            <div class="relative w-full sm:w-64">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
-                <input type="text" id="module-search" oninput="searchModules()" placeholder="Search modules..." class="w-full pl-9 pr-4 py-2 rounded-xl glass-panel text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-400 shadow-inner">
+
+            <div class="glass-panel rounded-2xl p-8">
+                <div class="w-12 h-12 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center mb-6 shadow-sm text-lg">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Anti-Cheat Safe</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Compliant with modern server security standards while delivering optimal hit registration and packet routing.</p>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-8">
+                <div class="w-12 h-12 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center mb-6 shadow-sm text-lg">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">Advanced HUD</h3>
+                <p class="text-slate-400 text-sm leading-relaxed">Fully customizable keystrokes, CPS indicators, armor status, and smooth motion blur without third-party mods.</p>
             </div>
         </div>
-
-        <div id="modules-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </section>
 
     <!-- Footer -->
@@ -322,8 +250,8 @@
             <div class="flex items-center gap-3">
                 <div class="w-8 h-8 rounded-lg bg-abyss-900 border border-sky-500/30 p-1 flex items-center justify-center">
                     <svg viewBox="0 0 512 512" class="w-full h-full">
-                        <path fill="none" stroke="#38bdf8" stroke-width="56" stroke-linecap="round" d="M100 290c40-60 80-80 156-80s104 40 156 100"/>
-                        <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" d="M50 210c50-70 100-90 180-90s130 50 185 125"/>
+                        <path fill="none" stroke="#38bdf8" stroke-width="56" stroke-linecap="round" stroke-linejoin="round" d="M96 280c45-70 90-90 160-90s115 50 160 120c25 40 50 55 90 20"/>
+                        <path fill="none" stroke="#ffffff" stroke-width="56" stroke-linecap="round" stroke-linejoin="round" d="M48 200c55-85 110-105 192-105s137 60 204 145"/>
                     </svg>
                 </div>
                 <span class="font-bold tracking-wider text-sm">OCEAN CLIENT</span>
@@ -376,31 +304,6 @@
 
     <!-- Script JavaScript -->
     <script>
-        function toggleHud(elementId, btn) {
-            const el = document.getElementById(elementId);
-            el.classList.toggle('opacity-0');
-            el.classList.toggle('scale-95');
-            btn.classList.toggle('bg-sky-500/20');
-            btn.classList.toggle('text-sky-300');
-            btn.classList.toggle('border-sky-500/40');
-            btn.classList.toggle('bg-abyss-900/60');
-            btn.classList.toggle('text-slate-500');
-        }
-
-        setInterval(() => {
-            const fpsEl = document.getElementById('live-fps-counter');
-            if (fpsEl) {
-                const fps = Math.floor(1465 + Math.random() * 45);
-                fpsEl.textContent = `${fps.toLocaleString()} FPS`;
-            }
-            const keys = ['key-w', 'key-a', 'key-d'];
-            const randomKey = document.getElementById(keys[Math.floor(Math.random() * keys.length)]);
-            if (randomKey) {
-                randomKey.classList.add('bg-sky-400', 'text-slate-950', 'shadow-neon');
-                setTimeout(() => randomKey.classList.remove('bg-sky-400', 'text-slate-950', 'shadow-neon'), 220);
-            }
-        }, 650);
-
         const benchData = {
             pvp: { ocean: '1,480 FPS', fabric: '890 FPS', vanilla: '310 FPS', width: '96%' },
             chunks: { ocean: '1,120 FPS', fabric: '580 FPS', vanilla: '165 FPS', width: '92%' }
@@ -421,60 +324,6 @@
             document.getElementById('vanilla-fps-label').textContent = data.vanilla;
             document.getElementById('ocean-bar').style.width = data.width;
         }
-
-        const modulesList = [
-            { name: 'Raw Input & Hitreg Fix', cat: 'pvp', icon: 'fa-crosshairs', desc: 'Bypasses OS mouse acceleration and fixes hit delay inconsistencies.' },
-            { name: 'WGPU Async Chunk Mesher', cat: 'render', icon: 'fa-cubes', desc: 'Multi-threaded greedy meshing for zero chunk-load stutter.' },
-            { name: 'Motion Blur Shader', cat: 'render', icon: 'fa-eye', desc: 'Per-pixel velocity buffer shaders written in WGSL.' },
-            { name: 'Keystrokes & CPS Overlay', cat: 'pvp', icon: 'fa-keyboard', desc: 'Sub-millisecond input polling display with customizable gradients.' },
-            { name: 'Waypoints & Minimap', cat: 'utility', icon: 'fa-compass', desc: 'GPU-rendered circular minimap with death markers.' },
-            { name: 'Native Replay Mod', cat: 'utility', icon: 'fa-video', desc: 'Record world packets with <1% CPU overhead.' }
-        ];
-
-        let currentCategory = 'all';
-
-        function renderModules() {
-            const query = document.getElementById('module-search').value.toLowerCase();
-            const grid = document.getElementById('modules-grid');
-            grid.innerHTML = '';
-
-            const filtered = modulesList.filter(m => {
-                const matchesCat = currentCategory === 'all' || m.cat === currentCategory;
-                const matchesSearch = m.name.toLowerCase().includes(query) || m.desc.toLowerCase().includes(query);
-                return matchesCat && matchesSearch;
-            });
-
-            filtered.forEach(mod => {
-                grid.innerHTML += `
-                    <div class="glass-panel rounded-2xl p-6 transition duration-300 flex flex-col justify-between shadow-lg">
-                        <div>
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-sky-500/15 text-sky-400 flex items-center justify-center shadow-sm">
-                                    <i class="fa-solid ${mod.icon}"></i>
-                                </div>
-                                <span class="font-mono text-[10px] uppercase px-2.5 py-1 rounded-md bg-abyss-950 text-sky-300 border border-sky-500/20">${mod.cat}</span>
-                            </div>
-                            <h3 class="font-bold text-base mb-2">${mod.name}</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">${mod.desc}</p>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function filterModules(cat, btn) {
-            currentCategory = cat;
-            document.querySelectorAll('.mod-filter').forEach(b => {
-                b.classList.remove('bg-sky-400', 'text-slate-950', 'shadow-neon');
-                b.classList.add('glass-panel', 'text-slate-300');
-            });
-            btn.classList.add('bg-sky-400', 'text-slate-950', 'shadow-neon');
-            btn.classList.remove('glass-panel', 'text-slate-300');
-            renderModules();
-        }
-
-        function searchModules() { renderModules(); }
-        renderModules();
 
         function openDownloadModal() {
             const modal = document.getElementById('download-modal');
