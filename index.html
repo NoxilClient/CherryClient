@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OCEAN // Next-Gen Rust Minecraft Client</title>
     
-    <!-- Favicon generata via codice (SVG Inline Data URI) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23020617'/%3E%3Cpath fill='%23ffffff' d='M128 96c-17.7 0-32 14.3-32 32v256c0 17.7 14.3 32 32 32h256c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32H128zm34.2 64c53 0 101.4 20.3 138.4 53.6-26.6 6.8-51.2 20.7-71.1 40.6-25.3 25.3-41.5 59.4-44.5 97.4-4.2-.7-8.5-1.1-12.8-1.1-53 0-101.4-20.3-138.4-53.6 26.6-6.8 51.2-20.7 71.1-40.6 25.3-25.3 41.5-59.4 44.5-97.4z'/%3E%3Cpath fill='%23ffffff' d='M192 288c14.7 0 28.5 4.1 40.2 11.2-12.1 27.2-34.9 49.9-62.1 62.1 7.1-11.7 11.2-25.5 11.2-40.2 0-35.3-28.7-64-64-64-14.7 0-28.5 4.1-40.2 11.2 12.1-27.2 34.9-49.9 62.1-62.1-7.1 11.7-11.2 25.5-11.2 40.2 0 35.3 28.7 64 64 64z'/%3E%3C/svg%3E">
+    <!-- Favicon SVG con l'onda corretta -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23020617' rx='90'/%3E%3Cpath fill='%23ffffff' d='M384 160c-53 0-96 43-96 96 0 17.7 14.3 32 32 32s32-14.3 32-32c0-17.7 14.3-32 32-32s32 14.3 32 32c0 53-43 96-96 96-17.7 0-32 14.3-32 32s14.3 32 32 32c70.7 0 128-57.3 128-128s-57.3-128-128-128zm-224 64c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z'/%3E%3C/svg%3E">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -80,12 +80,10 @@
     <!-- Barra di Navigazione Superiore -->
     <nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-6xl z-50 glass-panel rounded-2xl px-6 py-3.5 flex items-center justify-between shadow-2xl">
         <a href="#" class="flex items-center gap-3 group">
-            <!-- LOGO DISEGNATO VIA CODICE (SVG) -->
+            <!-- LOGO CORRETTO (Onda) -->
             <div class="relative w-9 h-9 rounded-xl bg-abyss-950 border border-cyan-500/30 flex items-center justify-center shadow-neon group-hover:scale-105 transition overflow-hidden p-1.5">
-                <svg viewBox="0 0 400 400" class="w-full h-full fill-white">
-                    <path d="M60 60 h280 v280 h-280 z" fill="#0b1630" rx="40"/>
-                    <path d="M120 100c-40 0-80 30-80 90 0 60 50 110 110 110 20 0 40-5 55-15-15 15-35 25-60 25-50 0-90-40-90-90s40-90 90-90c25 0 50 10 70 25 15-20 40-35 65-35 40 0 75 30 75 70s-30 70-70 70c-15 0-30-5-40-15 10 10 25 15 40 15 30 0 55-25 55-55s-25-55-55-55c-20 0-40 10-50 25-10-25-35-40-60-40z"/>
-                    <path d="M140 160c-20 0-35 15-35 35s15 35 35 35 35-15 35-35-15-35-35-35z" fill="#22d3ee"/>
+                <svg viewBox="0 0 512 512" class="w-full h-full fill-white">
+                    <path d="M384 160c-53 0-96 43-96 96 0 17.7 14.3 32 32 32s32-14.3 32-32c0-17.7 14.3-32 32-32s32 14.3 32 32c0 53-43 96-96 96-17.7 0-32 14.3-32 32s14.3 32 32 32c70.7 0 128-57.3 128-128s-57.3-128-128-128zm-224 64c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/>
                 </svg>
             </div>
             <div class="flex flex-col">
@@ -366,8 +364,8 @@
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3">
                 <div class="w-7 h-7 rounded-lg bg-abyss-950 border border-cyan-500/30 p-1 overflow-hidden flex items-center justify-center">
-                    <svg viewBox="0 0 400 400" class="w-full h-full fill-white">
-                        <path d="M140 160c-20 0-35 15-35 35s15 35 35 35 35-15 35-35-15-35-35-35z" fill="#22d3ee"/>
+                    <svg viewBox="0 0 512 512" class="w-full h-full fill-white">
+                        <path d="M384 160c-53 0-96 43-96 96 0 17.7 14.3 32 32 32s32-14.3 32-32c0-17.7 14.3-32 32-32s32 14.3 32 32c0 53-43 96-96 96-17.7 0-32 14.3-32 32s14.3 32 32 32c70.7 0 128-57.3 128-128s-57.3-128-128-128zm-224 64c-53 0-96 43-96 96s43 96 96 96 96-43 96-96-43-96-96-96zm0 128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/>
                     </svg>
                 </div>
                 <span class="font-black tracking-wider">OCEAN CLIENT</span>
