@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VANTA Client | The Rust Rewrite for Minecraft (26.2 / 26.3)</title>
+    <title>VANTA Client | Native Rust Engine for Minecraft 26.2 & 26.3</title>
     <style>
         :root {
             --primary: #00ff66;
-            --primary-glow: rgba(0, 255, 102, 0.3);
-            --bg-dark: #050806;
-            --bg-card: rgba(10, 20, 15, 0.85);
+            --primary-dim: #00cc52;
+            --primary-glow: rgba(0, 255, 102, 0.35);
+            --bg-dark: #040705;
+            --bg-card: rgba(9, 17, 13, 0.82);
+            --bg-card-hover: rgba(14, 27, 20, 0.92);
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --border-color: rgba(0, 255, 102, 0.2);
-            --transition: all 0.3s ease;
+            --border-color: rgba(0, 255, 102, 0.18);
+            --transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
             scroll-behavior: smooth;
         }
 
@@ -31,50 +33,65 @@
             line-height: 1.6;
         }
 
-        /* --- BACKGROUND LOCALE --- */
+        /* --- BACKGROUND & CYBER GRID --- */
         .bg-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(rgba(5, 8, 6, 0.4), rgba(3, 5, 4, 0.7)), 
-                        url('background.png') no-repeat center center/cover;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 75% 25%, rgba(0, 255, 102, 0.08) 0%, transparent 45%),
+                linear-gradient(to bottom, rgba(4, 7, 5, 0.55), rgba(4, 7, 5, 0.92)),
+                url('background.png') no-repeat center center / cover;
+            z-index: -2;
+        }
+
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
+            background-size: 48px 48px;
             z-index: -1;
+            pointer-events: none;
         }
 
         .container {
             width: 90%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
         }
 
         .highlight {
             color: var(--primary);
-            text-shadow: 0 0 10px var(--primary-glow);
+            text-shadow: 0 0 18px var(--primary-glow);
         }
 
         section {
-            padding: 100px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 110px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        /* --- LOGO SVG --- */
+        /* --- SCROLL REVEAL ANIMATION --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- CUSTOM CODE-DRAWN SVG LOGO --- */
         .vanta-logo-svg {
             width: 38px;
             height: 38px;
-            filter: drop-shadow(0 0 6px var(--primary-glow));
-        }
-        .vanta-logo-svg polygon {
-            fill: none;
-            stroke: var(--primary);
-            stroke-width: 2.5;
+            filter: drop-shadow(0 0 8px var(--primary-glow));
             transition: var(--transition);
         }
-        .logo:hover .vanta-logo-svg polygon {
-            stroke-width: 3.5;
-            filter: drop-shadow(0 0 10px var(--primary));
+        .logo:hover .vanta-logo-svg {
+            transform: scale(1.06);
+            filter: drop-shadow(0 0 14px var(--primary));
         }
 
         /* --- NAVBAR --- */
@@ -82,11 +99,12 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(5, 8, 6, 0.75);
-            backdrop-filter: blur(15px);
+            background: rgba(4, 7, 5, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
-            padding: 1rem 0;
+            padding: 0.95rem 0;
         }
 
         nav .container {
@@ -100,15 +118,15 @@
             align-items: center;
             gap: 12px;
             font-weight: 900;
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             color: var(--text-main);
             text-decoration: none;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 2.2rem;
             list-style: none;
         }
 
@@ -124,85 +142,104 @@
             color: var(--primary);
         }
 
-        .btn-download-nav {
+        .btn-nav {
             background: rgba(0, 255, 102, 0.12);
             color: var(--primary);
             border: 1px solid var(--primary);
-            padding: 0.6rem 1.5rem;
+            padding: 0.55rem 1.4rem;
             border-radius: 50px;
             font-weight: 700;
             font-size: 0.9rem;
-            text-decoration: none;
+            cursor: pointer;
             transition: var(--transition);
         }
 
-        .btn-download-nav:hover {
+        .btn-nav:hover {
             background: var(--primary);
             color: var(--bg-dark);
-            box-shadow: 0 0 20px var(--primary-glow);
+            box-shadow: 0 0 22px var(--primary-glow);
         }
 
-        /* --- HERO --- */
+        /* --- HERO SECTION --- */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding-top: 120px;
+            padding-top: 100px;
         }
 
         .hero-grid {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-columns: 1.15fr 0.85fr;
             gap: 50px;
             align-items: center;
         }
 
-        .version-tag {
-            display: inline-block;
+        .pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             font-size: 0.8rem;
             color: var(--primary);
-            background: rgba(0, 255, 102, 0.15);
-            border: 1px solid rgba(0, 255, 102, 0.4);
+            background: rgba(0, 255, 102, 0.1);
+            border: 1px solid rgba(0, 255, 102, 0.35);
             padding: 0.4rem 1rem;
-            border-radius: 6px;
+            border-radius: 50px;
             font-weight: 700;
             margin-bottom: 1.5rem;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.25); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
         }
 
         .hero h1 {
-            font-size: 4.5rem;
+            font-size: 4.4rem;
             font-weight: 900;
-            line-height: 1;
+            line-height: 1.03;
             letter-spacing: -2px;
-            margin-bottom: 1.5rem;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            margin-bottom: 1.4rem;
+            text-shadow: 0 6px 25px rgba(0, 0, 0, 0.7);
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: #d1d5db;
-            max-width: 550px;
-            margin-bottom: 3rem;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            max-width: 540px;
+            margin-bottom: 2.4rem;
         }
 
-        .hero-btns {
+        .hero-actions {
             display: flex;
-            gap: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
             align-items: center;
         }
 
         .btn-primary {
             background-color: var(--primary);
-            color: var(--bg-dark);
-            padding: 1rem 2.5rem;
-            border-radius: 8px;
+            color: #031208;
+            padding: 1rem 2.2rem;
+            border-radius: 10px;
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
+            border: none;
+            cursor: pointer;
             text-decoration: none;
             transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 4px 20px var(--primary-glow);
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -210,95 +247,173 @@
 
         .btn-primary:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 30px var(--primary-glow);
+            box-shadow: 0 10px 32px rgba(0, 255, 102, 0.55);
         }
 
-        .sys-requirements {
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            padding: 1rem 1.8rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 255, 102, 0.06);
+        }
+
+        .os-meta {
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-top: 1.5rem;
+            margin-top: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Benchmark Card */
+        /* --- INTERACTIVE BENCHMARK CARD --- */
         .benchmark-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 40px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            border-radius: 18px;
+            padding: 32px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
         }
 
-        .card-header {
+        .bench-top {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 30px;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
 
-        .stat-row {
+        .bench-toggle {
+            display: flex;
+            background: rgba(0, 0, 0, 0.45);
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .bench-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .bench-btn.active {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+
+        .metric-item {
+            margin-bottom: 20px;
+        }
+        .metric-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .metric-header {
             display: flex;
             justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
         }
 
-        .stat-value {
+        .metric-val {
             font-weight: 800;
-            font-size: 1.3rem;
             color: var(--primary);
+            font-family: monospace;
+            font-size: 1.05rem;
         }
 
-        /* --- FEATURES --- */
-        .section-title {
+        .bar-track {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 10px;
+            box-shadow: 0 0 12px var(--primary-glow);
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+        }
+
+        /* --- FEATURES GRID --- */
+        .section-header {
             text-align: center;
-            font-size: 3rem;
+            max-width: 650px;
+            margin: 0 auto 65px;
+        }
+
+        .section-title {
+            font-size: 2.9rem;
             font-weight: 900;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
+            letter-spacing: -1px;
         }
 
         .section-subtitle {
-            text-align: center;
             color: var(--text-muted);
-            margin-bottom: 60px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 1.05rem;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 26px;
         }
 
         .feature-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 40px;
-            border-radius: 12px;
+            padding: 36px;
+            border-radius: 16px;
             transition: var(--transition);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
         }
 
         .feature-card:hover {
             border-color: var(--primary);
-            transform: translateY(-5px);
-            background: rgba(12, 25, 18, 0.9);
+            transform: translateY(-6px);
+            background: var(--bg-card-hover);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
         }
 
         .icon-box {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 20px;
+            width: 52px;
+            height: 52px;
             background: rgba(0, 255, 102, 0.1);
-            width: 60px; height: 60px;
-            display: flex; align-items: center; justify-content: center;
-            border-radius: 10px;
-            border: 1px solid rgba(0, 255, 102, 0.2);
+            border: 1px solid rgba(0, 255, 102, 0.25);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 22px;
+            color: var(--primary);
         }
 
         .feature-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             margin-bottom: 10px;
         }
 
@@ -307,50 +422,209 @@
             font-size: 0.95rem;
         }
 
-        /* --- TECH DEEP DIVE --- */
-        .tech-deep-dive {
-            background: rgba(0,0,0,0.4);
-        }
-
-        .tech-item {
+        /* --- ARCHITECTURE DEEP DIVE --- */
+        .tech-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 50px;
             align-items: center;
-            margin-bottom: 80px;
+            margin-bottom: 85px;
         }
-
-        .tech-item:nth-child(even) {
+        .tech-row:last-child {
+            margin-bottom: 0;
+        }
+        .tech-row.reverse {
             direction: rtl;
         }
-        .tech-item:nth-child(even) .tech-text {
+        .tech-row.reverse .tech-copy {
             direction: ltr;
         }
 
-        .tech-text h3 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
+        .tech-copy h3 {
+            font-size: 2.1rem;
+            margin-bottom: 16px;
+            line-height: 1.2;
         }
 
-        .tech-graphic {
+        .tech-copy p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .code-window {
+            background: #060b08;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+            direction: ltr;
+        }
+
+        .code-bar {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+
+        .code-body {
+            padding: 24px;
+            font-family: 'Consolas', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #d1d5db;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+
+        .kw { color: #00ff66; font-weight: bold; }
+        .fn { color: #60a5fa; }
+        .cm { color: #6b7280; font-style: italic; }
+
+        /* --- FAQ ACCORDION --- */
+        .faq-list {
+            max-width: 780px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .faq-item {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            height: 300px;
             border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: monospace;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .faq-question {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            padding: 22px 26px;
+            text-align: left;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
             color: var(--primary);
+        }
+
+        .faq-icon {
+            color: var(--primary);
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 26px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 200px;
+            padding: 0 26px 22px;
+        }
+
+        /* --- DOWNLOAD CTA BANNER --- */
+        .cta-box {
+            background: linear-gradient(135deg, rgba(0, 255, 102, 0.12), rgba(9, 17, 13, 0.9));
+            border: 1px solid rgba(0, 255, 102, 0.35);
+            border-radius: 22px;
+            padding: 70px 40px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+        }
+
+        /* --- MODAL --- */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            backdrop-filter: blur(10px);
+        }
+
+        .modal-backdrop.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #0a140f;
+            border: 1px solid var(--primary);
+            border-radius: 18px;
+            max-width: 500px;
+            width: 100%;
+            padding: 32px;
+            box-shadow: 0 0 40px rgba(0, 255, 102, 0.2);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 22px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-close:hover { color: var(--primary); }
+
+        .build-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            margin-top: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .build-option:hover, .build-option.recommended {
+            border-color: var(--primary);
+            background: rgba(0, 255, 102, 0.08);
         }
 
         /* --- FOOTER --- */
         footer {
-            padding: 50px 0;
+            padding: 60px 0;
             text-align: center;
-            border-top: 1px solid var(--border-color);
-            background: rgba(2, 4, 3, 0.8);
+            background: rgba(2, 4, 3, 0.85);
         }
 
         footer p {
@@ -358,229 +632,492 @@
             font-size: 0.85rem;
         }
 
-        @media (max-width: 1024px) {
-            .hero h1 { font-size: 3.5rem; }
-            .hero-grid, .tech-item { grid-template-columns: 1fr; text-align: center; }
-            .hero-content { display: flex; flex-direction: column; align-items: center; }
-            .hero-btns { justify-content: center; }
-            .tech-item:nth-child(even) { direction: ltr; }
-        }
-
-        @media (max-width: 768px) {
+        @media (max-width: 960px) {
+            .hero-grid, .tech-row { grid-template-columns: 1fr; text-align: center; }
+            .hero h1 { font-size: 3.3rem; }
+            .hero p { margin-left: auto; margin-right: auto; }
+            .hero-actions, .os-meta { justify-content: center; }
+            .tech-row.reverse { direction: ltr; }
             .nav-links { display: none; }
-            .hero h1 { font-size: 2.8rem; }
-            .section-title { font-size: 2.2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- BACKGROUND LOCALE -->
     <div class="bg-container"></div>
+    <div class="bg-grid"></div>
 
     <!-- NAVBAR -->
     <nav>
         <div class="container">
             <a href="#" class="logo">
+                <!-- CUSTOM GEOMETRIC VANTA LOGO (CODE-DRAWN SVG) -->
                 <svg class="vanta-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <polygon points="30,40 50,70 70,40" fill="none" stroke="#00ff66" stroke-width="4" stroke-linecap="round"/>
-                    <line x1="20" y1="30" x2="80" y2="30" stroke="#00ff66" stroke-width="1" opacity="0.5"/>
+                    <defs>
+                        <linearGradient id="vantaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00ff66"/>
+                            <stop offset="100%" stop-color="#00993d"/>
+                        </linearGradient>
+                    </defs>
+                    <!-- Outer Hex Shield -->
+                    <polygon points="50,4 93,28 93,72 50,96 7,72 7,28" fill="rgba(0,255,102,0.06)" stroke="url(#vantaGrad)" stroke-width="4" stroke-linejoin="round"/>
+                    <!-- Inner Precision V-Core -->
+                    <polygon points="28,34 50,74 72,34 61,34 50,55 39,34" fill="#00ff66"/>
+                    <!-- Top Accent Node -->
+                    <polygon points="44,22 56,22 50,31" fill="#00ff66" opacity="0.8"/>
                 </svg>
                 <span>VANTA</span>
             </a>
+
             <ul class="nav-links">
                 <li><a href="#features">Features</a></li>
-                <li><a href="#technology">Technology</a></li>
-                <li><a href="https://github.com" target="_blank">GitHub</a></li>
-                <li><a href="#download">Download</a></li>
+                <li><a href="#architecture">Architecture</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#download">Versions</a></li>
             </ul>
-            <a href="#download" class="btn-download-nav">Download</a>
+
+            <button class="btn-nav" onclick="openDownloadModal()">Get Client</button>
         </div>
     </nav>
 
     <!-- HERO SECTION -->
     <header class="hero">
         <div class="container hero-grid">
-            <div class="hero-content">
-                <div class="version-tag">NATIVE RUST REWRITE • MC 26.2 & 26.3</div>
-                <h1>Performance,<br><span class="highlight">Unshackled.</span></h1>
-                <p>Vanta isn't just a client mod; it's Minecraft rebuilt from scratch in Rust. Experience a new standard of speed, stability, and memory safety, free from Java's limitations.</p>
-                
-                <div class="hero-btns">
-                    <!-- BOTTONE DOWNLOAD DINAMICO CON RILEVAMENTO OS -->
-                    <a href="#download" id="os-download-btn" class="btn-primary" onclick="alert('Downloading Vanta Client for your system...')">
-                        <span id="os-icon">💻</span> <span id="os-text">Download for Windows (x64)</span>
-                    </a>
+            <div>
+                <div class="pill-badge">
+                    <span class="pulse-dot"></span>
+                    RUST ENGINE • MC 26.2 & 26.3 READY
                 </div>
-                
-                <p class="sys-requirements" id="os-subtitle">Detecting your system...</p>
+                <h1>More Frames.<br><span class="highlight">Zero Overhead.</span></h1>
+                <p>Vanta is a complete ground-up rewrite of the Minecraft client in Rust. Ditch JVM garbage collection stutters and unlock native Vulkan/WGPU rendering speed.</p>
+
+                <div class="hero-actions">
+                    <button id="hero-os-btn" class="btn-primary" onclick="openDownloadModal()">
+                        <span id="hero-os-icon"></span>
+                        <span id="hero-os-label">Download Vanta</span>
+                    </button>
+                    <a href="#architecture" class="btn-secondary">Explore Architecture</a>
+                </div>
+
+                <div class="os-meta" id="hero-os-meta">
+                    Detecting platform...
+                </div>
             </div>
 
-            <!-- Benchmark Card -->
+            <!-- INTERACTIVE BENCHMARK CARD -->
             <div class="benchmark-card">
-                <div class="card-header">
-                    <h3>Real-Time Stats</h3>
-                    <span class="highlight">🟢 Active</span>
+                <div class="bench-top">
+                    <div>
+                        <strong style="font-size: 1.05rem;">Live Telemetry</strong>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">32 Chunks • 1440p</div>
+                    </div>
+                    <div class="bench-toggle">
+                        <button class="bench-btn active" id="btn-vanta" onclick="setBenchmark('vanta')">Vanta (Rust)</button>
+                        <button class="bench-btn" id="btn-vanilla" onclick="setBenchmark('vanilla')">Vanilla (Java)</button>
+                    </div>
                 </div>
-                <div class="stat-row">
-                    <span>Avg FPS Boost</span>
-                    <span class="stat-value">+340%</span>
+
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <span>Average Framerate</span>
+                        <span class="metric-val" id="val-fps">840 FPS</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="bar-fps" style="width: 94%;"></div>
+                    </div>
                 </div>
-                <div class="stat-row">
-                    <span>Render Latency</span>
-                    <span class="stat-value">&lt;1.2ms</span>
+
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <span>1% Low Frametime Stability</span>
+                        <span class="metric-val" id="val-low">99.4%</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="bar-low" style="width: 99%;"></div>
+                    </div>
                 </div>
-                <div class="stat-row">
-                    <span>RAM Usage (Idle)</span>
-                    <span class="stat-value">380 MB</span>
+
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <span>Memory Footprint</span>
+                        <span class="metric-val" id="val-ram">380 MB</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="bar-ram" style="width: 18%;"></div>
+                    </div>
                 </div>
-                <div class="stat-row">
-                    <span>GC Pauses</span>
-                    <span class="stat-value">NONE</span>
+
+                <div class="metric-item">
+                    <div class="metric-header">
+                        <span>GC Spike Latency</span>
+                        <span class="metric-val" id="val-gc">0.0 ms</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" id="bar-gc" style="width: 2%;"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
     <!-- FEATURES SECTION -->
-    <section id="features">
+    <section id="features" class="reveal">
         <div class="container">
-            <h2 class="section-title">Why <span class="highlight">Vanta</span>?</h2>
-            <p class="section-subtitle">A client engineered for competitors, technical players, and anyone tired of lag.</p>
-            
+            <div class="section-header">
+                <h2 class="section-title">Engineered in <span class="highlight">Rust</span></h2>
+                <p class="section-subtitle">Every subsystem has been redesigned from first principles for deterministic performance and modern hardware.</p>
+            </div>
+
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="icon-box">🦀</div>
-                    <h3>Rust Foundation</h3>
-                    <p>Built with Rust for guaranteed memory safety without performance trade-offs. No more random crashes due to memory leaks.</p>
+                    <div class="icon-box">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <h3>Zero Garbage Collection</h3>
+                    <p>Rust's ownership model frees memory deterministically at compile time—eliminating the sudden lag spikes caused by Java GC sweeps.</p>
                 </div>
+
                 <div class="feature-card">
-                    <div class="icon-box">🚀</div>
-                    <h3>Zero GC Lag</h3>
-                    <p>By eliminating Java, we eliminate the Garbage Collector. Say goodbye to periodic "stutter" frames during intense gameplay.</p>
+                    <div class="icon-box">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <h3>WGPU & Vulkan Pipeline</h3>
+                    <p>Multi-threaded command buffer recording feeds your GPU directly via Vulkan, Metal, or DX12 with bindless textures and frustum culling.</p>
                 </div>
+
                 <div class="feature-card">
-                    <div class="icon-box">🌐</div>
-                    <h3>Modern Renderer</h3>
-                    <p>A ground-up Vulkan/WGPU rendering pipeline utilizes modern GPUs efficiently for faster chunk loading and higher frame rates.</p>
+                    <div class="icon-box">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3>Memory Safe & Secure</h3>
+                    <p>Immune to buffer overflows and legacy Java serialization exploits. Built-in sandboxing protects your system on public multiplayer servers.</p>
                 </div>
+
                 <div class="feature-card">
-                    <div class="icon-box">🛠️</div>
-                    <h3>Native Mod API</h3>
-                    <p>A low-overhead, sandboxed modding API built on WebAssembly (WASM). Write mods in any language, run them at native speeds.</p>
+                    <div class="icon-box">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </div>
+                    <h3>WASM Modding API</h3>
+                    <p>Load high-speed plugins compiled to WebAssembly. Create custom HUD modules, keystrokes, and replay tools with near-native speed.</p>
                 </div>
+
                 <div class="feature-card">
-                    <div class="icon-box">🔒</div>
-                    <h3>Security First</h3>
-                    <p>No more remote code execution vulnerabilities from antiquated libraries. Vanta is built with modern security standards.</p>
+                    <div class="icon-box">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    </div>
+                    <h3>Async Chunk Meshing</h3>
+                    <p>Worker threads mesh and compress world chunks across all available CPU cores simultaneously without blocking the main render loop.</p>
                 </div>
+
                 <div class="feature-card">
-                    <div class="icon-box">📉</div>
-                    <h3>Lean Resource Use</h3>
-                    <p>Designed to run efficiently. Vanta uses up to 70% less RAM than the standard Java client while performing significantly better.</p>
+                    <div class="icon-box">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                    </div>
+                    <h3>26.2 & 26.3 Protocol</h3>
+                    <p>Full packet-level compatibility with standard servers, realms, custom resource packs, and official Microsoft account authentication.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- TECHNOLOGY DEEP DIVE SECTION -->
-    <section id="technology" class="tech-deep-dive">
+    <!-- ARCHITECTURE DEEP DIVE -->
+    <section id="architecture" class="reveal">
         <div class="container">
-            <h2 class="section-title">The <span class="highlight">Tech</span> Behind the Speed</h2>
-            <p class="section-subtitle">We didn't just tweak the game; we solved the fundamental bottlenecks.</p>
-            
-            <div class="tech-stack">
-                <div class="tech-item">
-                    <div class="tech-text">
-                        <h3>Goodbye, <span class="highlight">Java Virtual Machine.</span></h3>
-                        <p>Standard Minecraft runs on the JVM, which adds a layer of abstraction and introduces unpredictable latency through Garbage Collection (GC). GC pauses are the #1 cause of frame stutters.</p>
-                        <p><strong>The 'Why':</strong> Vanta compiles directly to native machine code. We manage memory explicitly, ensuring every single frame is delivered consistently and instantly, without pause.</p>
+            <div class="section-header">
+                <h2 class="section-title">Under the <span class="highlight">Hood</span></h2>
+                <p class="section-subtitle">Why rewriting the engine from scratch beats stacking optimization mods on top of Java.</p>
+            </div>
+
+            <div class="tech-row">
+                <div class="tech-copy">
+                    <h3>Data-Oriented <span class="highlight">ECS World</span></h3>
+                    <p>Instead of scattering thousands of heap-allocated Java objects across memory, Vanta stores entities and block states in contiguous, cache-friendly arrays using an Entity Component System.</p>
+                    <p>Your CPU processes thousands of entities in tight SIMD loops with minimal cache misses.</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-bar">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span>vanta_core/src/world/chunk_mesher.rs</span>
                     </div>
-                    <div class="tech-graphic">
-                        // Vanta (Rust)<br>
-                        fn render_frame() {<br>
-                        &nbsp;&nbsp;let mesh = load_mesh(); // Predictable<br>
-                        &nbsp;&nbsp;draw(mesh); // Instant<br>
-                        &nbsp;&nbsp;// Memory freed exactly here<br>
-                        }<br>
-                        <span class="highlight">// NO STUTTER</span>
+                    <div class="code-body">
+<span class="kw">pub fn</span> <span class="fn">build_chunk_mesh</span>(chunk: &amp;ChunkData, pool: &amp;ThreadPool) -&gt; GpuMesh {<br>
+&nbsp;&nbsp;<span class="cm">// Zero heap allocations during greedy meshing pass</span><br>
+&nbsp;&nbsp;<span class="kw">let</span> faces = chunk.<span class="fn">cull_occluded_faces</span>();<br>
+&nbsp;&nbsp;pool.<span class="fn">submit_async</span>(<span class="kw">move</span> || {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;GpuMesh::<span class="fn">from_packed_vertices</span>(faces)<br>
+&nbsp;&nbsp;})<br>
+}
                     </div>
                 </div>
+            </div>
 
-                <div class="tech-item">
-                    <div class="tech-text">
-                        <h3><span class="highlight">Direct GPU</span> Communication</h3>
-                        <p>The standard client relies on outdated OpenGL practices. Vanta uses WGPU, a modern abstraction layer that targets Vulkan, Metal, and DirectX 12.</p>
-                        <p><strong>The 'Why':</strong> This allows us to use parallel recording of draw calls and leverage modern GPU features like Bindless Textures and Mesh Shaders. The result? Faster chunk updates and incredibly high FPS.</p>
+            <div class="tech-row reverse">
+                <div class="tech-copy">
+                    <h3>Instant <span class="highlight">Cold Boot</span></h3>
+                    <p>Because Vanta compiles ahead-of-time into a standalone native binary, there is no JVM warm-up phase or bytecode verification.</p>
+                    <p>Launch from desktop to main menu in under 1.2 seconds while consuming less than 400 MB of system RAM.</p>
+                </div>
+                <div class="code-window">
+                    <div class="code-bar">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span>terminal — vanta-cli --benchmark</span>
                     </div>
-                    <div class="tech-graphic">
-                        [CPU] ---&gt; [Multi-Threaded Command Buffer] ---&gt; [GPU]<br>
-                        |<br>
-                        +--&gt; Thread 1: Chunk Mesh<br>
-                        +--&gt; Thread 2: Entity Data<br>
-                        +--&gt; Thread 3: UI Prep<br>
-                        <span class="highlight">// MAXIMUM PARALLELISM</span>
+                    <div class="code-body">
+$ ./vanta-client --version 26.3 --profile<br>
+<span class="kw">[INFO]</span> Initializing WGPU Vulkan Backend (GPU0)<br>
+<span class="kw">[INFO]</span> Protocol 26.3 handshake ready in 14ms<br>
+<span class="kw">[INFO]</span> Loaded 48 WASM modules in 9ms<br>
+<span class="kw">[READY]</span> Cold boot completed in <span class="kw">0.94s</span> (RSS: 378 MB)
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- DOWNLOAD SECTION -->
-    <section id="download">
-        <div class="container" style="text-align: center;">
-            <div class="version-tag">Get Vanta Now</div>
-            <h2 class="section-title">Ready to Experience <span class="highlight">True Speed</span>?</h2>
-            <p class="section-subtitle">Download the Vanta Client Launcher and start playing in under a minute. Free, open-source, and native.</p>
-            <div class="hero-btns" style="margin-top: 40px; justify-content: center;">
-                <a href="#download" class="btn-primary" onclick="alert('Starting Download for Vanta Client (Linux AppImage)...')">🐧 Download for Linux</a>
+    <!-- FAQ SECTION -->
+    <section id="faq" class="reveal">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Frequently Asked <span class="highlight">Questions</span></h2>
+                <p class="section-subtitle">Everything you need to know before switching to Vanta.</p>
             </div>
-            <p class="sys-requirements" style="margin-top: 20px;">Supported Platforms: Windows 10/11, macOS 12+, Linux (AppImage / Tarball)</p>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Can I join standard 26.2 and 26.3 multiplayer servers?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Yes. Vanta implements the complete network protocol for versions 26.2 and 26.3, allowing you to connect seamlessly to vanilla servers, Paper/Velocity networks, and Realms.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Do traditional Forge or Fabric mods work with Vanta?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Because Vanta contains zero Java code, standard `.jar` mods are not directly compatible. Instead, Vanta includes built-in PvP/utility modules out of the box and supports high-speed WebAssembly (`.wasm`) plugins.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Is Vanta safe to use with my Microsoft account?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Yes. Authentication uses official Microsoft OAuth device-code flow directly with Mojang's session servers—your credentials are never stored or transmitted to third parties.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD CTA SECTION -->
+    <section id="download" class="reveal">
+        <div class="container">
+            <div class="cta-box">
+                <div class="pill-badge">FREE & OPEN SOURCE • 26.2 / 26.3</div>
+                <h2 class="section-title">Ready to Experience <span class="highlight">True Speed</span>?</h2>
+                <p class="section-subtitle" style="margin-bottom: 35px;">Download the native binary for your operating system and jump straight into the game.</p>
+                
+                <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                    <button class="btn-primary" onclick="openDownloadModal()">
+                        🐧 Download for Linux
+                    </button>
+                    <button class="btn-secondary" onclick="openDownloadModal()">
+                        All Platforms & Versions
+                    </button>
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 20px;">
+                    Supported Platforms: Linux (AppImage / Tarball), Windows 10/11, macOS 12+
+                </p>
+            </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
         <div class="container">
-            <a href="#" class="logo" style="justify-content: center; margin-bottom: 20px;">
-                <svg class="vanta-logo-svg" viewBox="0 0 100 100">
-                    <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="#00ff66" stroke-width="2.5"/>
-                    <polygon points="30,40 50,70 70,40" fill="none" stroke="#00ff66" stroke-width="4"/>
+            <a href="#" class="logo" style="justify-content: center; margin-bottom: 18px;">
+                <svg class="vanta-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="50,4 93,28 93,72 50,96 7,72 7,28" fill="rgba(0,255,102,0.06)" stroke="#00ff66" stroke-width="4" stroke-linejoin="round"/>
+                    <polygon points="28,34 50,74 72,34 61,34 50,55 39,34" fill="#00ff66"/>
                 </svg>
                 <span>VANTA</span>
             </a>
-            <p>&copy; 2026 Vanta Client Project. All rights reserved.</p>
-            <p style="margin-top: 5px;">We are not affiliated with Mojang Studios or Microsoft. Minecraft is a trademark of Mojang Synergies AB.</p>
+            <p>&copy; 2026 Vanta Client Project. Released under MIT License.</p>
+            <p style="margin-top: 6px; font-size: 0.8rem;">Not affiliated with Mojang Studios or Microsoft. Minecraft is a trademark of Mojang Synergies AB.</p>
         </div>
     </footer>
 
-    <!-- JAVASCRIPT PER RILEVARE IL SISTEMA OPERATIVO NELLA HERO -->
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const osIcon = document.getElementById('os-icon');
-            const osText = document.getElementById('os-text');
-            const osSubtitle = document.getElementById('os-subtitle');
+    <!-- INTERACTIVE DOWNLOAD MODAL -->
+    <div class="modal-backdrop" id="download-modal" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeDownloadModal()">&times;</button>
+            <div class="pill-badge" style="margin-bottom: 10px;">SELECT BUILD</div>
+            <h3 style="font-size: 1.6rem; margin-bottom: 6px;">Download Vanta Client</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 18px;">Includes protocol support for both <strong>26.3</strong> and <strong>26.2</strong>.</p>
 
-            if (userAgent.indexOf('win') !== -1) {
-                osIcon.textContent = '🪟';
-                osText.textContent = 'Download for Windows (x64)';
-                osSubtitle.textContent = 'Windows 10 / 11 detected • Free v26.3 LTS';
-            } else if (userAgent.indexOf('mac') !== -1) {
-                osIcon.textContent = '🍎';
-                osText.textContent = 'Download for macOS (Universal)';
-                osSubtitle.textContent = 'macOS 12+ (Apple Silicon & Intel) detected';
-            } else if (userAgent.indexOf('linux') !== -1) {
-                osIcon.textContent = '🐧';
-                osText.textContent = 'Download for Linux (AppImage)';
-                osSubtitle.textContent = 'Linux environment detected • Native Binary';
+            <a href="#download" class="build-option recommended" onclick="triggerFakeDownload('Vanta-26.3-x86_64.AppImage')">
+                <div>
+                    <strong>🐧 Linux (AppImage x86_64)</strong>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Universal portable binary • 42 MB</div>
+                </div>
+                <span class="highlight" style="font-weight: 700;">↓ .AppImage</span>
+            </a>
+
+            <a href="#download" class="build-option" onclick="triggerFakeDownload('Vanta-26.3-win64-setup.exe')">
+                <div>
+                    <strong>🪟 Windows 10 / 11 (x64)</strong>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Installer + DirectX 12 / Vulkan • 39 MB</div>
+                </div>
+                <span style="color: var(--text-muted); font-weight: 700;">↓ .exe</span>
+            </a>
+
+            <a href="#download" class="build-option" onclick="triggerFakeDownload('Vanta-26.3-macos-universal.dmg')">
+                <div>
+                    <strong>🍎 macOS 12+ (Apple Silicon & Intel)</strong>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Native Metal backend • 44 MB</div>
+                </div>
+                <span style="color: var(--text-muted); font-weight: 700;">↓ .dmg</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 1. OS Detection for Hero Button
+        window.addEventListener('DOMContentLoaded', () => {
+            const ua = navigator.userAgent.toLowerCase();
+            const iconEl = document.getElementById('hero-os-icon');
+            const labelEl = document.getElementById('hero-os-label');
+            const metaEl = document.getElementById('hero-os-meta');
+
+            if (ua.includes('linux')) {
+                iconEl.textContent = '🐧';
+                labelEl.textContent = 'Download for Linux';
+                metaEl.textContent = 'Linux x86_64 detected • Native AppImage & Tarball';
+            } else if (ua.includes('win')) {
+                iconEl.textContent = '🪟';
+                labelEl.textContent = 'Download for Windows';
+                metaEl.textContent = 'Windows 10/11 (64-bit) detected • Vulkan / DX12';
+            } else if (ua.includes('mac')) {
+                iconEl.textContent = '🍎';
+                labelEl.textContent = 'Download for macOS';
+                metaEl.textContent = 'macOS Universal detected • Native Metal Engine';
             } else {
-                osIcon.textContent = '💻';
-                osText.textContent = 'Download Vanta Client v26.3';
-                osSubtitle.textContent = 'Cross-platform package available';
+                iconEl.textContent = '⚡';
+                labelEl.textContent = 'Download Vanta Client';
+                metaEl.textContent = 'Available for Linux, Windows, and macOS';
             }
         });
+
+        // 2. Interactive Benchmark Comparison Switch
+        function setBenchmark(mode) {
+            const btnVanta = document.getElementById('btn-vanta');
+            const btnVanilla = document.getElementById('btn-vanilla');
+
+            const valFps = document.getElementById('val-fps');
+            const barFps = document.getElementById('bar-fps');
+            const valLow = document.getElementById('val-low');
+            const barLow = document.getElementById('bar-low');
+            const valRam = document.getElementById('val-ram');
+            const barRam = document.getElementById('bar-ram');
+            const valGc = document.getElementById('val-gc');
+            const barGc = document.getElementById('bar-gc');
+
+            if (mode === 'vanta') {
+                btnVanta.classList.add('active');
+                btnVanilla.classList.remove('active');
+
+                valFps.textContent = '840 FPS';
+                valFps.style.color = '#00ff66';
+                barFps.style.width = '94%';
+                barFps.style.background = '#00ff66';
+
+                valLow.textContent = '99.4%';
+                valLow.style.color = '#00ff66';
+                barLow.style.width = '99%';
+                barLow.style.background = '#00ff66';
+
+                valRam.textContent = '380 MB';
+                valRam.style.color = '#00ff66';
+                barRam.style.width = '18%';
+                barRam.style.background = '#00ff66';
+
+                valGc.textContent = '0.0 ms';
+                valGc.style.color = '#00ff66';
+                barGc.style.width = '2%';
+                barGc.style.background = '#00ff66';
+            } else {
+                btnVanilla.classList.add('active');
+                btnVanta.classList.remove('active');
+
+                valFps.textContent = '190 FPS';
+                valFps.style.color = '#f59e0b';
+                barFps.style.width = '24%';
+                barFps.style.background = '#f59e0b';
+
+                valLow.textContent = '61.0%';
+                valLow.style.color = '#f59e0b';
+                barLow.style.width = '61%';
+                barLow.style.background = '#f59e0b';
+
+                valRam.textContent = '2,450 MB';
+                valRam.style.color = '#ef4444';
+                barRam.style.width = '88%';
+                barRam.style.background = '#ef4444';
+
+                valGc.textContent = '48.5 ms';
+                valGc.style.color = '#ef4444';
+                barGc.style.width = '76%';
+                barGc.style.background = '#ef4444';
+            }
+        }
+
+        // 3. FAQ Accordion
+        function toggleFaq(button) {
+            const item = button.parentElement;
+            item.classList.toggle('open');
+        }
+
+        // 4. Download Modal Controls
+        function openDownloadModal() {
+            document.getElementById('download-modal').classList.add('active');
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('download-modal').classList.remove('active');
+        }
+
+        function closeModalOnBackdrop(e) {
+            if (e.target.id === 'download-modal') {
+                closeDownloadModal();
+            }
+        }
+
+        function triggerFakeDownload(filename) {
+            alert('Downloading ' + filename + '...\n(Replace the href attribute with your actual GitHub Release asset URL!)');
+            closeDownloadModal();
+        }
+
+        // 5. Scroll Reveal Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
