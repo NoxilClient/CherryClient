@@ -31,14 +31,13 @@
             line-height: 1.6;
         }
 
-        /* --- BACKGROUND CORRETTO E VISIBILE --- */
+        /* --- BACKGROUND LOCALE --- */
         .bg-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Overlay molto più leggero per far risaltare il tuo background.png senza scurire troppo */
             background: linear-gradient(rgba(5, 8, 6, 0.4), rgba(3, 5, 4, 0.7)), 
                         url('background.png') no-repeat center center/cover;
             z-index: -1;
@@ -61,7 +60,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* --- LOGO DISEGNATO VIA CODICE (SVG) --- */
+        /* --- LOGO SVG --- */
         .vanta-logo-svg {
             width: 38px;
             height: 38px;
@@ -204,6 +203,9 @@
             text-decoration: none;
             transition: var(--transition);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .btn-primary:hover {
@@ -380,7 +382,6 @@
     <nav>
         <div class="container">
             <a href="#" class="logo">
-                <!-- LOGO SVG DISEGNATO VIA CODICE -->
                 <svg class="vanta-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke-linecap="round" stroke-linejoin="round"/>
                     <polygon points="30,40 50,70 70,40" fill="none" stroke="#00ff66" stroke-width="4" stroke-linecap="round"/>
@@ -405,11 +406,15 @@
                 <div class="version-tag">NATIVE RUST REWRITE • MC 26.2 & 26.3</div>
                 <h1>Performance,<br><span class="highlight">Unshackled.</span></h1>
                 <p>Vanta isn't just a client mod; it's Minecraft rebuilt from scratch in Rust. Experience a new standard of speed, stability, and memory safety, free from Java's limitations.</p>
+                
                 <div class="hero-btns">
-                    <a href="#download" class="btn-primary">Download v26.3 LTS</a>
-                    <a href="#technology" class="highlight" style="text-decoration:none; font-weight:600;">Learn More →</a>
+                    <!-- BOTTONE DOWNLOAD DINAMICO CON RILEVAMENTO OS -->
+                    <a href="#download" id="os-download-btn" class="btn-primary" onclick="alert('Downloading Vanta Client for your system...')">
+                        <span id="os-icon">💻</span> <span id="os-text">Download for Windows (x64)</span>
+                    </a>
                 </div>
-                <p class="sys-requirements">Windows 10/11 • macOS 12+ • Linux</p>
+                
+                <p class="sys-requirements" id="os-subtitle">Detecting your system...</p>
             </div>
 
             <!-- Benchmark Card -->
@@ -529,9 +534,9 @@
             <h2 class="section-title">Ready to Experience <span class="highlight">True Speed</span>?</h2>
             <p class="section-subtitle">Download the Vanta Client Launcher and start playing in under a minute. Free, open-source, and native.</p>
             <div class="hero-btns" style="margin-top: 40px; justify-content: center;">
-                <a href="#" class="btn-primary" onclick="alert('Starting Download for Vanta Launcher (Windows)...')">↓ Download for Windows (x64)</a>
+                <a href="#download" class="btn-primary" onclick="alert('Starting Download for Vanta Client...')">↓ Download Latest Release v26.3</a>
             </div>
-            <p class="sys-requirements" style="margin-top: 20px;">Also available: macOS (Apple Silicon), Linux (AppImage)</p>
+            <p class="sys-requirements" style="margin-top: 20px;">Supported Platforms: Windows 10/11, macOS 12+, Linux (AppImage / Tarball)</p>
         </div>
     </section>
 
@@ -550,5 +555,32 @@
         </div>
     </footer>
 
+    <!-- JAVASCRIPT PER RILEVARE IL SISTEMA OPERATIVO (OS DETECTOR) -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const osIcon = document.getElementById('os-icon');
+            const osText = document.getElementById('os-text');
+            const osSubtitle = document.getElementById('os-subtitle');
+
+            if (userAgent.indexOf('win') !== -1) {
+                osIcon.textContent = '🪟';
+                osText.textContent = 'Download for Windows (x64)';
+                osSubtitle.textContent = 'Windows 10 / 11 detected • Free v26.3 LTS';
+            } else if (userAgent.indexOf('mac') !== -1) {
+                osIcon.textContent = '🍎';
+                osText.textContent = 'Download for macOS (Universal)';
+                osSubtitle.textContent = 'macOS 12+ (Apple Silicon & Intel) detected';
+            } else if (userAgent.indexOf('linux') !== -1) {
+                osIcon.textContent = '🐧';
+                osText.textContent = 'Download for Linux (AppImage)';
+                osSubtitle.textContent = 'Linux environment detected • Native Binary';
+            } else {
+                osIcon.textContent = '💻';
+                osText.textContent = 'Download Vanta Client v26.3';
+                osSubtitle.textContent = 'Cross-platform package available';
+            }
+        });
+    </script>
 </body>
 </html>
