@@ -9,10 +9,10 @@
             --primary: #00ff66;
             --primary-glow: rgba(0, 255, 102, 0.3);
             --bg-dark: #050806;
-            --bg-card: rgba(10, 20, 15, 0.8);
+            --bg-card: rgba(10, 20, 15, 0.85);
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
-            --border-color: rgba(0, 255, 102, 0.15);
+            --border-color: rgba(0, 255, 102, 0.2);
             --transition: all 0.3s ease;
         }
 
@@ -31,20 +31,19 @@
             line-height: 1.6;
         }
 
-        /* --- BACKGROUND --- */
+        /* --- BACKGROUND CORRETTO E VISIBILE --- */
         .bg-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            /* Usa il tuo file locale background.png */
-            background: linear-gradient(rgba(5, 8, 6, 0.85), rgba(3, 5, 4, 0.95)), 
+            /* Overlay molto più leggero per far risaltare il tuo background.png senza scurire troppo */
+            background: linear-gradient(rgba(5, 8, 6, 0.4), rgba(3, 5, 4, 0.7)), 
                         url('background.png') no-repeat center center/cover;
             z-index: -1;
         }
 
-        /* --- UTILITIES --- */
         .container {
             width: 90%;
             max-width: 1200px;
@@ -59,24 +58,24 @@
 
         section {
             padding: 100px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         /* --- LOGO DISEGNATO VIA CODICE (SVG) --- */
         .vanta-logo-svg {
-            width: 40px;
-            height: 40px;
-            filter: drop-shadow(0 0 5px var(--primary-glow));
+            width: 38px;
+            height: 38px;
+            filter: drop-shadow(0 0 6px var(--primary-glow));
         }
         .vanta-logo-svg polygon {
             fill: none;
             stroke: var(--primary);
-            stroke-width: 2;
+            stroke-width: 2.5;
             transition: var(--transition);
         }
         .logo:hover .vanta-logo-svg polygon {
-            stroke-width: 3;
-            filter: drop-shadow(0 0 8px var(--primary));
+            stroke-width: 3.5;
+            filter: drop-shadow(0 0 10px var(--primary));
         }
 
         /* --- NAVBAR --- */
@@ -84,7 +83,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(5, 8, 6, 0.7);
+            background: rgba(5, 8, 6, 0.75);
             backdrop-filter: blur(15px);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
@@ -127,7 +126,7 @@
         }
 
         .btn-download-nav {
-            background: rgba(0, 255, 102, 0.1);
+            background: rgba(0, 255, 102, 0.12);
             color: var(--primary);
             border: 1px solid var(--primary);
             padding: 0.6rem 1.5rem;
@@ -149,8 +148,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            padding-top: 120px; /* Navbar space */
-            background: radial-gradient(circle at 10% 30%, rgba(0, 255, 102, 0.05) 0%, transparent 50%);
+            padding-top: 120px;
         }
 
         .hero-grid {
@@ -164,8 +162,8 @@
             display: inline-block;
             font-size: 0.8rem;
             color: var(--primary);
-            background: rgba(0, 255, 102, 0.1);
-            border: 1px solid rgba(0, 255, 102, 0.3);
+            background: rgba(0, 255, 102, 0.15);
+            border: 1px solid rgba(0, 255, 102, 0.4);
             padding: 0.4rem 1rem;
             border-radius: 6px;
             font-weight: 700;
@@ -179,13 +177,15 @@
             line-height: 1;
             letter-spacing: -2px;
             margin-bottom: 1.5rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.6);
         }
 
         .hero p {
             font-size: 1.2rem;
-            color: var(--text-muted);
+            color: #d1d5db;
             max-width: 550px;
             margin-bottom: 3rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
         .hero-btns {
@@ -203,7 +203,7 @@
             font-size: 1.1rem;
             text-decoration: none;
             transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
         .btn-primary:hover {
@@ -215,28 +215,16 @@
             font-size: 0.85rem;
             color: var(--text-muted);
             margin-top: 1.5rem;
-            opacity: 0.7;
         }
 
-        /* Hero Benchmark Card */
+        /* Benchmark Card */
         .benchmark-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 40px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            position: relative;
-        }
-
-        .benchmark-card::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(135deg, var(--primary), transparent 50%);
-            border-radius: 17px;
-            z-index: -1;
-            opacity: 0.3;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
         }
 
         .card-header {
@@ -249,7 +237,7 @@
             display: flex;
             justify-content: space-between;
             padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
         .stat-value {
@@ -258,7 +246,7 @@
             color: var(--primary);
         }
 
-        /* --- FEATURES SECTION --- */
+        /* --- FEATURES --- */
         .section-title {
             text-align: center;
             font-size: 3rem;
@@ -287,12 +275,13 @@
             padding: 40px;
             border-radius: 12px;
             transition: var(--transition);
+            backdrop-filter: blur(10px);
         }
 
         .feature-card:hover {
             border-color: var(--primary);
             transform: translateY(-5px);
-            background: rgba(15, 30, 20, 0.9);
+            background: rgba(12, 25, 18, 0.9);
         }
 
         .icon-box {
@@ -316,9 +305,9 @@
             font-size: 0.95rem;
         }
 
-        /* --- TECH DEEP DIVE (THE 'WHY') --- */
+        /* --- TECH DEEP DIVE --- */
         .tech-deep-dive {
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.4);
         }
 
         .tech-item {
@@ -350,7 +339,8 @@
             font-family: monospace;
             color: var(--primary);
             padding: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
         }
 
         /* --- FOOTER --- */
@@ -358,7 +348,7 @@
             padding: 50px 0;
             text-align: center;
             border-top: 1px solid var(--border-color);
-            background: rgba(0,0,0,0.5);
+            background: rgba(2, 4, 3, 0.8);
         }
 
         footer p {
@@ -366,7 +356,6 @@
             font-size: 0.85rem;
         }
 
-        /* --- RESPONSIVE --- */
         @media (max-width: 1024px) {
             .hero h1 { font-size: 3.5rem; }
             .hero-grid, .tech-item { grid-template-columns: 1fr; text-align: center; }
@@ -384,20 +373,17 @@
 </head>
 <body>
 
-    <!-- BACKGROUND FISSATO -->
+    <!-- BACKGROUND LOCALE -->
     <div class="bg-container"></div>
 
     <!-- NAVBAR -->
     <nav>
         <div class="container">
             <a href="#" class="logo">
-                <!-- LOGO DISEGNATO VIA CODICE (SVG) -->
+                <!-- LOGO SVG DISEGNATO VIA CODICE -->
                 <svg class="vanta-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Esagono di base -->
                     <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <!-- 'V' stilizzata interna -->
                     <polygon points="30,40 50,70 70,40" fill="none" stroke="#00ff66" stroke-width="4" stroke-linecap="round"/>
-                    <!-- Linea orizzontale tech -->
                     <line x1="20" y1="30" x2="80" y2="30" stroke="#00ff66" stroke-width="1" opacity="0.5"/>
                 </svg>
                 <span>VANTA</span>
@@ -405,8 +391,8 @@
             <ul class="nav-links">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#technology">Technology</a></li>
-                <li><a href="https://github.com/vanta-client" target="_blank">GitHub</a></li>
-                <li><a href="#support">Support</a></li>
+                <li><a href="https://github.com" target="_blank">GitHub</a></li>
+                <li><a href="#download">Download</a></li>
             </ul>
             <a href="#download" class="btn-download-nav">Download</a>
         </div>
@@ -421,7 +407,7 @@
                 <p>Vanta isn't just a client mod; it's Minecraft rebuilt from scratch in Rust. Experience a new standard of speed, stability, and memory safety, free from Java's limitations.</p>
                 <div class="hero-btns">
                     <a href="#download" class="btn-primary">Download v26.3 LTS</a>
-                    <a href="https://github.com/vanta-client" target="_blank" class="highlight">View Source</a>
+                    <a href="#technology" class="highlight" style="text-decoration:none; font-weight:600;">Learn More →</a>
                 </div>
                 <p class="sys-requirements">Windows 10/11 • macOS 12+ • Linux</p>
             </div>
@@ -459,37 +445,31 @@
             <p class="section-subtitle">A client engineered for competitors, technical players, and anyone tired of lag.</p>
             
             <div class="features-grid">
-                <!-- Feature 1 -->
                 <div class="feature-card">
                     <div class="icon-box">🦀</div>
                     <h3>Rust Foundation</h3>
                     <p>Built with Rust for guaranteed memory safety without performance trade-offs. No more random crashes due to memory leaks.</p>
                 </div>
-                <!-- Feature 2 -->
                 <div class="feature-card">
                     <div class="icon-box">🚀</div>
                     <h3>Zero GC Lag</h3>
                     <p>By eliminating Java, we eliminate the Garbage Collector. Say goodbye to periodic "stutter" frames during intense gameplay.</p>
                 </div>
-                <!-- Feature 3 -->
                 <div class="feature-card">
                     <div class="icon-box">🌐</div>
                     <h3>Modern Renderer</h3>
                     <p>A ground-up Vulkan/WGPU rendering pipeline utilizes modern GPUs efficiently for faster chunk loading and higher frame rates.</p>
                 </div>
-                <!-- Feature 4 -->
                 <div class="feature-card">
                     <div class="icon-box">🛠️</div>
                     <h3>Native Mod API</h3>
                     <p>A low-overhead, sandboxed modding API built on WebAssembly (WASM). Write mods in any language, run them at native speeds.</p>
                 </div>
-                <!-- Feature 5 -->
                 <div class="feature-card">
                     <div class="icon-box">🔒</div>
                     <h3>Security First</h3>
                     <p>No more remote code execution vulnerabilities from antiquated libraries. Vanta is built with modern security standards.</p>
                 </div>
-                <!-- Feature 6 -->
                 <div class="feature-card">
                     <div class="icon-box">📉</div>
                     <h3>Lean Resource Use</h3>
@@ -499,14 +479,13 @@
         </div>
     </section>
 
-    <!-- TECHNOLOGY DEEP DIVE SECTION (THE 'WHY') -->
+    <!-- TECHNOLOGY DEEP DIVE SECTION -->
     <section id="technology" class="tech-deep-dive">
         <div class="container">
             <h2 class="section-title">The <span class="highlight">Tech</span> Behind the Speed</h2>
             <p class="section-subtitle">We didn't just tweak the game; we solved the fundamental bottlenecks.</p>
             
             <div class="tech-stack">
-                <!-- Tech Item 1: The JVM Problem -->
                 <div class="tech-item">
                     <div class="tech-text">
                         <h3>Goodbye, <span class="highlight">Java Virtual Machine.</span></h3>
@@ -524,12 +503,11 @@
                     </div>
                 </div>
 
-                <!-- Tech Item 2: Vulkan/WGPU Rendering -->
                 <div class="tech-item">
                     <div class="tech-text">
                         <h3><span class="highlight">Direct GPU</span> Communication</h3>
                         <p>The standard client relies on outdated OpenGL practices. Vanta uses WGPU, a modern abstraction layer that targets Vulkan, Metal, and DirectX 12.</p>
-                        <p><strong>The 'Why':</strong> This allows us to use parallel recording of draw calls and leverage modern GPU features like Bindless Textures and Mesh Shaders. The result? Faster chunk updates and incredibly high FPS even at high render distances.</p>
+                        <p><strong>The 'Why':</strong> This allows us to use parallel recording of draw calls and leverage modern GPU features like Bindless Textures and Mesh Shaders. The result? Faster chunk updates and incredibly high FPS.</p>
                     </div>
                     <div class="tech-graphic">
                         [CPU] ---&gt; [Multi-Threaded Command Buffer] ---&gt; [GPU]<br>
@@ -550,10 +528,10 @@
             <div class="version-tag">Get Vanta Now</div>
             <h2 class="section-title">Ready to Experience <span class="highlight">True Speed</span>?</h2>
             <p class="section-subtitle">Download the Vanta Client Launcher and start playing in under a minute. Free, open-source, and native.</p>
-            <div class="hero-btns" style="margin-top: 40px;">
+            <div class="hero-btns" style="margin-top: 40px; justify-content: center;">
                 <a href="#" class="btn-primary" onclick="alert('Starting Download for Vanta Launcher (Windows)...')">↓ Download for Windows (x64)</a>
             </div>
-            <p class="sys-requirements">Also available: macOS (Apple Silicon), Linux (AppImage)</p>
+            <p class="sys-requirements" style="margin-top: 20px;">Also available: macOS (Apple Silicon), Linux (AppImage)</p>
         </div>
     </section>
 
@@ -562,13 +540,13 @@
         <div class="container">
             <a href="#" class="logo" style="justify-content: center; margin-bottom: 20px;">
                 <svg class="vanta-logo-svg" viewBox="0 0 100 100">
-                    <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="#00ff66" stroke-width="2"/>
+                    <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="#00ff66" stroke-width="2.5"/>
                     <polygon points="30,40 50,70 70,40" fill="none" stroke="#00ff66" stroke-width="4"/>
                 </svg>
                 <span>VANTA</span>
             </a>
             <p>&copy; 2026 Vanta Client Project. All rights reserved.</p>
-            <p>We are not affiliated with Mojang Studios or Microsoft. Minecraft is a trademark of Mojang Synergies AB.</p>
+            <p style="margin-top: 5px;">We are not affiliated with Mojang Studios or Microsoft. Minecraft is a trademark of Mojang Synergies AB.</p>
         </div>
     </footer>
 
