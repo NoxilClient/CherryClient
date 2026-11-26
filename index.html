@@ -1,563 +1,324 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101610">
-<title>VANTA Client — Minecraft, Reimagined</title>
-<meta name="description" content="VANTA Client is a modern Minecraft launcher focused on performance, simplicity and customization.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanta Client | Minecraft Riscritto in Rust (26.2 / 26.3)</title>
+    <style>
+        :root {
+            --bg-dark: #070b09;
+            --bg-card: #0e1612;
+            --primary: #00ff66;
+            --primary-glow: rgba(0, 255, 102, 0.35);
+            --secondary: #059669;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #1f3328;
+        }
 
-<style>
-:root {
-  --bg: #101510;
-  --panel: #171f18;
-  --green: #829c76;
-  --bright: #a8c69a;
-  --text: #f1f3ed;
-  --muted: #a0a99e;
-  --border: rgba(190,220,180,.12);
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-html { scroll-behavior: smooth; }
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 8%;
+            background: rgba(7, 11, 9, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: Inter, sans-serif;
-  overflow-x: hidden;
-}
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-a { color: inherit; text-decoration: none; }
+        .logo span {
+            color: var(--primary);
+            text-shadow: 0 0 15px var(--primary-glow);
+        }
 
-nav {
-  height: 66px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 8%;
-  background: rgba(14,20,15,.88);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-}
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
 
-.logo {
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 2px;
-}
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
 
-.logo span { color: var(--bright); }
+        .nav-links a:hover {
+            color: var(--primary);
+        }
 
-.navlinks {
-  display: flex;
-  gap: 30px;
-  color: var(--muted);
-  font-size: 13px;
-}
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 10% 4rem;
+            background: radial-gradient(circle at 50% 20%, rgba(0, 255, 102, 0.12) 0%, transparent 60%);
+        }
 
-.navlinks a:hover { color: white; }
+        .badge {
+            display: inline-block;
+            background: rgba(0, 255, 102, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
+        }
 
-.navbutton, .primary {
-  background: #78916e;
-  color: white;
-  padding: 12px 21px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  transition: .2s;
-}
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
 
-.navbutton:hover, .primary:hover {
-  background: #94b18a;
-  transform: translateY(-2px);
-}
+        .hero h1 span {
+            color: var(--primary);
+            text-shadow: 0 0 25px var(--primary-glow);
+        }
 
-.hero {
-  min-height: 700px;
-  display: flex;
-  align-items: center;
-  padding: 120px 10% 80px;
-  position: relative;
-  background:
-    linear-gradient(90deg,rgba(10,17,11,.97),rgba(10,17,11,.75),rgba(10,17,11,.55)),
-    linear-gradient(0deg,#101510,transparent 45%),
-    url("https://images.unsplash.com/photo-1448375240586-882707db888b?q=85&w=2200") center/cover;
-}
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 680px;
+            margin: 0 auto 2.5rem;
+        }
 
-.hero-content {
-  max-width: 570px;
-  position: relative;
-  z-index: 1;
-}
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
 
-.eyebrow {
-  color: var(--bright);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 24px;
-}
+        .btn {
+            padding: 1rem 2.2rem;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
 
-h1 {
-  font-size: clamp(48px,7vw,82px);
-  line-height: 1.03;
-  letter-spacing: -4px;
-  margin-bottom: 24px;
-}
+        .btn-primary {
+            background-color: var(--primary);
+            color: #03140a;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
 
-h1 span { color: var(--bright); }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 35px rgba(0, 255, 102, 0.6);
+        }
 
-.hero p {
-  color: #b6c0b3;
-  font-size: 15px;
-  line-height: 1.9;
-  max-width: 490px;
-  margin-bottom: 32px;
-}
+        .btn-secondary {
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+        }
 
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  flex-wrap: wrap;
-}
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
 
-.secondary {
-  border: 1px solid var(--border);
-  padding: 12px 21px;
-  border-radius: 8px;
-  font-size: 13px;
-}
+        /* Stats Bar */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 3rem 10%;
+            margin: 2rem 8%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            flex-wrap: wrap;
+        }
 
-.secondary:hover { background: #202b21; }
+        .stat-item {
+            text-align: center;
+        }
 
-.version {
-  color: #a5b09f;
-  font-size: 11px;
-  margin-top: 22px;
-}
+        .stat-item h3 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: 800;
+        }
 
-.preview {
-  position: absolute;
-  right: 7%;
-  top: 22%;
-  width: 43%;
-  height: 340px;
-  border: 1px solid rgba(180,220,170,.25);
-  background: linear-gradient(135deg,#253629,#111a13);
-  border-radius: 15px;
-  box-shadow: 0 30px 100px #0009;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+        .stat-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-.preview-inner {
-  width: 90%;
-  height: 88%;
-  border: 1px solid #52664e;
-  border-radius: 9px;
-  background: linear-gradient(145deg,#1c2c20,#101710);
-  padding: 22px;
-  display: flex;
-  gap: 18px;
-}
+        /* Features Section */
+        .features {
+            padding: 5rem 8%;
+        }
 
-.preview-side {
-  width: 24%;
-  border-right: 1px solid var(--border);
-  color: #829780;
-  font-size: 10px;
-  line-height: 3;
-}
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3.5rem;
+        }
 
-.preview-main { flex: 1; }
+        .section-title span {
+            color: var(--primary);
+        }
 
-.preview-main h3 {
-  font-size: 17px;
-  margin-bottom: 15px;
-}
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
 
-.fake-card {
-  padding: 17px;
-  background: #26392a;
-  border: 1px solid #425b43;
-  border-radius: 9px;
-  margin-bottom: 12px;
-  color: #c3d2bd;
-  font-size: 11px;
-}
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 14px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
 
-.fake-play {
-  display: block;
-  margin-top: 15px;
-  background: #829c76;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-  color: white;
-  font-weight: 700;
-}
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
 
-section { padding: 100px 10%; }
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
 
-.section-label {
-  color: var(--bright);
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 17px;
-}
+        .card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+        }
 
-.section-title {
-  font-size: clamp(30px,4vw,47px);
-  letter-spacing: -2px;
-  margin-bottom: 16px;
-}
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
 
-.section-desc {
-  color: var(--muted);
-  max-width: 550px;
-  font-size: 14px;
-  line-height: 1.8;
-}
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 8%;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
 
-.features {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 17px;
-  margin-top: 45px;
-}
-
-.feature {
-  background: linear-gradient(145deg,#1b251c,#151c16);
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  padding: 29px;
-  transition: .25s;
-}
-
-.feature:hover {
-  transform: translateY(-5px);
-  border-color: #829c7666;
-}
-
-.feature-icon {
-  width: 43px;
-  height: 43px;
-  display: grid;
-  place-items: center;
-  background: #344b34;
-  border-radius: 10px;
-  color: var(--bright);
-  font-size: 20px;
-  margin-bottom: 23px;
-}
-
-.feature h3 {
-  font-size: 16px;
-  margin-bottom: 12px;
-}
-
-.feature p {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.8;
-}
-
-.versions {
-  background: #151d16;
-  text-align: center;
-}
-
-.version-grid {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 38px;
-  flex-wrap: wrap;
-}
-
-.version-card {
-  width: 230px;
-  padding: 30px;
-  border: 1px solid var(--border);
-  background: #1c271d;
-  border-radius: 12px;
-}
-
-.version-card h3 {
-  font-size: 25px;
-  margin-bottom: 10px;
-}
-
-.version-card p {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.status {
-  display: inline-block;
-  margin-top: 18px;
-  color: #c0d7b6;
-  background: #344c34;
-  padding: 6px 11px;
-  border-radius: 20px;
-  font-size: 10px;
-}
-
-.rust {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
-}
-
-.rust-box {
-  background: linear-gradient(135deg,#273a29,#172119);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  min-height: 260px;
-  display: grid;
-  place-items: center;
-  font-size: 70px;
-  color: var(--bright);
-}
-
-.rust p {
-  color: var(--muted);
-  line-height: 1.9;
-  font-size: 14px;
-  margin-top: 20px;
-}
-
-.download {
-  text-align: center;
-  background: linear-gradient(180deg,#151e16,#101510);
-}
-
-.download h2 {
-  font-size: clamp(35px,5vw,55px);
-  letter-spacing: -2px;
-  margin-bottom: 18px;
-}
-
-.download p {
-  color: var(--muted);
-  font-size: 14px;
-  margin-bottom: 30px;
-}
-
-footer {
-  padding: 30px 10%;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #829080;
-  font-size: 11px;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-@media(max-width:950px) {
-  .preview { display: none; }
-  .hero { min-height: 620px; }
-  .features { grid-template-columns: repeat(2,1fr); }
-}
-
-@media(max-width:650px) {
-  nav { padding: 0 5%; }
-  .navlinks { display: none; }
-  .hero { padding: 120px 7% 70px; }
-  h1 { letter-spacing: -2px; }
-  section { padding: 75px 7%; }
-  .features { grid-template-columns: 1fr; }
-  .rust { grid-template-columns: 1fr; gap: 30px; }
-  footer { padding: 25px 7%; }
-}
-</style>
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.6rem; }
+            .nav-links { display: none; }
+            .stats { gap: 2rem; }
+        }
+    </style>
 </head>
-
 <body>
 
-<nav>
-  <a href="#" class="logo">VANTA<span>.</span></a>
+    <nav>
+        <div class="logo">⚡ <span>VANTA</span></div>
+        <ul class="nav-links">
+            <li><a href="#features">Caratteristiche</a></li>
+            <li><a href="#performance">Performance</a></li>
+            <li><a href="#download">Versioni</a></li>
+            <li><a href="https://github.com" target="_blank">GitHub</a></li>
+        </ul>
+    </nav>
 
-  <div class="navlinks">
-    <a href="#features">Features</a>
-    <a href="#performance">Technology</a>
-    <a href="#versions">Versions</a>
-    <a href="#download">Download</a>
-  </div>
-
-  <a href="#download" class="navbutton">Download</a>
-</nav>
-
-<header class="hero">
-  <div class="hero-content">
-    <div class="eyebrow">THE NEXT GENERATION MINECRAFT CLIENT</div>
-
-    <h1>More control.<br><span>More frames.</span></h1>
-
-    <p>
-      Meet VANTA Client. A modern Minecraft experience
-      designed around performance, simplicity and freedom.
-      Everything you need, in one place.
-    </p>
-
-    <div class="actions">
-      <a href="#download" class="primary">↓ &nbsp; Download VANTA</a>
-      <a href="#features" class="secondary">Explore features</a>
-    </div>
-
-    <div class="version">
-      JAVA EDITION &nbsp;·&nbsp; WINDOWS &nbsp;·&nbsp; MORE PLATFORMS PLANNED
-    </div>
-  </div>
-
-  <div class="preview">
-    <div class="preview-inner">
-      <div class="preview-side">
-        ◈ VANTA<br>
-        <br>
-        Home<br>
-        Mods<br>
-        Settings<br>
-        Accounts<br>
-        Versions<br>
-        About
-      </div>
-      <div class="preview-main">
-        <h3>Welcome to VANTA.</h3>
-        <div class="fake-card">
-          YOUR MINECRAFT EXPERIENCE
-          <br><br>
-          A cleaner way to play.
-          <span class="fake-play">PLAY</span>
+    <section class="hero">
+        <div class="badge">SUPPORTO NATIVO MC 26.2 & 26.3</div>
+        <h1>Minecraft Riscritto<br>da Zero in <span>Rust</span>.</h1>
+        <p>Dimentica i lag spike della JVM. Vanta è un client nativo ultra-leggero progettato per spremere ogni singolo FPS dal tuo hardware con sicurezza della memoria garantita.</p>
+        <div class="cta-group" id="download">
+            <a href="#download-26-3" class="btn btn-primary" onclick="alert('Download di Vanta Client v26.3 (x86_64) avviato!')">Scarica Vanta 26.3</a>
+            <a href="#download-26-2" class="btn btn-secondary" onclick="alert('Download di Vanta Client v26.2 (x86_64) avviato!')">Versione 26.2 LTS</a>
         </div>
-        <div class="fake-card">
-          PERFORMANCE &nbsp; CUSTOMIZATION
+    </section>
+
+    <section class="stats" id="performance">
+        <div class="stat-item">
+            <h3>+340%</h3>
+            <p>FPS Medi rispetto a Vanilla</p>
         </div>
-      </div>
-    </div>
-  </div>
-</header>
+        <div class="stat-item">
+            <h3>0 ms</h3>
+            <p>Pause Garbage Collector</p>
+        </div>
+        <div class="stat-item">
+            <h3>&lt; 450 MB</h3>
+            <p>Utilizzo RAM in Gioco</p>
+        </div>
+    </section>
 
-<section id="features">
-  <div class="section-label">WHY VANTA</div>
-  <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
-  <p class="section-desc">
-    A launcher experience built to make Minecraft easier
-    to manage, customize and enjoy.
-  </p>
+    <section class="features" id="features">
+        <h2 class="section-title">Perché scegliere <span>Vanta</span>?</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">🦀</div>
+                <h3>Motore 100% Rust</h3>
+                <p>Compilato in codice macchina nativo. Nessuna Java Virtual Machine, zero overhead e tempi di avvio inferiori a 1.5 secondi.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🚀</div>
+                <h3>Renderer Vulkan & WGPU</h3>
+                <p>Pipeline grafica moderna multi-thread che sfrutta al massimo le GPU recenti per caricare chunk istantaneamente.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🛡️</div>
+                <h3>Compatibilità 26.2 / 26.3</h3>
+                <p>Pieno supporto ai protocolli di rete dei server ufficiali 26.2 e 26.3, inclusi pacchetti custom e skin HD.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🧩</div>
+                <h3>Mod API in WebAssembly</h3>
+                <p>Carica mod e plugin leggeri scritti in Rust o C++ in totale sicurezza grazie al sandboxing WASM integrato.</p>
+            </div>
+        </div>
+    </section>
 
-  <div class="features">
-    <div class="feature">
-      <div class="feature-icon">⚡</div>
-      <h3>Performance Focus</h3>
-      <p>Designed with a focus on a lightweight experience and smooth gameplay.</p>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">▦</div>
-      <h3>Mod Management</h3>
-      <p>A central place to organize your mods and customize your setup.</p>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">◈</div>
-      <h3>Clean Interface</h3>
-      <p>A modern, minimal interface that keeps everything within reach.</p>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">⚙</div>
-      <h3>Customization</h3>
-      <p>Build an experience that matches your own preferences.</p>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">⬡</div>
-      <h3>Multiple Versions</h3>
-      <p>Designed with support for different Minecraft Java Edition versions.</p>
-    </div>
-
-    <div class="feature">
-      <div class="feature-icon">✦</div>
-      <h3>Made for Players</h3>
-      <p>Focused on accessibility, simplicity and a better launcher experience.</p>
-    </div>
-  </div>
-</section>
-
-<section class="versions" id="versions">
-  <div class="section-label">COMPATIBILITY</div>
-  <h2 class="section-title">Your version. Your choice.</h2>
-  <p class="section-desc" style="margin:auto">
-    VANTA is being developed with compatibility for
-    Minecraft Java Edition 26.2 and 26.3 in mind.
-  </p>
-
-  <div class="version-grid">
-    <div class="version-card">
-      <h3>26.2</h3>
-      <p>Minecraft Java Edition</p>
-      <span class="status">PLANNED SUPPORT</span>
-    </div>
-
-    <div class="version-card">
-      <h3>26.3</h3>
-      <p>Minecraft Java Edition</p>
-      <span class="status">PLANNED SUPPORT</span>
-    </div>
-  </div>
-</section>
-
-<section class="rust" id="performance">
-  <div>
-    <div class="section-label">UNDER THE HOOD</div>
-    <h2 class="section-title">Powered by Rust.</h2>
-    <p>
-      VANTA Launcher is being developed with Rust,
-      a modern systems programming language known for
-      performance, reliability and memory safety.
-      <br><br>
-      Our goal is to create a responsive, efficient
-      launcher without unnecessary complexity.
-    </p>
-  </div>
-
-  <div class="rust-box">RUST</div>
-</section>
-
-<section class="download" id="download">
-  <div class="section-label">YOUR NEXT ADVENTURE</div>
-  <h2>Ready for something new?</h2>
-  <p>Discover a new way to manage your Minecraft experience.</p>
-  <a href="https://example.com/download" class="primary">
-    ↓ &nbsp; Download VANTA
-  </a>
-  <p style="margin-top:20px;font-size:11px">
-    Download availability and supported platforms will be announced.
-  </p>
-</section>
-
-<footer>
-  <div class="logo">VANTA<span>.</span></div>
-  <div>Not affiliated with Mojang or Microsoft.</div>
-  <div>© 2026 VANTA Client. All rights reserved.</div>
-</footer>
+    <footer>
+        <p>&copy; 2026 Vanta Client Project. Non affiliato con Mojang Studios o Microsoft.</p>
+    </footer>
 
 </body>
 </html>
