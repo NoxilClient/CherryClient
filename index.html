@@ -1,1123 +1,1261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VANTA Client | Native Rust Engine for Minecraft 26.2 & 26.3</title>
-    <style>
-        :root {
-            --primary: #00ff66;
-            --primary-dim: #00cc52;
-            --primary-glow: rgba(0, 255, 102, 0.35);
-            --bg-dark: #040705;
-            --bg-card: rgba(9, 17, 13, 0.82);
-            --bg-card-hover: rgba(14, 27, 20, 0.92);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-color: rgba(0, 255, 102, 0.18);
-            --transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* --- BACKGROUND & CYBER GRID --- */
-        .bg-container {
-            position: fixed;
-            inset: 0;
-            background: 
-                radial-gradient(circle at 75% 25%, rgba(0, 255, 102, 0.08) 0%, transparent 45%),
-                linear-gradient(to bottom, rgba(4, 7, 5, 0.55), rgba(4, 7, 5, 0.92)),
-                url('background.png') no-repeat center center / cover;
-            z-index: -2;
-        }
-
-        .bg-grid {
-            position: fixed;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(0, 255, 102, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 102, 0.03) 1px, transparent 1px);
-            background-size: 48px 48px;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .highlight {
-            color: var(--primary);
-            text-shadow: 0 0 18px var(--primary-glow);
-        }
-
-        section {
-            padding: 110px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        /* --- SCROLL REVEAL ANIMATION --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- CUSTOM CODE-DRAWN SVG LOGO --- */
-        .vanta-logo-svg {
-            width: 38px;
-            height: 38px;
-            filter: drop-shadow(0 0 8px var(--primary-glow));
-            transition: var(--transition);
-        }
-        .logo:hover .vanta-logo-svg {
-            transform: scale(1.06);
-            filter: drop-shadow(0 0 14px var(--primary));
-        }
-
-        /* --- NAVBAR --- */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(4, 7, 5, 0.72);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            padding: 0.95rem 0;
-        }
-
-        nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 900;
-            font-size: 1.35rem;
-            color: var(--text-main);
-            text-decoration: none;
-            letter-spacing: 1.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .btn-nav {
-            background: rgba(0, 255, 102, 0.12);
-            color: var(--primary);
-            border: 1px solid var(--primary);
-            padding: 0.55rem 1.4rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-nav:hover {
-            background: var(--primary);
-            color: var(--bg-dark);
-            box-shadow: 0 0 22px var(--primary-glow);
-        }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-top: 100px;
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.15fr 0.85fr;
-            gap: 50px;
-            align-items: center;
-        }
-
-        .pill-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            color: var(--primary);
-            background: rgba(0, 255, 102, 0.1);
-            border: 1px solid rgba(0, 255, 102, 0.35);
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.8px;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--primary);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(0.95); opacity: 0.8; }
-            50% { transform: scale(1.25); opacity: 1; }
-            100% { transform: scale(0.95); opacity: 0.8; }
-        }
-
-        .hero h1 {
-            font-size: 4.4rem;
-            font-weight: 900;
-            line-height: 1.03;
-            letter-spacing: -2px;
-            margin-bottom: 1.4rem;
-            text-shadow: 0 6px 25px rgba(0, 0, 0, 0.7);
-        }
-
-        .hero p {
-            font-size: 1.15rem;
-            color: #d1d5db;
-            max-width: 540px;
-            margin-bottom: 2.4rem;
-        }
-
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: #031208;
-            padding: 1rem 2.2rem;
-            border-radius: 10px;
-            font-weight: 800;
-            font-size: 1.05rem;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            transition: var(--transition);
-            box-shadow: 0 4px 20px var(--primary-glow);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 32px rgba(0, 255, 102, 0.55);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
-            padding: 1rem 1.8rem;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: rgba(0, 255, 102, 0.06);
-        }
-
-        .os-meta {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* --- INTERACTIVE BENCHMARK CARD --- */
-        .benchmark-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
-            padding: 32px;
-            backdrop-filter: blur(16px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
-        }
-
-        .bench-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-        }
-
-        .bench-toggle {
-            display: flex;
-            background: rgba(0, 0, 0, 0.45);
-            padding: 4px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .bench-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .bench-btn.active {
-            background: var(--primary);
-            color: var(--bg-dark);
-        }
-
-        .metric-item {
-            margin-bottom: 20px;
-        }
-        .metric-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .metric-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-
-        .metric-val {
-            font-weight: 800;
-            color: var(--primary);
-            font-family: monospace;
-            font-size: 1.05rem;
-        }
-
-        .bar-track {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background: var(--primary);
-            border-radius: 10px;
-            box-shadow: 0 0 12px var(--primary-glow);
-            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
-        }
-
-        /* --- FEATURES GRID --- */
-        .section-header {
-            text-align: center;
-            max-width: 650px;
-            margin: 0 auto 65px;
-        }
-
-        .section-title {
-            font-size: 2.9rem;
-            font-weight: 900;
-            margin-bottom: 0.8rem;
-            letter-spacing: -1px;
-        }
-
-        .section-subtitle {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-            gap: 26px;
-        }
-
-        .feature-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 36px;
-            border-radius: 16px;
-            transition: var(--transition);
-            backdrop-filter: blur(12px);
-        }
-
-        .feature-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-6px);
-            background: var(--bg-card-hover);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        }
-
-        .icon-box {
-            width: 52px;
-            height: 52px;
-            background: rgba(0, 255, 102, 0.1);
-            border: 1px solid rgba(0, 255, 102, 0.25);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 22px;
-            color: var(--primary);
-        }
-
-        .feature-card h3 {
-            font-size: 1.35rem;
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* --- ARCHITECTURE DEEP DIVE --- */
-        .tech-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-            margin-bottom: 85px;
-        }
-        .tech-row:last-child {
-            margin-bottom: 0;
-        }
-        .tech-row.reverse {
-            direction: rtl;
-        }
-        .tech-row.reverse .tech-copy {
-            direction: ltr;
-        }
-
-        .tech-copy h3 {
-            font-size: 2.1rem;
-            margin-bottom: 16px;
-            line-height: 1.2;
-        }
-
-        .tech-copy p {
-            color: var(--text-muted);
-            margin-bottom: 16px;
-        }
-
-        .code-window {
-            background: #060b08;
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
-            direction: ltr;
-        }
-
-        .code-bar {
-            background: rgba(255, 255, 255, 0.04);
-            padding: 10px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            font-family: monospace;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .dot { width: 10px; height: 10px; border-radius: 50%; }
-        .dot.red { background: #ff5f56; }
-        .dot.yellow { background: #ffbd2e; }
-        .dot.green { background: #27c93f; }
-
-        .code-body {
-            padding: 24px;
-            font-family: 'Consolas', 'Fira Code', monospace;
-            font-size: 0.9rem;
-            color: #d1d5db;
-            line-height: 1.7;
-            overflow-x: auto;
-        }
-
-        .kw { color: #00ff66; font-weight: bold; }
-        .fn { color: #60a5fa; }
-        .cm { color: #6b7280; font-style: italic; }
-
-        /* --- FAQ ACCORDION --- */
-        .faq-list {
-            max-width: 780px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .faq-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .faq-question {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            padding: 22px 26px;
-            text-align: left;
-            font-size: 1.05rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .faq-question:hover {
-            color: var(--primary);
-        }
-
-        .faq-icon {
-            color: var(--primary);
-            font-size: 1.3rem;
-            transition: transform 0.3s ease;
-        }
-
-        .faq-item.open .faq-icon {
-            transform: rotate(45deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            padding: 0 26px;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            transition: max-height 0.35s ease, padding 0.35s ease;
-        }
-
-        .faq-item.open .faq-answer {
-            max-height: 200px;
-            padding: 0 26px 22px;
-        }
-
-        /* --- DOWNLOAD CTA BANNER --- */
-        .cta-box {
-            background: linear-gradient(135deg, rgba(0, 255, 102, 0.12), rgba(9, 17, 13, 0.9));
-            border: 1px solid rgba(0, 255, 102, 0.35);
-            border-radius: 22px;
-            padding: 70px 40px;
-            text-align: center;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-        }
-
-        /* --- MODAL --- */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-        }
-
-        .modal-backdrop.active {
-            display: flex;
-        }
-
-        .modal-card {
-            background: #0a140f;
-            border: 1px solid var(--primary);
-            border-radius: 18px;
-            max-width: 500px;
-            width: 100%;
-            padding: 32px;
-            box-shadow: 0 0 40px rgba(0, 255, 102, 0.2);
-            position: relative;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 22px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        .modal-close:hover { color: var(--primary); }
-
-        .build-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            margin-top: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            text-decoration: none;
-            color: var(--text-main);
-            transition: var(--transition);
-        }
-
-        .build-option:hover, .build-option.recommended {
-            border-color: var(--primary);
-            background: rgba(0, 255, 102, 0.08);
-        }
-
-        /* --- FOOTER --- */
-        footer {
-            padding: 60px 0;
-            text-align: center;
-            background: rgba(2, 4, 3, 0.85);
-        }
-
-        footer p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        @media (max-width: 960px) {
-            .hero-grid, .tech-row { grid-template-columns: 1fr; text-align: center; }
-            .hero h1 { font-size: 3.3rem; }
-            .hero p { margin-left: auto; margin-right: auto; }
-            .hero-actions, .os-meta { justify-content: center; }
-            .tech-row.reverse { direction: ltr; }
-            .nav-links { display: none; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cherry Client — More Frames. Zero Overhead. (Rust Engine)</title>
+  <meta name="google-site-verification" content="C-coubP0ezr3zNbqv3HsPuMl9eZCJyWSmEqAWcMN_xg" />
+  <meta name="description" content="Cherry Client is a Rust-powered Minecraft client for 1.8.9, 26.2, and 26.3 delivering 3x the FPS of Tori, zero GC stutter, native rendering, and custom HUD modules." />
+  <meta name="keywords" content="Cherry Client, Rust Minecraft Client, Minecraft Client, PvP Client, FPS Boost, Cherry Client Minecraft, noxilclient" />
+  <link rel="canonical" href="https://noxilclient.github.io/CherryClient/" />
+
+  <!-- Open Graph / Discord Embed -->
+  <meta property="og:title" content="Cherry Client — Rust-Powered 3x FPS Minecraft Client" />
+  <meta property="og:description" content="Complete Rust engine rewrite for silky frame times, zero overhead, and 3x higher FPS than Tori." />
+  <meta property="og:url" content="https://noxilclient.github.io/CherryClient/" />
+  <meta property="og:type" content="website" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2312090d'/%3E%3Cpolygon points='16,5 26,11 26,21 16,27 6,21 6,11' fill='none' stroke='%23ff3b7a' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='16' r='4.2' fill='%23ff7aa8'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-base: #070508;
+      --surface-glass: rgba(16, 10, 14, 0.72);
+      --surface-card: rgba(19, 12, 17, 0.78);
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --accent: #ff3b7a;
+      --accent-bright: #ff7aa8;
+      --accent-glow: rgba(255, 59, 122, 0.35);
+      --text-main: #f8fafc;
+      --text-muted: #a1a1aa;
+      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Background Image from Repository + Vignette & Subtle Grid */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(7, 5, 8, 0.76) 0%, rgba(12, 6, 10, 0.66) 45%, rgba(7, 5, 8, 0.94) 100%),
+        radial-gradient(circle at 75% 32%, rgba(255, 59, 122, 0.16), transparent 52%),
+        url('./background.png') center center / cover no-repeat;
+    }
+
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255, 122, 168, 0.045) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 122, 168, 0.045) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 35%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 35%, transparent 100%);
+    }
+
+    /* Top Scroll Progress */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2.5px;
+      width: 100%;
+      transform-origin: left center;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, #ff3b7a, #ff85ad, #ffffff);
+      z-index: 100;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    /* Exact 1:1 Cursor Glow */
+    .cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 300px;
+      margin-left: -150px;
+      margin-top: -150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 77, 136, 0.16) 0%, rgba(255, 59, 122, 0.06) 42%, transparent 72%);
+      transform: translate3d(-9999px, -9999px, 0);
+      pointer-events: none;
+      z-index: 2;
+      will-change: transform;
+      mix-blend-mode: screen;
+    }
+
+    #petals-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    /* Smooth Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+      transition: opacity 0.45s var(--ease-smooth), transform 0.45s var(--ease-smooth);
+      will-change: opacity, transform;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    /* Top Bar like Reference */
+    header.topbar-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(8, 5, 9, 0.72);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .topbar {
+      max-width: 1220px;
+      margin: 0 auto;
+      height: 68px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-hex {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: rgba(255, 59, 122, 0.14);
+      border: 1px solid rgba(255, 77, 136, 0.45);
+      color: #ff6b9d;
+      font-size: 0.92rem;
+    }
+
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-center a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: color 0.16s ease;
+    }
+
+    .nav-center a:hover {
+      color: #ffffff;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .profile-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #ffb3ce;
+    }
+
+    .btn-pill-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(255, 59, 122, 0.16);
+      border: 1px solid rgba(255, 77, 136, 0.55);
+      color: #ff85ad;
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 700;
+      transition: all 0.16s var(--ease-smooth);
+    }
+
+    .btn-pill-cta:hover {
+      background: #ff3b7a;
+      color: #ffffff;
+      box-shadow: 0 0 22px rgba(255, 59, 122, 0.45);
+    }
+
+    /* Main Layout Container */
+    .page-container {
+      position: relative;
+      z-index: 3;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Hero 2-Column Split like Reference */
+    .hero-split {
+      padding: 64px 0 68px;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 44px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 59, 122, 0.12);
+      border: 1px solid rgba(255, 77, 136, 0.35);
+      color: #ff85ad;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ff4d88;
+      box-shadow: 0 0 8px #ff4d88;
+    }
+
+    h1.hero-title {
+      font-size: clamp(2.85rem, 5.4vw, 4.45rem);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+      line-height: 1.04;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+
+    h1.hero-title span.accent-line {
+      display: block;
+      color: #ff4785;
+      text-shadow: 0 0 32px rgba(255, 71, 133, 0.28);
+    }
+
+    .hero-desc {
+      color: #b4b4c2;
+      font-size: 1.04rem;
+      line-height: 1.65;
+      max-width: 540px;
+      margin-bottom: 28px;
+    }
+
+    .hero-desc strong {
+      color: #ffffff;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .btn-primary-solid {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 13px 24px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ff3b7a, #e11d63);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.94rem;
+      text-decoration: none;
+      box-shadow: 0 10px 28px rgba(255, 59, 122, 0.35);
+      transition: transform 0.16s var(--ease-smooth), filter 0.16s ease;
+    }
+
+    .btn-primary-solid:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+    }
+
+    .btn-ghost-dark {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 10px;
+      background: rgba(15, 11, 16, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f1f5f9;
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+      transition: all 0.16s var(--ease-smooth);
+    }
+
+    .btn-ghost-dark:hover {
+      border-color: rgba(255, 122, 168, 0.48);
+      background: rgba(26, 17, 25, 0.88);
+    }
+
+    .hero-meta-note {
+      font-size: 0.78rem;
+      color: #8b8b99;
+    }
+
+    /* Live Telemetry Card on Right */
+    .telemetry-card {
+      background: rgba(14, 9, 13, 0.78);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 77, 136, 0.28);
+      border-top-color: rgba(255, 179, 206, 0.35);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 40px rgba(255, 59, 122, 0.08);
+    }
+
+    .telemetry-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .telemetry-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .telemetry-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 3px;
+    }
+
+    .mode-switch-group {
+      display: inline-flex;
+      background: rgba(8, 5, 9, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .mode-btn {
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      font-family: inherit;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 11px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .mode-btn.active {
+      background: #ff3b7a;
+      color: #ffffff;
+    }
+
+    .tier-strip {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .tier-chip {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      color: #a1a1aa;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tier-chip.active {
+      background: rgba(255, 59, 122, 0.18);
+      border-color: rgba(255, 122, 168, 0.5);
+      color: #ffb3ce;
+    }
+
+    .metric-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.84rem;
+    }
+
+    .metric-label {
+      color: #d4d4d8;
+      font-weight: 500;
+    }
+
+    .metric-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: #ff6b9d;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .metric-track {
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .metric-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff3b7a, #ff85ad);
+      transition: width 0.35s var(--ease-smooth);
+      will-change: width;
+    }
+
+    /* Extra Sections */
+    .extra-section {
+      padding: 56px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .sec-eyebrow {
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ff6b9d;
+      margin-bottom: 6px;
+    }
+
+    .sec-heading {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #ffffff;
+      margin-bottom: 24px;
+    }
+
+    /* Interactive Modules Box */
+    .modules-shell {
+      background: var(--surface-glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-soft);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .modules-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .tab-pills {
+      display: inline-flex;
+      gap: 8px;
+    }
+
+    .tab-pill {
+      padding: 7px 15px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(255, 255, 255, 0.03);
+      color: #a1a1aa;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tab-pill.active {
+      background: rgba(255, 59, 122, 0.2);
+      border-color: rgba(255, 122, 168, 0.55);
+      color: #ffb3ce;
+    }
+
+    .search-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(9, 6, 10, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: 999px;
+      padding: 7px 14px;
+      min-width: 210px;
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #f8fafc;
+      font-size: 0.84rem;
+      width: 100%;
+    }
+
+    .mod-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 11px;
+    }
+
+    .mod-item {
+      background: rgba(14, 9, 13, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 13px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transition: border-color 0.15s ease, transform 0.15s var(--ease-smooth);
+    }
+
+    .mod-item:hover {
+      border-color: rgba(255, 122, 168, 0.42);
+      transform: translateY(-1px);
+    }
+
+    .mod-item.on {
+      border-color: rgba(255, 59, 122, 0.65);
+      background: rgba(28, 13, 21, 0.84);
+    }
+
+    .mod-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .mod-sub {
+      font-size: 0.76rem;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .toggle-btn {
+      width: 40px;
+      height: 22px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255, 255, 255, 0.15);
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.16s ease;
+    }
+
+    .toggle-btn::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      transition: transform 0.18s var(--ease-smooth);
+    }
+
+    .toggle-btn.on {
+      background: #ff3b7a;
+    }
+
+    .toggle-btn.on::after {
+      transform: translateX(18px);
+    }
+
+    .mod-status-line {
+      margin-top: 12px;
+      font-size: 0.8rem;
+      color: #ffb3ce;
+      min-height: 18px;
+    }
+
+    /* Architecture & FAQ Cards */
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .glass-box {
+      background: var(--surface-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-soft);
+      border-top-color: rgba(255, 255, 255, 0.14);
+      border-radius: 16px;
+      padding: 20px;
+      transition: border-color 0.16s ease, transform 0.16s var(--ease-smooth);
+    }
+
+    .glass-box:hover {
+      border-color: rgba(255, 122, 168, 0.42);
+      transform: translateY(-2px);
+    }
+
+    .glass-box h3 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .glass-box p {
+      font-size: 0.86rem;
+      color: #a1a1aa;
+      line-height: 1.6;
+    }
+
+    .faq-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .faq-card {
+      background: var(--surface-card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-soft);
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .faq-q {
+      width: 100%;
+      padding: 17px 20px;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.94rem;
+      font-weight: 600;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .faq-a-wrap {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.25s var(--ease-smooth);
+    }
+
+    .faq-card.open .faq-a-wrap {
+      grid-template-rows: 1fr;
+    }
+
+    .faq-a-inner {
+      overflow: hidden;
+    }
+
+    .faq-a {
+      padding: 0 20px 18px;
+      font-size: 0.88rem;
+      color: #a1a1aa;
+      line-height: 1.65;
+    }
+
+    footer {
+      position: relative;
+      z-index: 3;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 26px 24px;
+      text-align: center;
+      font-size: 0.84rem;
+      color: #8b8b99;
+    }
+
+    footer a {
+      color: #ff85ad;
+      text-decoration: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .cursor-glow, .scroll-progress {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 920px) {
+      .hero-split {
+        grid-template-columns: 1fr;
+        padding-top: 42px;
+        gap: 32px;
+      }
+      .cards-3 {
+        grid-template-columns: 1fr;
+      }
+      .nav-center {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .mod-grid {
+        grid-template-columns: 1fr;
+      }
+      .cursor-glow {
+        display: none;
+      }
+    }
+  </style>
 </head>
 <body>
+  <div class="bg-layer"></div>
+  <div class="bg-grid"></div>
+  <div class="scroll-progress" id="scroll-progress"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+  <canvas id="petals-canvas"></canvas>
 
-    <div class="bg-container"></div>
-    <div class="bg-grid"></div>
+  <!-- Top Navigation -->
+  <header class="topbar-wrap">
+    <div class="topbar">
+      <a href="#" class="brand">
+        <span class="brand-hex">❖</span>
+        <span>CHERRY</span>
+      </a>
 
-    <!-- NAVBAR -->
-    <nav>
-        <div class="container">
-            <a href="#" class="logo">
-                <!-- CUSTOM GEOMETRIC VANTA LOGO (CODE-DRAWN SVG) -->
-                <svg class="vanta-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="vantaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#00ff66"/>
-                            <stop offset="100%" stop-color="#00993d"/>
-                        </linearGradient>
-                    </defs>
-                    <!-- Outer Hex Shield -->
-                    <polygon points="50,4 93,28 93,72 50,96 7,72 7,28" fill="rgba(0,255,102,0.06)" stroke="url(#vantaGrad)" stroke-width="4" stroke-linejoin="round"/>
-                    <!-- Inner Precision V-Core -->
-                    <polygon points="28,34 50,74 72,34 61,34 50,55 39,34" fill="#00ff66"/>
-                    <!-- Top Accent Node -->
-                    <polygon points="44,22 56,22 50,31" fill="#00ff66" opacity="0.8"/>
-                </svg>
-                <span>VANTA</span>
-            </a>
+      <nav class="nav-center">
+        <a href="#modules">Modules</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#faq">FAQ</a>
+        <a href="#privacy">Privacy</a>
+      </nav>
 
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#architecture">Architecture</a></li>
-                <li><a href="#faq">FAQ</a></li>
-                <li><a href="#download">Versions</a></li>
-            </ul>
-
-            <button class="btn-nav" onclick="openDownloadModal()">Get Client</button>
-        </div>
-    </nav>
-
-    <!-- HERO SECTION -->
-    <header class="hero">
-        <div class="container hero-grid">
-            <div>
-                <div class="pill-badge">
-                    <span class="pulse-dot"></span>
-                    RUST ENGINE • MC 26.2 & 26.3 READY
-                </div>
-                <h1>More Frames.<br><span class="highlight">Zero Overhead.</span></h1>
-                <p>Vanta is a complete ground-up rewrite of the Minecraft client in Rust. Ditch JVM garbage collection stutters and unlock native Vulkan/WGPU rendering speed.</p>
-
-                <div class="hero-actions">
-                    <button id="hero-os-btn" class="btn-primary" onclick="openDownloadModal()">
-                        <span id="hero-os-icon"></span>
-                        <span id="hero-os-label">Download Vanta</span>
-                    </button>
-                    <a href="#architecture" class="btn-secondary">Explore Architecture</a>
-                </div>
-
-                <div class="os-meta" id="hero-os-meta">
-                    Detecting platform...
-                </div>
-            </div>
-
-            <!-- INTERACTIVE BENCHMARK CARD -->
-            <div class="benchmark-card">
-                <div class="bench-top">
-                    <div>
-                        <strong style="font-size: 1.05rem;">Live Telemetry</strong>
-                        <div style="font-size: 0.8rem; color: var(--text-muted);">32 Chunks • 1440p</div>
-                    </div>
-                    <div class="bench-toggle">
-                        <button class="bench-btn active" id="btn-vanta" onclick="setBenchmark('vanta')">Vanta (Rust)</button>
-                        <button class="bench-btn" id="btn-vanilla" onclick="setBenchmark('vanilla')">Vanilla (Java)</button>
-                    </div>
-                </div>
-
-                <div class="metric-item">
-                    <div class="metric-header">
-                        <span>Average Framerate</span>
-                        <span class="metric-val" id="val-fps">840 FPS</span>
-                    </div>
-                    <div class="bar-track">
-                        <div class="bar-fill" id="bar-fps" style="width: 94%;"></div>
-                    </div>
-                </div>
-
-                <div class="metric-item">
-                    <div class="metric-header">
-                        <span>1% Low Frametime Stability</span>
-                        <span class="metric-val" id="val-low">99.4%</span>
-                    </div>
-                    <div class="bar-track">
-                        <div class="bar-fill" id="bar-low" style="width: 99%;"></div>
-                    </div>
-                </div>
-
-                <div class="metric-item">
-                    <div class="metric-header">
-                        <span>Memory Footprint</span>
-                        <span class="metric-val" id="val-ram">380 MB</span>
-                    </div>
-                    <div class="bar-track">
-                        <div class="bar-fill" id="bar-ram" style="width: 18%;"></div>
-                    </div>
-                </div>
-
-                <div class="metric-item">
-                    <div class="metric-header">
-                        <span>GC Spike Latency</span>
-                        <span class="metric-val" id="val-gc">0.0 ms</span>
-                    </div>
-                    <div class="bar-track">
-                        <div class="bar-fill" id="bar-gc" style="width: 2%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- FEATURES SECTION -->
-    <section id="features" class="reveal">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Engineered in <span class="highlight">Rust</span></h2>
-                <p class="section-subtitle">Every subsystem has been redesigned from first principles for deterministic performance and modern hardware.</p>
-            </div>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="icon-box">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    </div>
-                    <h3>Zero Garbage Collection</h3>
-                    <p>Rust's ownership model frees memory deterministically at compile time—eliminating the sudden lag spikes caused by Java GC sweeps.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="icon-box">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    </div>
-                    <h3>WGPU & Vulkan Pipeline</h3>
-                    <p>Multi-threaded command buffer recording feeds your GPU directly via Vulkan, Metal, or DX12 with bindless textures and frustum culling.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="icon-box">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    </div>
-                    <h3>Memory Safe & Secure</h3>
-                    <p>Immune to buffer overflows and legacy Java serialization exploits. Built-in sandboxing protects your system on public multiplayer servers.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="icon-box">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                    </div>
-                    <h3>WASM Modding API</h3>
-                    <p>Load high-speed plugins compiled to WebAssembly. Create custom HUD modules, keystrokes, and replay tools with near-native speed.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="icon-box">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                    </div>
-                    <h3>Async Chunk Meshing</h3>
-                    <p>Worker threads mesh and compress world chunks across all available CPU cores simultaneously without blocking the main render loop.</p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="icon-box">
-                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-                    </div>
-                    <h3>26.2 & 26.3 Protocol</h3>
-                    <p>Full packet-level compatibility with standard servers, realms, custom resource packs, and official Microsoft account authentication.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ARCHITECTURE DEEP DIVE -->
-    <section id="architecture" class="reveal">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Under the <span class="highlight">Hood</span></h2>
-                <p class="section-subtitle">Why rewriting the engine from scratch beats stacking optimization mods on top of Java.</p>
-            </div>
-
-            <div class="tech-row">
-                <div class="tech-copy">
-                    <h3>Data-Oriented <span class="highlight">ECS World</span></h3>
-                    <p>Instead of scattering thousands of heap-allocated Java objects across memory, Vanta stores entities and block states in contiguous, cache-friendly arrays using an Entity Component System.</p>
-                    <p>Your CPU processes thousands of entities in tight SIMD loops with minimal cache misses.</p>
-                </div>
-                <div class="code-window">
-                    <div class="code-bar">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                        <span>vanta_core/src/world/chunk_mesher.rs</span>
-                    </div>
-                    <div class="code-body">
-<span class="kw">pub fn</span> <span class="fn">build_chunk_mesh</span>(chunk: &amp;ChunkData, pool: &amp;ThreadPool) -&gt; GpuMesh {<br>
-&nbsp;&nbsp;<span class="cm">// Zero heap allocations during greedy meshing pass</span><br>
-&nbsp;&nbsp;<span class="kw">let</span> faces = chunk.<span class="fn">cull_occluded_faces</span>();<br>
-&nbsp;&nbsp;pool.<span class="fn">submit_async</span>(<span class="kw">move</span> || {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;GpuMesh::<span class="fn">from_packed_vertices</span>(faces)<br>
-&nbsp;&nbsp;})<br>
-}
-                    </div>
-                </div>
-            </div>
-
-            <div class="tech-row reverse">
-                <div class="tech-copy">
-                    <h3>Instant <span class="highlight">Cold Boot</span></h3>
-                    <p>Because Vanta compiles ahead-of-time into a standalone native binary, there is no JVM warm-up phase or bytecode verification.</p>
-                    <p>Launch from desktop to main menu in under 1.2 seconds while consuming less than 400 MB of system RAM.</p>
-                </div>
-                <div class="code-window">
-                    <div class="code-bar">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                        <span>terminal — vanta-cli --benchmark</span>
-                    </div>
-                    <div class="code-body">
-$ ./vanta-client --version 26.3 --profile<br>
-<span class="kw">[INFO]</span> Initializing WGPU Vulkan Backend (GPU0)<br>
-<span class="kw">[INFO]</span> Protocol 26.3 handshake ready in 14ms<br>
-<span class="kw">[INFO]</span> Loaded 48 WASM modules in 9ms<br>
-<span class="kw">[READY]</span> Cold boot completed in <span class="kw">0.94s</span> (RSS: 378 MB)
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ SECTION -->
-    <section id="faq" class="reveal">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Frequently Asked <span class="highlight">Questions</span></h2>
-                <p class="section-subtitle">Everything you need to know before switching to Vanta.</p>
-            </div>
-
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Can I join standard 26.2 and 26.3 multiplayer servers?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        Yes. Vanta implements the complete network protocol for versions 26.2 and 26.3, allowing you to connect seamlessly to vanilla servers, Paper/Velocity networks, and Realms.
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Do traditional Forge or Fabric mods work with Vanta?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        Because Vanta contains zero Java code, standard `.jar` mods are not directly compatible. Instead, Vanta includes built-in PvP/utility modules out of the box and supports high-speed WebAssembly (`.wasm`) plugins.
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <button class="faq-question" onclick="toggleFaq(this)">
-                        <span>Is Vanta safe to use with my Microsoft account?</span>
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        Yes. Authentication uses official Microsoft OAuth device-code flow directly with Mojang's session servers—your credentials are never stored or transmitted to third parties.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- DOWNLOAD CTA SECTION -->
-    <section id="download" class="reveal">
-        <div class="container">
-            <div class="cta-box">
-                <div class="pill-badge">FREE & OPEN SOURCE • 26.2 / 26.3</div>
-                <h2 class="section-title">Ready to Experience <span class="highlight">True Speed</span>?</h2>
-                <p class="section-subtitle" style="margin-bottom: 35px;">Download the native binary for your operating system and jump straight into the game.</p>
-                
-                <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-                    <button class="btn-primary" onclick="openDownloadModal()">
-                        🐧 Download for Linux
-                    </button>
-                    <button class="btn-secondary" onclick="openDownloadModal()">
-                        All Platforms & Versions
-                    </button>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 20px;">
-                    Supported Platforms: Linux (AppImage / Tarball), Windows 10/11, macOS 12+
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <a href="#" class="logo" style="justify-content: center; margin-bottom: 18px;">
-                <svg class="vanta-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="50,4 93,28 93,72 50,96 7,72 7,28" fill="rgba(0,255,102,0.06)" stroke="#00ff66" stroke-width="4" stroke-linejoin="round"/>
-                    <polygon points="28,34 50,74 72,34 61,34 50,55 39,34" fill="#00ff66"/>
-                </svg>
-                <span>VANTA</span>
-            </a>
-            <p>&copy; 2026 Vanta Client Project. Released under MIT License.</p>
-            <p style="margin-top: 6px; font-size: 0.8rem;">Not affiliated with Mojang Studios or Microsoft. Minecraft is a trademark of Mojang Synergies AB.</p>
-        </div>
-    </footer>
-
-    <!-- INTERACTIVE DOWNLOAD MODAL -->
-    <div class="modal-backdrop" id="download-modal" onclick="closeModalOnBackdrop(event)">
-        <div class="modal-card">
-            <button class="modal-close" onclick="closeDownloadModal()">&times;</button>
-            <div class="pill-badge" style="margin-bottom: 10px;">SELECT BUILD</div>
-            <h3 style="font-size: 1.6rem; margin-bottom: 6px;">Download Vanta Client</h3>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 18px;">Includes protocol support for both <strong>26.3</strong> and <strong>26.2</strong>.</p>
-
-            <a href="#download" class="build-option recommended" onclick="triggerFakeDownload('Vanta-26.3-x86_64.AppImage')">
-                <div>
-                    <strong>🐧 Linux (AppImage x86_64)</strong>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Universal portable binary • 42 MB</div>
-                </div>
-                <span class="highlight" style="font-weight: 700;">↓ .AppImage</span>
-            </a>
-
-            <a href="#download" class="build-option" onclick="triggerFakeDownload('Vanta-26.3-win64-setup.exe')">
-                <div>
-                    <strong>🪟 Windows 10 / 11 (x64)</strong>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Installer + DirectX 12 / Vulkan • 39 MB</div>
-                </div>
-                <span style="color: var(--text-muted); font-weight: 700;">↓ .exe</span>
-            </a>
-
-            <a href="#download" class="build-option" onclick="triggerFakeDownload('Vanta-26.3-macos-universal.dmg')">
-                <div>
-                    <strong>🍎 macOS 12+ (Apple Silicon & Intel)</strong>
-                    <div style="font-size: 0.8rem; color: var(--text-muted);">Native Metal backend • 44 MB</div>
-                </div>
-                <span style="color: var(--text-muted); font-weight: 700;">↓ .dmg</span>
-            </a>
-        </div>
+      <div class="nav-right">
+        <span class="profile-chip">TTMMario</span>
+        <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-pill-cta">Get Client</a>
+      </div>
     </div>
+  </header>
 
-    <script>
-        // 1. OS Detection for Hero Button
-        window.addEventListener('DOMContentLoaded', () => {
-            const ua = navigator.userAgent.toLowerCase();
-            const iconEl = document.getElementById('hero-os-icon');
-            const labelEl = document.getElementById('hero-os-label');
-            const metaEl = document.getElementById('hero-os-meta');
+  <main class="page-container">
+    <!-- Hero Split -->
+    <section class="hero-split reveal visible">
+      <div>
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span>RUST ENGINE • 3X FPS VS TORI • 1.8.9 / 26.2 / 26.3</span>
+        </div>
 
-            if (ua.includes('linux')) {
-                iconEl.textContent = '🐧';
-                labelEl.textContent = 'Download for Linux';
-                metaEl.textContent = 'Linux x86_64 detected • Native AppImage & Tarball';
-            } else if (ua.includes('win')) {
-                iconEl.textContent = '🪟';
-                labelEl.textContent = 'Download for Windows';
-                metaEl.textContent = 'Windows 10/11 (64-bit) detected • Vulkan / DX12';
-            } else if (ua.includes('mac')) {
-                iconEl.textContent = '🍎';
-                labelEl.textContent = 'Download for macOS';
-                metaEl.textContent = 'macOS Universal detected • Native Metal Engine';
-            } else {
-                iconEl.textContent = '⚡';
-                labelEl.textContent = 'Download Vanta Client';
-                metaEl.textContent = 'Available for Linux, Windows, and macOS';
-            }
-        });
+        <h1 class="hero-title">
+          More Frames.
+          <span class="accent-line">Zero Overhead.</span>
+        </h1>
 
-        // 2. Interactive Benchmark Comparison Switch
-        function setBenchmark(mode) {
-            const btnVanta = document.getElementById('btn-vanta');
-            const btnVanilla = document.getElementById('btn-vanilla');
+        <p class="hero-desc">
+          <strong>Cherry Client</strong> is a ground-up <strong>Rust</strong> engine rewrite delivering <strong>3x the FPS of Tori</strong>. Ditch JVM garbage collection stutters and unlock native rendering speed with a clean cherry UI.
+        </p>
 
-            const valFps = document.getElementById('val-fps');
-            const barFps = document.getElementById('bar-fps');
-            const valLow = document.getElementById('val-low');
-            const barLow = document.getElementById('bar-low');
-            const valRam = document.getElementById('val-ram');
-            const barRam = document.getElementById('bar-ram');
-            const valGc = document.getElementById('val-gc');
-            const barGc = document.getElementById('bar-gc');
+        <div class="hero-actions">
+          <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-primary-solid">
+            <span>⬇</span>
+            <span>Download Cherry Client</span>
+          </a>
+          <a href="#architecture" class="btn-ghost-dark">Explore Architecture</a>
+        </div>
 
-            if (mode === 'vanta') {
-                btnVanta.classList.add('active');
-                btnVanilla.classList.remove('active');
+        <div class="hero-meta-note">Rust Native Engine • 3x FPS vs Tori • Profile: TTMMario</div>
+      </div>
 
-                valFps.textContent = '840 FPS';
-                valFps.style.color = '#00ff66';
-                barFps.style.width = '94%';
-                barFps.style.background = '#00ff66';
+      <!-- Live Telemetry Card -->
+      <aside class="telemetry-card">
+        <div class="telemetry-head">
+          <div>
+            <div class="telemetry-title">Live Telemetry</div>
+            <div class="telemetry-sub" id="telemetry-spec">32 Chunks • 1440p • Integrated</div>
+          </div>
 
-                valLow.textContent = '99.4%';
-                valLow.style.color = '#00ff66';
-                barLow.style.width = '99%';
-                barLow.style.background = '#00ff66';
+          <div class="mode-switch-group" id="mode-switch">
+            <button class="mode-btn active" data-mode="cherry">Cherry (Rust)</button>
+            <button class="mode-btn" data-mode="tori">Tori Client</button>
+          </div>
+        </div>
 
-                valRam.textContent = '380 MB';
-                valRam.style.color = '#00ff66';
-                barRam.style.width = '18%';
-                barRam.style.background = '#00ff66';
+        <div class="tier-strip" id="tier-strip">
+          <button class="tier-chip active" data-tier="integrated">Integrated</button>
+          <button class="tier-chip" data-tier="laptop">Laptop</button>
+          <button class="tier-chip" data-tier="midrange">Midrange</button>
+          <button class="tier-chip" data-tier="high">High PC</button>
+        </div>
 
-                valGc.textContent = '0.0 ms';
-                valGc.style.color = '#00ff66';
-                barGc.style.width = '2%';
-                barGc.style.background = '#00ff66';
-            } else {
-                btnVanilla.classList.add('active');
-                btnVanta.classList.remove('active');
+        <div class="metric-rows">
+          <div class="metric-item">
+            <div class="metric-top">
+              <span class="metric-label">Average Framerate</span>
+              <span class="metric-val" id="m-fps">330 FPS</span>
+            </div>
+            <div class="metric-track">
+              <div class="metric-fill" id="b-fps" style="width: 96%;"></div>
+            </div>
+          </div>
 
-                valFps.textContent = '190 FPS';
-                valFps.style.color = '#f59e0b';
-                barFps.style.width = '24%';
-                barFps.style.background = '#f59e0b';
+          <div class="metric-item">
+            <div class="metric-top">
+              <span class="metric-label">1% Low Frametime Stability</span>
+              <span class="metric-val" id="m-low">99.4%</span>
+            </div>
+            <div class="metric-track">
+              <div class="metric-fill" id="b-low" style="width: 99%;"></div>
+            </div>
+          </div>
 
-                valLow.textContent = '61.0%';
-                valLow.style.color = '#f59e0b';
-                barLow.style.width = '61%';
-                barLow.style.background = '#f59e0b';
+          <div class="metric-item">
+            <div class="metric-top">
+              <span class="metric-label">Memory Footprint</span>
+              <span class="metric-val" id="m-mem">380 MB</span>
+            </div>
+            <div class="metric-track">
+              <div class="metric-fill" id="b-mem" style="width: 34%;"></div>
+            </div>
+          </div>
 
-                valRam.textContent = '2,450 MB';
-                valRam.style.color = '#ef4444';
-                barRam.style.width = '88%';
-                barRam.style.background = '#ef4444';
+          <div class="metric-item">
+            <div class="metric-top">
+              <span class="metric-label">GC Spike Latency</span>
+              <span class="metric-val" id="m-gc">0.0 ms</span>
+            </div>
+            <div class="metric-track">
+              <div class="metric-fill" id="b-gc" style="width: 4%;"></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
 
-                valGc.textContent = '48.5 ms';
-                valGc.style.color = '#ef4444';
-                barGc.style.width = '76%';
-                barGc.style.background = '#ef4444';
-            }
+    <!-- Extra Section 1: Interactive Modules -->
+    <section id="modules" class="extra-section reveal">
+      <div class="sec-eyebrow">TTMMario Custom Profile</div>
+      <h2 class="sec-heading">HUD & Visual Modules</h2>
+
+      <div class="modules-shell">
+        <div class="modules-toolbar">
+          <div class="tab-pills">
+            <button class="tab-pill active" data-tab="HUD">HUD</button>
+            <button class="tab-pill" data-tab="Visuals">Visuals</button>
+          </div>
+          <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="mod-search" placeholder="Search modules..." />
+          </div>
+        </div>
+
+        <div class="mod-grid" id="mod-grid"></div>
+        <div class="mod-status-line" id="mod-status-line"></div>
+      </div>
+    </section>
+
+    <!-- Extra Section 2: Rust Architecture -->
+    <section id="architecture" class="extra-section reveal">
+      <div class="sec-eyebrow">Under The Hood</div>
+      <h2 class="sec-heading">Engineered in Rust</h2>
+
+      <div class="cards-3">
+        <div class="glass-box">
+          <h3>🦀 Zero GC Pauses</h3>
+          <p>Deterministic ownership and zero-cost abstractions eliminate stop-the-world garbage collection hitches during intense fights and fast chunk loading.</p>
+        </div>
+        <div class="glass-box">
+          <h3>⚡ 3x FPS vs Tori</h3>
+          <p>Streamlined render buffers and tight data layout deliver 3x the framerate of Tori across Integrated, Laptop, Midrange, and High PC setups.</p>
+        </div>
+        <div class="glass-box">
+          <h3>🛡️ Safe OAuth & Local Config</h3>
+          <p>External browser Microsoft OAuth authentication with zero password storage and local-first module presets for TTMMario.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Extra Section 3: FAQ & Privacy -->
+    <section id="faq" class="extra-section reveal">
+      <div class="sec-eyebrow">Quick Answers</div>
+      <h2 class="sec-heading">Frequently Asked Questions</h2>
+
+      <div class="faq-stack">
+        <div class="faq-card open">
+          <button class="faq-q">
+            <span>How does Cherry Client get 3x the FPS of Tori?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-a-wrap">
+            <div class="faq-a-inner">
+              <div class="faq-a">
+                Cherry Client uses a lightweight Rust-powered pipeline with minimal overlay overhead and predictable frame pacing, reaching 3x Tori's FPS across all hardware tiers (for example ~2940 FPS vs 980 FPS on High PC).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-card">
+          <button class="faq-q">
+            <span>Is Microsoft login safe and allowed on servers?</span>
+            <span>+</span>
+          </button>
+          <div class="faq-a-wrap">
+            <div class="faq-a-inner">
+              <div class="faq-a">
+                Yes. Authentication uses official external Microsoft OAuth without ever handling your credentials, and all HUD/visual modules are cosmetic and informational.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy" class="extra-section reveal">
+      <div class="sec-eyebrow">Privacy & Security</div>
+      <h2 class="sec-heading">Zero Password Storage</h2>
+      <div class="glass-box">
+        <h3>Local-First Privacy</h3>
+        <p>Cherry Client stores HUD and visual configurations locally and never sells user data or logs credentials. Official releases and community support are available on <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Cherry Client • Rust Engine</span> • <a href="#modules">Modules</a> • <a href="#architecture">Architecture</a> • <a href="#faq">FAQ</a> • <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>
+  </footer>
+
+  <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Scroll Progress + Exact 1:1 Cursor Glow
+    const progressEl = document.getElementById('scroll-progress');
+    const glowEl = document.getElementById('cursor-glow');
+
+    if (!prefersReducedMotion) {
+      let scrollRaf = null;
+      window.addEventListener('scroll', () => {
+        if (!scrollRaf) {
+          scrollRaf = requestAnimationFrame(() => {
+            const docH = document.documentElement.scrollHeight - window.innerHeight;
+            const ratio = docH > 0 ? Math.min(Math.max(window.scrollY / docH, 0), 1) : 0;
+            progressEl.style.transform = `scaleX(${ratio.toFixed(4)})`;
+            scrollRaf = null;
+          });
         }
+      }, { passive: true });
 
-        // 3. FAQ Accordion
-        function toggleFaq(button) {
-            const item = button.parentElement;
-            item.classList.toggle('open');
+      let tx = -9999, ty = -9999, cx = -9999, cy = -9999, activePtr = false, glowRaf = null;
+      function stepGlow() {
+        if (!activePtr) { glowRaf = null; return; }
+        cx += (tx - cx) * 0.25;
+        cy += (ty - cy) * 0.25;
+        glowEl.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
+        if (Math.abs(tx - cx) > 0.3 || Math.abs(ty - cy) > 0.3) {
+          glowRaf = requestAnimationFrame(stepGlow);
+        } else {
+          cx = tx; cy = ty;
+          glowEl.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
+          glowRaf = null;
         }
+      }
 
-        // 4. Download Modal Controls
-        function openDownloadModal() {
-            document.getElementById('download-modal').classList.add('active');
+      window.addEventListener('pointermove', (e) => {
+        if (window.innerWidth < 680) return;
+        tx = e.clientX; ty = e.clientY;
+        if (!activePtr) { cx = tx; cy = ty; activePtr = true; }
+        if (!glowRaf) glowRaf = requestAnimationFrame(stepGlow);
+      }, { passive: true });
+
+      document.addEventListener('pointerleave', () => {
+        activePtr = false;
+        if (glowRaf) { cancelAnimationFrame(glowRaf); glowRaf = null; }
+        glowEl.style.transform = 'translate3d(-9999px, -9999px, 0)';
+      });
+    }
+
+    // Subtle Falling Petals Canvas
+    const canvas = document.getElementById('petals-canvas');
+    const ctx = canvas.getContext('2d');
+    if (!prefersReducedMotion) {
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      function resize() {
+        canvas.width = Math.floor(window.innerWidth * dpr);
+        canvas.height = Math.floor(window.innerHeight * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+
+      const petals = Array.from({ length: window.innerWidth < 768 ? 8 : 14 }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        r: 2.5 + Math.random() * 3.5,
+        vy: 0.4 + Math.random() * 0.6,
+        vx: -0.25 + Math.random() * 0.5,
+        a: Math.random() * Math.PI * 2,
+        va: -0.015 + Math.random() * 0.03,
+        alpha: 0.14 + Math.random() * 0.18
+      }));
+
+      function drawPetals() {
+        if (document.hidden) return;
+        const w = window.innerWidth, h = window.innerHeight;
+        ctx.clearRect(0, 0, w, h);
+        for (const p of petals) {
+          p.y += p.vy;
+          p.x += p.vx + Math.sin(p.a) * 0.25;
+          p.a += p.va;
+          if (p.y > h + 10) { p.y = -10; p.x = Math.random() * w; }
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.a);
+          ctx.fillStyle = `rgba(255, 133, 173, ${p.alpha})`;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, p.r, p.r * 0.58, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
         }
+        requestAnimationFrame(drawPetals);
+      }
+      requestAnimationFrame(drawPetals);
+    }
 
-        function closeDownloadModal() {
-            document.getElementById('download-modal').classList.remove('active');
-        }
+    // Reveal Observer
+    const revObs = new IntersectionObserver((entries, obs) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add('visible'); obs.unobserve(en.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
-        function closeModalOnBackdrop(e) {
-            if (e.target.id === 'download-modal') {
-                closeDownloadModal();
-            }
-        }
+    // Live Telemetry (3x FPS vs Tori + Micro-Oscillations)
+    const stats = {
+      integrated: {
+        label: '32 Chunks • 1440p • Integrated',
+        cherry: { fps: 330, low: 99.1, mem: 340, gc: 0.0, jitter: [-2, -1, 0, 1, 2] },
+        tori:   { fps: 110, low: 91.4, mem: 690, gc: 2.4, jitter: [-3, -1, 0, 2] }
+      },
+      laptop: {
+        label: '32 Chunks • 1440p • Laptop',
+        cherry: { fps: 570, low: 99.3, mem: 365, gc: 0.0, jitter: [-2, -1, 0, 1, 2] },
+        tori:   { fps: 190, low: 92.8, mem: 740, gc: 2.1, jitter: [-4, -1, 0, 3] }
+      },
+      midrange: {
+        label: '32 Chunks • 1440p • Midrange',
+        cherry: { fps: 1260, low: 99.5, mem: 375, gc: 0.0, jitter: [-3, -1, 0, 1, 2] },
+        tori:   { fps: 420,  low: 94.1, mem: 810, gc: 1.8, jitter: [-6, -2, 0, 4] }
+      },
+      high: {
+        label: '32 Chunks • 1440p • High PC',
+        cherry: { fps: 2940, low: 99.7, mem: 380, gc: 0.0, jitter: [-3, -2, -1, 0, 1, 2] },
+        tori:   { fps: 980,  low: 95.0, mem: 880, gc: 1.6, jitter: [-8, -4, 0, 5] }
+      }
+    };
 
-        function triggerFakeDownload(filename) {
-            alert('Downloading ' + filename + '...\n(Replace the href attribute with your actual GitHub Release asset URL!)');
-            closeDownloadModal();
-        }
+    let currentTier = 'integrated';
+    let currentMode = 'cherry';
 
-        // 5. Scroll Reveal Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.12 });
+    const specEl = document.getElementById('telemetry-spec');
+    const fpsEl = document.getElementById('m-fps');
+    const lowEl = document.getElementById('m-low');
+    const memEl = document.getElementById('m-mem');
+    const gcEl = document.getElementById('m-gc');
+    const bFps = document.getElementById('b-fps');
+    const bLow = document.getElementById('b-low');
+    const bMem = document.getElementById('b-mem');
+    const bGc = document.getElementById('b-gc');
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    </script>
+    function renderTelemetry(oscillate = false) {
+      const cfg = stats[currentTier][currentMode];
+      specEl.textContent = stats[currentTier].label;
+
+      const deltaFps = oscillate ? cfg.jitter[Math.floor(Math.random() * cfg.jitter.length)] : 0;
+      const liveFps = Math.max(1, cfg.fps + deltaFps);
+      const liveLow = oscillate ? (cfg.low + (Math.random() * 0.2 - 0.1)).toFixed(1) : cfg.low.toFixed(1);
+
+      fpsEl.textContent = `${liveFps} FPS`;
+      lowEl.textContent = `${liveLow}%`;
+      memEl.textContent = `${cfg.mem} MB`;
+      gcEl.textContent = `${cfg.gc.toFixed(1)} ms`;
+
+      const fpsPct = currentMode === 'cherry' ? 96 : 34;
+      bFps.style.width = `${fpsPct}%`;
+      bLow.style.width = `${Math.min(100, Math.round(cfg.low))}%`;
+      bMem.style.width = `${Math.min(100, Math.round((cfg.mem / 1000) * 100))}%`;
+      bGc.style.width = cfg.gc === 0 ? '4%' : `${Math.min(45, Math.round(cfg.gc * 12))}%`;
+    }
+
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentMode = btn.dataset.mode;
+        renderTelemetry(false);
+      });
+    });
+
+    document.querySelectorAll('.tier-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.tier-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentTier = chip.dataset.tier;
+        renderTelemetry(false);
+      });
+    });
+
+    renderTelemetry(false);
+    setInterval(() => {
+      if (!document.hidden) renderTelemetry(true);
+    }, 850);
+
+    // Interactive Modules (TTMMario)
+    const mods = [
+      { id: 'spotify', tab: 'HUD', name: 'Spotify', desc: 'Current track & playback overlay', enabled: true },
+      { id: 'zoom', tab: 'HUD', name: 'Zoom', desc: 'Smooth keybind zoom for scouting', enabled: false },
+      { id: 'target', tab: 'HUD', name: 'Target Info', desc: 'Target health & status indicator', enabled: false },
+      { id: 'damage', tab: 'HUD', name: 'Damage Feed', desc: 'Real-time combat damage numbers', enabled: false },
+      { id: 'fullbright', tab: 'Visuals', name: 'Fullbright', desc: 'Clear visibility in dark caves', enabled: true },
+      { id: 'motionblur', tab: 'Visuals', name: 'Motion Blur', desc: 'Fluid camera motion blur at high FPS', enabled: false },
+      { id: 'blockout', tab: 'Visuals', name: 'Block Overlay', desc: 'Crisp cherry highlight on target blocks', enabled: true },
+      { id: 'particles', tab: 'Visuals', name: 'Hit Particles', desc: 'Custom cherry petal crit particles', enabled: true }
+    ];
+
+    let curModTab = 'HUD';
+    let modQuery = '';
+    const modGrid = document.getElementById('mod-grid');
+    const modStatus = document.getElementById('mod-status-line');
+
+    function drawMods() {
+      const list = mods.filter(m => {
+        const tabOk = modQuery ? true : m.tab === curModTab;
+        const textOk = m.name.toLowerCase().includes(modQuery) || m.desc.toLowerCase().includes(modQuery);
+        return tabOk && textOk;
+      });
+
+      modGrid.innerHTML = list.map(m => `
+        <div class="mod-item ${m.enabled ? 'on' : ''}" data-id="${m.id}">
+          <div>
+            <div class="mod-name">${m.name}</div>
+            <div class="mod-sub">${m.desc}</div>
+          </div>
+          <button class="toggle-btn ${m.enabled ? 'on' : ''}" aria-label="Toggle ${m.name}"></button>
+        </div>
+      `).join('');
+    }
+
+    modGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.toggle-btn');
+      if (!btn) return;
+      const item = btn.closest('.mod-item');
+      const m = mods.find(x => x.id === item.dataset.id);
+      if (m) {
+        m.enabled = !m.enabled;
+        drawMods();
+        modStatus.textContent = `${m.name} ${m.enabled ? 'enabled' : 'disabled'} for TTMMario`;
+      }
+    });
+
+    document.querySelectorAll('.tab-pill').forEach(p => {
+      p.addEventListener('click', () => {
+        document.querySelectorAll('.tab-pill').forEach(x => x.classList.remove('active'));
+        p.classList.add('active');
+        curModTab = p.dataset.tab;
+        drawMods();
+      });
+    });
+
+    document.getElementById('mod-search').addEventListener('input', (e) => {
+      modQuery = e.target.value.trim().toLowerCase();
+      drawMods();
+    });
+
+    drawMods();
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => q.closest('.faq-card').classList.toggle('open'));
+    });
+  </script>
 </body>
 </html>
