@@ -13,7 +13,7 @@
   <meta property="og:description" content="Complete ground-up rewrite of the Minecraft client in Rust with native Vulkan/WGPU rendering speed." />
   <meta property="og:type" content="website" />
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23051109'/%3E%3Cpolygon points='16,4 27,10.5 27,21.5 16,28 5,21.5 5,10.5' fill='none' stroke='%2300e65b' stroke-width='2.4'/%3E%3Cpath d='M11.5 11.5L16 21.5L20.5 11.5' fill='none' stroke='%2300e65b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23041209'/%3E%3Cpolygon points='16,3 27.5,9.6 27.5,22.4 16,29 4.5,22.4 4.5,9.6' fill='none' stroke='%2300e65b' stroke-width='2.3'/%3E%3Cpath d='M11 11.5L16 22L21 11.5' fill='none' stroke='%2300e65b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -311,8 +311,8 @@
     .theme-switcher {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 4px 8px;
+      gap: 4px;
+      padding: 4px 7px;
       border-radius: 999px;
       background: rgba(0, 0, 0, 0.45);
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -432,7 +432,7 @@
       font-size: 1.03rem;
       line-height: 1.65;
       max-width: 530px;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .hero-desc strong {
@@ -447,10 +447,10 @@
       margin-bottom: 14px;
     }
 
-    .btn-download-linux {
+    .btn-download-os {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
+      gap: 10px;
       padding: 13px 24px;
       border-radius: 10px;
       background: var(--accent);
@@ -462,10 +462,16 @@
       transition: transform 0.16s var(--ease-smooth), background 0.25s ease, box-shadow 0.2s ease;
     }
 
-    .btn-download-linux:hover {
+    .btn-download-os:hover {
       background: var(--accent-bright);
       transform: translateY(-2px);
       box-shadow: 0 12px 32px rgba(var(--glow-rgb), 0.44);
+    }
+
+    .os-icon-svg {
+      width: 19px;
+      height: 19px;
+      flex-shrink: 0;
     }
 
     .btn-explore-arch {
@@ -488,10 +494,41 @@
       color: var(--text-accent);
     }
 
-    .platform-caption {
+    .platform-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
       font-size: 0.78rem;
       color: var(--text-muted);
-      opacity: 0.82;
+    }
+
+    .os-switch-mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0, 0, 0, 0.38);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      padding: 2px 6px;
+    }
+
+    .os-mini-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.71rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .os-mini-btn.active {
+      background: var(--accent-soft);
+      color: var(--text-accent);
     }
 
     /* Live Telemetry Card */
@@ -888,7 +925,7 @@
       }
     }
 
-    @media (max-width: 1040px) {
+    @media (max-width: 1080px) {
       .nav-center {
         display: none;
       }
@@ -984,14 +1021,21 @@
         </p>
 
         <div class="hero-actions">
-          <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-download-linux">
-            <span>🐧</span>
-            <span>Download for Linux</span>
+          <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-download-os" id="os-download-btn">
+            <span id="os-icon-slot"></span>
+            <span id="os-label-slot">Download for Linux</span>
           </a>
           <a href="#architecture" class="btn-explore-arch">Explore Architecture</a>
         </div>
 
-        <div class="platform-caption">Linux x86_64 detected • Native AppImage &amp; Tarball • Profile: TTMMario</div>
+        <div class="platform-row">
+          <span id="os-caption-slot">Linux x86_64 detected • Native AppImage &amp; Tarball</span>
+          <div class="os-switch-mini" id="os-switch-mini">
+            <button class="os-mini-btn active" data-os="linux">Linux</button>
+            <button class="os-mini-btn" data-os="windows">Windows</button>
+            <button class="os-mini-btn" data-os="macos">macOS</button>
+          </div>
+        </div>
       </div>
 
       <!-- Live Telemetry Panel -->
@@ -1153,8 +1197,8 @@
           <p>High-stability build with low memory footprint and zero GC spike latency.</p>
         </div>
         <div class="vanta-panel">
-          <h3>Linux x86_64 &amp; More</h3>
-          <p>Native AppImage &amp; Tarball releases available via our official <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
+          <h3>Linux, Windows &amp; macOS</h3>
+          <p>Native releases available via our official <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
         </div>
       </div>
     </section>
@@ -1167,17 +1211,76 @@
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // 1. Dynamic Theme System (Updates background.png filter/tint, canvas particles, text & accents via code)
+    // 1. OS Auto-Detection + Authentic Linux / Windows / macOS SVG Logos
+    const osConfigs = {
+      linux: {
+        label: 'Download for Linux',
+        caption: 'Linux x86_64 detected • Native AppImage & Tarball',
+        svg: `<svg class="os-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2c-2.1 0-3.5 1.8-3.5 4.2 0 1.4.4 2.7.2 4-.5 1.7-2.2 3.1-2.8 5-.5 1.5-.1 3.2.8 4.4.8 1.1 2 1.8 3.3 2 .7.1 1.4-.1 2-.4.6.3 1.3.5 2 .4 1.3-.2 2.5-.9 3.3-2 .9-1.2 1.3-2.9.8-4.4-.6-1.9-2.3-3.3-2.8-5-.2-1.3.2-2.6.2-4C15.5 3.8 14.1 2 12 2zm-1.6 4.4a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zm3.2 0a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zM12 9.2c.9 0 1.8.4 2.2 1.1-.6.6-1.4.9-2.2.9s-1.6-.3-2.2-.9c.4-.7 1.3-1.1 2.2-1.1z"/>
+        </svg>`
+      },
+      windows: {
+        label: 'Download for Windows',
+        caption: 'Windows x64 detected • Native Installer & Portable EXE',
+        svg: `<svg class="os-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M3 5.5L10.5 4.4V11.3H3V5.5zm8.5-1.2L21 2.8V11.3H11.5V4.3zM3 12.3H10.5V19.2L3 18.1V12.3zm8.5 0H21V20.8L11.5 19.3V12.3z"/>
+        </svg>`
+      },
+      macos: {
+        label: 'Download for macOS',
+        caption: 'macOS Apple Silicon & Intel detected • Native DMG',
+        svg: `<svg class="os-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M16.36 12.64c-.03-2.55 2.08-3.78 2.18-3.84-1.19-1.74-3.04-1.98-3.7-2-1.57-.16-3.09.94-3.89.94-.81 0-2.05-.92-3.38-.89-1.73.03-3.34 1.02-4.23 2.58-1.81 3.14-.46 7.78 1.29 10.32.86 1.24 1.88 2.63 3.22 2.58 1.29-.05 1.78-.83 3.34-.83 1.56 0 2 .83 3.36.8 1.39-.02 2.27-1.26 3.12-2.51.99-1.44 1.4-2.84 1.42-2.91-.03-.01-2.72-1.04-2.75-4.14zM13.84 5.21c.71-.86 1.19-2.06 1.06-3.26-1.02.04-2.27.68-3 1.54-.65.75-1.22 1.98-1.07 3.15 1.14.09 2.3-.58 3.01-1.43z"/>
+        </svg>`
+      }
+    };
+
+    function detectUserOS() {
+      const ua = navigator.userAgent || '';
+      const platform = navigator.platform || '';
+      if (/Win/i.test(platform) || /Windows/i.test(ua)) return 'windows';
+      if (/Mac/i.test(platform) || /Macintosh|Mac OS X/i.test(ua)) return 'macos';
+      return 'linux';
+    }
+
+    const osIconSlot = document.getElementById('os-icon-slot');
+    const osLabelSlot = document.getElementById('os-label-slot');
+    const osCaptionSlot = document.getElementById('os-caption-slot');
+
+    function applyOS(osKey) {
+      const cfg = osConfigs[osKey] || osConfigs.linux;
+      osIconSlot.innerHTML = cfg.svg;
+      osLabelSlot.textContent = cfg.label;
+      osCaptionSlot.textContent = cfg.caption;
+      document.querySelectorAll('.os-mini-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.os === osKey);
+      });
+    }
+
+    document.querySelectorAll('.os-mini-btn').forEach(btn => {
+      btn.addEventListener('click', () => applyOS(btn.dataset.os));
+    });
+
+    applyOS(detectUserOS());
+
+    // 2. Dynamic Theme System (Updates background.png, favicon in browser tab, glow, canvas & text colors)
     const themeConfigs = {
-      default:  { rgb: '0, 230, 91',   filter: 'saturate(1.15) contrast(1.05) brightness(0.95)' },
-      blue:     { rgb: '56, 189, 248', filter: 'hue-rotate(68deg) saturate(1.28) contrast(1.06) brightness(0.94)' },
-      red:      { rgb: '255, 59, 82',  filter: 'hue-rotate(-128deg) saturate(1.35) contrast(1.06) brightness(0.92)' },
-      cherry:   { rgb: '255, 85, 152', filter: 'hue-rotate(-96deg) saturate(1.25) contrast(1.05) brightness(0.95)' },
-      purple:   { rgb: '168, 85, 247', filter: 'hue-rotate(115deg) saturate(1.25) contrast(1.06) brightness(0.94)' }
+      default: { rgb: '0, 230, 91',   hex: '#00e65b', bg: '#041209', filter: 'saturate(1.15) contrast(1.05) brightness(0.95)' },
+      blue:    { rgb: '56, 189, 248', hex: '#38bdf8', bg: '#051324', filter: 'hue-rotate(68deg) saturate(1.28) contrast(1.06) brightness(0.94)' },
+      red:     { rgb: '255, 59, 82',  hex: '#ff3b52', bg: '#190509', filter: 'hue-rotate(-128deg) saturate(1.35) contrast(1.06) brightness(0.92)' },
+      cherry:  { rgb: '255, 85, 152', hex: '#ff5598', bg: '#1b0612', filter: 'hue-rotate(-96deg) saturate(1.25) contrast(1.05) brightness(0.95)' },
+      purple:  { rgb: '168, 85, 247', hex: '#a855f7', bg: '#110624', filter: 'hue-rotate(115deg) saturate(1.25) contrast(1.06) brightness(0.94)' }
     };
 
     let activeThemeRgb = themeConfigs.default.rgb;
     const bgPhotoEl = document.getElementById('bg-photo');
+    const faviconEl = document.getElementById('dynamic-favicon');
+
+    function updateBrowserFavicon(hex, bgHex) {
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='${encodeURIComponent(bgHex)}'/><polygon points='16,3 27.5,9.6 27.5,22.4 16,29 4.5,22.4 4.5,9.6' fill='none' stroke='${encodeURIComponent(hex)}' stroke-width='2.3'/><path d='M11 11.5L16 22L21 11.5' fill='none' stroke='${encodeURIComponent(hex)}' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>`;
+      faviconEl.href = `data:image/svg+xml,${svg}`;
+    }
 
     function applyTheme(themeName) {
       const cfg = themeConfigs[themeName] || themeConfigs.default;
@@ -1185,6 +1288,7 @@
       document.body.setAttribute('data-theme', themeName);
       activeThemeRgb = cfg.rgb;
       bgPhotoEl.style.filter = cfg.filter;
+      updateBrowserFavicon(cfg.hex, cfg.bg);
 
       document.querySelectorAll('.theme-dot-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.themeVal === themeName);
@@ -1202,7 +1306,7 @@
       if (savedTheme && themeConfigs[savedTheme]) applyTheme(savedTheme);
     } catch (_) {}
 
-    // 2. Ambient Background Atmosphere Canvas (Colored dynamically by active theme)
+    // 3. Ambient Background Atmosphere Canvas
     const fxCanvas = document.getElementById('bg-fx-canvas');
     const fxCtx = fxCanvas.getContext('2d');
     if (!prefersReducedMotion) {
@@ -1245,7 +1349,7 @@
       requestAnimationFrame(drawFx);
     }
 
-    // 3. Scroll Progress + Exact 1:1 Cursor Glow
+    // 4. Scroll Progress + Exact 1:1 Cursor Glow
     const progressEl = document.getElementById('scroll-progress');
     const glowEl = document.getElementById('cursor-glow');
 
@@ -1291,7 +1395,7 @@
       });
     }
 
-    // 4. Reveal Observer
+    // 5. Reveal Observer
     const revObs = new IntersectionObserver((entries, obs) => {
       entries.forEach(en => {
         if (en.isIntersecting) { en.target.classList.add('visible'); obs.unobserve(en.target); }
@@ -1299,7 +1403,7 @@
     }, { threshold: 0.08 });
     document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
-    // 5. Live Telemetry
+    // 6. Live Telemetry
     const telemetryPresets = {
       integrated: {
         sub: '32 Chunks • 1440p • Integrated',
@@ -1379,7 +1483,7 @@
       if (!document.hidden) updateTelemetry(true);
     }, 850);
 
-    // 6. Interactive Modules
+    // 7. Interactive Modules
     const modData = [
       { id: 'spotify', tab: 'HUD', name: 'Spotify', desc: 'Current track & playback overlay', enabled: true },
       { id: 'zoom', tab: 'HUD', name: 'Zoom', desc: 'Smooth keybind zoom for scouting', enabled: false },
@@ -1442,7 +1546,7 @@
 
     renderMods();
 
-    // 7. FAQ Accordion
+    // 8. FAQ Accordion
     document.querySelectorAll('.faq-btn').forEach(b => {
       b.addEventListener('click', () => b.closest('.faq-box').classList.toggle('open'));
     });
