@@ -3,34 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cherry Client — More Frames. Zero Overhead. (Rust Engine)</title>
+  <title>VANTA — More Frames. Zero Overhead. (Rust Engine)</title>
   <meta name="google-site-verification" content="C-coubP0ezr3zNbqv3HsPuMl9eZCJyWSmEqAWcMN_xg" />
-  <meta name="description" content="Cherry Client is a Rust-powered Minecraft client for 1.8.9, 26.2, and 26.3 delivering 3x the FPS of Tori, zero GC stutter, native rendering, and custom HUD modules." />
-  <meta name="keywords" content="Cherry Client, Rust Minecraft Client, Minecraft Client, PvP Client, FPS Boost, Cherry Client Minecraft, noxilclient" />
+  <meta name="description" content="Vanta is a complete ground-up rewrite of the Minecraft client in Rust. Ditch JVM garbage collection stutters and unlock native Vulkan/WGPU rendering speed." />
+  <meta name="keywords" content="Vanta, Vanta Client, Rust Minecraft Client, MC 26.2, MC 26.3, Vulkan, WGPU, FPS Boost" />
   <link rel="canonical" href="https://noxilclient.github.io/CherryClient/" />
 
-  <!-- Open Graph / Discord Embed -->
-  <meta property="og:title" content="Cherry Client — Rust-Powered 3x FPS Minecraft Client" />
-  <meta property="og:description" content="Complete Rust engine rewrite for silky frame times, zero overhead, and 3x higher FPS than Tori." />
-  <meta property="og:url" content="https://noxilclient.github.io/CherryClient/" />
+  <meta property="og:title" content="VANTA — More Frames. Zero Overhead." />
+  <meta property="og:description" content="Complete ground-up rewrite of the Minecraft client in Rust with native Vulkan/WGPU rendering speed." />
   <meta property="og:type" content="website" />
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2312090d'/%3E%3Cpolygon points='16,5 26,11 26,21 16,27 6,21 6,11' fill='none' stroke='%23ff3b7a' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='16' r='4.2' fill='%23ff7aa8'/%3E%3C/svg%3E" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23051109'/%3E%3Cpolygon points='16,4 27,10.5 27,21.5 16,28 5,21.5 5,10.5' fill='none' stroke='%2300e65b' stroke-width='2.4'/%3E%3Cpath d='M11.5 11.5L16 21.5L20.5 11.5' fill='none' stroke='%2300e65b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-base: #070508;
-      --surface-glass: rgba(16, 10, 14, 0.72);
-      --surface-card: rgba(19, 12, 17, 0.78);
+      --bg-base: #040906;
+      --surface-card: rgba(7, 19, 12, 0.78);
+      --surface-box: rgba(8, 22, 14, 0.72);
+      --border-green: rgba(0, 230, 91, 0.34);
       --border-soft: rgba(255, 255, 255, 0.08);
-      --accent: #ff3b7a;
-      --accent-bright: #ff7aa8;
-      --accent-glow: rgba(255, 59, 122, 0.35);
-      --text-main: #f8fafc;
-      --text-muted: #a1a1aa;
+      --green-main: #00e65b;
+      --green-bright: #22ff77;
+      --green-dark: #062914;
+      --text-main: #f4f7f5;
+      --text-muted: #9eb3a6;
       --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
@@ -54,15 +53,15 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Background Image from Repository + Vignette & Subtle Grid */
-    .bg-layer {
+    /* Background Image from Repository + Emerald Atmospheric Overlay & Grid */
+    .bg-photo {
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
       background:
-        linear-gradient(180deg, rgba(7, 5, 8, 0.76) 0%, rgba(12, 6, 10, 0.66) 45%, rgba(7, 5, 8, 0.94) 100%),
-        radial-gradient(circle at 75% 32%, rgba(255, 59, 122, 0.16), transparent 52%),
+        linear-gradient(180deg, rgba(4, 10, 6, 0.72) 0%, rgba(5, 20, 11, 0.58) 48%, rgba(3, 8, 5, 0.94) 100%),
+        radial-gradient(circle at 72% 45%, rgba(0, 230, 91, 0.14), transparent 55%),
         url('./background.png') center center / cover no-repeat;
     }
 
@@ -72,11 +71,11 @@
       z-index: 1;
       pointer-events: none;
       background-image:
-        linear-gradient(to right, rgba(255, 122, 168, 0.045) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 122, 168, 0.045) 1px, transparent 1px);
+        linear-gradient(to right, rgba(0, 230, 91, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 230, 91, 0.05) 1px, transparent 1px);
       background-size: 56px 56px;
-      mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 35%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 35%, #000 35%, transparent 100%);
+      mask-image: radial-gradient(ellipse 90% 80% at 55% 40%, #000 35%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 90% 80% at 55% 40%, #000 35%, transparent 100%);
     }
 
     /* Top Scroll Progress */
@@ -88,13 +87,13 @@
       width: 100%;
       transform-origin: left center;
       transform: scaleX(0);
-      background: linear-gradient(90deg, #ff3b7a, #ff85ad, #ffffff);
+      background: linear-gradient(90deg, #00e65b, #7dffaf);
       z-index: 100;
       pointer-events: none;
       will-change: transform;
     }
 
-    /* Exact 1:1 Cursor Glow */
+    /* Exact 1:1 Emerald Cursor Glow */
     .cursor-glow {
       position: fixed;
       top: 0;
@@ -104,7 +103,7 @@
       margin-left: -150px;
       margin-top: -150px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 77, 136, 0.16) 0%, rgba(255, 59, 122, 0.06) 42%, transparent 72%);
+      background: radial-gradient(circle, rgba(0, 230, 91, 0.16) 0%, rgba(0, 230, 91, 0.05) 45%, transparent 72%);
       transform: translate3d(-9999px, -9999px, 0);
       pointer-events: none;
       z-index: 2;
@@ -112,15 +111,7 @@
       mix-blend-mode: screen;
     }
 
-    #petals-canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      will-change: transform;
-    }
-
-    /* Smooth Reveal */
+    /* Reveal Animations */
     .reveal {
       opacity: 0;
       transform: translate3d(0, 18px, 0);
@@ -133,22 +124,22 @@
       transform: translate3d(0, 0, 0);
     }
 
-    /* Top Bar like Reference */
+    /* Navbar */
     header.topbar-wrap {
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(8, 5, 9, 0.72);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(4, 10, 6, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .topbar {
-      max-width: 1220px;
+      max-width: 1240px;
       margin: 0 auto;
       height: 68px;
-      padding: 0 24px;
+      padding: 0 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -162,30 +153,24 @@
       text-decoration: none;
       color: #ffffff;
       font-weight: 800;
-      font-size: 1.05rem;
-      letter-spacing: 0.04em;
+      font-size: 1.04rem;
+      letter-spacing: 0.08em;
     }
 
-    .brand-hex {
+    .brand-logo-svg {
       width: 30px;
       height: 30px;
-      display: grid;
-      place-items: center;
-      border-radius: 9px;
-      background: rgba(255, 59, 122, 0.14);
-      border: 1px solid rgba(255, 77, 136, 0.45);
-      color: #ff6b9d;
-      font-size: 0.92rem;
+      flex-shrink: 0;
     }
 
     .nav-center {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 30px;
     }
 
     .nav-center a {
-      color: #cbd5e1;
+      color: #cbd5d0;
       text-decoration: none;
       font-size: 0.88rem;
       font-weight: 500;
@@ -196,113 +181,89 @@
       color: #ffffff;
     }
 
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .profile-chip {
+    .btn-get-client {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #ffb3ce;
-    }
-
-    .btn-pill-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      justify-content: center;
       padding: 8px 18px;
       border-radius: 999px;
-      background: rgba(255, 59, 122, 0.16);
-      border: 1px solid rgba(255, 77, 136, 0.55);
-      color: #ff85ad;
+      background: rgba(0, 230, 91, 0.14);
+      border: 1px solid rgba(0, 230, 91, 0.55);
+      color: var(--green-main);
       text-decoration: none;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       font-weight: 700;
       transition: all 0.16s var(--ease-smooth);
     }
 
-    .btn-pill-cta:hover {
-      background: #ff3b7a;
-      color: #ffffff;
-      box-shadow: 0 0 22px rgba(255, 59, 122, 0.45);
+    .btn-get-client:hover {
+      background: var(--green-main);
+      color: #031108;
+      box-shadow: 0 0 22px rgba(0, 230, 91, 0.4);
     }
 
-    /* Main Layout Container */
+    /* Main Container */
     .page-container {
       position: relative;
       z-index: 3;
-      max-width: 1220px;
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 28px;
     }
 
-    /* Hero 2-Column Split like Reference */
+    /* Hero 2-Column Split */
     .hero-split {
-      padding: 64px 0 68px;
+      padding: 68px 0 72px;
       display: grid;
       grid-template-columns: 1.08fr 0.92fr;
-      gap: 44px;
+      gap: 48px;
       align-items: center;
     }
 
-    .hero-badge {
+    .engine-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 6px 14px;
       border-radius: 999px;
-      background: rgba(255, 59, 122, 0.12);
-      border: 1px solid rgba(255, 77, 136, 0.35);
-      color: #ff85ad;
-      font-size: 0.74rem;
+      background: rgba(5, 28, 14, 0.78);
+      border: 1px solid rgba(0, 230, 91, 0.45);
+      color: var(--green-main);
+      font-size: 0.73rem;
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
-    .badge-dot {
+    .engine-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #ff4d88;
-      box-shadow: 0 0 8px #ff4d88;
+      background: var(--green-main);
+      box-shadow: 0 0 8px var(--green-main);
     }
 
     h1.hero-title {
-      font-size: clamp(2.85rem, 5.4vw, 4.45rem);
+      font-size: clamp(2.9rem, 5.5vw, 4.55rem);
       font-weight: 900;
       letter-spacing: -0.035em;
-      line-height: 1.04;
+      line-height: 1.03;
       color: #ffffff;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
-    h1.hero-title span.accent-line {
+    h1.hero-title span.green-line {
       display: block;
-      color: #ff4785;
-      text-shadow: 0 0 32px rgba(255, 71, 133, 0.28);
+      color: var(--green-main);
     }
 
     .hero-desc {
-      color: #b4b4c2;
-      font-size: 1.04rem;
+      color: #a8b8ae;
+      font-size: 1.03rem;
       line-height: 1.65;
-      max-width: 540px;
-      margin-bottom: 28px;
-    }
-
-    .hero-desc strong {
-      color: #ffffff;
+      max-width: 530px;
+      margin-bottom: 30px;
     }
 
     .hero-actions {
@@ -313,34 +274,35 @@
       margin-bottom: 14px;
     }
 
-    .btn-primary-solid {
+    .btn-download-linux {
       display: inline-flex;
       align-items: center;
       gap: 9px;
       padding: 13px 24px;
       border-radius: 10px;
-      background: linear-gradient(135deg, #ff3b7a, #e11d63);
-      color: #ffffff;
-      font-weight: 700;
+      background: var(--green-main);
+      color: #031108;
+      font-weight: 800;
       font-size: 0.94rem;
       text-decoration: none;
-      box-shadow: 0 10px 28px rgba(255, 59, 122, 0.35);
-      transition: transform 0.16s var(--ease-smooth), filter 0.16s ease;
+      box-shadow: 0 8px 28px rgba(0, 230, 91, 0.28);
+      transition: transform 0.16s var(--ease-smooth), background 0.16s ease, box-shadow 0.16s ease;
     }
 
-    .btn-primary-solid:hover {
+    .btn-download-linux:hover {
+      background: var(--green-bright);
       transform: translateY(-2px);
-      filter: brightness(1.08);
+      box-shadow: 0 12px 32px rgba(0, 230, 91, 0.42);
     }
 
-    .btn-ghost-dark {
+    .btn-explore-arch {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
       padding: 13px 22px;
       border-radius: 10px;
-      background: rgba(15, 11, 16, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(7, 17, 11, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.14);
       color: #f1f5f9;
       font-weight: 600;
       font-size: 0.92rem;
@@ -348,39 +310,38 @@
       transition: all 0.16s var(--ease-smooth);
     }
 
-    .btn-ghost-dark:hover {
-      border-color: rgba(255, 122, 168, 0.48);
-      background: rgba(26, 17, 25, 0.88);
+    .btn-explore-arch:hover {
+      border-color: rgba(0, 230, 91, 0.45);
+      background: rgba(11, 28, 18, 0.88);
     }
 
-    .hero-meta-note {
+    .platform-caption {
       font-size: 0.78rem;
-      color: #8b8b99;
+      color: #798c80;
     }
 
-    /* Live Telemetry Card on Right */
+    /* Live Telemetry Card */
     .telemetry-card {
-      background: rgba(14, 9, 13, 0.78);
+      background: rgba(6, 17, 10, 0.82);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255, 77, 136, 0.28);
-      border-top-color: rgba(255, 179, 206, 0.35);
+      border: 1px solid rgba(0, 230, 91, 0.36);
       border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 40px rgba(255, 59, 122, 0.08);
+      padding: 26px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 42px rgba(0, 230, 91, 0.08);
     }
 
-    .telemetry-head {
+    .telemetry-top {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       flex-wrap: wrap;
     }
 
-    .telemetry-title {
-      font-size: 0.98rem;
+    .telemetry-heading {
+      font-size: 1rem;
       font-weight: 800;
       color: #ffffff;
     }
@@ -388,48 +349,48 @@
     .telemetry-sub {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      color: #9ca3af;
+      color: #8ea396;
       margin-top: 3px;
     }
 
-    .mode-switch-group {
+    .runtime-toggle {
       display: inline-flex;
-      background: rgba(8, 5, 9, 0.85);
+      background: rgba(4, 11, 7, 0.9);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 8px;
       padding: 3px;
       gap: 3px;
     }
 
-    .mode-btn {
+    .runtime-btn {
       border: none;
       background: transparent;
-      color: #9ca3af;
+      color: #9eb3a6;
       font-family: inherit;
       font-size: 0.75rem;
       font-weight: 700;
-      padding: 6px 11px;
+      padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.15s ease;
     }
 
-    .mode-btn.active {
-      background: #ff3b7a;
-      color: #ffffff;
+    .runtime-btn.active {
+      background: var(--green-main);
+      color: #031108;
     }
 
-    .tier-strip {
+    .preset-row {
       display: flex;
       gap: 6px;
-      margin-bottom: 18px;
       flex-wrap: wrap;
+      margin-bottom: 18px;
     }
 
-    .tier-chip {
+    .preset-btn {
       border: 1px solid rgba(255, 255, 255, 0.08);
       background: rgba(255, 255, 255, 0.03);
-      color: #a1a1aa;
+      color: #9eb3a6;
       font-size: 0.72rem;
       font-weight: 600;
       padding: 4px 10px;
@@ -438,74 +399,74 @@
       transition: all 0.15s ease;
     }
 
-    .tier-chip.active {
-      background: rgba(255, 59, 122, 0.18);
-      border-color: rgba(255, 122, 168, 0.5);
-      color: #ffb3ce;
+    .preset-btn.active {
+      background: rgba(0, 230, 91, 0.16);
+      border-color: rgba(0, 230, 91, 0.5);
+      color: var(--green-main);
     }
 
-    .metric-rows {
+    .telemetry-metrics {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 16px;
     }
 
-    .metric-item {
+    .metric-row {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
     }
 
-    .metric-top {
+    .metric-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.84rem;
+      font-size: 0.85rem;
     }
 
-    .metric-label {
-      color: #d4d4d8;
+    .metric-name {
+      color: #cbd5d0;
       font-weight: 500;
     }
 
-    .metric-val {
+    .metric-number {
       font-family: 'JetBrains Mono', monospace;
       font-weight: 700;
-      color: #ff6b9d;
+      color: var(--green-main);
       font-variant-numeric: tabular-nums;
     }
 
-    .metric-track {
+    .metric-bar-bg {
       height: 6px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.08);
       overflow: hidden;
     }
 
-    .metric-fill {
+    .metric-bar-fill {
       height: 100%;
       border-radius: 999px;
-      background: linear-gradient(90deg, #ff3b7a, #ff85ad);
+      background: var(--green-main);
       transition: width 0.35s var(--ease-smooth);
       will-change: width;
     }
 
     /* Extra Sections */
-    .extra-section {
-      padding: 56px 0;
+    .section-block {
+      padding: 58px 0;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .sec-eyebrow {
+    .sec-tag {
       font-size: 0.74rem;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #ff6b9d;
+      color: var(--green-main);
       margin-bottom: 6px;
     }
 
-    .sec-heading {
+    .sec-title {
       font-size: clamp(1.6rem, 3vw, 2.2rem);
       font-weight: 800;
       letter-spacing: -0.025em;
@@ -513,108 +474,127 @@
       margin-bottom: 24px;
     }
 
-    /* Interactive Modules Box */
-    .modules-shell {
-      background: var(--surface-glass);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--border-soft);
-      border-radius: 18px;
-      padding: 22px;
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
 
-    .modules-toolbar {
+    .vanta-panel {
+      background: var(--surface-box);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-soft);
+      border-radius: 16px;
+      padding: 20px;
+      transition: border-color 0.16s ease, transform 0.16s var(--ease-smooth);
+    }
+
+    .vanta-panel:hover {
+      border-color: rgba(0, 230, 91, 0.42);
+      transform: translateY(-2px);
+    }
+
+    .vanta-panel h3 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .vanta-panel p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Interactive Modules */
+    .mod-toolbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
       flex-wrap: wrap;
       margin-bottom: 16px;
     }
 
-    .tab-pills {
+    .mod-tabs {
       display: inline-flex;
       gap: 8px;
     }
 
-    .tab-pill {
+    .mod-tab {
       padding: 7px 15px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(255, 255, 255, 0.03);
-      color: #a1a1aa;
+      color: #9eb3a6;
       font-size: 0.82rem;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.15s ease;
     }
 
-    .tab-pill.active {
-      background: rgba(255, 59, 122, 0.2);
-      border-color: rgba(255, 122, 168, 0.55);
-      color: #ffb3ce;
+    .mod-tab.active {
+      background: rgba(0, 230, 91, 0.18);
+      border-color: rgba(0, 230, 91, 0.55);
+      color: var(--green-main);
     }
 
-    .search-box {
+    .mod-search-wrap {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(9, 6, 10, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      background: rgba(4, 11, 7, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 999px;
       padding: 7px 14px;
       min-width: 210px;
     }
 
-    .search-box input {
+    .mod-search-wrap input {
       background: transparent;
       border: none;
       outline: none;
-      color: #f8fafc;
+      color: #ffffff;
       font-size: 0.84rem;
       width: 100%;
     }
 
-    .mod-grid {
+    .mod-list {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 11px;
     }
 
-    .mod-item {
-      background: rgba(14, 9, 13, 0.76);
+    .mod-row {
+      background: rgba(6, 17, 10, 0.78);
       border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 13px;
+      border-radius: 12px;
       padding: 13px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      transition: border-color 0.15s ease, transform 0.15s var(--ease-smooth);
+      transition: border-color 0.15s ease;
     }
 
-    .mod-item:hover {
-      border-color: rgba(255, 122, 168, 0.42);
-      transform: translateY(-1px);
+    .mod-row.on {
+      border-color: rgba(0, 230, 91, 0.55);
     }
 
-    .mod-item.on {
-      border-color: rgba(255, 59, 122, 0.65);
-      background: rgba(28, 13, 21, 0.84);
-    }
-
-    .mod-name {
+    .mod-title {
       font-size: 0.9rem;
       font-weight: 700;
       color: #ffffff;
     }
 
-    .mod-sub {
+    .mod-desc {
       font-size: 0.76rem;
-      color: #9ca3af;
+      color: #9eb3a6;
       margin-top: 2px;
     }
 
-    .toggle-btn {
+    .switch-btn {
       width: 40px;
       height: 22px;
       border-radius: 999px;
@@ -626,7 +606,7 @@
       transition: background 0.16s ease;
     }
 
-    .toggle-btn::after {
+    .switch-btn::after {
       content: '';
       position: absolute;
       top: 2px;
@@ -638,71 +618,37 @@
       transition: transform 0.18s var(--ease-smooth);
     }
 
-    .toggle-btn.on {
-      background: #ff3b7a;
+    .switch-btn.on {
+      background: var(--green-main);
     }
 
-    .toggle-btn.on::after {
+    .switch-btn.on::after {
       transform: translateX(18px);
     }
 
-    .mod-status-line {
+    .mod-feedback {
       margin-top: 12px;
       font-size: 0.8rem;
-      color: #ffb3ce;
+      color: var(--green-main);
       min-height: 18px;
     }
 
-    /* Architecture & FAQ Cards */
-    .cards-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
-    .glass-box {
-      background: var(--surface-card);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--border-soft);
-      border-top-color: rgba(255, 255, 255, 0.14);
-      border-radius: 16px;
-      padding: 20px;
-      transition: border-color 0.16s ease, transform 0.16s var(--ease-smooth);
-    }
-
-    .glass-box:hover {
-      border-color: rgba(255, 122, 168, 0.42);
-      transform: translateY(-2px);
-    }
-
-    .glass-box h3 {
-      font-size: 0.98rem;
-      font-weight: 700;
-      color: #ffffff;
-      margin-bottom: 8px;
-    }
-
-    .glass-box p {
-      font-size: 0.86rem;
-      color: #a1a1aa;
-      line-height: 1.6;
-    }
-
-    .faq-stack {
+    /* FAQ */
+    .faq-items {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .faq-card {
-      background: var(--surface-card);
+    .faq-box {
+      background: var(--surface-box);
       backdrop-filter: blur(14px);
       border: 1px solid var(--border-soft);
-      border-radius: 15px;
+      border-radius: 14px;
       overflow: hidden;
     }
 
-    .faq-q {
+    .faq-btn {
       width: 100%;
       padding: 17px 20px;
       background: transparent;
@@ -718,24 +664,24 @@
       cursor: pointer;
     }
 
-    .faq-a-wrap {
+    .faq-body {
       display: grid;
       grid-template-rows: 0fr;
       transition: grid-template-rows 0.25s var(--ease-smooth);
     }
 
-    .faq-card.open .faq-a-wrap {
+    .faq-box.open .faq-body {
       grid-template-rows: 1fr;
     }
 
-    .faq-a-inner {
+    .faq-inner {
       overflow: hidden;
     }
 
-    .faq-a {
+    .faq-text {
       padding: 0 20px 18px;
       font-size: 0.88rem;
-      color: #a1a1aa;
+      color: var(--text-muted);
       line-height: 1.65;
     }
 
@@ -743,14 +689,14 @@
       position: relative;
       z-index: 3;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 26px 24px;
+      padding: 26px 28px;
       text-align: center;
       font-size: 0.84rem;
-      color: #8b8b99;
+      color: #798c80;
     }
 
     footer a {
-      color: #ff85ad;
+      color: var(--green-main);
       text-decoration: none;
     }
 
@@ -765,13 +711,13 @@
       }
     }
 
-    @media (max-width: 920px) {
+    @media (max-width: 940px) {
       .hero-split {
         grid-template-columns: 1fr;
-        padding-top: 42px;
+        padding-top: 44px;
         gap: 32px;
       }
-      .cards-3 {
+      .grid-3 {
         grid-template-columns: 1fr;
       }
       .nav-center {
@@ -780,7 +726,7 @@
     }
 
     @media (max-width: 680px) {
-      .mod-grid {
+      .mod-list {
         grid-template-columns: 1fr;
       }
       .cursor-glow {
@@ -790,31 +736,30 @@
   </style>
 </head>
 <body>
-  <div class="bg-layer"></div>
+  <div class="bg-photo"></div>
   <div class="bg-grid"></div>
   <div class="scroll-progress" id="scroll-progress"></div>
   <div class="cursor-glow" id="cursor-glow"></div>
-  <canvas id="petals-canvas"></canvas>
 
   <!-- Top Navigation -->
   <header class="topbar-wrap">
     <div class="topbar">
       <a href="#" class="brand">
-        <span class="brand-hex">❖</span>
-        <span>CHERRY</span>
+        <svg class="brand-logo-svg" viewBox="0 0 32 32" fill="none">
+          <polygon points="16,3 27.5,9.6 27.5,22.4 16,29 4.5,22.4 4.5,9.6" stroke="#00e65b" stroke-width="2.2" fill="rgba(0,230,91,0.08)"/>
+          <path d="M11 11.5L16 22L21 11.5" stroke="#00e65b" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>VANTA</span>
       </a>
 
       <nav class="nav-center">
-        <a href="#modules">Modules</a>
+        <a href="#features">Features</a>
         <a href="#architecture">Architecture</a>
         <a href="#faq">FAQ</a>
-        <a href="#privacy">Privacy</a>
+        <a href="#versions">Versions</a>
       </nav>
 
-      <div class="nav-right">
-        <span class="profile-chip">TTMMario</span>
-        <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-pill-cta">Get Client</a>
-      </div>
+      <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-get-client">Get Client</a>
     </div>
   </header>
 
@@ -822,168 +767,168 @@
     <!-- Hero Split -->
     <section class="hero-split reveal visible">
       <div>
-        <div class="hero-badge">
-          <span class="badge-dot"></span>
-          <span>RUST ENGINE • 3X FPS VS TORI • 1.8.9 / 26.2 / 26.3</span>
+        <div class="engine-pill">
+          <span class="engine-dot"></span>
+          <span>RUST ENGINE • MC 26.2 &amp; 26.3 READY</span>
         </div>
 
         <h1 class="hero-title">
           More Frames.
-          <span class="accent-line">Zero Overhead.</span>
+          <span class="green-line">Zero Overhead.</span>
         </h1>
 
         <p class="hero-desc">
-          <strong>Cherry Client</strong> is a ground-up <strong>Rust</strong> engine rewrite delivering <strong>3x the FPS of Tori</strong>. Ditch JVM garbage collection stutters and unlock native rendering speed with a clean cherry UI.
+          Vanta is a complete ground-up rewrite of the Minecraft client in Rust. Ditch JVM garbage collection stutters and unlock native Vulkan/WGPU rendering speed.
         </p>
 
         <div class="hero-actions">
-          <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-primary-solid">
-            <span>⬇</span>
-            <span>Download Cherry Client</span>
+          <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-download-linux">
+            <span>🐧</span>
+            <span>Download for Linux</span>
           </a>
-          <a href="#architecture" class="btn-ghost-dark">Explore Architecture</a>
+          <a href="#architecture" class="btn-explore-arch">Explore Architecture</a>
         </div>
 
-        <div class="hero-meta-note">Rust Native Engine • 3x FPS vs Tori • Profile: TTMMario</div>
+        <div class="platform-caption">Linux x86_64 detected • Native AppImage &amp; Tarball • Profile: TTMMario</div>
       </div>
 
-      <!-- Live Telemetry Card -->
+      <!-- Live Telemetry Panel -->
       <aside class="telemetry-card">
-        <div class="telemetry-head">
+        <div class="telemetry-top">
           <div>
-            <div class="telemetry-title">Live Telemetry</div>
-            <div class="telemetry-sub" id="telemetry-spec">32 Chunks • 1440p • Integrated</div>
+            <div class="telemetry-heading">Live Telemetry</div>
+            <div class="telemetry-sub" id="telemetry-sub">32 Chunks • 1440p</div>
           </div>
 
-          <div class="mode-switch-group" id="mode-switch">
-            <button class="mode-btn active" data-mode="cherry">Cherry (Rust)</button>
-            <button class="mode-btn" data-mode="tori">Tori Client</button>
+          <div class="runtime-toggle" id="runtime-toggle">
+            <button class="runtime-btn active" data-runtime="vanta">Vanta (Rust)</button>
+            <button class="runtime-btn" data-runtime="vanilla">Vanilla (Java)</button>
           </div>
         </div>
 
-        <div class="tier-strip" id="tier-strip">
-          <button class="tier-chip active" data-tier="integrated">Integrated</button>
-          <button class="tier-chip" data-tier="laptop">Laptop</button>
-          <button class="tier-chip" data-tier="midrange">Midrange</button>
-          <button class="tier-chip" data-tier="high">High PC</button>
+        <div class="preset-row" id="preset-row">
+          <button class="preset-btn active" data-preset="integrated">Integrated</button>
+          <button class="preset-btn" data-preset="laptop">Laptop</button>
+          <button class="preset-btn" data-preset="midrange">Midrange</button>
+          <button class="preset-btn" data-preset="high">High PC</button>
         </div>
 
-        <div class="metric-rows">
-          <div class="metric-item">
-            <div class="metric-top">
-              <span class="metric-label">Average Framerate</span>
-              <span class="metric-val" id="m-fps">330 FPS</span>
+        <div class="telemetry-metrics">
+          <div class="metric-row">
+            <div class="metric-header">
+              <span class="metric-name">Average Framerate</span>
+              <span class="metric-number" id="val-fps">840 FPS</span>
             </div>
-            <div class="metric-track">
-              <div class="metric-fill" id="b-fps" style="width: 96%;"></div>
-            </div>
-          </div>
-
-          <div class="metric-item">
-            <div class="metric-top">
-              <span class="metric-label">1% Low Frametime Stability</span>
-              <span class="metric-val" id="m-low">99.4%</span>
-            </div>
-            <div class="metric-track">
-              <div class="metric-fill" id="b-low" style="width: 99%;"></div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill" id="bar-fps" style="width: 82%;"></div>
             </div>
           </div>
 
-          <div class="metric-item">
-            <div class="metric-top">
-              <span class="metric-label">Memory Footprint</span>
-              <span class="metric-val" id="m-mem">380 MB</span>
+          <div class="metric-row">
+            <div class="metric-header">
+              <span class="metric-name">1% Low Frametime Stability</span>
+              <span class="metric-number" id="val-low">99.4%</span>
             </div>
-            <div class="metric-track">
-              <div class="metric-fill" id="b-mem" style="width: 34%;"></div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill" id="bar-low" style="width: 97%;"></div>
             </div>
           </div>
 
-          <div class="metric-item">
-            <div class="metric-top">
-              <span class="metric-label">GC Spike Latency</span>
-              <span class="metric-val" id="m-gc">0.0 ms</span>
+          <div class="metric-row">
+            <div class="metric-header">
+              <span class="metric-name">Memory Footprint</span>
+              <span class="metric-number" id="val-mem">380 MB</span>
             </div>
-            <div class="metric-track">
-              <div class="metric-fill" id="b-gc" style="width: 4%;"></div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill" id="bar-mem" style="width: 34%;"></div>
+            </div>
+          </div>
+
+          <div class="metric-row">
+            <div class="metric-header">
+              <span class="metric-name">GC Spike Latency</span>
+              <span class="metric-number" id="val-gc">0.0 ms</span>
+            </div>
+            <div class="metric-bar-bg">
+              <div class="metric-bar-fill" id="bar-gc" style="width: 4%;"></div>
             </div>
           </div>
         </div>
       </aside>
     </section>
 
-    <!-- Extra Section 1: Interactive Modules -->
-    <section id="modules" class="extra-section reveal">
-      <div class="sec-eyebrow">TTMMario Custom Profile</div>
-      <h2 class="sec-heading">HUD & Visual Modules</h2>
+    <!-- Features & Interactive Modules -->
+    <section id="features" class="section-block reveal">
+      <div class="sec-tag">Features &amp; Modules</div>
+      <h2 class="sec-title">Clean HUD &amp; Visual Controls</h2>
 
-      <div class="modules-shell">
-        <div class="modules-toolbar">
-          <div class="tab-pills">
-            <button class="tab-pill active" data-tab="HUD">HUD</button>
-            <button class="tab-pill" data-tab="Visuals">Visuals</button>
+      <div class="vanta-panel">
+        <div class="mod-toolbar">
+          <div class="mod-tabs">
+            <button class="mod-tab active" data-tab="HUD">HUD</button>
+            <button class="mod-tab" data-tab="Visuals">Visuals</button>
           </div>
-          <div class="search-box">
-            <span>🔍</span>
+          <div class="mod-search-wrap">
+            <span>⌕</span>
             <input type="text" id="mod-search" placeholder="Search modules..." />
           </div>
         </div>
 
-        <div class="mod-grid" id="mod-grid"></div>
-        <div class="mod-status-line" id="mod-status-line"></div>
+        <div class="mod-list" id="mod-list"></div>
+        <div class="mod-feedback" id="mod-feedback"></div>
       </div>
     </section>
 
-    <!-- Extra Section 2: Rust Architecture -->
-    <section id="architecture" class="extra-section reveal">
-      <div class="sec-eyebrow">Under The Hood</div>
-      <h2 class="sec-heading">Engineered in Rust</h2>
+    <!-- Architecture -->
+    <section id="architecture" class="section-block reveal">
+      <div class="sec-tag">Architecture</div>
+      <h2 class="sec-title">Native Rust &amp; Vulkan/WGPU Pipeline</h2>
 
-      <div class="cards-3">
-        <div class="glass-box">
-          <h3>🦀 Zero GC Pauses</h3>
-          <p>Deterministic ownership and zero-cost abstractions eliminate stop-the-world garbage collection hitches during intense fights and fast chunk loading.</p>
+      <div class="grid-3">
+        <div class="vanta-panel">
+          <h3>Zero Garbage Collection</h3>
+          <p>Written in Rust with deterministic memory ownership so frame pacing never stalls during heavy rendering or chunk updates.</p>
         </div>
-        <div class="glass-box">
-          <h3>⚡ 3x FPS vs Tori</h3>
-          <p>Streamlined render buffers and tight data layout deliver 3x the framerate of Tori across Integrated, Laptop, Midrange, and High PC setups.</p>
+        <div class="vanta-panel">
+          <h3>Vulkan / WGPU Speed</h3>
+          <p>Batched GPU command submission and tight data layout deliver up to 3x higher throughput than legacy clients.</p>
         </div>
-        <div class="glass-box">
-          <h3>🛡️ Safe OAuth & Local Config</h3>
-          <p>External browser Microsoft OAuth authentication with zero password storage and local-first module presets for TTMMario.</p>
+        <div class="vanta-panel">
+          <h3>Safe OAuth &amp; Local Config</h3>
+          <p>External browser Microsoft OAuth sign-in with zero password storage and instant local presets for TTMMario.</p>
         </div>
       </div>
     </section>
 
-    <!-- Extra Section 3: FAQ & Privacy -->
-    <section id="faq" class="extra-section reveal">
-      <div class="sec-eyebrow">Quick Answers</div>
-      <h2 class="sec-heading">Frequently Asked Questions</h2>
+    <!-- FAQ -->
+    <section id="faq" class="section-block reveal">
+      <div class="sec-tag">FAQ</div>
+      <h2 class="sec-title">Frequently Asked Questions</h2>
 
-      <div class="faq-stack">
-        <div class="faq-card open">
-          <button class="faq-q">
-            <span>How does Cherry Client get 3x the FPS of Tori?</span>
+      <div class="faq-items">
+        <div class="faq-box open">
+          <button class="faq-btn">
+            <span>Why rewrite the client in Rust instead of Java?</span>
             <span>+</span>
           </button>
-          <div class="faq-a-wrap">
-            <div class="faq-a-inner">
-              <div class="faq-a">
-                Cherry Client uses a lightweight Rust-powered pipeline with minimal overlay overhead and predictable frame pacing, reaching 3x Tori's FPS across all hardware tiers (for example ~2940 FPS vs 980 FPS on High PC).
+          <div class="faq-body">
+            <div class="faq-inner">
+              <div class="faq-text">
+                Rust eliminates garbage collection pauses, keeps memory usage low (~380 MB), and gives direct control over rendering buffers for smooth frame times.
               </div>
             </div>
           </div>
         </div>
 
-        <div class="faq-card">
-          <button class="faq-q">
-            <span>Is Microsoft login safe and allowed on servers?</span>
+        <div class="faq-box">
+          <button class="faq-btn">
+            <span>Which Minecraft versions and platforms are supported?</span>
             <span>+</span>
           </button>
-          <div class="faq-a-wrap">
-            <div class="faq-a-inner">
-              <div class="faq-a">
-                Yes. Authentication uses official external Microsoft OAuth without ever handling your credentials, and all HUD/visual modules are cosmetic and informational.
+          <div class="faq-body">
+            <div class="faq-inner">
+              <div class="faq-text">
+                Built for MC 26.2 &amp; 26.3 (and compatible editions) with native builds for Linux, Windows, and macOS.
               </div>
             </div>
           </div>
@@ -991,18 +936,30 @@
       </div>
     </section>
 
-    <section id="privacy" class="extra-section reveal">
-      <div class="sec-eyebrow">Privacy & Security</div>
-      <h2 class="sec-heading">Zero Password Storage</h2>
-      <div class="glass-box">
-        <h3>Local-First Privacy</h3>
-        <p>Cherry Client stores HUD and visual configurations locally and never sells user data or logs credentials. Official releases and community support are available on <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
+    <!-- Versions -->
+    <section id="versions" class="section-block reveal">
+      <div class="sec-tag">Versions</div>
+      <h2 class="sec-title">Supported Builds</h2>
+
+      <div class="grid-3">
+        <div class="vanta-panel">
+          <h3>MC 26.3 Ready</h3>
+          <p>Latest Rust render pipeline with full HUD and visual module support.</p>
+        </div>
+        <div class="vanta-panel">
+          <h3>MC 26.2 Ready</h3>
+          <p>High-stability build with low memory footprint and zero GC spike latency.</p>
+        </div>
+        <div class="vanta-panel">
+          <h3>Linux x86_64 &amp; More</h3>
+          <p>Native AppImage &amp; Tarball releases available via our official <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
+        </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <span>© 2026 Cherry Client • Rust Engine</span> • <a href="#modules">Modules</a> • <a href="#architecture">Architecture</a> • <a href="#faq">FAQ</a> • <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>
+    <span>© 2026 VANTA • Rust Engine</span> • <a href="#features">Features</a> • <a href="#architecture">Architecture</a> • <a href="#faq">FAQ</a> • <a href="#versions">Versions</a>
   </footer>
 
   <script>
@@ -1025,9 +982,9 @@
         }
       }, { passive: true });
 
-      let tx = -9999, ty = -9999, cx = -9999, cy = -9999, activePtr = false, glowRaf = null;
+      let tx = -9999, ty = -9999, cx = -9999, cy = -9999, hasPtr = false, glowRaf = null;
       function stepGlow() {
-        if (!activePtr) { glowRaf = null; return; }
+        if (!hasPtr) { glowRaf = null; return; }
         cx += (tx - cx) * 0.25;
         cy += (ty - cy) * 0.25;
         glowEl.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
@@ -1043,62 +1000,15 @@
       window.addEventListener('pointermove', (e) => {
         if (window.innerWidth < 680) return;
         tx = e.clientX; ty = e.clientY;
-        if (!activePtr) { cx = tx; cy = ty; activePtr = true; }
+        if (!hasPtr) { cx = tx; cy = ty; hasPtr = true; }
         if (!glowRaf) glowRaf = requestAnimationFrame(stepGlow);
       }, { passive: true });
 
       document.addEventListener('pointerleave', () => {
-        activePtr = false;
+        hasPtr = false;
         if (glowRaf) { cancelAnimationFrame(glowRaf); glowRaf = null; }
         glowEl.style.transform = 'translate3d(-9999px, -9999px, 0)';
       });
-    }
-
-    // Subtle Falling Petals Canvas
-    const canvas = document.getElementById('petals-canvas');
-    const ctx = canvas.getContext('2d');
-    if (!prefersReducedMotion) {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      function resize() {
-        canvas.width = Math.floor(window.innerWidth * dpr);
-        canvas.height = Math.floor(window.innerHeight * dpr);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      window.addEventListener('resize', resize, { passive: true });
-      resize();
-
-      const petals = Array.from({ length: window.innerWidth < 768 ? 8 : 14 }, () => ({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        r: 2.5 + Math.random() * 3.5,
-        vy: 0.4 + Math.random() * 0.6,
-        vx: -0.25 + Math.random() * 0.5,
-        a: Math.random() * Math.PI * 2,
-        va: -0.015 + Math.random() * 0.03,
-        alpha: 0.14 + Math.random() * 0.18
-      }));
-
-      function drawPetals() {
-        if (document.hidden) return;
-        const w = window.innerWidth, h = window.innerHeight;
-        ctx.clearRect(0, 0, w, h);
-        for (const p of petals) {
-          p.y += p.vy;
-          p.x += p.vx + Math.sin(p.a) * 0.25;
-          p.a += p.va;
-          if (p.y > h + 10) { p.y = -10; p.x = Math.random() * w; }
-          ctx.save();
-          ctx.translate(p.x, p.y);
-          ctx.rotate(p.a);
-          ctx.fillStyle = `rgba(255, 133, 173, ${p.alpha})`;
-          ctx.beginPath();
-          ctx.ellipse(0, 0, p.r, p.r * 0.58, 0, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        }
-        requestAnimationFrame(drawPetals);
-      }
-      requestAnimationFrame(drawPetals);
     }
 
     // Reveal Observer
@@ -1109,152 +1019,152 @@
     }, { threshold: 0.08 });
     document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
-    // Live Telemetry (3x FPS vs Tori + Micro-Oscillations)
-    const stats = {
+    // Live Telemetry with Stable Micro-Oscillations
+    const telemetryPresets = {
       integrated: {
-        label: '32 Chunks • 1440p • Integrated',
-        cherry: { fps: 330, low: 99.1, mem: 340, gc: 0.0, jitter: [-2, -1, 0, 1, 2] },
-        tori:   { fps: 110, low: 91.4, mem: 690, gc: 2.4, jitter: [-3, -1, 0, 2] }
+        sub: '32 Chunks • 1440p • Integrated',
+        vanta:   { fps: 330,  low: 99.1, mem: 340, gc: 0.0, jitter: [-2, -1, 0, 1, 2] },
+        vanilla: { fps: 110,  low: 91.2, mem: 780, gc: 2.6, jitter: [-3, -1, 0, 2] }
       },
       laptop: {
-        label: '32 Chunks • 1440p • Laptop',
-        cherry: { fps: 570, low: 99.3, mem: 365, gc: 0.0, jitter: [-2, -1, 0, 1, 2] },
-        tori:   { fps: 190, low: 92.8, mem: 740, gc: 2.1, jitter: [-4, -1, 0, 3] }
+        sub: '32 Chunks • 1440p • Laptop',
+        vanta:   { fps: 840,  low: 99.4, mem: 380, gc: 0.0, jitter: [-3, -2, -1, 0, 1, 2, 3] },
+        vanilla: { fps: 280,  low: 92.5, mem: 890, gc: 2.4, jitter: [-5, -2, 0, 3] }
       },
       midrange: {
-        label: '32 Chunks • 1440p • Midrange',
-        cherry: { fps: 1260, low: 99.5, mem: 375, gc: 0.0, jitter: [-3, -1, 0, 1, 2] },
-        tori:   { fps: 420,  low: 94.1, mem: 810, gc: 1.8, jitter: [-6, -2, 0, 4] }
+        sub: '32 Chunks • 1440p • Midrange',
+        vanta:   { fps: 1470, low: 99.6, mem: 395, gc: 0.0, jitter: [-4, -2, -1, 0, 2, 4] },
+        vanilla: { fps: 490,  low: 94.0, mem: 960, gc: 2.1, jitter: [-7, -3, 0, 4] }
       },
       high: {
-        label: '32 Chunks • 1440p • High PC',
-        cherry: { fps: 2940, low: 99.7, mem: 380, gc: 0.0, jitter: [-3, -2, -1, 0, 1, 2] },
-        tori:   { fps: 980,  low: 95.0, mem: 880, gc: 1.6, jitter: [-8, -4, 0, 5] }
+        sub: '32 Chunks • 1440p • High PC',
+        vanta:   { fps: 2940, low: 99.8, mem: 410, gc: 0.0, jitter: [-4, -2, -1, 0, 2, 3] },
+        vanilla: { fps: 980,  low: 95.2, mem: 1080, gc: 1.9, jitter: [-9, -4, 0, 5] }
       }
     };
 
-    let currentTier = 'integrated';
-    let currentMode = 'cherry';
+    let activePreset = 'laptop';
+    let activeRuntime = 'vanta';
 
-    const specEl = document.getElementById('telemetry-spec');
-    const fpsEl = document.getElementById('m-fps');
-    const lowEl = document.getElementById('m-low');
-    const memEl = document.getElementById('m-mem');
-    const gcEl = document.getElementById('m-gc');
-    const bFps = document.getElementById('b-fps');
-    const bLow = document.getElementById('b-low');
-    const bMem = document.getElementById('b-mem');
-    const bGc = document.getElementById('b-gc');
+    const subEl = document.getElementById('telemetry-sub');
+    const fpsEl = document.getElementById('val-fps');
+    const lowEl = document.getElementById('val-low');
+    const memEl = document.getElementById('val-mem');
+    const gcEl = document.getElementById('val-gc');
+    const barFps = document.getElementById('bar-fps');
+    const barLow = document.getElementById('bar-low');
+    const barMem = document.getElementById('bar-mem');
+    const barGc = document.getElementById('bar-gc');
 
-    function renderTelemetry(oscillate = false) {
-      const cfg = stats[currentTier][currentMode];
-      specEl.textContent = stats[currentTier].label;
+    function updateTelemetry(oscillate = false) {
+      const p = telemetryPresets[activePreset];
+      const d = p[activeRuntime];
+      subEl.textContent = p.sub;
 
-      const deltaFps = oscillate ? cfg.jitter[Math.floor(Math.random() * cfg.jitter.length)] : 0;
-      const liveFps = Math.max(1, cfg.fps + deltaFps);
-      const liveLow = oscillate ? (cfg.low + (Math.random() * 0.2 - 0.1)).toFixed(1) : cfg.low.toFixed(1);
+      const delta = oscillate ? d.jitter[Math.floor(Math.random() * d.jitter.length)] : 0;
+      const liveFps = Math.max(1, d.fps + delta);
+      const liveLow = oscillate ? (d.low + (Math.random() * 0.2 - 0.1)).toFixed(1) : d.low.toFixed(1);
 
       fpsEl.textContent = `${liveFps} FPS`;
       lowEl.textContent = `${liveLow}%`;
-      memEl.textContent = `${cfg.mem} MB`;
-      gcEl.textContent = `${cfg.gc.toFixed(1)} ms`;
+      memEl.textContent = `${d.mem} MB`;
+      gcEl.textContent = `${d.gc.toFixed(1)} ms`;
 
-      const fpsPct = currentMode === 'cherry' ? 96 : 34;
-      bFps.style.width = `${fpsPct}%`;
-      bLow.style.width = `${Math.min(100, Math.round(cfg.low))}%`;
-      bMem.style.width = `${Math.min(100, Math.round((cfg.mem / 1000) * 100))}%`;
-      bGc.style.width = cfg.gc === 0 ? '4%' : `${Math.min(45, Math.round(cfg.gc * 12))}%`;
+      barFps.style.width = activeRuntime === 'vanta' ? '82%' : '34%';
+      barLow.style.width = `${Math.min(100, Math.round(d.low))}%`;
+      barMem.style.width = `${Math.min(100, Math.round((d.mem / 1200) * 100))}%`;
+      barGc.style.width = d.gc === 0 ? '4%' : `${Math.min(45, Math.round(d.gc * 12))}%`;
     }
 
-    document.querySelectorAll('.mode-btn').forEach(btn => {
+    document.querySelectorAll('.runtime-btn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.runtime-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        currentMode = btn.dataset.mode;
-        renderTelemetry(false);
+        activeRuntime = btn.dataset.runtime;
+        updateTelemetry(false);
       });
     });
 
-    document.querySelectorAll('.tier-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.tier-chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        currentTier = chip.dataset.tier;
-        renderTelemetry(false);
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activePreset = btn.dataset.preset;
+        updateTelemetry(false);
       });
     });
 
-    renderTelemetry(false);
+    updateTelemetry(false);
     setInterval(() => {
-      if (!document.hidden) renderTelemetry(true);
+      if (!document.hidden) updateTelemetry(true);
     }, 850);
 
-    // Interactive Modules (TTMMario)
-    const mods = [
+    // Interactive Modules
+    const modData = [
       { id: 'spotify', tab: 'HUD', name: 'Spotify', desc: 'Current track & playback overlay', enabled: true },
       { id: 'zoom', tab: 'HUD', name: 'Zoom', desc: 'Smooth keybind zoom for scouting', enabled: false },
       { id: 'target', tab: 'HUD', name: 'Target Info', desc: 'Target health & status indicator', enabled: false },
       { id: 'damage', tab: 'HUD', name: 'Damage Feed', desc: 'Real-time combat damage numbers', enabled: false },
       { id: 'fullbright', tab: 'Visuals', name: 'Fullbright', desc: 'Clear visibility in dark caves', enabled: true },
       { id: 'motionblur', tab: 'Visuals', name: 'Motion Blur', desc: 'Fluid camera motion blur at high FPS', enabled: false },
-      { id: 'blockout', tab: 'Visuals', name: 'Block Overlay', desc: 'Crisp cherry highlight on target blocks', enabled: true },
-      { id: 'particles', tab: 'Visuals', name: 'Hit Particles', desc: 'Custom cherry petal crit particles', enabled: true }
+      { id: 'blockout', tab: 'Visuals', name: 'Block Overlay', desc: 'Crisp emerald outline on targeted blocks', enabled: true },
+      { id: 'particles', tab: 'Visuals', name: 'Hit Particles', desc: 'Custom crit & combat particles', enabled: true }
     ];
 
-    let curModTab = 'HUD';
-    let modQuery = '';
-    const modGrid = document.getElementById('mod-grid');
-    const modStatus = document.getElementById('mod-status-line');
+    let curTab = 'HUD';
+    let qText = '';
+    const modListEl = document.getElementById('mod-list');
+    const modFeedbackEl = document.getElementById('mod-feedback');
 
-    function drawMods() {
-      const list = mods.filter(m => {
-        const tabOk = modQuery ? true : m.tab === curModTab;
-        const textOk = m.name.toLowerCase().includes(modQuery) || m.desc.toLowerCase().includes(modQuery);
-        return tabOk && textOk;
+    function renderMods() {
+      const items = modData.filter(m => {
+        const okTab = qText ? true : m.tab === curTab;
+        const okText = m.name.toLowerCase().includes(qText) || m.desc.toLowerCase().includes(qText);
+        return okTab && okText;
       });
 
-      modGrid.innerHTML = list.map(m => `
-        <div class="mod-item ${m.enabled ? 'on' : ''}" data-id="${m.id}">
+      modListEl.innerHTML = items.map(m => `
+        <div class="mod-row ${m.enabled ? 'on' : ''}" data-id="${m.id}">
           <div>
-            <div class="mod-name">${m.name}</div>
-            <div class="mod-sub">${m.desc}</div>
+            <div class="mod-title">${m.name}</div>
+            <div class="mod-desc">${m.desc}</div>
           </div>
-          <button class="toggle-btn ${m.enabled ? 'on' : ''}" aria-label="Toggle ${m.name}"></button>
+          <button class="switch-btn ${m.enabled ? 'on' : ''}" aria-label="Toggle ${m.name}"></button>
         </div>
       `).join('');
     }
 
-    modGrid.addEventListener('click', (e) => {
-      const btn = e.target.closest('.toggle-btn');
+    modListEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.switch-btn');
       if (!btn) return;
-      const item = btn.closest('.mod-item');
-      const m = mods.find(x => x.id === item.dataset.id);
-      if (m) {
-        m.enabled = !m.enabled;
-        drawMods();
-        modStatus.textContent = `${m.name} ${m.enabled ? 'enabled' : 'disabled'} for TTMMario`;
+      const row = btn.closest('.mod-row');
+      const item = modData.find(x => x.id === row.dataset.id);
+      if (item) {
+        item.enabled = !item.enabled;
+        renderMods();
+        modFeedbackEl.textContent = `${item.name} ${item.enabled ? 'enabled' : 'disabled'} for TTMMario`;
       }
     });
 
-    document.querySelectorAll('.tab-pill').forEach(p => {
-      p.addEventListener('click', () => {
-        document.querySelectorAll('.tab-pill').forEach(x => x.classList.remove('active'));
-        p.classList.add('active');
-        curModTab = p.dataset.tab;
-        drawMods();
+    document.querySelectorAll('.mod-tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.mod-tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        curTab = t.dataset.tab;
+        renderMods();
       });
     });
 
     document.getElementById('mod-search').addEventListener('input', (e) => {
-      modQuery = e.target.value.trim().toLowerCase();
-      drawMods();
+      qText = e.target.value.trim().toLowerCase();
+      renderMods();
     });
 
-    drawMods();
+    renderMods();
 
     // FAQ Accordion
-    document.querySelectorAll('.faq-q').forEach(q => {
-      q.addEventListener('click', () => q.closest('.faq-card').classList.toggle('open'));
+    document.querySelectorAll('.faq-btn').forEach(b => {
+      b.addEventListener('click', () => b.closest('.faq-box').classList.toggle('open'));
     });
   </script>
 </body>
