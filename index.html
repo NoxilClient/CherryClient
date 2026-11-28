@@ -3,103 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CINDER — More Frames. Zero Overhead. (Rust Engine)</title>
+  <title>Drift Client — Launch Faster. Play Smoother.</title>
   <meta name="google-site-verification" content="C-coubP0ezr3zNbqv3HsPuMl9eZCJyWSmEqAWcMN_xg" />
-  <meta name="description" content="Cinder is a ground-up Rust-powered client revamp delivering high FPS, zero garbage collection stutters, native rendering, and clean HUD modules." />
-  <meta name="keywords" content="Cinder, Cinder Client, Rust Client, MC 26.2, MC 26.3, FPS Boost, Red Logo Client" />
+  <meta name="description" content="A lightweight, easy-to-use Minecraft client that keeps instances, mods, accounts, and settings together — so you can get in and play without the busywork." />
   <link rel="canonical" href="https://noxilclient.github.io/CherryClient/" />
 
-  <meta property="og:title" content="CINDER — More Frames. Zero Overhead." />
-  <meta property="og:description" content="Ground-up Rust rewrite with a sharp crimson identity, native rendering speed, and live telemetry." />
-  <meta property="og:type" content="website" />
-
-  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23160508'/%3E%3Cpolygon points='16,3 28,16 16,29 4,16' fill='none' stroke='%23ff2e4c' stroke-width='2.4'/%3E%3Cpath d='M20 11.5A5.5 5.5 0 1 0 20 20.5' fill='none' stroke='%23ff6b81' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Crect width='36' height='36' rx='9' fill='%23160708'/%3E%3Cpath d='M18 5L30 11L27.5 23.5L18 31L8.5 23.5L6 11L18 5Z' fill='%23ff5a5f' fill-opacity='0.14' stroke='%23ff5a5f' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='M11.5 14L18 17.5L24.5 14L22.5 22.5L18 26L13.5 22.5L11.5 14Z' fill='%23ff5a5f'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Default Red Theme (Cinder Crimson) */
+    /* Default Theme: Coral Crimson (matches reference red aesthetic) */
     :root,
     [data-theme="red"] {
-      --bg-base: #0d0406;
-      --bg-photo-filter: hue-rotate(-128deg) saturate(1.38) contrast(1.07) brightness(0.92);
-      --bg-tint-grad: radial-gradient(circle at 72% 45%, rgba(255, 46, 76, 0.25), transparent 58%),
-                      linear-gradient(180deg, rgba(13, 4, 6, 0.72) 0%, rgba(34, 6, 11, 0.56) 48%, rgba(9, 2, 4, 0.95) 100%);
-      --grid-line: rgba(255, 46, 76, 0.065);
-      --surface-card: rgba(22, 7, 11, 0.82);
-      --surface-box: rgba(25, 8, 12, 0.76);
-      --border-accent: rgba(255, 46, 76, 0.44);
+      --bg-base: #0a0708;
+      --bg-photo-filter: hue-rotate(-132deg) saturate(1.22) contrast(1.04) brightness(0.82);
+      --bg-tint-grad: radial-gradient(circle at 75% 30%, rgba(255, 90, 95, 0.14), transparent 55%),
+                      linear-gradient(180deg, rgba(10, 7, 8, 0.78) 0%, rgba(12, 8, 9, 0.74) 55%, rgba(8, 6, 7, 0.96) 100%);
+      --grid-line: rgba(255, 255, 255, 0.032);
+      --surface-card: rgba(18, 12, 14, 0.78);
+      --surface-pill: rgba(22, 15, 17, 0.78);
       --border-soft: rgba(255, 255, 255, 0.08);
-      --accent: #ff2e4c;
-      --accent-bright: #ff6b81;
-      --accent-soft: rgba(255, 46, 76, 0.18);
-      --text-accent: #ff6b81;
-      --btn-text: #180206;
-      --glow-rgb: 255, 46, 76;
-      --text-main: #fff5f6;
-      --text-muted: #c49fa5;
+      --border-accent: rgba(255, 90, 95, 0.42);
+      --accent: #ff5a5f;
+      --accent-hover: #ff6e73;
+      --accent-soft: rgba(255, 90, 95, 0.14);
+      --text-accent: #ff5a5f;
+      --btn-primary-text: #ffffff;
+      --glow-rgb: 255, 90, 95;
+      --text-main: #f4f4f6;
+      --text-muted: #9e9ea8;
+      --safe-green: #22c55e;
       --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    /* Emerald Theme */
-    [data-theme="emerald"] {
-      --bg-base: #040906;
-      --bg-photo-filter: saturate(1.15) contrast(1.05) brightness(0.95);
-      --bg-tint-grad: radial-gradient(circle at 72% 45%, rgba(0, 230, 91, 0.22), transparent 58%),
-                      linear-gradient(180deg, rgba(4, 10, 6, 0.70) 0%, rgba(5, 22, 12, 0.54) 48%, rgba(3, 8, 5, 0.94) 100%);
-      --grid-line: rgba(0, 230, 91, 0.055);
-      --surface-card: rgba(7, 19, 12, 0.80);
-      --surface-box: rgba(8, 22, 14, 0.74);
-      --border-accent: rgba(0, 230, 91, 0.38);
-      --accent: #00e65b;
-      --accent-bright: #38ff85;
-      --accent-soft: rgba(0, 230, 91, 0.16);
-      --text-accent: #22ff77;
-      --btn-text: #031108;
-      --glow-rgb: 0, 230, 91;
-      --text-main: #f4f7f5;
-      --text-muted: #9eb3a6;
     }
 
     /* Blue Theme */
     [data-theme="blue"] {
-      --bg-base: #040711;
-      --bg-photo-filter: hue-rotate(68deg) saturate(1.28) contrast(1.06) brightness(0.94);
-      --bg-tint-grad: radial-gradient(circle at 72% 45%, rgba(56, 189, 248, 0.24), transparent 58%),
-                      linear-gradient(180deg, rgba(4, 8, 18, 0.72) 0%, rgba(7, 20, 42, 0.56) 48%, rgba(3, 6, 14, 0.95) 100%);
-      --grid-line: rgba(56, 189, 248, 0.065);
-      --surface-card: rgba(8, 16, 32, 0.82);
-      --surface-box: rgba(9, 18, 36, 0.76);
-      --border-accent: rgba(56, 189, 248, 0.42);
+      --bg-base: #060911;
+      --bg-photo-filter: hue-rotate(68deg) saturate(1.25) contrast(1.05) brightness(0.82);
+      --bg-tint-grad: radial-gradient(circle at 75% 30%, rgba(56, 189, 248, 0.16), transparent 55%),
+                      linear-gradient(180deg, rgba(6, 9, 17, 0.78) 0%, rgba(8, 14, 26, 0.74) 55%, rgba(5, 7, 14, 0.96) 100%);
+      --grid-line: rgba(56, 189, 248, 0.045);
+      --surface-card: rgba(11, 18, 32, 0.80);
+      --surface-pill: rgba(13, 22, 38, 0.80);
+      --border-accent: rgba(56, 189, 248, 0.45);
       --accent: #38bdf8;
-      --accent-bright: #7dd3fc;
-      --accent-soft: rgba(56, 189, 248, 0.18);
-      --text-accent: #7dd3fc;
-      --btn-text: #03101c;
+      --accent-hover: #60c9fa;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --text-accent: #56c8fa;
+      --btn-primary-text: #04101c;
       --glow-rgb: 56, 189, 248;
       --text-main: #f1f5f9;
-      --text-muted: #9fb3c8;
+      --text-muted: #98abc0;
     }
 
-    /* Purple Theme */
-    [data-theme="purple"] {
-      --bg-base: #090514;
-      --bg-photo-filter: hue-rotate(115deg) saturate(1.25) contrast(1.06) brightness(0.94);
-      --bg-tint-grad: radial-gradient(circle at 72% 45%, rgba(168, 85, 247, 0.25), transparent 58%),
-                      linear-gradient(180deg, rgba(9, 5, 20, 0.72) 0%, rgba(22, 10, 44, 0.56) 48%, rgba(6, 3, 14, 0.95) 100%);
-      --grid-line: rgba(168, 85, 247, 0.065);
-      --surface-card: rgba(16, 9, 32, 0.82);
-      --surface-box: rgba(19, 11, 37, 0.76);
-      --border-accent: rgba(168, 85, 247, 0.44);
+    /* Emerald Theme */
+    [data-theme="emerald"] {
+      --bg-base: #050a07;
+      --bg-photo-filter: saturate(1.15) contrast(1.05) brightness(0.84);
+      --bg-tint-grad: radial-gradient(circle at 75% 30%, rgba(16, 185, 129, 0.15), transparent 55%),
+                      linear-gradient(180deg, rgba(5, 10, 7, 0.78) 0%, rgba(7, 16, 11, 0.74) 55%, rgba(4, 8, 6, 0.96) 100%);
+      --grid-line: rgba(16, 185, 129, 0.045);
+      --surface-card: rgba(10, 20, 14, 0.80);
+      --surface-pill: rgba(12, 24, 17, 0.80);
+      --border-accent: rgba(16, 185, 129, 0.45);
+      --accent: #10b981;
+      --accent-hover: #24cf96;
+      --accent-soft: rgba(16, 185, 129, 0.15);
+      --text-accent: #34d399;
+      --btn-primary-text: #03130d;
+      --glow-rgb: 16, 185, 129;
+      --text-main: #f0fdf4;
+      --text-muted: #96b0a2;
+    }
+
+    /* Violet Theme */
+    [data-theme="violet"] {
+      --bg-base: #090612;
+      --bg-photo-filter: hue-rotate(115deg) saturate(1.22) contrast(1.05) brightness(0.82);
+      --bg-tint-grad: radial-gradient(circle at 75% 30%, rgba(168, 85, 247, 0.16), transparent 55%),
+                      linear-gradient(180deg, rgba(9, 6, 18, 0.78) 0%, rgba(15, 9, 28, 0.74) 55%, rgba(7, 5, 14, 0.96) 100%);
+      --grid-line: rgba(168, 85, 247, 0.045);
+      --surface-card: rgba(17, 11, 30, 0.80);
+      --surface-pill: rgba(20, 13, 35, 0.80);
+      --border-accent: rgba(168, 85, 247, 0.45);
       --accent: #a855f7;
-      --accent-bright: #c084fc;
-      --accent-soft: rgba(168, 85, 247, 0.18);
+      --accent-hover: #b973fa;
+      --accent-soft: rgba(168, 85, 247, 0.15);
       --text-accent: #c084fc;
-      --btn-text: #110421;
+      --btn-primary-text: #120422;
       --glow-rgb: 168, 85, 247;
-      --text-main: #f8f5ff;
-      --text-muted: #b0a4c9;
+      --text-main: #faf5ff;
+      --text-muted: #aba0c4;
     }
 
     * {
@@ -123,7 +119,7 @@
       transition: background-color 0.35s var(--ease-smooth), color 0.35s var(--ease-smooth);
     }
 
-    /* Base background.png from repository + dynamic code color grading */
+    /* Repository background.png + code-driven color grading */
     .bg-photo {
       position: fixed;
       inset: 0;
@@ -152,35 +148,25 @@
       background-image:
         linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
         linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image: radial-gradient(ellipse 90% 80% at 55% 40%, #000 35%, transparent 100%);
-      -webkit-mask-image: radial-gradient(ellipse 90% 80% at 55% 40%, #000 35%, transparent 100%);
+      background-size: 52px 52px;
+      mask-image: radial-gradient(ellipse 92% 85% at 50% 35%, #000 35%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 92% 85% at 50% 35%, #000 35%, transparent 100%);
     }
 
-    #bg-fx-canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      will-change: transform;
-    }
-
-    /* Top Scroll Progress */
     .scroll-progress {
       position: fixed;
       top: 0;
       left: 0;
-      height: 2.5px;
+      height: 2px;
       width: 100%;
       transform-origin: left center;
       transform: scaleX(0);
-      background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+      background: var(--accent);
       z-index: 100;
       pointer-events: none;
       will-change: transform;
     }
 
-    /* Exact 1:1 Cursor Glow */
     .cursor-glow {
       position: fixed;
       top: 0;
@@ -192,8 +178,8 @@
       border-radius: 50%;
       background: radial-gradient(
         circle,
-        rgba(var(--glow-rgb), 0.18) 0%,
-        rgba(var(--glow-rgb), 0.06) 45%,
+        rgba(var(--glow-rgb), 0.16) 0%,
+        rgba(var(--glow-rgb), 0.05) 45%,
         transparent 72%
       );
       transform: translate3d(-9999px, -9999px, 0);
@@ -203,10 +189,9 @@
       mix-blend-mode: screen;
     }
 
-    /* Reveal Animations */
     .reveal {
       opacity: 0;
-      transform: translate3d(0, 18px, 0);
+      transform: translate3d(0, 16px, 0);
       transition: opacity 0.45s var(--ease-smooth), transform 0.45s var(--ease-smooth);
       will-change: opacity, transform;
     }
@@ -216,26 +201,26 @@
       transform: translate3d(0, 0, 0);
     }
 
-    /* Navbar */
+    /* Top Navigation Bar */
     header.topbar-wrap {
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(10, 4, 6, 0.74);
+      background: rgba(11, 8, 9, 0.72);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .topbar {
-      max-width: 1260px;
+      max-width: 1240px;
       margin: 0 auto;
       height: 68px;
-      padding: 0 24px;
+      padding: 0 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 18px;
     }
 
     .brand {
@@ -244,419 +229,287 @@
       gap: 11px;
       text-decoration: none;
       color: var(--text-main);
-      font-weight: 900;
-      font-size: 1.05rem;
-      letter-spacing: 0.1em;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
       flex-shrink: 0;
     }
 
-    .brand-logo-svg {
-      width: 32px;
-      height: 32px;
+    .brand-mark {
+      width: 30px;
+      height: 30px;
       flex-shrink: 0;
     }
 
-    .brand-logo-svg .logo-frame {
+    .brand-mark .mark-shell {
       stroke: var(--accent);
-      transition: stroke 0.3s ease;
+      fill: var(--accent-soft);
+      transition: stroke 0.3s ease, fill 0.3s ease;
     }
 
-    .brand-logo-svg .logo-core {
-      stroke: var(--accent-bright);
-      transition: stroke 0.3s ease;
+    .brand-mark .mark-core {
+      fill: var(--accent);
+      transition: fill 0.3s ease;
     }
 
-    .nav-center {
+    .nav-links {
       display: flex;
       align-items: center;
       gap: 24px;
     }
 
-    .nav-center a {
+    .nav-links a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.87rem;
+      font-size: 0.85rem;
       font-weight: 500;
       transition: color 0.16s ease;
     }
 
-    .nav-center a:hover {
+    .nav-links a:hover {
       color: var(--text-main);
     }
 
-    .nav-actions {
+    .header-right {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
-    .theme-switcher {
+    .theme-bar {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 7px;
+      padding: 3px 6px;
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .theme-dot-btn {
+    .theme-chip {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      border: 1px solid transparent;
+      border: none;
       background: transparent;
       color: var(--text-muted);
       font-family: inherit;
       font-size: 0.72rem;
-      font-weight: 700;
+      font-weight: 600;
       padding: 4px 8px;
       border-radius: 999px;
       cursor: pointer;
-      transition: all 0.16s ease;
+      transition: all 0.15s ease;
     }
 
-    .theme-dot-btn .swatch {
-      width: 8px;
-      height: 8px;
+    .theme-chip .dot {
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: var(--swatch-color);
-      box-shadow: 0 0 8px var(--swatch-color);
+      background: var(--chip-color);
     }
 
-    .theme-dot-btn.active {
+    .theme-chip.active {
       background: var(--accent-soft);
-      border-color: var(--border-accent);
       color: var(--text-accent);
     }
 
-    .btn-get-client {
+    .btn-top-download {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 8px 18px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      border: 1px solid var(--border-accent);
-      color: var(--text-accent);
+      padding: 9px 18px;
+      border-radius: 9px;
+      background: var(--accent);
+      color: var(--btn-primary-text);
       text-decoration: none;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 700;
-      transition: all 0.16s var(--ease-smooth);
+      box-shadow: 0 4px 18px rgba(var(--glow-rgb), 0.28);
+      transition: background 0.16s ease, transform 0.16s var(--ease-smooth);
     }
 
-    .btn-get-client:hover {
-      background: var(--accent);
-      color: var(--btn-text);
-      box-shadow: 0 0 22px rgba(var(--glow-rgb), 0.42);
+    .btn-top-download:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
     }
 
     /* Main Container */
-    .page-container {
+    .container {
       position: relative;
       z-index: 3;
-      max-width: 1260px;
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 0 24px;
+      padding: 0 28px;
     }
 
-    /* Hero 2-Column Split */
-    .hero-split {
-      padding: 68px 0 72px;
-      display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
-      gap: 48px;
+    /* Hero Section */
+    .hero {
+      padding: 76px 0 64px;
+      max-width: 660px;
+    }
+
+    .status-pills {
+      display: flex;
       align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
     }
 
-    .engine-pill {
+    .pill {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
+      gap: 7px;
+      padding: 6px 13px;
       border-radius: 999px;
-      background: var(--accent-soft);
-      border: 1px solid var(--border-accent);
-      color: var(--text-accent);
-      font-size: 0.73rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      transition: all 0.3s ease;
+      background: var(--surface-pill);
+      border: 1px solid var(--border-soft);
+      color: #c8c8d2;
+      font-size: 0.78rem;
+      font-weight: 500;
     }
 
-    .engine-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 8px var(--accent);
+    .pill.verified {
+      border-color: rgba(34, 197, 94, 0.35);
+      color: #86efac;
+      background: rgba(12, 34, 20, 0.75);
     }
 
-    h1.hero-title {
-      font-size: clamp(2.9rem, 5.5vw, 4.55rem);
+    .pill.verified svg {
+      color: var(--safe-green);
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    h1.hero-heading {
+      font-size: clamp(3rem, 6vw, 4.75rem);
       font-weight: 900;
-      letter-spacing: -0.035em;
-      line-height: 1.03;
+      letter-spacing: -0.04em;
+      line-height: 1.02;
       color: var(--text-main);
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
-    h1.hero-title span.accent-line {
+    h1.hero-heading .accent-word {
       display: block;
       color: var(--text-accent);
       transition: color 0.3s ease;
     }
 
-    .hero-desc {
-      color: var(--text-muted);
-      font-size: 1.03rem;
-      line-height: 1.65;
-      max-width: 530px;
-      margin-bottom: 28px;
-    }
-
-    .hero-desc strong {
+    .hero-tagline {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       color: var(--text-main);
+      margin-bottom: 14px;
     }
 
-    .hero-actions {
+    .hero-sub {
+      font-size: 1.02rem;
+      line-height: 1.65;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 30px;
+    }
+
+    .download-row {
       display: flex;
       align-items: center;
       gap: 14px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
-    .btn-download-os {
+    .btn-dl-primary {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 13px 24px;
-      border-radius: 10px;
+      gap: 12px;
+      padding: 13px 22px;
+      border-radius: 12px;
       background: var(--accent);
-      color: var(--btn-text);
-      font-weight: 800;
-      font-size: 0.94rem;
+      color: var(--btn-primary-text);
       text-decoration: none;
-      box-shadow: 0 8px 28px rgba(var(--glow-rgb), 0.3);
-      transition: transform 0.16s var(--ease-smooth), background 0.25s ease, box-shadow 0.2s ease;
+      box-shadow: 0 10px 28px rgba(var(--glow-rgb), 0.3);
+      transition: transform 0.16s var(--ease-smooth), background 0.16s ease, box-shadow 0.16s ease;
     }
 
-    .btn-download-os:hover {
-      background: var(--accent-bright);
+    .btn-dl-primary:hover {
+      background: var(--accent-hover);
       transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(var(--glow-rgb), 0.44);
+      box-shadow: 0 14px 34px rgba(var(--glow-rgb), 0.42);
     }
 
-    .os-icon-svg {
-      width: 19px;
-      height: 19px;
+    .btn-dl-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 22px;
+      border-radius: 12px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-soft);
+      color: var(--text-main);
+      text-decoration: none;
+      transition: transform 0.16s var(--ease-smooth), border-color 0.16s ease, background 0.16s ease;
+    }
+
+    .btn-dl-secondary:hover {
+      border-color: var(--border-accent);
+      background: rgba(26, 17, 20, 0.9);
+      transform: translateY(-2px);
+    }
+
+    .dl-icon {
+      width: 20px;
+      height: 20px;
       flex-shrink: 0;
     }
 
-    .btn-explore-arch {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 13px 22px;
-      border-radius: 10px;
-      background: rgba(12, 6, 8, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: var(--text-main);
-      font-weight: 600;
+    .dl-text-col {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      line-height: 1.18;
+    }
+
+    .dl-main {
       font-size: 0.92rem;
-      text-decoration: none;
-      transition: all 0.16s var(--ease-smooth);
+      font-weight: 700;
     }
 
-    .btn-explore-arch:hover {
-      border-color: var(--border-accent);
-      color: var(--text-accent);
+    .dl-sub {
+      font-size: 0.72rem;
+      opacity: 0.78;
+      margin-top: 2px;
     }
 
-    .platform-row {
+    .detected-bar {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       font-size: 0.78rem;
       color: var(--text-muted);
     }
 
-    .os-switch-mini {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(0, 0, 0, 0.38);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 999px;
-      padding: 2px 6px;
-    }
-
-    .os-mini-btn {
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: 0.71rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .os-mini-btn.active {
-      background: var(--accent-soft);
-      color: var(--text-accent);
-    }
-
-    /* Live Telemetry Card */
-    .telemetry-card {
-      background: var(--surface-card);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid var(--border-accent);
-      border-radius: 18px;
-      padding: 26px;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.65), 0 0 42px rgba(var(--glow-rgb), 0.09);
-      transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-    }
-
-    .telemetry-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .telemetry-heading {
-      font-size: 1rem;
-      font-weight: 800;
-      color: var(--text-main);
-    }
-
-    .telemetry-sub {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-
-    .runtime-toggle {
-      display: inline-flex;
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
-      padding: 3px;
-      gap: 3px;
-    }
-
-    .runtime-btn {
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .runtime-btn.active {
-      background: var(--accent);
-      color: var(--btn-text);
-    }
-
-    .preset-row {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .preset-btn {
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--text-muted);
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .preset-btn.active {
-      background: var(--accent-soft);
-      border-color: var(--border-accent);
-      color: var(--text-accent);
-    }
-
-    .telemetry-metrics {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .metric-row {
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .metric-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
-    }
-
-    .metric-name {
-      color: var(--text-main);
-      opacity: 0.88;
-      font-weight: 500;
-    }
-
-    .metric-number {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      color: var(--text-accent);
-      font-variant-numeric: tabular-nums;
-      transition: color 0.3s ease;
-    }
-
-    .metric-bar-bg {
+    .detected-bar .live-dot {
+      width: 6px;
       height: 6px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      overflow: hidden;
+      border-radius: 50%;
+      background: var(--text-accent);
     }
 
-    .metric-bar-fill {
-      height: 100%;
-      border-radius: 999px;
-      background: var(--accent);
-      transition: width 0.35s var(--ease-smooth), background 0.3s ease;
-      will-change: width;
+    /* Sections */
+    section.block {
+      padding: 56px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* Extra Sections */
-    .section-block {
-      padding: 58px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .sec-tag {
+    .sec-kicker {
       font-size: 0.74rem;
-      font-weight: 800;
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-accent);
@@ -664,48 +517,49 @@
     }
 
     .sec-title {
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-size: clamp(1.5rem, 2.8vw, 2.05rem);
       font-weight: 800;
       letter-spacing: -0.025em;
       color: var(--text-main);
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
 
-    .grid-3 {
+    .cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
     }
 
-    .cinder-panel {
-      background: var(--surface-box);
+    .card {
+      background: var(--surface-card);
       backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid var(--border-soft);
-      border-radius: 16px;
+      border-radius: 14px;
       padding: 20px;
       transition: border-color 0.2s ease, transform 0.16s var(--ease-smooth), background 0.35s ease;
     }
 
-    .cinder-panel:hover {
+    .card:hover {
       border-color: var(--border-accent);
       transform: translateY(-2px);
     }
 
-    .cinder-panel h3 {
+    .card h3 {
       font-size: 0.98rem;
       font-weight: 700;
       color: var(--text-main);
       margin-bottom: 8px;
     }
 
-    .cinder-panel p {
+    .card p {
       font-size: 0.86rem;
       color: var(--text-muted);
       line-height: 1.6;
     }
 
-    /* Interactive Modules */
-    .mod-toolbar {
+    /* Mod Explorer */
+    .mod-controls {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -714,41 +568,41 @@
       margin-bottom: 16px;
     }
 
-    .mod-tabs {
+    .tab-group {
       display: inline-flex;
       gap: 8px;
     }
 
-    .mod-tab {
-      padding: 7px 15px;
+    .tab-btn {
+      padding: 7px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border-soft);
       background: rgba(255, 255, 255, 0.03);
       color: var(--text-muted);
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.8rem;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.15s ease;
     }
 
-    .mod-tab.active {
+    .tab-btn.active {
       background: var(--accent-soft);
       border-color: var(--border-accent);
       color: var(--text-accent);
     }
 
-    .mod-search-wrap {
+    .search-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 999px;
       padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-soft);
       min-width: 210px;
     }
 
-    .mod-search-wrap input {
+    .search-pill input {
       background: transparent;
       border: none;
       outline: none;
@@ -757,15 +611,15 @@
       width: 100%;
     }
 
-    .mod-list {
+    .mod-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 11px;
+      gap: 10px;
     }
 
-    .mod-row {
-      background: rgba(0, 0, 0, 0.34);
-      border: 1px solid rgba(255, 255, 255, 0.07);
+    .mod-item {
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 12px;
       padding: 13px 16px;
       display: flex;
@@ -775,12 +629,12 @@
       transition: border-color 0.15s ease;
     }
 
-    .mod-row.on {
+    .mod-item.active {
       border-color: var(--border-accent);
     }
 
-    .mod-title {
-      font-size: 0.9rem;
+    .mod-name {
+      font-size: 0.88rem;
       font-weight: 700;
       color: var(--text-main);
     }
@@ -791,9 +645,9 @@
       margin-top: 2px;
     }
 
-    .switch-btn {
-      width: 40px;
-      height: 22px;
+    .toggle {
+      width: 38px;
+      height: 21px;
       border-radius: 999px;
       border: none;
       background: rgba(255, 255, 255, 0.16);
@@ -803,92 +657,40 @@
       transition: background 0.16s ease;
     }
 
-    .switch-btn::after {
+    .toggle::after {
       content: '';
       position: absolute;
       top: 2px;
       left: 2px;
-      width: 18px;
-      height: 18px;
+      width: 17px;
+      height: 17px;
       border-radius: 50%;
       background: #ffffff;
       transition: transform 0.18s var(--ease-smooth);
     }
 
-    .switch-btn.on {
+    .toggle.active {
       background: var(--accent);
     }
 
-    .switch-btn.on::after {
-      transform: translateX(18px);
+    .toggle.active::after {
+      transform: translateX(17px);
     }
 
-    .mod-feedback {
+    .mod-note {
       margin-top: 12px;
       font-size: 0.8rem;
       color: var(--text-accent);
       min-height: 18px;
     }
 
-    /* FAQ */
-    .faq-items {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .faq-box {
-      background: var(--surface-box);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--border-soft);
-      border-radius: 14px;
-      overflow: hidden;
-    }
-
-    .faq-btn {
-      width: 100%;
-      padding: 17px 20px;
-      background: transparent;
-      border: none;
-      color: var(--text-main);
-      font-family: inherit;
-      font-size: 0.94rem;
-      font-weight: 600;
-      text-align: left;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .faq-body {
-      display: grid;
-      grid-template-rows: 0fr;
-      transition: grid-template-rows 0.25s var(--ease-smooth);
-    }
-
-    .faq-box.open .faq-body {
-      grid-template-rows: 1fr;
-    }
-
-    .faq-inner {
-      overflow: hidden;
-    }
-
-    .faq-text {
-      padding: 0 20px 18px;
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-    }
-
     footer {
       position: relative;
       z-index: 3;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 26px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 26px 28px;
       text-align: center;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
     }
 
@@ -909,24 +711,22 @@
     }
 
     @media (max-width: 1080px) {
-      .nav-center {
+      .nav-links {
         display: none;
       }
     }
 
-    @media (max-width: 940px) {
-      .hero-split {
+    @media (max-width: 900px) {
+      .cards-grid {
         grid-template-columns: 1fr;
-        padding-top: 44px;
-        gap: 32px;
       }
-      .grid-3 {
-        grid-template-columns: 1fr;
+      .hero {
+        padding-top: 52px;
       }
     }
 
-    @media (max-width: 680px) {
-      .mod-list {
+    @media (max-width: 640px) {
+      .mod-grid {
         grid-template-columns: 1fr;
       }
       .cursor-glow {
@@ -939,399 +739,248 @@
   <div class="bg-photo" id="bg-photo"></div>
   <div class="bg-tint"></div>
   <div class="bg-grid"></div>
-  <canvas id="bg-fx-canvas"></canvas>
   <div class="scroll-progress" id="scroll-progress"></div>
   <div class="cursor-glow" id="cursor-glow"></div>
 
-  <!-- Top Navigation -->
+  <!-- Header -->
   <header class="topbar-wrap">
     <div class="topbar">
       <a href="#" class="brand">
-        <svg class="brand-logo-svg" viewBox="0 0 32 32" fill="none">
-          <polygon class="logo-frame" points="16,3 28,16 16,29 4,16" stroke-width="2.2" fill="rgba(255,255,255,0.03)"/>
-          <path class="logo-core" d="M20.5 11.5A5.5 5.5 0 1 0 20.5 20.5" stroke-width="2.4" stroke-linecap="round"/>
+        <!-- Custom Red Shield / Visor Emblem -->
+        <svg class="brand-mark" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+          <path class="mark-shell" d="M18 4L30.5 10.2L27.8 23.8L18 32L8.2 23.8L5.5 10.2L18 4Z" stroke-width="2.1" stroke-linejoin="round"/>
+          <path class="mark-core" d="M11 13.5L18 17.5L25 13.5L23 22.5L18 26.8L13 22.5L11 13.5Z"/>
         </svg>
-        <span>CINDER</span>
+        <span>Drift Client</span>
       </a>
 
-      <nav class="nav-center">
+      <nav class="nav-links">
         <a href="#features">Features</a>
-        <a href="#architecture">Architecture</a>
-        <a href="#faq">FAQ</a>
-        <a href="#versions">Versions</a>
+        <a href="#mods">Mods</a>
+        <a href="#customize">Customize</a>
+        <a href="#performance">Performance</a>
+        <a href="#free">Free</a>
+        <a href="#security">Security</a>
+        <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>
       </nav>
 
-      <div class="nav-actions">
-        <div class="theme-switcher" id="theme-switcher" aria-label="Theme color switcher">
-          <button class="theme-dot-btn active" data-theme-val="red" style="--swatch-color:#ff2e4c;">
-            <span class="swatch"></span><span>Red</span>
+      <div class="header-right">
+        <div class="theme-bar" id="theme-bar" aria-label="Color theme">
+          <button class="theme-chip active" data-theme-val="red" style="--chip-color:#ff5a5f;">
+            <span class="dot"></span><span>Red</span>
           </button>
-          <button class="theme-dot-btn" data-theme-val="emerald" style="--swatch-color:#00e65b;">
-            <span class="swatch"></span><span>Emerald</span>
+          <button class="theme-chip" data-theme-val="blue" style="--chip-color:#38bdf8;">
+            <span class="dot"></span><span>Blue</span>
           </button>
-          <button class="theme-dot-btn" data-theme-val="blue" style="--swatch-color:#38bdf8;">
-            <span class="swatch"></span><span>Blue</span>
+          <button class="theme-chip" data-theme-val="emerald" style="--chip-color:#10b981;">
+            <span class="dot"></span><span>Emerald</span>
           </button>
-          <button class="theme-dot-btn" data-theme-val="purple" style="--swatch-color:#a855f7;">
-            <span class="swatch"></span><span>Purple</span>
+          <button class="theme-chip" data-theme-val="violet" style="--chip-color:#a855f7;">
+            <span class="dot"></span><span>Violet</span>
           </button>
         </div>
 
-        <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-get-client">Get Client</a>
+        <a href="#downloads" class="btn-top-download">Download Now</a>
       </div>
     </div>
   </header>
 
-  <main class="page-container">
-    <!-- Hero Split -->
-    <section class="hero-split reveal visible">
-      <div>
-        <div class="engine-pill">
-          <span class="engine-dot"></span>
-          <span>RUST ENGINE • MC 26.2 &amp; 26.3 READY</span>
-        </div>
-
-        <h1 class="hero-title">
-          More Frames.
-          <span class="accent-line">Zero Overhead.</span>
-        </h1>
-
-        <p class="hero-desc">
-          <strong>Cinder</strong> is a ground-up rewrite in Rust with a sharp crimson identity. Ditch JVM garbage collection stutters and unlock native rendering speed.
-        </p>
-
-        <div class="hero-actions">
-          <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-download-os" id="os-download-btn">
-            <span id="os-icon-slot"></span>
-            <span id="os-label-slot">Download for Linux</span>
-          </a>
-          <a href="#architecture" class="btn-explore-arch">Explore Architecture</a>
-        </div>
-
-        <div class="platform-row">
-          <span id="os-caption-slot">Linux x86_64 detected • Native AppImage &amp; Tarball</span>
-          <div class="os-switch-mini" id="os-switch-mini">
-            <button class="os-mini-btn active" data-os="linux">Linux</button>
-            <button class="os-mini-btn" data-os="windows">Windows</button>
-            <button class="os-mini-btn" data-os="macos">macOS</button>
-          </div>
-        </div>
+  <main class="container">
+    <!-- Hero -->
+    <section id="downloads" class="hero reveal visible">
+      <div class="status-pills">
+        <span class="pill">Native Minecraft client</span>
+        <span class="pill verified">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M12 3l7 3v6c0 5-3 8.5-7 10-4-1.5-7-5-7-10V6l7-3z"/>
+            <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>VirusTotal 0/62</span>
+        </span>
+        <span class="pill">100 MB footprint</span>
       </div>
 
-      <!-- Live Telemetry Panel -->
-      <aside class="telemetry-card">
-        <div class="telemetry-top">
-          <div>
-            <div class="telemetry-heading">Live Telemetry</div>
-            <div class="telemetry-sub" id="telemetry-sub">32 Chunks • 1440p</div>
-          </div>
+      <h1 class="hero-heading">
+        Drift
+        <span class="accent-word">Client.</span>
+      </h1>
 
-          <div class="runtime-toggle" id="runtime-toggle">
-            <button class="runtime-btn active" data-runtime="cinder">Cinder (Rust)</button>
-            <button class="runtime-btn" data-runtime="vanilla">Vanilla (Java)</button>
-          </div>
-        </div>
+      <div class="hero-tagline">Launch Faster. Play Smoother.</div>
 
-        <div class="preset-row" id="preset-row">
-          <button class="preset-btn active" data-preset="integrated">Integrated</button>
-          <button class="preset-btn" data-preset="laptop">Laptop</button>
-          <button class="preset-btn" data-preset="midrange">Midrange</button>
-          <button class="preset-btn" data-preset="high">High PC</button>
-        </div>
+      <p class="hero-sub">
+        A lightweight, easy-to-use Minecraft client that keeps instances, mods, accounts, and settings together — so you can get in and play without the busywork.
+      </p>
 
-        <div class="telemetry-metrics">
-          <div class="metric-row">
-            <div class="metric-header">
-              <span class="metric-name">Average Framerate</span>
-              <span class="metric-number" id="val-fps">840 FPS</span>
-            </div>
-            <div class="metric-bar-bg">
-              <div class="metric-bar-fill" id="bar-fps" style="width: 82%;"></div>
-            </div>
-          </div>
+      <div class="download-row">
+        <!-- Linux Button (with authentic Linux penguin SVG) -->
+        <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-dl-primary" id="btn-linux">
+          <svg class="dl-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2c-2.1 0-3.5 1.8-3.5 4.2 0 1.4.4 2.7.2 4-.5 1.7-2.2 3.1-2.8 5-.5 1.5-.1 3.2.8 4.4.8 1.1 2 1.8 3.3 2 .7.1 1.4-.1 2-.4.6.3 1.3.5 2 .4 1.3-.2 2.5-.9 3.3-2 .9-1.2 1.3-2.9.8-4.4-.6-1.9-2.3-3.3-2.8-5-.2-1.3.2-2.6.2-4C15.5 3.8 14.1 2 12 2zm-1.6 4.4a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zm3.2 0a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zM12 9.2c.9 0 1.8.4 2.2 1.1-.6.6-1.4.9-2.2.9s-1.6-.3-2.2-.9c.4-.7 1.3-1.1 2.2-1.1z"/>
+          </svg>
+          <span class="dl-text-col">
+            <span class="dl-main">Download for Linux</span>
+            <span class="dl-sub">v1.3 (x64 .zip)</span>
+          </span>
+        </a>
 
-          <div class="metric-row">
-            <div class="metric-header">
-              <span class="metric-name">1% Low Frametime Stability</span>
-              <span class="metric-number" id="val-low">99.4%</span>
-            </div>
-            <div class="metric-bar-bg">
-              <div class="metric-bar-fill" id="bar-low" style="width: 97%;"></div>
-            </div>
-          </div>
+        <!-- Windows Button (with authentic Windows grid SVG) -->
+        <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-dl-secondary" id="btn-windows">
+          <svg class="dl-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M3 5.5L10.5 4.4V11.3H3V5.5zm8.5-1.2L21 2.8V11.3H11.5V4.3zM3 12.3H10.5V19.2L3 18.1V12.3zm8.5 0H21V20.8L11.5 19.3V12.3z"/>
+          </svg>
+          <span class="dl-text-col">
+            <span class="dl-main">Download for Windows (.exe)</span>
+            <span class="dl-sub">v1.3 • Windows 64-bit</span>
+          </span>
+        </a>
+      </div>
 
-          <div class="metric-row">
-            <div class="metric-header">
-              <span class="metric-name">Memory Footprint</span>
-              <span class="metric-number" id="val-mem">380 MB</span>
-            </div>
-            <div class="metric-bar-bg">
-              <div class="metric-bar-fill" id="bar-mem" style="width: 34%;"></div>
-            </div>
-          </div>
-
-          <div class="metric-row">
-            <div class="metric-header">
-              <span class="metric-name">GC Spike Latency</span>
-              <span class="metric-number" id="val-gc">0.0 ms</span>
-            </div>
-            <div class="metric-bar-bg">
-              <div class="metric-bar-fill" id="bar-gc" style="width: 4%;"></div>
-            </div>
-          </div>
-        </div>
-      </aside>
+      <div class="detected-bar">
+        <span class="live-dot"></span>
+        <span id="detected-os-text">Detecting platform...</span>
+      </div>
     </section>
 
-    <!-- Features & Interactive Modules -->
-    <section id="features" class="section-block reveal">
-      <div class="sec-tag">Features &amp; Modules</div>
-      <h2 class="sec-title">Clean HUD &amp; Visual Controls</h2>
+    <!-- Features -->
+    <section id="features" class="block reveal">
+      <div class="sec-kicker">Features</div>
+      <h2 class="sec-title">Everything in One Clean Workspace</h2>
+      <div class="cards-grid">
+        <div class="card">
+          <h3>Isolated Instances</h3>
+          <p>Keep separate profiles, versions, and configurations cleanly organized without cluttering your main directory.</p>
+        </div>
+        <div class="card">
+          <h3>Fast Account Switching</h3>
+          <p>Manage accounts and jump back into servers in seconds with minimal interface overhead.</p>
+        </div>
+        <div class="card">
+          <h3>Lightweight Footprint</h3>
+          <p>Designed around a compact ~100 MB footprint so your system resources stay focused on gameplay.</p>
+        </div>
+      </div>
+    </section>
 
-      <div class="cinder-panel">
-        <div class="mod-toolbar">
-          <div class="mod-tabs">
-            <button class="mod-tab active" data-tab="HUD">HUD</button>
-            <button class="mod-tab" data-tab="Visuals">Visuals</button>
+    <!-- Mods -->
+    <section id="mods" class="block reveal">
+      <div class="sec-kicker">Mods</div>
+      <h2 class="sec-title">Quick Module Controls</h2>
+      <div class="card">
+        <div class="mod-controls">
+          <div class="tab-group">
+            <button class="tab-btn active" data-tab="HUD">HUD</button>
+            <button class="tab-btn" data-tab="Visuals">Visuals</button>
           </div>
-          <div class="mod-search-wrap">
+          <div class="search-pill">
             <span>⌕</span>
-            <input type="text" id="mod-search" placeholder="Search modules..." />
+            <input type="text" id="mod-search" placeholder="Search mods..." />
           </div>
         </div>
-
-        <div class="mod-list" id="mod-list"></div>
-        <div class="mod-feedback" id="mod-feedback"></div>
+        <div class="mod-grid" id="mod-grid"></div>
+        <div class="mod-note" id="mod-note"></div>
       </div>
     </section>
 
-    <!-- Architecture -->
-    <section id="architecture" class="section-block reveal">
-      <div class="sec-tag">Architecture</div>
-      <h2 class="sec-title">Native Rust &amp; Vulkan/WGPU Pipeline</h2>
-
-      <div class="grid-3">
-        <div class="cinder-panel">
-          <h3>Zero Garbage Collection</h3>
-          <p>Written in Rust with deterministic memory ownership so frame pacing never stalls during heavy rendering or chunk updates.</p>
+    <!-- Customize & Performance -->
+    <section id="customize" class="block reveal">
+      <div class="sec-kicker">Customize</div>
+      <h2 class="sec-title">Adaptive Accent &amp; Background Tone</h2>
+      <div class="cards-grid">
+        <div class="card">
+          <h3>Live Color Themes</h3>
+          <p>Switch themes above to tint the background image, update the browser tab favicon, and match accents automatically.</p>
         </div>
-        <div class="cinder-panel">
-          <h3>Vulkan / WGPU Speed</h3>
-          <p>Batched GPU command submission and tight data layout deliver up to 3x higher throughput than legacy clients.</p>
+        <div id="performance" class="card">
+          <h3>Smooth Frame Delivery</h3>
+          <p>Built for responsive launches, low overhead, and steady frame pacing across sessions.</p>
         </div>
-        <div class="cinder-panel">
-          <h3>Safe OAuth &amp; Local Config</h3>
-          <p>External browser Microsoft OAuth sign-in with zero password storage and instant local module presets.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="section-block reveal">
-      <div class="sec-tag">FAQ</div>
-      <h2 class="sec-title">Frequently Asked Questions</h2>
-
-      <div class="faq-items">
-        <div class="faq-box open">
-          <button class="faq-btn">
-            <span>Why rewrite Cinder in Rust instead of Java?</span>
-            <span>+</span>
-          </button>
-          <div class="faq-body">
-            <div class="faq-inner">
-              <div class="faq-text">
-                Rust eliminates garbage collection pauses, keeps memory usage low (~380 MB), and gives direct control over rendering buffers for smooth frame times.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="faq-box">
-          <button class="faq-btn">
-            <span>Which Minecraft versions and platforms are supported?</span>
-            <span>+</span>
-          </button>
-          <div class="faq-body">
-            <div class="faq-inner">
-              <div class="faq-text">
-                Built for MC 26.2 &amp; 26.3 (and compatible editions) with native builds for Linux, Windows, and macOS.
-              </div>
-            </div>
-          </div>
+        <div id="free" class="card">
+          <h3>Free &amp; Accessible</h3>
+          <p>No paywalls on core client features — grab the build for your platform and start playing.</p>
         </div>
       </div>
     </section>
 
-    <!-- Versions -->
-    <section id="versions" class="section-block reveal">
-      <div class="sec-tag">Versions</div>
-      <h2 class="sec-title">Supported Builds</h2>
-
-      <div class="grid-3">
-        <div class="cinder-panel">
-          <h3>MC 26.3 Ready</h3>
-          <p>Latest Rust render pipeline with full HUD and visual module support.</p>
-        </div>
-        <div class="cinder-panel">
-          <h3>MC 26.2 Ready</h3>
-          <p>High-stability build with low memory footprint and zero GC spike latency.</p>
-        </div>
-        <div class="cinder-panel">
-          <h3>Linux, Windows &amp; macOS</h3>
-          <p>Native releases available via our official <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
-        </div>
+    <!-- Security -->
+    <section id="security" class="block reveal">
+      <div class="sec-kicker">Security</div>
+      <h2 class="sec-title">Clean &amp; Transparent</h2>
+      <div class="card">
+        <h3>VirusTotal 0/62</h3>
+        <p>Clean scan results with no adware or unnecessary background processes. Join the <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a> for releases and updates.</p>
       </div>
     </section>
   </main>
 
   <footer>
-    <span>© 2026 CINDER • Rust Engine</span> • <a href="#features">Features</a> • <a href="#architecture">Architecture</a> • <a href="#faq">FAQ</a> • <a href="#versions">Versions</a>
+    <span>© 2026 Drift Client</span> • <a href="#features">Features</a> • <a href="#mods">Mods</a> • <a href="#security">Security</a> • <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>
   </footer>
 
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // 1. OS Auto-Detection + Authentic Linux / Windows / macOS SVG Logos
-    const osConfigs = {
-      linux: {
-        label: 'Download for Linux',
-        caption: 'Linux x86_64 detected • Native AppImage & Tarball',
-        svg: `<svg class="os-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 2c-2.1 0-3.5 1.8-3.5 4.2 0 1.4.4 2.7.2 4-.5 1.7-2.2 3.1-2.8 5-.5 1.5-.1 3.2.8 4.4.8 1.1 2 1.8 3.3 2 .7.1 1.4-.1 2-.4.6.3 1.3.5 2 .4 1.3-.2 2.5-.9 3.3-2 .9-1.2 1.3-2.9.8-4.4-.6-1.9-2.3-3.3-2.8-5-.2-1.3.2-2.6.2-4C15.5 3.8 14.1 2 12 2zm-1.6 4.4a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zm3.2 0a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zM12 9.2c.9 0 1.8.4 2.2 1.1-.6.6-1.4.9-2.2.9s-1.6-.3-2.2-.9c.4-.7 1.3-1.1 2.2-1.1z"/>
-        </svg>`
-      },
-      windows: {
-        label: 'Download for Windows',
-        caption: 'Windows x64 detected • Native Installer & Portable EXE',
-        svg: `<svg class="os-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M3 5.5L10.5 4.4V11.3H3V5.5zm8.5-1.2L21 2.8V11.3H11.5V4.3zM3 12.3H10.5V19.2L3 18.1V12.3zm8.5 0H21V20.8L11.5 19.3V12.3z"/>
-        </svg>`
-      },
-      macos: {
-        label: 'Download for macOS',
-        caption: 'macOS Apple Silicon & Intel detected • Native DMG',
-        svg: `<svg class="os-icon-svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M16.36 12.64c-.03-2.55 2.08-3.78 2.18-3.84-1.19-1.74-3.04-1.98-3.7-2-1.57-.16-3.09.94-3.89.94-.81 0-2.05-.92-3.38-.89-1.73.03-3.34 1.02-4.23 2.58-1.81 3.14-.46 7.78 1.29 10.32.86 1.24 1.88 2.63 3.22 2.58 1.29-.05 1.78-.83 3.34-.83 1.56 0 2 .83 3.36.8 1.39-.02 2.27-1.26 3.12-2.51.99-1.44 1.4-2.84 1.42-2.91-.03-.01-2.72-1.04-2.75-4.14zM13.84 5.21c.71-.86 1.19-2.06 1.06-3.26-1.02.04-2.27.68-3 1.54-.65.75-1.22 1.98-1.07 3.15 1.14.09 2.3-.58 3.01-1.43z"/>
-        </svg>`
-      }
-    };
-
-    function detectUserOS() {
+    // 1. OS Detection highlight
+    (function highlightDetectedOS() {
       const ua = navigator.userAgent || '';
       const platform = navigator.platform || '';
-      if (/Win/i.test(platform) || /Windows/i.test(ua)) return 'windows';
-      if (/Mac/i.test(platform) || /Macintosh|Mac OS X/i.test(ua)) return 'macos';
-      return 'linux';
-    }
+      const textEl = document.getElementById('detected-os-text');
+      const winBtn = document.getElementById('btn-windows');
+      const linBtn = document.getElementById('btn-linux');
 
-    const osIconSlot = document.getElementById('os-icon-slot');
-    const osLabelSlot = document.getElementById('os-label-slot');
-    const osCaptionSlot = document.getElementById('os-caption-slot');
+      if (/Win/i.test(platform) || /Windows/i.test(ua)) {
+        textEl.textContent = 'Windows x64 detected • Recommended: Download for Windows (.exe)';
+        winBtn.classList.replace('btn-dl-secondary', 'btn-dl-primary');
+        linBtn.classList.replace('btn-dl-primary', 'btn-dl-secondary');
+      } else if (/Mac/i.test(platform) || /Macintosh|Mac OS X/i.test(ua)) {
+        textEl.textContent = 'macOS detected • Native build available via Discord';
+      } else {
+        textEl.textContent = 'Linux x86_64 detected • Recommended: Download for Linux';
+      }
+    })();
 
-    function applyOS(osKey) {
-      const cfg = osConfigs[osKey] || osConfigs.linux;
-      osIconSlot.innerHTML = cfg.svg;
-      osLabelSlot.textContent = cfg.label;
-      osCaptionSlot.textContent = cfg.caption;
-      document.querySelectorAll('.os-mini-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.os === osKey);
-      });
-    }
-
-    document.querySelectorAll('.os-mini-btn').forEach(btn => {
-      btn.addEventListener('click', () => applyOS(btn.dataset.os));
-    });
-
-    applyOS(detectUserOS());
-
-    // 2. Dynamic Theme System (Updates background.png, browser favicon, glow, canvas & text colors)
-    const themeConfigs = {
-      red:     { rgb: '255, 46, 76',  hex: '#ff2e4c', core: '#ff6b81', bg: '#160508', filter: 'hue-rotate(-128deg) saturate(1.38) contrast(1.07) brightness(0.92)' },
-      emerald: { rgb: '0, 230, 91',   hex: '#00e65b', core: '#38ff85', bg: '#041209', filter: 'saturate(1.15) contrast(1.05) brightness(0.95)' },
-      blue:    { rgb: '56, 189, 248', hex: '#38bdf8', core: '#7dd3fc', bg: '#051324', filter: 'hue-rotate(68deg) saturate(1.28) contrast(1.06) brightness(0.94)' },
-      purple:  { rgb: '168, 85, 247', hex: '#a855f7', core: '#c084fc', bg: '#110624', filter: 'hue-rotate(115deg) saturate(1.25) contrast(1.06) brightness(0.94)' }
+    // 2. Dynamic Theme System (Updates background.png filter/tint, favicon & accent tokens)
+    const themes = {
+      red:     { rgb: '255, 90, 95',  hex: '#ff5a5f', bg: '#160708', filter: 'hue-rotate(-132deg) saturate(1.22) contrast(1.04) brightness(0.82)' },
+      blue:    { rgb: '56, 189, 248', hex: '#38bdf8', bg: '#061222', filter: 'hue-rotate(68deg) saturate(1.25) contrast(1.05) brightness(0.82)' },
+      emerald: { rgb: '16, 185, 129', hex: '#10b981', bg: '#05150e', filter: 'saturate(1.15) contrast(1.05) brightness(0.84)' },
+      violet:  { rgb: '168, 85, 247', hex: '#a855f7', bg: '#110622', filter: 'hue-rotate(115deg) saturate(1.22) contrast(1.05) brightness(0.82)' }
     };
 
-    let activeThemeRgb = themeConfigs.red.rgb;
     const bgPhotoEl = document.getElementById('bg-photo');
     const faviconEl = document.getElementById('dynamic-favicon');
 
-    function updateBrowserFavicon(hex, coreHex, bgHex) {
-      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='${encodeURIComponent(bgHex)}'/><polygon points='16,3 28,16 16,29 4,16' fill='none' stroke='${encodeURIComponent(hex)}' stroke-width='2.4'/><path d='M20.5 11.5A5.5 5.5 0 1 0 20.5 20.5' fill='none' stroke='${encodeURIComponent(coreHex)}' stroke-width='2.5' stroke-linecap='round'/></svg>`;
+    function setFavicon(hex, bgHex) {
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><rect width='36' height='36' rx='9' fill='${encodeURIComponent(bgHex)}'/><path d='M18 4L30.5 10.2L27.8 23.8L18 32L8.2 23.8L5.5 10.2L18 4Z' fill='${encodeURIComponent(hex)}' fill-opacity='0.16' stroke='${encodeURIComponent(hex)}' stroke-width='2.1' stroke-linejoin='round'/><path d='M11 13.5L18 17.5L25 13.5L23 22.5L18 26.8L13 22.5L11 13.5Z' fill='${encodeURIComponent(hex)}'/></svg>`;
       faviconEl.href = `data:image/svg+xml,${svg}`;
     }
 
-    function applyTheme(themeName) {
-      const cfg = themeConfigs[themeName] || themeConfigs.red;
-      document.documentElement.setAttribute('data-theme', themeName);
-      document.body.setAttribute('data-theme', themeName);
-      activeThemeRgb = cfg.rgb;
+    function applyTheme(name) {
+      const cfg = themes[name] || themes.red;
+      document.documentElement.setAttribute('data-theme', name);
+      document.body.setAttribute('data-theme', name);
       bgPhotoEl.style.filter = cfg.filter;
-      updateBrowserFavicon(cfg.hex, cfg.core, cfg.bg);
+      setFavicon(cfg.hex, cfg.bg);
 
-      document.querySelectorAll('.theme-dot-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.themeVal === themeName);
+      document.querySelectorAll('.theme-chip').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.themeVal === name);
       });
 
-      try { localStorage.setItem('cinder_theme', themeName); } catch (_) {}
+      try { localStorage.setItem('drift_theme', name); } catch (_) {}
     }
 
-    document.querySelectorAll('.theme-dot-btn').forEach(btn => {
+    document.querySelectorAll('.theme-chip').forEach(btn => {
       btn.addEventListener('click', () => applyTheme(btn.dataset.themeVal));
     });
 
     try {
-      const savedTheme = localStorage.getItem('cinder_theme');
-      if (savedTheme && themeConfigs[savedTheme]) applyTheme(savedTheme);
-      else updateBrowserFavicon(themeConfigs.red.hex, themeConfigs.red.core, themeConfigs.red.bg);
+      const saved = localStorage.getItem('drift_theme');
+      if (saved && themes[saved]) applyTheme(saved);
+      else setFavicon(themes.red.hex, themes.red.bg);
     } catch (_) {
-      updateBrowserFavicon(themeConfigs.red.hex, themeConfigs.red.core, themeConfigs.red.bg);
+      setFavicon(themes.red.hex, themes.red.bg);
     }
 
-    // 3. Ambient Background Atmosphere Canvas
-    const fxCanvas = document.getElementById('bg-fx-canvas');
-    const fxCtx = fxCanvas.getContext('2d');
-    if (!prefersReducedMotion) {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-      function resizeFx() {
-        fxCanvas.width = Math.floor(window.innerWidth * dpr);
-        fxCanvas.height = Math.floor(window.innerHeight * dpr);
-        fxCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      window.addEventListener('resize', resizeFx, { passive: true });
-      resizeFx();
-
-      const motes = Array.from({ length: window.innerWidth < 768 ? 10 : 18 }, () => ({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        r: 1.5 + Math.random() * 2.5,
-        vy: -(0.18 + Math.random() * 0.35),
-        vx: -0.2 + Math.random() * 0.4,
-        alpha: 0.14 + Math.random() * 0.24
-      }));
-
-      function drawFx() {
-        if (document.hidden) { requestAnimationFrame(drawFx); return; }
-        const w = window.innerWidth, h = window.innerHeight;
-        fxCtx.clearRect(0, 0, w, h);
-        for (const m of motes) {
-          m.y += m.vy;
-          m.x += m.vx;
-          if (m.y < -12) { m.y = h + 12; m.x = Math.random() * w; }
-          if (m.x < -12) m.x = w + 12;
-          if (m.x > w + 12) m.x = -12;
-
-          fxCtx.fillStyle = `rgba(${activeThemeRgb}, ${m.alpha})`;
-          fxCtx.beginPath();
-          fxCtx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
-          fxCtx.fill();
-        }
-        requestAnimationFrame(drawFx);
-      }
-      requestAnimationFrame(drawFx);
-    }
-
-    // 4. Scroll Progress + Exact 1:1 Cursor Glow
+    // 3. Scroll Progress & Exact 1:1 Cursor Glow
     const progressEl = document.getElementById('scroll-progress');
     const glowEl = document.getElementById('cursor-glow');
 
@@ -1364,7 +1013,7 @@
       }
 
       window.addEventListener('pointermove', (e) => {
-        if (window.innerWidth < 680) return;
+        if (window.innerWidth < 640) return;
         tx = e.clientX; ty = e.clientY;
         if (!hasPtr) { cx = tx; cy = ty; hasPtr = true; }
         if (!glowRaf) glowRaf = requestAnimationFrame(stepGlow);
@@ -1377,7 +1026,7 @@
       });
     }
 
-    // 5. Reveal Observer
+    // 4. Reveal Observer
     const revObs = new IntersectionObserver((entries, obs) => {
       entries.forEach(en => {
         if (en.isIntersecting) { en.target.classList.add('visible'); obs.unobserve(en.target); }
@@ -1385,153 +1034,65 @@
     }, { threshold: 0.08 });
     document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 
-    // 6. Live Telemetry
-    const telemetryPresets = {
-      integrated: {
-        sub: '32 Chunks • 1440p • Integrated',
-        cinder:  { fps: 330,  low: 99.1, mem: 340, gc: 0.0, jitter: [-2, -1, 0, 1, 2] },
-        vanilla: { fps: 110,  low: 91.2, mem: 780, gc: 2.6, jitter: [-3, -1, 0, 2] }
-      },
-      laptop: {
-        sub: '32 Chunks • 1440p • Laptop',
-        cinder:  { fps: 840,  low: 99.4, mem: 380, gc: 0.0, jitter: [-3, -2, -1, 0, 1, 2, 3] },
-        vanilla: { fps: 280,  low: 92.5, mem: 890, gc: 2.4, jitter: [-5, -2, 0, 3] }
-      },
-      midrange: {
-        sub: '32 Chunks • 1440p • Midrange',
-        cinder:  { fps: 1470, low: 99.6, mem: 395, gc: 0.0, jitter: [-4, -2, -1, 0, 2, 4] },
-        vanilla: { fps: 490,  low: 94.0, mem: 960, gc: 2.1, jitter: [-7, -3, 0, 4] }
-      },
-      high: {
-        sub: '32 Chunks • 1440p • High PC',
-        cinder:  { fps: 2940, low: 99.8, mem: 410, gc: 0.0, jitter: [-4, -2, -1, 0, 2, 3] },
-        vanilla: { fps: 980,  low: 95.2, mem: 1080, gc: 1.9, jitter: [-9, -4, 0, 5] }
-      }
-    };
-
-    let activePreset = 'laptop';
-    let activeRuntime = 'cinder';
-
-    const subEl = document.getElementById('telemetry-sub');
-    const fpsEl = document.getElementById('val-fps');
-    const lowEl = document.getElementById('val-low');
-    const memEl = document.getElementById('val-mem');
-    const gcEl = document.getElementById('val-gc');
-    const barFps = document.getElementById('bar-fps');
-    const barLow = document.getElementById('bar-low');
-    const barMem = document.getElementById('bar-mem');
-    const barGc = document.getElementById('bar-gc');
-
-    function updateTelemetry(oscillate = false) {
-      const p = telemetryPresets[activePreset];
-      const d = p[activeRuntime];
-      subEl.textContent = p.sub;
-
-      const delta = oscillate ? d.jitter[Math.floor(Math.random() * d.jitter.length)] : 0;
-      const liveFps = Math.max(1, d.fps + delta);
-      const liveLow = oscillate ? (d.low + (Math.random() * 0.2 - 0.1)).toFixed(1) : d.low.toFixed(1);
-
-      fpsEl.textContent = `${liveFps} FPS`;
-      lowEl.textContent = `${liveLow}%`;
-      memEl.textContent = `${d.mem} MB`;
-      gcEl.textContent = `${d.gc.toFixed(1)} ms`;
-
-      barFps.style.width = activeRuntime === 'cinder' ? '82%' : '34%';
-      barLow.style.width = `${Math.min(100, Math.round(d.low))}%`;
-      barMem.style.width = `${Math.min(100, Math.round((d.mem / 1200) * 100))}%`;
-      barGc.style.width = d.gc === 0 ? '4%' : `${Math.min(45, Math.round(d.gc * 12))}%`;
-    }
-
-    document.querySelectorAll('.runtime-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.runtime-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activeRuntime = btn.dataset.runtime;
-        updateTelemetry(false);
-      });
-    });
-
-    document.querySelectorAll('.preset-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        activePreset = btn.dataset.preset;
-        updateTelemetry(false);
-      });
-    });
-
-    updateTelemetry(false);
-    setInterval(() => {
-      if (!document.hidden) updateTelemetry(true);
-    }, 850);
-
-    // 7. Interactive Modules
-    const modData = [
-      { id: 'spotify', tab: 'HUD', name: 'Spotify', desc: 'Current track & playback overlay', enabled: true },
-      { id: 'zoom', tab: 'HUD', name: 'Zoom', desc: 'Smooth keybind zoom for scouting', enabled: false },
-      { id: 'target', tab: 'HUD', name: 'Target Info', desc: 'Target health & status indicator', enabled: false },
-      { id: 'damage', tab: 'HUD', name: 'Damage Feed', desc: 'Real-time combat damage numbers', enabled: false },
-      { id: 'fullbright', tab: 'Visuals', name: 'Fullbright', desc: 'Clear visibility in dark caves', enabled: true },
-      { id: 'motionblur', tab: 'Visuals', name: 'Motion Blur', desc: 'Fluid camera motion blur at high FPS', enabled: false },
-      { id: 'blockout', tab: 'Visuals', name: 'Block Overlay', desc: 'Crisp themed outline on targeted blocks', enabled: true },
-      { id: 'particles', tab: 'Visuals', name: 'Hit Particles', desc: 'Custom crit & combat particles', enabled: true }
+    // 5. Mods List
+    const mods = [
+      { id: 'fps', tab: 'HUD', name: 'FPS Counter', desc: 'Clean real-time framerate readout', active: true },
+      { id: 'keystrokes', tab: 'HUD', name: 'Keystrokes', desc: 'Minimal movement key indicator', active: false },
+      { id: 'coords', tab: 'HUD', name: 'Coordinates', desc: 'Compact XYZ position display', active: true },
+      { id: 'ping', tab: 'HUD', name: 'Ping Meter', desc: 'Live server latency indicator', active: false },
+      { id: 'fullbright', tab: 'Visuals', name: 'Fullbright', desc: 'Clear visibility in dark areas', active: true },
+      { id: 'zoom', tab: 'Visuals', name: 'Smooth Zoom', desc: 'Fast keybind zoom overlay', active: true }
     ];
 
     let curTab = 'HUD';
-    let qText = '';
-    const modListEl = document.getElementById('mod-list');
-    const modFeedbackEl = document.getElementById('mod-feedback');
+    let query = '';
+    const modGrid = document.getElementById('mod-grid');
+    const modNote = document.getElementById('mod-note');
 
     function renderMods() {
-      const items = modData.filter(m => {
-        const okTab = qText ? true : m.tab === curTab;
-        const okText = m.name.toLowerCase().includes(qText) || m.desc.toLowerCase().includes(qText);
-        return okTab && okText;
+      const list = mods.filter(m => {
+        const matchTab = query ? true : m.tab === curTab;
+        const matchText = m.name.toLowerCase().includes(query) || m.desc.toLowerCase().includes(query);
+        return matchTab && matchText;
       });
 
-      modListEl.innerHTML = items.map(m => `
-        <div class="mod-row ${m.enabled ? 'on' : ''}" data-id="${m.id}">
+      modGrid.innerHTML = list.map(m => `
+        <div class="mod-item ${m.active ? 'active' : ''}" data-id="${m.id}">
           <div>
-            <div class="mod-title">${m.name}</div>
+            <div class="mod-name">${m.name}</div>
             <div class="mod-desc">${m.desc}</div>
           </div>
-          <button class="switch-btn ${m.enabled ? 'on' : ''}" aria-label="Toggle ${m.name}"></button>
+          <button class="toggle ${m.active ? 'active' : ''}" aria-label="Toggle ${m.name}"></button>
         </div>
       `).join('');
     }
 
-    modListEl.addEventListener('click', (e) => {
-      const btn = e.target.closest('.switch-btn');
+    modGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.toggle');
       if (!btn) return;
-      const row = btn.closest('.mod-row');
-      const item = modData.find(x => x.id === row.dataset.id);
+      const item = mods.find(x => x.id === btn.closest('.mod-item').dataset.id);
       if (item) {
-        item.enabled = !item.enabled;
+        item.active = !item.active;
         renderMods();
-        modFeedbackEl.textContent = `${item.name} ${item.enabled ? 'enabled' : 'disabled'}`;
+        modNote.textContent = `${item.name} ${item.active ? 'enabled' : 'disabled'}`;
       }
     });
 
-    document.querySelectorAll('.mod-tab').forEach(t => {
-      t.addEventListener('click', () => {
-        document.querySelectorAll('.mod-tab').forEach(x => x.classList.remove('active'));
-        t.classList.add('active');
-        curTab = t.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        curTab = btn.dataset.tab;
         renderMods();
       });
     });
 
     document.getElementById('mod-search').addEventListener('input', (e) => {
-      qText = e.target.value.trim().toLowerCase();
+      query = e.target.value.trim().toLowerCase();
       renderMods();
     });
 
     renderMods();
-
-    // 8. FAQ Accordion
-    document.querySelectorAll('.faq-btn').forEach(b => {
-      b.addEventListener('click', () => b.closest('.faq-box').classList.toggle('open'));
-    });
   </script>
 </body>
 </html>
