@@ -3,25 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VANTA — More Frames. Zero Overhead. (Rust Engine)</title>
+  <title>CINDER — More Frames. Zero Overhead. (Rust Engine)</title>
   <meta name="google-site-verification" content="C-coubP0ezr3zNbqv3HsPuMl9eZCJyWSmEqAWcMN_xg" />
-  <meta name="description" content="Vanta is a complete ground-up rewrite of the Minecraft client in Rust. Ditch JVM garbage collection stutters and unlock native Vulkan/WGPU rendering speed." />
-  <meta name="keywords" content="Vanta, Vanta Client, Rust Minecraft Client, MC 26.2, MC 26.3, Vulkan, WGPU, FPS Boost" />
+  <meta name="description" content="Cinder is a ground-up Rust-powered client revamp delivering high FPS, zero garbage collection stutters, native rendering, and clean HUD modules." />
+  <meta name="keywords" content="Cinder, Cinder Client, Rust Client, MC 26.2, MC 26.3, FPS Boost, Red Logo Client" />
   <link rel="canonical" href="https://noxilclient.github.io/CherryClient/" />
 
-  <meta property="og:title" content="VANTA — More Frames. Zero Overhead." />
-  <meta property="og:description" content="Complete ground-up rewrite of the Minecraft client in Rust with native Vulkan/WGPU rendering speed." />
+  <meta property="og:title" content="CINDER — More Frames. Zero Overhead." />
+  <meta property="og:description" content="Ground-up Rust rewrite with a sharp crimson identity, native rendering speed, and live telemetry." />
   <meta property="og:type" content="website" />
 
-  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23041209'/%3E%3Cpolygon points='16,3 27.5,9.6 27.5,22.4 16,29 4.5,22.4 4.5,9.6' fill='none' stroke='%2300e65b' stroke-width='2.3'/%3E%3Cpath d='M11 11.5L16 22L21 11.5' fill='none' stroke='%2300e65b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23160508'/%3E%3Cpolygon points='16,3 28,16 16,29 4,16' fill='none' stroke='%23ff2e4c' stroke-width='2.4'/%3E%3Cpath d='M20 11.5A5.5 5.5 0 1 0 20 20.5' fill='none' stroke='%23ff6b81' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Default Theme (Emerald / Vanta) */
+    /* Default Red Theme (Cinder Crimson) */
     :root,
-    [data-theme="default"] {
+    [data-theme="red"] {
+      --bg-base: #0d0406;
+      --bg-photo-filter: hue-rotate(-128deg) saturate(1.38) contrast(1.07) brightness(0.92);
+      --bg-tint-grad: radial-gradient(circle at 72% 45%, rgba(255, 46, 76, 0.25), transparent 58%),
+                      linear-gradient(180deg, rgba(13, 4, 6, 0.72) 0%, rgba(34, 6, 11, 0.56) 48%, rgba(9, 2, 4, 0.95) 100%);
+      --grid-line: rgba(255, 46, 76, 0.065);
+      --surface-card: rgba(22, 7, 11, 0.82);
+      --surface-box: rgba(25, 8, 12, 0.76);
+      --border-accent: rgba(255, 46, 76, 0.44);
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --accent: #ff2e4c;
+      --accent-bright: #ff6b81;
+      --accent-soft: rgba(255, 46, 76, 0.18);
+      --text-accent: #ff6b81;
+      --btn-text: #180206;
+      --glow-rgb: 255, 46, 76;
+      --text-main: #fff5f6;
+      --text-muted: #c49fa5;
+      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Emerald Theme */
+    [data-theme="emerald"] {
       --bg-base: #040906;
       --bg-photo-filter: saturate(1.15) contrast(1.05) brightness(0.95);
       --bg-tint-grad: radial-gradient(circle at 72% 45%, rgba(0, 230, 91, 0.22), transparent 58%),
@@ -30,7 +52,6 @@
       --surface-card: rgba(7, 19, 12, 0.80);
       --surface-box: rgba(8, 22, 14, 0.74);
       --border-accent: rgba(0, 230, 91, 0.38);
-      --border-soft: rgba(255, 255, 255, 0.08);
       --accent: #00e65b;
       --accent-bright: #38ff85;
       --accent-soft: rgba(0, 230, 91, 0.16);
@@ -39,7 +60,6 @@
       --glow-rgb: 0, 230, 91;
       --text-main: #f4f7f5;
       --text-muted: #9eb3a6;
-      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     /* Blue Theme */
@@ -60,46 +80,6 @@
       --glow-rgb: 56, 189, 248;
       --text-main: #f1f5f9;
       --text-muted: #9fb3c8;
-    }
-
-    /* Red Theme */
-    [data-theme="red"] {
-      --bg-base: #100406;
-      --bg-photo-filter: hue-rotate(-128deg) saturate(1.35) contrast(1.06) brightness(0.92);
-      --bg-tint-grad: radial-gradient(circle at 72% 45%, rgba(255, 59, 82, 0.25), transparent 58%),
-                      linear-gradient(180deg, rgba(16, 4, 6, 0.72) 0%, rgba(36, 7, 12, 0.56) 48%, rgba(11, 3, 5, 0.95) 100%);
-      --grid-line: rgba(255, 59, 82, 0.065);
-      --surface-card: rgba(24, 8, 12, 0.82);
-      --surface-box: rgba(28, 9, 14, 0.76);
-      --border-accent: rgba(255, 59, 82, 0.44);
-      --accent: #ff3b52;
-      --accent-bright: #ff7586;
-      --accent-soft: rgba(255, 59, 82, 0.18);
-      --text-accent: #ff7586;
-      --btn-text: #180306;
-      --glow-rgb: 255, 59, 82;
-      --text-main: #fff5f6;
-      --text-muted: #c49fa5;
-    }
-
-    /* Cherry Pink Theme */
-    [data-theme="cherry"] {
-      --bg-base: #11050c;
-      --bg-photo-filter: hue-rotate(-96deg) saturate(1.25) contrast(1.05) brightness(0.95);
-      --bg-tint-grad: radial-gradient(circle at 72% 45%, rgba(255, 85, 152, 0.24), transparent 58%),
-                      linear-gradient(180deg, rgba(17, 5, 12, 0.72) 0%, rgba(38, 9, 24, 0.55) 48%, rgba(12, 3, 8, 0.95) 100%);
-      --grid-line: rgba(255, 110, 165, 0.065);
-      --surface-card: rgba(25, 9, 18, 0.82);
-      --surface-box: rgba(29, 10, 21, 0.76);
-      --border-accent: rgba(255, 110, 165, 0.44);
-      --accent: #ff5598;
-      --accent-bright: #ff94bf;
-      --accent-soft: rgba(255, 85, 152, 0.18);
-      --text-accent: #ff94bf;
-      --btn-text: #1a030d;
-      --glow-rgb: 255, 85, 152;
-      --text-main: #fdf4f8;
-      --text-muted: #bfa3b0;
     }
 
     /* Purple Theme */
@@ -241,7 +221,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(5, 8, 7, 0.72);
+      background: rgba(10, 4, 6, 0.74);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
@@ -264,21 +244,25 @@
       gap: 11px;
       text-decoration: none;
       color: var(--text-main);
-      font-weight: 800;
-      font-size: 1.04rem;
-      letter-spacing: 0.08em;
+      font-weight: 900;
+      font-size: 1.05rem;
+      letter-spacing: 0.1em;
       flex-shrink: 0;
     }
 
     .brand-logo-svg {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       flex-shrink: 0;
     }
 
-    .brand-logo-svg polygon,
-    .brand-logo-svg path {
+    .brand-logo-svg .logo-frame {
       stroke: var(--accent);
+      transition: stroke 0.3s ease;
+    }
+
+    .brand-logo-svg .logo-core {
+      stroke: var(--accent-bright);
       transition: stroke 0.3s ease;
     }
 
@@ -307,7 +291,6 @@
       flex-wrap: wrap;
     }
 
-    /* Theme Switcher Pills */
     .theme-switcher {
       display: inline-flex;
       align-items: center;
@@ -480,7 +463,7 @@
       justify-content: center;
       padding: 13px 22px;
       border-radius: 10px;
-      background: rgba(8, 12, 11, 0.72);
+      background: rgba(12, 6, 8, 0.72);
       border: 1px solid rgba(255, 255, 255, 0.14);
       color: var(--text-main);
       font-weight: 600;
@@ -694,7 +677,7 @@
       gap: 16px;
     }
 
-    .vanta-panel {
+    .cinder-panel {
       background: var(--surface-box);
       backdrop-filter: blur(14px);
       border: 1px solid var(--border-soft);
@@ -703,19 +686,19 @@
       transition: border-color 0.2s ease, transform 0.16s var(--ease-smooth), background 0.35s ease;
     }
 
-    .vanta-panel:hover {
+    .cinder-panel:hover {
       border-color: var(--border-accent);
       transform: translateY(-2px);
     }
 
-    .vanta-panel h3 {
+    .cinder-panel h3 {
       font-size: 0.98rem;
       font-weight: 700;
       color: var(--text-main);
       margin-bottom: 8px;
     }
 
-    .vanta-panel p {
+    .cinder-panel p {
       font-size: 0.86rem;
       color: var(--text-muted);
       line-height: 1.6;
@@ -952,7 +935,7 @@
     }
   </style>
 </head>
-<body data-theme="default">
+<body data-theme="red">
   <div class="bg-photo" id="bg-photo"></div>
   <div class="bg-tint"></div>
   <div class="bg-grid"></div>
@@ -965,10 +948,10 @@
     <div class="topbar">
       <a href="#" class="brand">
         <svg class="brand-logo-svg" viewBox="0 0 32 32" fill="none">
-          <polygon points="16,3 27.5,9.6 27.5,22.4 16,29 4.5,22.4 4.5,9.6" stroke-width="2.2" fill="rgba(255,255,255,0.03)"/>
-          <path d="M11 11.5L16 22L21 11.5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <polygon class="logo-frame" points="16,3 28,16 16,29 4,16" stroke-width="2.2" fill="rgba(255,255,255,0.03)"/>
+          <path class="logo-core" d="M20.5 11.5A5.5 5.5 0 1 0 20.5 20.5" stroke-width="2.4" stroke-linecap="round"/>
         </svg>
-        <span>VANTA</span>
+        <span>CINDER</span>
       </a>
 
       <nav class="nav-center">
@@ -980,17 +963,14 @@
 
       <div class="nav-actions">
         <div class="theme-switcher" id="theme-switcher" aria-label="Theme color switcher">
-          <button class="theme-dot-btn active" data-theme-val="default" style="--swatch-color:#00e65b;">
-            <span class="swatch"></span><span>Default</span>
+          <button class="theme-dot-btn active" data-theme-val="red" style="--swatch-color:#ff2e4c;">
+            <span class="swatch"></span><span>Red</span>
+          </button>
+          <button class="theme-dot-btn" data-theme-val="emerald" style="--swatch-color:#00e65b;">
+            <span class="swatch"></span><span>Emerald</span>
           </button>
           <button class="theme-dot-btn" data-theme-val="blue" style="--swatch-color:#38bdf8;">
             <span class="swatch"></span><span>Blue</span>
-          </button>
-          <button class="theme-dot-btn" data-theme-val="red" style="--swatch-color:#ff3b52;">
-            <span class="swatch"></span><span>Red</span>
-          </button>
-          <button class="theme-dot-btn" data-theme-val="cherry" style="--swatch-color:#ff5598;">
-            <span class="swatch"></span><span>Cherry</span>
           </button>
           <button class="theme-dot-btn" data-theme-val="purple" style="--swatch-color:#a855f7;">
             <span class="swatch"></span><span>Purple</span>
@@ -1017,7 +997,7 @@
         </h1>
 
         <p class="hero-desc">
-          Vanta is a complete ground-up rewrite of the Minecraft client in Rust. Ditch JVM garbage collection stutters and unlock native Vulkan/WGPU rendering speed.
+          <strong>Cinder</strong> is a ground-up rewrite in Rust with a sharp crimson identity. Ditch JVM garbage collection stutters and unlock native rendering speed.
         </p>
 
         <div class="hero-actions">
@@ -1047,7 +1027,7 @@
           </div>
 
           <div class="runtime-toggle" id="runtime-toggle">
-            <button class="runtime-btn active" data-runtime="vanta">Vanta (Rust)</button>
+            <button class="runtime-btn active" data-runtime="cinder">Cinder (Rust)</button>
             <button class="runtime-btn" data-runtime="vanilla">Vanilla (Java)</button>
           </div>
         </div>
@@ -1108,7 +1088,7 @@
       <div class="sec-tag">Features &amp; Modules</div>
       <h2 class="sec-title">Clean HUD &amp; Visual Controls</h2>
 
-      <div class="vanta-panel">
+      <div class="cinder-panel">
         <div class="mod-toolbar">
           <div class="mod-tabs">
             <button class="mod-tab active" data-tab="HUD">HUD</button>
@@ -1131,17 +1111,17 @@
       <h2 class="sec-title">Native Rust &amp; Vulkan/WGPU Pipeline</h2>
 
       <div class="grid-3">
-        <div class="vanta-panel">
+        <div class="cinder-panel">
           <h3>Zero Garbage Collection</h3>
           <p>Written in Rust with deterministic memory ownership so frame pacing never stalls during heavy rendering or chunk updates.</p>
         </div>
-        <div class="vanta-panel">
+        <div class="cinder-panel">
           <h3>Vulkan / WGPU Speed</h3>
           <p>Batched GPU command submission and tight data layout deliver up to 3x higher throughput than legacy clients.</p>
         </div>
-        <div class="vanta-panel">
+        <div class="cinder-panel">
           <h3>Safe OAuth &amp; Local Config</h3>
-          <p>External browser Microsoft OAuth sign-in with zero password storage and instant local presets for TTMMario.</p>
+          <p>External browser Microsoft OAuth sign-in with zero password storage and instant local module presets.</p>
         </div>
       </div>
     </section>
@@ -1154,7 +1134,7 @@
       <div class="faq-items">
         <div class="faq-box open">
           <button class="faq-btn">
-            <span>Why rewrite the client in Rust instead of Java?</span>
+            <span>Why rewrite Cinder in Rust instead of Java?</span>
             <span>+</span>
           </button>
           <div class="faq-body">
@@ -1188,15 +1168,15 @@
       <h2 class="sec-title">Supported Builds</h2>
 
       <div class="grid-3">
-        <div class="vanta-panel">
+        <div class="cinder-panel">
           <h3>MC 26.3 Ready</h3>
           <p>Latest Rust render pipeline with full HUD and visual module support.</p>
         </div>
-        <div class="vanta-panel">
+        <div class="cinder-panel">
           <h3>MC 26.2 Ready</h3>
           <p>High-stability build with low memory footprint and zero GC spike latency.</p>
         </div>
-        <div class="vanta-panel">
+        <div class="cinder-panel">
           <h3>Linux, Windows &amp; macOS</h3>
           <p>Native releases available via our official <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer">Discord</a>.</p>
         </div>
@@ -1205,7 +1185,7 @@
   </main>
 
   <footer>
-    <span>© 2026 VANTA • Rust Engine</span> • <a href="#features">Features</a> • <a href="#architecture">Architecture</a> • <a href="#faq">FAQ</a> • <a href="#versions">Versions</a>
+    <span>© 2026 CINDER • Rust Engine</span> • <a href="#features">Features</a> • <a href="#architecture">Architecture</a> • <a href="#faq">FAQ</a> • <a href="#versions">Versions</a>
   </footer>
 
   <script>
@@ -1264,37 +1244,36 @@
 
     applyOS(detectUserOS());
 
-    // 2. Dynamic Theme System (Updates background.png, favicon in browser tab, glow, canvas & text colors)
+    // 2. Dynamic Theme System (Updates background.png, browser favicon, glow, canvas & text colors)
     const themeConfigs = {
-      default: { rgb: '0, 230, 91',   hex: '#00e65b', bg: '#041209', filter: 'saturate(1.15) contrast(1.05) brightness(0.95)' },
-      blue:    { rgb: '56, 189, 248', hex: '#38bdf8', bg: '#051324', filter: 'hue-rotate(68deg) saturate(1.28) contrast(1.06) brightness(0.94)' },
-      red:     { rgb: '255, 59, 82',  hex: '#ff3b52', bg: '#190509', filter: 'hue-rotate(-128deg) saturate(1.35) contrast(1.06) brightness(0.92)' },
-      cherry:  { rgb: '255, 85, 152', hex: '#ff5598', bg: '#1b0612', filter: 'hue-rotate(-96deg) saturate(1.25) contrast(1.05) brightness(0.95)' },
-      purple:  { rgb: '168, 85, 247', hex: '#a855f7', bg: '#110624', filter: 'hue-rotate(115deg) saturate(1.25) contrast(1.06) brightness(0.94)' }
+      red:     { rgb: '255, 46, 76',  hex: '#ff2e4c', core: '#ff6b81', bg: '#160508', filter: 'hue-rotate(-128deg) saturate(1.38) contrast(1.07) brightness(0.92)' },
+      emerald: { rgb: '0, 230, 91',   hex: '#00e65b', core: '#38ff85', bg: '#041209', filter: 'saturate(1.15) contrast(1.05) brightness(0.95)' },
+      blue:    { rgb: '56, 189, 248', hex: '#38bdf8', core: '#7dd3fc', bg: '#051324', filter: 'hue-rotate(68deg) saturate(1.28) contrast(1.06) brightness(0.94)' },
+      purple:  { rgb: '168, 85, 247', hex: '#a855f7', core: '#c084fc', bg: '#110624', filter: 'hue-rotate(115deg) saturate(1.25) contrast(1.06) brightness(0.94)' }
     };
 
-    let activeThemeRgb = themeConfigs.default.rgb;
+    let activeThemeRgb = themeConfigs.red.rgb;
     const bgPhotoEl = document.getElementById('bg-photo');
     const faviconEl = document.getElementById('dynamic-favicon');
 
-    function updateBrowserFavicon(hex, bgHex) {
-      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='${encodeURIComponent(bgHex)}'/><polygon points='16,3 27.5,9.6 27.5,22.4 16,29 4.5,22.4 4.5,9.6' fill='none' stroke='${encodeURIComponent(hex)}' stroke-width='2.3'/><path d='M11 11.5L16 22L21 11.5' fill='none' stroke='${encodeURIComponent(hex)}' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/></svg>`;
+    function updateBrowserFavicon(hex, coreHex, bgHex) {
+      const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='${encodeURIComponent(bgHex)}'/><polygon points='16,3 28,16 16,29 4,16' fill='none' stroke='${encodeURIComponent(hex)}' stroke-width='2.4'/><path d='M20.5 11.5A5.5 5.5 0 1 0 20.5 20.5' fill='none' stroke='${encodeURIComponent(coreHex)}' stroke-width='2.5' stroke-linecap='round'/></svg>`;
       faviconEl.href = `data:image/svg+xml,${svg}`;
     }
 
     function applyTheme(themeName) {
-      const cfg = themeConfigs[themeName] || themeConfigs.default;
+      const cfg = themeConfigs[themeName] || themeConfigs.red;
       document.documentElement.setAttribute('data-theme', themeName);
       document.body.setAttribute('data-theme', themeName);
       activeThemeRgb = cfg.rgb;
       bgPhotoEl.style.filter = cfg.filter;
-      updateBrowserFavicon(cfg.hex, cfg.bg);
+      updateBrowserFavicon(cfg.hex, cfg.core, cfg.bg);
 
       document.querySelectorAll('.theme-dot-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.themeVal === themeName);
       });
 
-      try { localStorage.setItem('vanta_theme', themeName); } catch (_) {}
+      try { localStorage.setItem('cinder_theme', themeName); } catch (_) {}
     }
 
     document.querySelectorAll('.theme-dot-btn').forEach(btn => {
@@ -1302,9 +1281,12 @@
     });
 
     try {
-      const savedTheme = localStorage.getItem('vanta_theme');
+      const savedTheme = localStorage.getItem('cinder_theme');
       if (savedTheme && themeConfigs[savedTheme]) applyTheme(savedTheme);
-    } catch (_) {}
+      else updateBrowserFavicon(themeConfigs.red.hex, themeConfigs.red.core, themeConfigs.red.bg);
+    } catch (_) {
+      updateBrowserFavicon(themeConfigs.red.hex, themeConfigs.red.core, themeConfigs.red.bg);
+    }
 
     // 3. Ambient Background Atmosphere Canvas
     const fxCanvas = document.getElementById('bg-fx-canvas');
@@ -1407,28 +1389,28 @@
     const telemetryPresets = {
       integrated: {
         sub: '32 Chunks • 1440p • Integrated',
-        vanta:   { fps: 330,  low: 99.1, mem: 340, gc: 0.0, jitter: [-2, -1, 0, 1, 2] },
+        cinder:  { fps: 330,  low: 99.1, mem: 340, gc: 0.0, jitter: [-2, -1, 0, 1, 2] },
         vanilla: { fps: 110,  low: 91.2, mem: 780, gc: 2.6, jitter: [-3, -1, 0, 2] }
       },
       laptop: {
         sub: '32 Chunks • 1440p • Laptop',
-        vanta:   { fps: 840,  low: 99.4, mem: 380, gc: 0.0, jitter: [-3, -2, -1, 0, 1, 2, 3] },
+        cinder:  { fps: 840,  low: 99.4, mem: 380, gc: 0.0, jitter: [-3, -2, -1, 0, 1, 2, 3] },
         vanilla: { fps: 280,  low: 92.5, mem: 890, gc: 2.4, jitter: [-5, -2, 0, 3] }
       },
       midrange: {
         sub: '32 Chunks • 1440p • Midrange',
-        vanta:   { fps: 1470, low: 99.6, mem: 395, gc: 0.0, jitter: [-4, -2, -1, 0, 2, 4] },
+        cinder:  { fps: 1470, low: 99.6, mem: 395, gc: 0.0, jitter: [-4, -2, -1, 0, 2, 4] },
         vanilla: { fps: 490,  low: 94.0, mem: 960, gc: 2.1, jitter: [-7, -3, 0, 4] }
       },
       high: {
         sub: '32 Chunks • 1440p • High PC',
-        vanta:   { fps: 2940, low: 99.8, mem: 410, gc: 0.0, jitter: [-4, -2, -1, 0, 2, 3] },
+        cinder:  { fps: 2940, low: 99.8, mem: 410, gc: 0.0, jitter: [-4, -2, -1, 0, 2, 3] },
         vanilla: { fps: 980,  low: 95.2, mem: 1080, gc: 1.9, jitter: [-9, -4, 0, 5] }
       }
     };
 
     let activePreset = 'laptop';
-    let activeRuntime = 'vanta';
+    let activeRuntime = 'cinder';
 
     const subEl = document.getElementById('telemetry-sub');
     const fpsEl = document.getElementById('val-fps');
@@ -1454,7 +1436,7 @@
       memEl.textContent = `${d.mem} MB`;
       gcEl.textContent = `${d.gc.toFixed(1)} ms`;
 
-      barFps.style.width = activeRuntime === 'vanta' ? '82%' : '34%';
+      barFps.style.width = activeRuntime === 'cinder' ? '82%' : '34%';
       barLow.style.width = `${Math.min(100, Math.round(d.low))}%`;
       barMem.style.width = `${Math.min(100, Math.round((d.mem / 1200) * 100))}%`;
       barGc.style.width = d.gc === 0 ? '4%' : `${Math.min(45, Math.round(d.gc * 12))}%`;
@@ -1526,7 +1508,7 @@
       if (item) {
         item.enabled = !item.enabled;
         renderMods();
-        modFeedbackEl.textContent = `${item.name} ${item.enabled ? 'enabled' : 'disabled'} for TTMMario`;
+        modFeedbackEl.textContent = `${item.name} ${item.enabled ? 'enabled' : 'disabled'}`;
       }
     });
 
