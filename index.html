@@ -14,16 +14,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Default Theme: Coral Crimson (matches reference red aesthetic) */
+    /* Default Theme: Coral Crimson */
     :root,
     [data-theme="red"] {
-      --bg-base: #0a0708;
-      --bg-photo-filter: hue-rotate(-132deg) saturate(1.22) contrast(1.04) brightness(0.82);
-      --bg-tint-grad: radial-gradient(circle at 75% 30%, rgba(255, 90, 95, 0.14), transparent 55%),
-                      linear-gradient(180deg, rgba(10, 7, 8, 0.78) 0%, rgba(12, 8, 9, 0.74) 55%, rgba(8, 6, 7, 0.96) 100%);
-      --grid-line: rgba(255, 255, 255, 0.032);
-      --surface-card: rgba(18, 12, 14, 0.78);
-      --surface-pill: rgba(22, 15, 17, 0.78);
+      --bg-base: #0b0809;
+      --bg-simple-grad: radial-gradient(ellipse 75% 55% at 72% 22%, rgba(255, 90, 95, 0.14), transparent 65%),
+                        radial-gradient(ellipse 65% 50% at 18% 80%, rgba(255, 90, 95, 0.06), transparent 70%),
+                        linear-gradient(180deg, #0d090a 0%, #090607 100%);
+      --grid-line: rgba(255, 255, 255, 0.035);
+      --surface-card: rgba(18, 12, 14, 0.80);
+      --surface-pill: rgba(22, 15, 17, 0.80);
       --border-soft: rgba(255, 255, 255, 0.08);
       --border-accent: rgba(255, 90, 95, 0.42);
       --accent: #ff5a5f;
@@ -41,12 +41,12 @@
     /* Blue Theme */
     [data-theme="blue"] {
       --bg-base: #060911;
-      --bg-photo-filter: hue-rotate(68deg) saturate(1.25) contrast(1.05) brightness(0.82);
-      --bg-tint-grad: radial-gradient(circle at 75% 30%, rgba(56, 189, 248, 0.16), transparent 55%),
-                      linear-gradient(180deg, rgba(6, 9, 17, 0.78) 0%, rgba(8, 14, 26, 0.74) 55%, rgba(5, 7, 14, 0.96) 100%);
+      --bg-simple-grad: radial-gradient(ellipse 75% 55% at 72% 22%, rgba(56, 189, 248, 0.15), transparent 65%),
+                        radial-gradient(ellipse 65% 50% at 18% 80%, rgba(56, 189, 248, 0.06), transparent 70%),
+                        linear-gradient(180deg, #080d18 0%, #050810 100%);
       --grid-line: rgba(56, 189, 248, 0.045);
-      --surface-card: rgba(11, 18, 32, 0.80);
-      --surface-pill: rgba(13, 22, 38, 0.80);
+      --surface-card: rgba(11, 18, 32, 0.82);
+      --surface-pill: rgba(13, 22, 38, 0.82);
       --border-accent: rgba(56, 189, 248, 0.45);
       --accent: #38bdf8;
       --accent-hover: #60c9fa;
@@ -61,12 +61,12 @@
     /* Emerald Theme */
     [data-theme="emerald"] {
       --bg-base: #050a07;
-      --bg-photo-filter: saturate(1.15) contrast(1.05) brightness(0.84);
-      --bg-tint-grad: radial-gradient(circle at 75% 30%, rgba(16, 185, 129, 0.15), transparent 55%),
-                      linear-gradient(180deg, rgba(5, 10, 7, 0.78) 0%, rgba(7, 16, 11, 0.74) 55%, rgba(4, 8, 6, 0.96) 100%);
+      --bg-simple-grad: radial-gradient(ellipse 75% 55% at 72% 22%, rgba(16, 185, 129, 0.14), transparent 65%),
+                        radial-gradient(ellipse 65% 50% at 18% 80%, rgba(16, 185, 129, 0.06), transparent 70%),
+                        linear-gradient(180deg, #07100b 0%, #040806 100%);
       --grid-line: rgba(16, 185, 129, 0.045);
-      --surface-card: rgba(10, 20, 14, 0.80);
-      --surface-pill: rgba(12, 24, 17, 0.80);
+      --surface-card: rgba(10, 20, 14, 0.82);
+      --surface-pill: rgba(12, 24, 17, 0.82);
       --border-accent: rgba(16, 185, 129, 0.45);
       --accent: #10b981;
       --accent-hover: #24cf96;
@@ -81,12 +81,12 @@
     /* Violet Theme */
     [data-theme="violet"] {
       --bg-base: #090612;
-      --bg-photo-filter: hue-rotate(115deg) saturate(1.22) contrast(1.05) brightness(0.82);
-      --bg-tint-grad: radial-gradient(circle at 75% 30%, rgba(168, 85, 247, 0.16), transparent 55%),
-                      linear-gradient(180deg, rgba(9, 6, 18, 0.78) 0%, rgba(15, 9, 28, 0.74) 55%, rgba(7, 5, 14, 0.96) 100%);
+      --bg-simple-grad: radial-gradient(ellipse 75% 55% at 72% 22%, rgba(168, 85, 247, 0.15), transparent 65%),
+                        radial-gradient(ellipse 65% 50% at 18% 80%, rgba(168, 85, 247, 0.06), transparent 70%),
+                        linear-gradient(180deg, #0d081a 0%, #07050e 100%);
       --grid-line: rgba(168, 85, 247, 0.045);
-      --surface-card: rgba(17, 11, 30, 0.80);
-      --surface-pill: rgba(20, 13, 35, 0.80);
+      --surface-card: rgba(17, 11, 30, 0.82);
+      --surface-pill: rgba(20, 13, 35, 0.82);
       --border-accent: rgba(168, 85, 247, 0.45);
       --accent: #a855f7;
       --accent-hover: #b973fa;
@@ -119,24 +119,13 @@
       transition: background-color 0.35s var(--ease-smooth), color 0.35s var(--ease-smooth);
     }
 
-    /* Repository background.png + code-driven color grading */
-    .bg-photo {
+    /* Simple Clean Gradient Background + Subtle Grid */
+    .bg-simple {
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      background: url('./background.png') center center / cover no-repeat;
-      filter: var(--bg-photo-filter);
-      transition: filter 0.4s var(--ease-smooth);
-      will-change: filter;
-    }
-
-    .bg-tint {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background: var(--bg-tint-grad);
+      background: var(--bg-simple-grad);
       transition: background 0.4s var(--ease-smooth);
     }
 
@@ -736,8 +725,7 @@
   </style>
 </head>
 <body data-theme="red">
-  <div class="bg-photo" id="bg-photo"></div>
-  <div class="bg-tint"></div>
+  <div class="bg-simple"></div>
   <div class="bg-grid"></div>
   <div class="scroll-progress" id="scroll-progress"></div>
   <div class="cursor-glow" id="cursor-glow"></div>
@@ -746,7 +734,6 @@
   <header class="topbar-wrap">
     <div class="topbar">
       <a href="#" class="brand">
-        <!-- Custom Red Shield / Visor Emblem -->
         <svg class="brand-mark" viewBox="0 0 36 36" fill="none" aria-hidden="true">
           <path class="mark-shell" d="M18 4L30.5 10.2L27.8 23.8L18 32L8.2 23.8L5.5 10.2L18 4Z" stroke-width="2.1" stroke-linejoin="round"/>
           <path class="mark-core" d="M11 13.5L18 17.5L25 13.5L23 22.5L18 26.8L13 22.5L11 13.5Z"/>
@@ -812,7 +799,6 @@
       </p>
 
       <div class="download-row">
-        <!-- Linux Button (with authentic Linux penguin SVG) -->
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-dl-primary" id="btn-linux">
           <svg class="dl-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 2c-2.1 0-3.5 1.8-3.5 4.2 0 1.4.4 2.7.2 4-.5 1.7-2.2 3.1-2.8 5-.5 1.5-.1 3.2.8 4.4.8 1.1 2 1.8 3.3 2 .7.1 1.4-.1 2-.4.6.3 1.3.5 2 .4 1.3-.2 2.5-.9 3.3-2 .9-1.2 1.3-2.9.8-4.4-.6-1.9-2.3-3.3-2.8-5-.2-1.3.2-2.6.2-4C15.5 3.8 14.1 2 12 2zm-1.6 4.4a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zm3.2 0a.8.8 0 1 1 0 1.6.8.8 0 0 1 0-1.6zM12 9.2c.9 0 1.8.4 2.2 1.1-.6.6-1.4.9-2.2.9s-1.6-.3-2.2-.9c.4-.7 1.3-1.1 2.2-1.1z"/>
@@ -823,7 +809,6 @@
           </span>
         </a>
 
-        <!-- Windows Button (with authentic Windows grid SVG) -->
         <a href="https://discord.gg/tbjp5JtMVu" target="_blank" rel="noopener noreferrer" class="btn-dl-secondary" id="btn-windows">
           <svg class="dl-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M3 5.5L10.5 4.4V11.3H3V5.5zm8.5-1.2L21 2.8V11.3H11.5V4.3zM3 12.3H10.5V19.2L3 18.1V12.3zm8.5 0H21V20.8L11.5 19.3V12.3z"/>
@@ -884,11 +869,11 @@
     <!-- Customize & Performance -->
     <section id="customize" class="block reveal">
       <div class="sec-kicker">Customize</div>
-      <h2 class="sec-title">Adaptive Accent &amp; Background Tone</h2>
+      <h2 class="sec-title">Adaptive Accent &amp; Clean Backdrop</h2>
       <div class="cards-grid">
         <div class="card">
           <h3>Live Color Themes</h3>
-          <p>Switch themes above to tint the background image, update the browser tab favicon, and match accents automatically.</p>
+          <p>Switch themes above to update the simple gradient backdrop, browser favicon, and accent colors automatically.</p>
         </div>
         <div id="performance" class="card">
           <h3>Smooth Frame Delivery</h3>
@@ -938,15 +923,14 @@
       }
     })();
 
-    // 2. Dynamic Theme System (Updates background.png filter/tint, favicon & accent tokens)
+    // 2. Dynamic Theme System (Updates simple backdrop gradient, favicon & accent tokens)
     const themes = {
-      red:     { rgb: '255, 90, 95',  hex: '#ff5a5f', bg: '#160708', filter: 'hue-rotate(-132deg) saturate(1.22) contrast(1.04) brightness(0.82)' },
-      blue:    { rgb: '56, 189, 248', hex: '#38bdf8', bg: '#061222', filter: 'hue-rotate(68deg) saturate(1.25) contrast(1.05) brightness(0.82)' },
-      emerald: { rgb: '16, 185, 129', hex: '#10b981', bg: '#05150e', filter: 'saturate(1.15) contrast(1.05) brightness(0.84)' },
-      violet:  { rgb: '168, 85, 247', hex: '#a855f7', bg: '#110622', filter: 'hue-rotate(115deg) saturate(1.22) contrast(1.05) brightness(0.82)' }
+      red:     { hex: '#ff5a5f', bg: '#160708' },
+      blue:    { hex: '#38bdf8', bg: '#061222' },
+      emerald: { hex: '#10b981', bg: '#05150e' },
+      violet:  { hex: '#a855f7', bg: '#110622' }
     };
 
-    const bgPhotoEl = document.getElementById('bg-photo');
     const faviconEl = document.getElementById('dynamic-favicon');
 
     function setFavicon(hex, bgHex) {
@@ -958,7 +942,6 @@
       const cfg = themes[name] || themes.red;
       document.documentElement.setAttribute('data-theme', name);
       document.body.setAttribute('data-theme', name);
-      bgPhotoEl.style.filter = cfg.filter;
       setFavicon(cfg.hex, cfg.bg);
 
       document.querySelectorAll('.theme-chip').forEach(btn => {
